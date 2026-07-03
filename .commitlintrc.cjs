@@ -1,0 +1,47 @@
+module.exports = {
+  extends: ["@commitlint/config-conventional"],
+  rules: {
+    "type-enum": [
+      2,
+      "always",
+      [
+        "feat",
+        "fix",
+        "docs",
+        "spec",
+        "perf",
+        "test",
+        "refactor",
+        "style",
+        "chore",
+        "ci",
+        "build",
+        "revert",
+      ],
+    ],
+    "scope-enum": [
+      1,
+      "always",
+      [
+        "workflow",
+        "docs",
+        "architecture",
+        "sdk",
+        "engineering",
+        "adr",
+        "core",
+        "manifest",
+        "command",
+        "adapter",
+        "react",
+        "repo",
+      ],
+    ],
+    "header-max-length": [2, "always", 100],
+    "subject-case": [
+      2,
+      "never",
+      ["sentence-case", "start-case", "pascal-case", "upper-case"],
+    ],
+  },
+};

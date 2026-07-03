@@ -28,6 +28,7 @@ Implement one selected Superpowers task while preserving traceability and archit
 6. Do not cross task scope.
 7. Run the task validation if possible.
 8. Update task `Status`, `Run Log`, and `Deviation`.
+9. If committing or preparing a PR, follow `docs/community/git-workflow.md`.
 
 ## Guardrails
 
