@@ -29,6 +29,7 @@ Finalize a completed change by preserving OpenSpec artifacts, Superpowers execut
 6. Verify docs/spec/ADR updates are complete or explicitly deferred.
 7. Create `.superpowers/runs/<change>/final-report.md`.
 8. Archive the OpenSpec change under `openspec/changes/archive/YYYY-MM-DD-<change>/`.
+9. If committing or preparing a PR, follow `docs/community/git-workflow.md`.
 
 ## Final Report Sections
 

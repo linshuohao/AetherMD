@@ -73,6 +73,19 @@ task 是防腐的最小执行单元。一个 task 应该足够小，能被人工
 
 长期事实仍在 Docs；变更事实在 OpenSpec；执行事实在 Superpowers；skill 只是让 Codex 按这些边界行动。
 
+### 8. Git 记录必须符合社区规范
+
+所有 workflow 产物进入 Git 历史时，必须遵守 [Git 工作流规范](docs/community/git-workflow.md)。AetherMD 的 Git 规范基于 GitHub Flow 和 Conventional Commits 1.0.0，并在此基础上补充 OpenSpec、Superpowers、Codex 的追踪字段。
+
+这意味着：
+
+- 分支应从 `main` 创建，并通过 PR 合回 `main`。
+- Commit message 必须使用 Conventional Commits 格式。
+- OpenSpec change、Superpowers task、validation 和 deviation 应在 commit body 或 PR 描述中保留追踪关系。
+- Codex 在提交前必须检查 staged 范围，避免提交无关文件或个人配置。
+- PR 会通过 GitHub Actions 使用 commitlint 自动校验 PR 标题和 commit message。
+- 分支名由 GitHub Rulesets 或 branch protection 约束。
+
 ## 当前事实来源
 
 | 内容 | 权威位置 | 说明 |

@@ -32,7 +32,7 @@ There are no executable tests yet. Treat review as design validation: check that
 
 ## Commit & Pull Request Guidelines
 
-Git history is not available in this checkout, so no existing commit convention can be inferred. Use concise, imperative commit subjects such as `Clarify manifest capability model` or `Add ADR for command queue errors`.
+Follow `docs/community/git-workflow.md` for branch names, commit messages, PR descriptions, and AI/Codex submission rules. Commit messages should use Conventional Commits, for example `docs(workflow): add git workflow checks`.
 
 Pull requests should focus on one topic, describe whether the change affects architecture, SDK contracts, or engineering strategy, and link any related ADR or discussion. Include screenshots only when changing rendered documentation or diagrams.
 

@@ -1,0 +1,14 @@
+{
+  "name": "aether-md",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "pnpm@11.7.0",
+  "scripts": {
+    "lint:commits": "commitlint --config .commitlintrc.cjs --from origin/main --to HEAD --verbose",
+    "lint:pr-title": "commitlint --config .commitlintrc.cjs --verbose"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1"
+  }
+}

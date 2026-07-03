@@ -20,6 +20,7 @@ AetherMD 当前是设计阶段的开源项目。
 - 最小实现路线图与 CI 校验计划
 - 传统设计文档映射
 - MVP 实施计划、Core API、文档模型、Adapter 协议与测试策略草案
+- pnpm workspace 与仓库级 Git 规范检查
 
 ## 尚未开始
 
@@ -36,7 +37,7 @@ AetherMD 当前是设计阶段的开源项目。
 1. 稳定文档体系。
 2. 在代码出现前审查 SDK 契约。
 3. 将路线图和 CI 校验计划转化为实现里程碑。
-4. 决定仓库治理、许可证、包管理器和发布策略。
+4. 决定仓库治理、许可证和发布策略。
 5. 审查 [MVP 实施计划](engineering/mvp-implementation-plan.md)、[Core API](architecture/core-api.md)、[文档模型](architecture/document-model.md)、[Adapter 协议](engineering/adapter-protocol.md) 和 [测试策略](engineering/test-strategy.md)。
 6. 设计草案足够清晰后，再开始最小实现。
 

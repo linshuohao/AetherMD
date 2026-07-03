@@ -25,6 +25,12 @@
 - [ ] 所有 ADR 包含 `Status` + `Date` 字段
 - [ ] [核心词汇表](../glossary.md)、[能力与权限](../sdk/capabilities-and-permissions.md)、[安全模型](../engineering/security.md) 表述一致
 
+### Git 工作流
+
+- [x] PR 标题和 Commit message 按 [Git 工作流规范](../community/git-workflow.md) 使用 commitlint 自动校验
+- [ ] GitHub Rulesets 限制分支名符合 `<type>/<kebab-topic>`
+- [ ] PR 描述包含 OpenSpec、Superpowers task、Docs / ADR 和 Validation 追踪信息
+
 ### 行为回归
 
 - [ ] ConflictResolver 默认策略与 [默认策略表](../sdk/conflict-resolution.md) 一致（单元测试）
