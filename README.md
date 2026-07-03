@@ -17,7 +17,7 @@ AetherMD 是一个处于设计阶段的开源 Markdown 编辑器架构项目。
 
 推荐路径：
 
-- 初次了解项目：[架构原则](docs/architecture/principles.md) 与 [架构总览](docs/architecture/overview.md)
+- 初次了解项目：[架构原则](docs/architecture/principles.md)、[AI-native Engineering Workflow](AI_NATIVE_ENGINEERING_WORKFLOW.md) 与 [架构总览](docs/architecture/overview.md)
 - 插件作者：[SDK 概述](docs/sdk/overview.md)、[Manifest](docs/sdk/manifest.md)、[能力与权限](docs/sdk/capabilities-and-permissions.md)
 - Core 维护者：[数据流](docs/engineering/data-flow.md)、[错误模型](docs/engineering/error-model.md)、[并发策略](docs/engineering/concurrency.md)
 - 贡献者：[贡献指南](CONTRIBUTING.md) 与 [文档维护规则](docs/maintenance.md)
@@ -29,6 +29,7 @@ AetherMD 是一个处于设计阶段的开源 Markdown 编辑器架构项目。
 - [工程文档](docs/engineering/README.md)：实现策略、运行时行为、安全、可观测性
 - [ADR](docs/adr/README.md)：架构决策记录
 - [社区文档](docs/community/README.md)：开源协作模型
+- [AI-native Engineering Workflow](AI_NATIVE_ENGINEERING_WORKFLOW.md)：顶层 AI 工程工作流原则
 
 ## 贡献
 
