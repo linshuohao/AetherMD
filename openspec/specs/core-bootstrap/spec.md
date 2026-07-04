@@ -15,9 +15,10 @@ References:
 #### Scenario: Core package exposes M1 bootstrap surface
 
 - **GIVEN** a consumer imports from `@aether-md/core`
-- **WHEN** the M1 package is built
+- **WHEN** the package is built
 - **THEN** the package exposes Manifest, plugin, capability, supported Manifest version, bootstrap runtime, and bootstrap error types required by this spec
-- **AND** M1 does not expose Command Bus, Event Hub, Adapter, React Shell, Remark, ProseMirror, or GFM preset APIs
+- **AND** the package MAY expose Command Bus and Event Hub APIs defined by the `command-event-runtime` capability
+- **AND** the package does not expose Adapter, Markdown parse/serialize, React Shell, Remark, ProseMirror, or GFM preset APIs
 
 ### Requirement: Manifest version is validated during bootstrap
 
@@ -179,7 +180,7 @@ References:
 
 ### Requirement: M1 excludes later milestone behavior
 
-Core Bootstrap implementation SHALL NOT implement later milestone behavior in M1.
+Core Bootstrap implementation SHALL NOT implement later milestone behavior beyond the M1 bootstrap contract, except where a later accepted capability explicitly adds package surface.
 
 References:
 
@@ -191,4 +192,5 @@ References:
 
 - **GIVEN** M1 Core Bootstrap tests run
 - **WHEN** tests validate Manifest loading, dependency validation, lifecycle startup, and dispose
-- **THEN** tests do not require Command Bus, Event Hub, Adapter creation, Markdown parsing, Markdown serialization, React Shell, Remark, ProseMirror, or GFM preset packages
+- **THEN** tests do not require Adapter creation, Markdown parsing, Markdown serialization, React Shell, Remark, ProseMirror, or GFM preset packages
+- **AND** M1 bootstrap tests do not require Command Bus or Event Hub behavior unless they intentionally exercise the `command-event-runtime` capability

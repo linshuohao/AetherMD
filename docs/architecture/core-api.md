@@ -1,6 +1,6 @@
 # Core API 契约
 
-> 状态：M1 Core Bootstrap 已开始。本页定义宿主应用调用 `@aether-md/core` 的 v1.0 目标公开入口。
+> 状态：M1 Core Bootstrap 与 M2 Command/Event Runtime 已实现。本页定义宿主应用调用 `@aether-md/core` 的 v1.0 目标公开入口，并记录当前已实现子集。
 
 ## 范围
 
@@ -14,9 +14,49 @@ v1.0 目标是提供最小可运行编辑器入口：
 - 管理生命周期
 - 销毁运行时资源
 
-当前 M1 Core Bootstrap 只实现 `bootstrapCore` 子集，用于验证 Manifest、Service Capability、plugin dependency order 和 lifecycle startup/dispose。`createEditor`、Command Bus、Event Hub、Adapter、Markdown parse/serialize 和 Shell 仍属于后续里程碑。
+当前已实现子集：
 
-## 创建入口
+- M1：`bootstrapCore`，用于验证 Manifest、Service Capability、plugin dependency order 和 lifecycle startup/dispose。
+- M2：`createCommandEventRuntime`，提供独立的同步 Command Bus 与 Event Hub；不依赖 `bootstrapCore`、Adapter、Markdown 或 Shell。
+
+尚未实现：`createEditor`、`AetherEditor`、Adapter、Markdown parse/serialize、React Shell、完整 Guard 链与文档读写 API。
+
+## M1：`bootstrapCore`
+
+```typescript
+export function bootstrapCore(options: BootstrapCoreOptions): CoreBootstrapRuntime;
+```
+
+行为约束见 `openspec/specs/core-bootstrap/spec.md` 与 M1 相关 Docs。
+
+## M2：`createCommandEventRuntime`
+
+```typescript
+export function createCommandEventRuntime(): CommandEventRuntime;
+
+export interface CommandEventRuntime {
+  register(id: CommandId, handler: CommandHandler): void;
+  dispatch(command: CommandRequest): CommandResult;
+  on(eventName: EventName, listener: EventListener): Unsubscribe;
+  emit(event: EventEnvelope): void;
+  dispose(): void;
+}
+```
+
+行为约束：
+
+- `dispatch` **MUST** 同步返回 `CommandResult`，不得要求 `Promise`。
+- `dispatch` **MUST** 经过错误边界；handler 抛错时 **MUST** 返回 `{ ok: false }` 且 `error.source` 为 `plugin`，并 **MAY** 发出 `pluginError` 事件。
+- 未知命令与 dispose 后的 `dispatch` **MUST** 返回 `{ ok: false }` 且 `error.source` 为 `core`，不得向宿主抛出。
+- `meta.priority` **MAY** 被忽略；M2 **MUST NOT** 实现 Command Queue 优先级或 coalescing。
+- `on` **MUST** 返回 `Unsubscribe`；取消订阅后 **MUST NOT** 再收到事件。
+- `emit` **MAY** 投递 `change` 与 `pluginError`；M2 **MUST NOT** 要求 Adapter 文档快照。
+- `dispose` 后 `emit` **MUST** 为 no-op；重复 `dispose` **MUST NOT** 抛出。该行为仅约束 Command/Event runtime，不定义 `bootstrapCore` dispose 公开契约。
+- 创建 runtime **MUST NOT** 要求 `bootstrapCore`、Adapter、Markdown 或 Shell。
+
+完整类型见 [Command/Event 协议](../sdk/command-event-protocol.md)。main spec 见 `openspec/specs/command-event-runtime/spec.md`。
+
+## 创建入口（v1.0 目标，尚未实现）
 
 ```typescript
 export function createEditor(config: EditorConfig): Promise<AetherEditor>;
@@ -63,12 +103,14 @@ export interface AetherEditor {
 }
 ```
 
-行为约束：
+行为约束（v1.0 目标）：
 
 - `dispatch` **MUST** 经过 Command Pipeline，不允许绕过 Middleware。
 - `getDocument` **MUST** 返回只读快照或不可变数据。
 - `dispose` **MUST** 以生命周期逆序调用插件清理逻辑。
 - `dispose` 后再次调用 `dispatch` **MUST** 返回失败结果或抛出 `CoreError`。
+
+说明：M2 的 `CommandEventRuntime.dispatch` 为同步 API，且仅实现错误边界 Middleware。完整 `AetherEditor` 的 `Promise` 形态与 Guard 链属于后续里程碑。
 
 ## ExtensionPlugin
 

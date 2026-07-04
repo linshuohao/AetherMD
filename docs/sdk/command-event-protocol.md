@@ -1,6 +1,25 @@
 # Command/Event 协议
 
-> 状态：设计草案。实现开始前，本页定义插件、Core 与宿主之间共享的命令和事件数据结构。
+> 状态：M2 Command/Event Runtime 已在 `@aether-md/core` 实现最小子集。本页定义插件、Core 与宿主之间共享的命令和事件数据结构；未标注为已实现的行为仍属 v1.0 目标或后续里程碑。
+
+## 已实现子集（M2）
+
+`@aether-md/core` 导出以下类型与运行时：
+
+- 类型：`CommandId`、`CommandRequest`、`CommandMeta`、`CommandResult`、`EventName`、`EventEnvelope`、`CommandHandler`、`EventListener`、`Unsubscribe`，以及相关的 `AetherError` / `CommandSource` / `EventSource` / `ErrorSeverity`
+- 运行时：`createCommandEventRuntime` → `CommandEventRuntime`（`register`、`dispatch`、`on`、`emit`、`dispose`）
+
+已验证行为：
+
+- 同步注册与 `dispatch`，返回 `CommandResult`
+- handler 返回 `false` → `{ ok: false }`，不视为异常
+- 未知命令与 dispose 后 `dispatch` → `{ ok: false }`，`error.source` 为 `core`
+- handler 抛错 → `{ ok: false }`，`PluginError`（`source: 'plugin'`，`severity: 'recoverable'`），并发出 `pluginError`
+- Event Hub：`on` / `emit` / unsubscribe；可投递 `change` 与 `pluginError`（不要求文档快照）
+- 事件 payload 须可 JSON 序列化
+- `meta.priority` 被忽略
+
+未实现：Adapter 事务回滚、`transactionFailed` 自动派生、基于 `AetherDoc` 的自动 `change`、完整 Guard 链、Command Queue。
 
 ## CommandId
 
@@ -31,7 +50,7 @@ export interface CommandMeta {
 }
 ```
 
-v1.0 **MAY** 忽略 `priority`，但 **SHOULD** 保留字段以兼容后续 Command Queue。
+v1.0 **MAY** 忽略 `priority`，但 **SHOULD** 保留字段以兼容后续 Command Queue。M2 已忽略 `priority`。
 
 ## CommandResult
 
@@ -44,7 +63,7 @@ export interface CommandResult<TValue = unknown> {
 }
 ```
 
-Command handler 返回 `false` 时，Core **SHOULD** 转换为 `ok: false` 且不视为异常。
+Command handler 返回 `false` 时，Core **SHOULD** 转换为 `ok: false` 且不视为异常。M2 已实现该映射。
 
 ## EventName
 
@@ -72,13 +91,13 @@ export interface EventEnvelope<TPayload = unknown> {
 
 ## 内置事件
 
-| 事件 | 触发时机 | payload |
-| --- | --- | --- |
-| `ready` | 生命周期 `onReady` 完成后 | `{}` |
-| `change` | 可见文档快照变化后 | `{ doc, markdown? }` |
-| `transactionFailed` | Adapter 事务失败并回滚后 | `{ commandId, error }` |
-| `pluginError` | 插件运行时异常被隔离后 | `{ pluginName, error }` |
-| `disposed` | 编辑器销毁完成后 | `{}` |
+| 事件 | 触发时机 | payload | M2 状态 |
+| --- | --- | --- | --- |
+| `ready` | 生命周期 `onReady` 完成后 | `{}` | 类型已导出；未由 bootstrap 自动发出 |
+| `change` | 可见文档快照变化后 | `{ doc, markdown? }` | 可通过 `emit` 投递；不要求文档快照字段 |
+| `transactionFailed` | Adapter 事务失败并回滚后 | `{ commandId, error }` | 类型已导出；无 Adapter，未实现自动发出 |
+| `pluginError` | 插件运行时异常被隔离后 | `{ pluginName?, error }` | handler 抛错时由 runtime 发出 |
+| `disposed` | 编辑器销毁完成后 | `{}` | 类型已导出；Command/Event runtime dispose 不自动发出 |
 
 ## 约束
 

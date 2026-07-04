@@ -1,6 +1,6 @@
 # 测试策略
 
-> 状态：M1 Core Bootstrap 已开始。本页定义 MVP 的最小测试矩阵。
+> 状态：M1 Core Bootstrap 与 M2 Command/Event Runtime 已开始。本页定义 MVP 的最小测试矩阵。
 
 ## 测试目标
 
@@ -20,11 +20,15 @@
 - 不支持的 `manifestVersion` 会中止启动。（M1 已覆盖）
 - 缺失 `metadata.requires` 的 Service Capability 会中止启动。（M1 已覆盖）
 - `metadata.dependsOn` 按拓扑顺序执行生命周期。（M1 已覆盖）
-- Command handler 抛错时事务回滚并返回 `PluginError`。
-- Adapter 失败时保留上一次可见文档快照。
-- 段落、标题、加粗、斜体、列表、链接完成 Markdown round-trip。
+- Command handler 成功 `dispatch` 返回 `ok: true`。（M2 已覆盖）
+- Command handler 返回 `false` 或未知命令时返回失败结果。（M2 已覆盖）
+- Command handler 抛错时返回 `PluginError` 并发出 `pluginError`，不向宿主抛出。（M2 已覆盖；事务回滚延后到 Adapter 里程碑）
+- Event Hub 订阅、投递与取消订阅。（M2 已覆盖）
+- dispose 后 `dispatch` fail-closed，`emit` 为 no-op。（M2 已覆盖）
+- Adapter 失败时保留上一次可见文档快照。（尚未实现）
+- 段落、标题、加粗、斜体、列表、链接完成 Markdown round-trip。（尚未实现）
 - `dispose` 按逆序调用 `onDestroy`。（M1 已覆盖）
-- 未授权 Runtime Permission 不进入受保护能力路径。
+- 未授权 Runtime Permission 不进入受保护能力路径。（尚未实现）
 
 ## M1 Core Bootstrap 验证基线
 
@@ -36,6 +40,17 @@
 - `runtime.onInit` / `runtime.onReady` startup order。
 - `dispose()` reverse `runtime.onDestroy` order，重复 dispose 不重复调用 destroy hooks。
 - package export boundary，确认不暴露后续里程碑 API。
+
+## M2 Command/Event Runtime 验证基线
+
+M2 baseline 覆盖：
+
+- public types 与 `createCommandEventRuntime` / `CommandEventRuntime` 导出。
+- 同步 `register` / `dispatch` 与 `CommandResult` 成功/失败映射。
+- Event Hub `on` / `emit` / unsubscribe，以及 `change` / `pluginError` 投递。
+- handler 抛错隔离为 `PluginError`，并发出 `pluginError`。
+- dispose 后 `dispatch` 返回 core 失败结果，`emit` no-op，重复 dispose 不抛出。
+- package export boundary：允许 Command/Event，继续禁止 Adapter、Markdown parse/serialize、React Shell、Remark、ProseMirror、GFM preset。
 
 ## 契约测试要求
 
