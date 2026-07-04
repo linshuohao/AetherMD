@@ -251,11 +251,22 @@ AI-native workflow steps must run code-management hooks before reporting complet
 
 - PR title：由 `.github/workflows/git-conventions.yml` 使用 `commitlint` 校验。
 - PR commit messages：由 `.github/workflows/git-conventions.yml` 使用 `commitlint` 校验。
+- PR branch name：由 `.github/workflows/branch-governance.yml` 校验 `<type>/<kebab-topic>`。
+- `main` push audit：由 `.github/workflows/branch-governance.yml` 检查 push 到 `main` 的提交是否关联 PR。
+
+仓库必须在 GitHub Rulesets 或 Branch protection 中启用以下限制，才能在服务端真正阻止绕过 PR 的直接 push：
+
+- 目标分支：`main`。
+- Require a pull request before merging。
+- Block force pushes and branch deletion。
+- Require status checks to pass before merging。
+- Required checks 至少包含 `CI / Quality gates`、`Git conventions / Validate PR title and commits`、`Branch governance / Validate branch name`。
+- Bypass list 仅限仓库管理员或维护者的紧急修复流程，并且必须在后续 PR 或 commit body 中记录原因。
+
+仓库内 workflow 可以发现违规并让检查失败，但不能单独阻止一次已经发生的直接 push。阻止直接 push 必须依赖 GitHub Rulesets 或 Branch protection。
 
 当前未启用但后续可以补充：
 
-- GitHub Rulesets：限制分支名匹配 `<type>/<kebab-topic>`。
-- GitHub branch protection：要求 Git conventions check 通过后才能合并。
 - `commit-msg` 本地 Git hook：在本地提交时运行 commitlint。
 
 CI 使用 `pnpm install --frozen-lockfile` 安装工具依赖，保证 Git 规范检查可复现。

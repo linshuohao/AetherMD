@@ -29,7 +29,8 @@
 ### Git 工作流
 
 - [x] PR 标题和 Commit message 按 [Git 工作流规范](../community/git-workflow.md) 使用 commitlint 自动校验
-- [ ] GitHub Rulesets 限制分支名符合 `<type>/<kebab-topic>`
+- [x] PR 分支名由 Branch governance workflow 校验为 `<type>/<kebab-topic>`
+- [ ] GitHub Rulesets 或 Branch protection 要求 `main` 只能通过 PR 合入，并要求 CI、Git conventions 和 Branch governance checks 通过
 - [ ] PR 描述包含 OpenSpec、Superpowers task、Docs / ADR 和 Validation 追踪信息
 
 ### 行为回归
