@@ -27,8 +27,9 @@
 3. 小型澄清可以直接修改相关页面。
 4. 涉及架构取舍时，新增或更新 ADR。
 5. 涉及 SDK 契约时，先更新 SDK 文档，再说明实现影响。
-6. 遵守 [Git 工作流规范](docs/community/git-workflow.md)。
-7. 每次修改尽量只处理一个主题。
+6. 涉及 public API、package 边界、插件契约、发布或版本影响时，遵守 [组件库治理规范](docs/engineering/component-library-governance.md)。
+7. 遵守 [Git 工作流规范](docs/community/git-workflow.md)。
+8. 每次修改尽量只处理一个主题。
 
 ## 审查期望
 

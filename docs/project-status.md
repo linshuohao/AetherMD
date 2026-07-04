@@ -20,7 +20,7 @@ AetherMD 当前是设计到最小实现过渡阶段的开源项目。
 - 最小实现路线图与 CI 校验计划
 - 传统设计文档映射
 - MVP 实施计划、Core API、文档模型、Adapter 协议与测试策略草案
-- pnpm workspace 与仓库级 Git 规范检查
+- pnpm workspace、Turborepo 支撑的根级 `pnpm build` / `pnpm typecheck` / `pnpm test` / `pnpm check` 入口、Changesets 版本影响记录底座、最小 CI 质量门禁与仓库级 Git 规范检查
 - `@aether-md/core` M1 Core Bootstrap 基线：Manifest version/shape validation、Service Capability validation、`metadata.dependsOn` lifecycle order、`onInit` / `onReady` startup、reverse `onDestroy` dispose
 - `openspec/specs/core-bootstrap/spec.md` 作为已同步的 Core Bootstrap main spec
 - `openspec/specs/engineering-workflow/spec.md` 作为已同步的工程工作流 main spec
@@ -28,10 +28,12 @@ AetherMD 当前是设计到最小实现过渡阶段的开源项目。
 ## 尚未开始
 
 - 已发布包
+- npm publish、canary release、release token
 - Runtime Adapter
 - Plugin SDK 包
+- React / Vue / plugin / preset 空包
 - Demo 应用
-- CI 流水线
+- examples matrix
 - 发布流程
 
 ## 近期重点

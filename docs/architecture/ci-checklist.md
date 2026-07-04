@@ -8,6 +8,7 @@
 
 ### 契约一致性
 
+- [x] 最小 CI 在 PR 和 push 到 `main` 时运行 `pnpm install --frozen-lockfile`、`pnpm check` 和 `pnpm build`，且不包含 npm publish、canary、release token 或 release 自动化
 - [ ] `packages/core/src/types/` 导出与 [Manifest](../sdk/manifest.md)、[能力与权限](../sdk/capabilities-and-permissions.md) 中的类型定义自动比对（`tsd` 或快照测试）
 - [ ] `SUPPORTED_MANIFEST_VERSIONS` 与 [Manifest 版本](../sdk/manifest.md) 表格一致
 - [ ] `CORE_SERVICE_REGISTRY` 与 [内置 Service Capability 注册表](../sdk/capabilities-and-permissions.md) 一致

@@ -18,6 +18,7 @@
 | [Manifest 加载](manifest-loading.md) | Manifest 加载与规范化策略 |
 | [ConflictResolver](conflict-resolver.md) | 默认 Resolver 实现参考 |
 | [测试策略](test-strategy.md) | MVP 测试矩阵、契约测试和 CI 门禁 |
+| [组件库治理规范](component-library-governance.md) | NPM 包型 Monorepo 的包边界、公开契约、版本和质量门禁治理 |
 
 ## 权威边界
 
@@ -33,5 +34,6 @@
 - 性能约束
 - 安全执行模型
 - 测试策略
+- 包型库治理、公开 API 变更门禁与发布前质量约束
 
 本分区不能悄悄改变公开 SDK 契约或架构原则。

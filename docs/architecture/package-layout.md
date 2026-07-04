@@ -26,4 +26,32 @@ aether-md/
 - `packages/core` 已建立为 `@aether-md/core` 的 M1 Core Bootstrap package。
 - 其他 v1.0 package 仍是规划项，尚未建立实现边界。
 
+## 当前最小工程架子
+
+M1 阶段只建立已经有真实职责的工程入口：
+
+| 区域 | 当前状态 | 说明 |
+| --- | --- | --- |
+| 根 `package.json` | 已建立 | 作为 workspace 工具入口，提供稳定的 `pnpm build`、`pnpm typecheck`、`pnpm test`、`pnpm check` 和 Git 规范检查脚本 |
+| `turbo.json` | 已建立 | 声明仓库级 task orchestration 基线，作为根命令背后的 Turborepo 实现细节 |
+| `pnpm-workspace.yaml` | 已建立 | 声明 `packages/*` 与 `packages/plugins/*` 的未来 workspace 边界 |
+| `packages/core` | 已建立 | 承载 `@aether-md/core` 的 M1 Core Bootstrap 实现 |
+| `packages/core/package.json` | 已建立 | 声明 ESM package、`exports` 与 types 入口 |
+
+Turborepo 只负责调度已有 package 的同名脚本，不改变 package 边界、依赖方向、public API 或是否可发布。后续新增 package 必须提供 `build`、`typecheck`、`test` 同名脚本，才能接入根级 `pnpm build`、`pnpm typecheck`、`pnpm test` 和 `pnpm check`。
+
+## 规划中但暂不建立空包
+
+以下包属于 v1.0 路线图或长期生态方向，但在没有最小可验证职责前不建立空目录或空 package：
+
+| 规划包 | 建立条件 |
+| --- | --- |
+| `packages/preset-gfm` | Core 已具备可执行的 Command/Event、Schema 或 Adapter 契约，并能验证基础 Markdown round-trip |
+| `packages/react` | Shell / Adapter 边界已被最小 Core API 和消费侧 smoke path 验证 |
+| `packages/vue` | React Adapter 的边界已稳定，且 Vue 适配不需要改变 Core 语义 |
+| `packages/plugins/plugin-prosemirror` | Adapter protocol 已有 OpenSpec 与 contract test 入口 |
+| `packages/plugins/plugin-remark` | Parser / Serializer 边界已有 OpenSpec 与 contract test 入口 |
+
+在这些条件满足前，不应为了“看起来像 monorepo”而提前创建空包。新增 package 必须先回答它的包类型、public API、依赖方向、OpenSpec 影响和验证方式，详见 [组件库治理规范](../engineering/component-library-governance.md)。
+
 ---
