@@ -1,6 +1,6 @@
 # Core API 契约
 
-> 状态：设计草案。实现开始前，本页定义宿主应用调用 `@aether-md/core` 的最小公开入口。
+> 状态：M1 Core Bootstrap 已开始。本页定义宿主应用调用 `@aether-md/core` 的 v1.0 目标公开入口。
 
 ## 范围
 
@@ -13,6 +13,8 @@ v1.0 目标是提供最小可运行编辑器入口：
 - 暴露 Command Bus 与 Event Hub
 - 管理生命周期
 - 销毁运行时资源
+
+当前 M1 Core Bootstrap 只实现 `bootstrapCore` 子集，用于验证 Manifest、Service Capability、plugin dependency order 和 lifecycle startup/dispose。`createEditor`、Command Bus、Event Hub、Adapter、Markdown parse/serialize 和 Shell 仍属于后续里程碑。
 
 ## 创建入口
 

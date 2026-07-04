@@ -1,6 +1,6 @@
 # 测试策略
 
-> 状态：设计草案。实现开始前，本页定义 MVP 的最小测试矩阵。
+> 状态：M1 Core Bootstrap 已开始。本页定义 MVP 的最小测试矩阵。
 
 ## 测试目标
 
@@ -17,14 +17,25 @@
 
 ## MVP 必测场景
 
-- 不支持的 `manifestVersion` 会中止启动。
-- 缺失 `metadata.requires` 的 Service Capability 会中止启动。
-- `metadata.dependsOn` 按拓扑顺序执行生命周期。
+- 不支持的 `manifestVersion` 会中止启动。（M1 已覆盖）
+- 缺失 `metadata.requires` 的 Service Capability 会中止启动。（M1 已覆盖）
+- `metadata.dependsOn` 按拓扑顺序执行生命周期。（M1 已覆盖）
 - Command handler 抛错时事务回滚并返回 `PluginError`。
 - Adapter 失败时保留上一次可见文档快照。
 - 段落、标题、加粗、斜体、列表、链接完成 Markdown round-trip。
-- `dispose` 按逆序调用 `onDestroy`。
+- `dispose` 按逆序调用 `onDestroy`。（M1 已覆盖）
 - 未授权 Runtime Permission 不进入受保护能力路径。
+
+## M1 Core Bootstrap 验证基线
+
+`packages/core` 当前使用 Node built-in test runner 和 TypeScript 编译输出作为最小可重复验证方案。M1 baseline 覆盖：
+
+- Manifest version 与 shape validation。
+- Service Capability validation，包括 Adapter-backed capability 不被 M1 silent provide。
+- `metadata.dependsOn` dependency order、missing dependency 和 cycle failure。
+- `runtime.onInit` / `runtime.onReady` startup order。
+- `dispose()` reverse `runtime.onDestroy` order，重复 dispose 不重复调用 destroy hooks。
+- package export boundary，确认不暴露后续里程碑 API。
 
 ## 契约测试要求
 

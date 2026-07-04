@@ -1,15 +1,15 @@
 # AetherMD
 
-AetherMD 是一个处于设计阶段的开源 Markdown 编辑器架构项目。
+AetherMD 是一个处于设计到最小实现过渡阶段的开源 Markdown 编辑器架构项目。
 
-项目目标是沉淀一个交互驱动、框架无关、高度插件化的现代富文本 Markdown 引擎。当前仓库尚未开始实现，主要产物是架构、插件契约、工程策略和开源协作说明。
+项目目标是沉淀一个交互驱动、框架无关、高度插件化的现代富文本 Markdown 引擎。当前仓库已引入 `@aether-md/core` 的 M1 Core Bootstrap 基线，主要产物仍是架构、插件契约、工程策略、OpenSpec 规格和最小 Core 实现。
 
 ## 当前状态
 
-- 阶段：设计草案
-- 实现状态：尚未开始
-- 主要产物：文档
-- 当前目标：形成可进入最小实现的架构与 SDK 契约
+- 阶段：设计草案 + M1 Core Bootstrap
+- 实现状态：最小 Core Bootstrap 已开始
+- 主要产物：文档、OpenSpec 规格、`packages/core` 最小实现
+- 当前目标：保持 M1 Core Bootstrap 与长期架构和 SDK 契约同步
 
 ## 文档入口
 
@@ -33,6 +33,6 @@ AetherMD 是一个处于设计阶段的开源 Markdown 编辑器架构项目。
 
 ## 贡献
 
-项目还不适合接收大规模代码贡献。当前最有价值的贡献是设计审查、契约审查、术语整理、ADR 讨论和实现计划拆解。
+项目还不适合接收大规模代码贡献。当前最有价值的贡献是设计审查、契约审查、M1 Core Bootstrap 边界验证、术语整理、ADR 讨论和实现计划拆解。
 
 详见 [CONTRIBUTING.md](CONTRIBUTING.md)。

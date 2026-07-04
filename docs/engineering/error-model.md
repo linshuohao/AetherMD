@@ -1,6 +1,6 @@
 # 错误模型
 
-> 状态：设计草案。实现开始前，本页作为对应主题的维护入口。
+> 状态：设计草案 + M1 Core Bootstrap。本页作为对应主题的维护入口。
 
 ## 错误模型
 
@@ -43,5 +43,18 @@ Adapter Layer   →  try/catch → AdapterError → Rollback
 Render Layer    →  try/catch → RenderError   → Fallback View
 Core Bootstrap  →  try/catch → CoreError     → Abort Init
 ```
+
+## M1 Core Bootstrap baseline
+
+`@aether-md/core` 当前实现 fatal `CoreError` shape，并用于以下启动中止场景：
+
+- invalid Manifest shape。
+- unsupported `metadata.manifestVersion`。
+- missing Service Capability。
+- missing plugin dependency。
+- plugin dependency cycle。
+- lifecycle hook failure during startup or dispose。
+
+`PluginError`、`AdapterError`、`RenderError` 和 `SerializationError` 仍属于后续里程碑。
 
 ---

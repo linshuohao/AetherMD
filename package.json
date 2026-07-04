@@ -5,10 +5,13 @@
   "packageManager": "pnpm@11.7.0",
   "scripts": {
     "lint:commits": "commitlint --config .commitlintrc.cjs --from origin/main --to HEAD --verbose",
-    "lint:pr-title": "commitlint --config .commitlintrc.cjs --verbose"
+    "lint:pr-title": "commitlint --config .commitlintrc.cjs --verbose",
+    "core:typecheck": "pnpm --filter @aether-md/core exec tsc --noEmit",
+    "core:test": "pnpm --filter @aether-md/core test -- --run"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
-    "@commitlint/config-conventional": "^19.8.1"
+    "@commitlint/config-conventional": "^19.8.1",
+    "typescript": "^6.0.3"
   }
 }

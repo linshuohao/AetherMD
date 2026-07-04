@@ -1,0 +1,7 @@
+interface:
+  display_name: "Aether Task Loop"
+  short_description: "Run scoped task implementation loops"
+  default_prompt: "Use $aether-workflow-execute-task-loop to implement and validate this small AetherMD change task by task."
+
+policy:
+  allow_implicit_invocation: true

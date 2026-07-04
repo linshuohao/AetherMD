@@ -1,6 +1,6 @@
 # MVP 实施计划
 
-> 状态：设计草案。实现开始前，本页把 v1.0 路线图拆成可执行的最小实现任务。
+> 状态：M1 Core Bootstrap 已开始。本页把 v1.0 路线图拆成可执行的最小实现任务。
 
 ## 实施目标
 
@@ -12,7 +12,7 @@ MVP 不追求完整生产能力。
 
 | 阶段 | 交付物 | 验收标准 |
 | --- | --- | --- |
-| M1 Core Bootstrap | `@aether-md/core` 雏形 | 能加载插件 Manifest，校验版本与依赖，启动生命周期 |
+| M1 Core Bootstrap | `@aether-md/core` 雏形 | 已建立最小基线：能加载插件 Manifest，校验版本与依赖，启动生命周期 |
 | M2 Command/Event | Command Bus、Event Hub | 能派发命令、返回结果、发出 `change` 与错误事件 |
 | M3 Adapter 基座 | ProseMirror / Remark 最小适配器 | 能解析 Markdown、编辑文档、序列化 Markdown |
 | M4 GFM Preset | 段落、标题、加粗、斜体、列表、链接 | Markdown round-trip 覆盖内置语法 |
@@ -31,12 +31,18 @@ v1.0 **MUST** 至少包含：
 
 `packages/vue` **MAY** 保留目录规划，但不进入 MVP 实现范围。
 
+当前实现状态：
+
+- `packages/core` 已存在，覆盖 M1 Core Bootstrap 子集。
+- `packages/core` 暂不提供 Command Bus、Event Hub、Adapter、React Shell、Markdown parse/serialize、Remark、ProseMirror 或 GFM preset。
+- M1 main spec 维护在 `openspec/specs/core-bootstrap/spec.md`。
+
 ## 必须实现
 
-- Manifest 分层加载与规范化
-- `SUPPORTED_MANIFEST_VERSIONS` 校验
-- Service Capability 校验
-- Lifecycle：`load -> onInit -> onReady -> dispose -> onDestroy`
+- Manifest 分层加载与规范化（M1 已有最小 shape validation）
+- `SUPPORTED_MANIFEST_VERSIONS` 校验（M1 已有）
+- Service Capability 校验（M1 已有 Core + loaded plugin provider 校验）
+- Lifecycle：`load -> onInit -> onReady -> dispose -> onDestroy`（M1 已覆盖 startup order 和 reverse destroy）
 - 默认 ConflictResolver
 - Command Pipeline 的同步路径
 - `CoreError`、`PluginError`、`AdapterError`
@@ -53,9 +59,17 @@ v1.0 **MUST** 至少包含：
 - 插件热插拔
 - 多人协作
 
-## 开工前门槛
+M1 已明确排除：
 
-开始代码实现前，以下文档 **SHOULD** 达到可审查状态：
+- Command Bus 与 Event Hub
+- Adapter 创建
+- Markdown 解析与序列化
+- React Shell
+- Remark、ProseMirror 与 GFM preset
+
+## 后续里程碑门槛
+
+进入 M2/M3 及后续代码实现前，以下文档 **SHOULD** 保持可审查状态：
 
 - [Core API](../architecture/core-api.md)
 - [文档模型](../architecture/document-model.md)
