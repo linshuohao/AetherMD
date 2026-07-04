@@ -7,6 +7,8 @@ description: Execute and validate all tasks for one AetherMD change in order. Us
 
 Use this skill as Step 6.5 of the AetherMD AI-native engineering workflow.
 
+These instructions are host-agnostic. Any coding agent may execute them.
+
 ## Goal
 
 Run the implementation and validation loop for one OpenSpec change while preserving the single-task execution boundary.
@@ -29,12 +31,36 @@ This skill orchestrates `aether-workflow-implement-task` and `aether-workflow-va
 - Each task has explicit allowed files, forbidden files, validation, review checklist, rollback notes, status, run log, and deviation sections.
 - The user or maintainer has accepted the plan and task split.
 
+## Required Skills
+
+| Role | Skill name | Kind |
+| --- | --- | --- |
+| OpenSpec status/context | `openspec-apply-change` | Project |
+| Loop driver (preferred) | `subagent-driven-development` | Superpowers, when the host supports subagents |
+| Loop driver (fallback) | `executing-plans` | Superpowers, when subagents are unavailable |
+| Per-task implement | `aether-workflow-implement-task` | Project |
+| Per-task validate | `aether-workflow-validate-task` | Project |
+
+`aether-workflow-implement-task` already requires `test-driven-development` and `verification-before-completion`. Do not skip those by implementing tasks inline.
+
+## Skill Invocation
+
+To invoke a named skill:
+
+1. Use the host skill-invocation mechanism when available (for example a `Skill` tool or `/skill-name`).
+2. Otherwise find the skill by `name` in the host's available-skills list and read its full `SKILL.md` with the host file-read tool, then follow it.
+3. Project skills are mirrored under `.cursor/skills/<name>/SKILL.md` and `.codex/skills/<name>/SKILL.md`. Use either path; content is identical.
+4. Installed Superpowers skills are referenced by name only. Resolve them from the host skill list or the Superpowers plugin install path.
+5. Announce each loaded skill by name before applying it.
+6. If a required skill cannot be loaded, pause and report the missing skill name. Do not silently skip it.
+
 ## Tooling Contract
 
-- Use the installed OpenSpec skill/command layer to inspect change status before the loop and whenever task execution reveals requirement drift.
-- Use the global Superpowers command/skill layer as the loop driver for selecting, starting, validating, and completing tasks.
-- This Aether skill adds project guardrails to the Superpowers loop; it must not replace the lower-level global Superpowers execution mechanism.
-- If the global Superpowers command/skill layer is unavailable in the current host, pause and report the tool visibility problem; do not use `.superpowers/` files as a substitute.
+- Load and follow `openspec-apply-change` before the loop and whenever task execution reveals requirement drift.
+- Load and follow `subagent-driven-development` when subagents are available; otherwise load and follow `executing-plans`.
+- Constrain the Superpowers loop driver to one AetherMD task file at a time by loading `aether-workflow-implement-task` and `aether-workflow-validate-task` for each task.
+- Update task `Status`, `Run Log`, `Deviation`, and `.superpowers/runs/<change>/validation.md` as AetherMD execution records after the per-task skills complete.
+- If a required skill cannot be loaded, pause and report the missing skill; do not use `.superpowers/` files as a substitute for the process skills.
 
 ## Version And Code Management Hooks
 
@@ -45,22 +71,14 @@ This skill orchestrates `aether-workflow-implement-task` and `aether-workflow-va
 
 ## Actions
 
-1. Invoke the installed OpenSpec skill/command to confirm change status.
-2. Invoke the global Superpowers command/skill to load loop state.
+1. Load and follow `openspec-apply-change` to confirm change status.
+2. Load and follow `subagent-driven-development` or, if subagents are unavailable, `executing-plans`.
 3. Read `references/task-loop-protocol.md`.
 4. Read the plan and list task files in filename order.
 5. For each task:
-   - Read the task file first.
-   - Read the associated OpenSpec artifacts.
-   - Read only task-referenced docs and directly relevant local files.
-   - Confirm allowed files and forbidden files.
-   - Identify the task's TDD entry point before editing.
-   - Prefer red-green-refactor within the single-task boundary.
-   - Implement only the selected task.
-   - Run that task's validation.
-   - Run or record intuitive verification when the task defines one.
-   - Record validation commands, results, failures, and deviations through the global Superpowers command/skill.
-   - Update the task `Status`, `Run Log`, and `Deviation` through the global Superpowers command/skill.
+   - Load and follow `aether-workflow-implement-task` for that task only.
+   - Load and follow `aether-workflow-validate-task` for that task only.
+   - Confirm task `Status`, `Run Log`, `Deviation`, and validation record are updated.
 6. Continue to the next task only after the current task is complete or its accepted deviation is recorded.
 7. Stop after all tasks complete. Do not update docs/specs, archive, or commit unless explicitly asked.
 
@@ -83,7 +101,7 @@ This skill orchestrates `aether-workflow-implement-task` and `aether-workflow-va
 
 ## TDD Loop Expectations
 
-For each task, preserve Superpowers as the driver:
+For each task, preserve Superpowers process skills as the driver:
 
 - Red: create or identify the failing test, contract check, package-boundary check, or design-stage assertion.
 - Green: implement the smallest scoped change that satisfies that task only.
@@ -109,9 +127,8 @@ During refactor, prefer:
 - validation has no clear command or design-stage check;
 - no TDD entry point can be found and no deviation has been accepted;
 - tests were deleted, skipped, or weakened;
-- a required source doc contradicts the task.
-- OpenSpec skill/command status cannot be checked;
-- global Superpowers command/skill layer is unavailable.
+- a required source doc contradicts the task;
+- a required skill cannot be loaded;
 - unrelated git changes cannot be separated from task changes;
 - a task with versioned contract impact lacks validation.
 
@@ -120,8 +137,7 @@ During refactor, prefer:
 Report:
 
 - change name;
-- OpenSpec skill/command path used;
-- Superpowers command/skill path used;
+- skills loaded;
 - task files completed;
 - files changed;
 - version-impact checks;

@@ -7,6 +7,8 @@ description: Perform AetherMD spec compliance and anticorruption review for a ch
 
 Use this skill as Step 7 of the AetherMD AI-native engineering workflow.
 
+These instructions are host-agnostic. Any coding agent may execute them.
+
 ## Goal
 
 Check whether the implementation matches OpenSpec and preserves AetherMD architecture boundaries.
@@ -19,12 +21,33 @@ Check whether the implementation matches OpenSpec and preserves AetherMD archite
 - `.superpowers/runs/<change>/validation.md`
 - Relevant Docs and ADRs
 
+## Required Skills
+
+| Role | Skill name | Kind |
+| --- | --- | --- |
+| OpenSpec status/context | `openspec-apply-change` | Project |
+| Review process | `requesting-code-review` | Superpowers |
+
+The compliance review file `.superpowers/reviews/<change>.md` is an AetherMD review record written after the required process skills are loaded.
+
+## Skill Invocation
+
+To invoke a named skill:
+
+1. Use the host skill-invocation mechanism when available (for example a `Skill` tool or `/skill-name`).
+2. Otherwise find the skill by `name` in the host's available-skills list and read its full `SKILL.md` with the host file-read tool, then follow it.
+3. Project skills are mirrored under `.cursor/skills/<name>/SKILL.md` and `.codex/skills/<name>/SKILL.md`. Use either path; content is identical.
+4. Installed Superpowers skills are referenced by name only. Resolve them from the host skill list or the Superpowers plugin install path.
+5. Announce each loaded skill by name before applying it.
+6. If a required skill cannot be loaded, pause and report the missing skill name. Do not silently skip it.
+
 ## Tooling Contract
 
-- Use the installed OpenSpec skill/command layer to inspect change status, requirements, and validation state before review.
-- Use the global Superpowers command/skill layer to inspect task/run state and to create or update the review artifact.
-- Direct edits to `.superpowers/reviews/<change>.md` are allowed as the review record selected by Superpowers, but not as a replacement for the underlying Superpowers review step.
-- If either lower layer is unavailable, pause and report the tool visibility problem before completing the review.
+- Load and follow `openspec-apply-change` to inspect change status, requirements, and validation state before review.
+- Load and follow `requesting-code-review` as the review process driver.
+- Write `.superpowers/reviews/<change>.md` using `assets/compliance-review-template.md` and `references/anticorruption-checklist.md`.
+- Direct edits to the review file are allowed only after the required skills have been loaded and followed.
+- If a required skill cannot be loaded, pause and report the missing skill before completing the review.
 
 ## Version And Code Management Hooks
 
@@ -34,10 +57,10 @@ Check whether the implementation matches OpenSpec and preserves AetherMD archite
 
 ## Actions
 
-1. Invoke the installed OpenSpec skill/command to inspect status and requirements.
-2. Invoke the global Superpowers command/skill to inspect task and validation state.
+1. Load and follow `openspec-apply-change` to inspect status and requirements.
+2. Load and follow `requesting-code-review`.
 3. Read `references/anticorruption-checklist.md`.
-4. Create or update `.superpowers/reviews/<change>.md` through the global Superpowers command/skill, using `assets/compliance-review-template.md` if no stricter template exists.
+4. Create or update `.superpowers/reviews/<change>.md` using `assets/compliance-review-template.md`.
 5. Map changed files to tasks.
 6. Map tasks to spec requirements or docs references.
 7. Check acceptance criteria.
@@ -69,12 +92,11 @@ Check whether the implementation matches OpenSpec and preserves AetherMD archite
 - implementation diverges from spec;
 - public contract changes lack OpenSpec coverage;
 - an ADR is required but missing;
-- validation is missing or failed without recorded deviation.
-- OpenSpec skill/command status cannot be checked;
-- global Superpowers command/skill task/review state cannot be checked.
+- validation is missing or failed without recorded deviation;
+- `openspec-apply-change` or `requesting-code-review` cannot be loaded;
 - versioned contract change lacks explicit spec/docs coverage;
 - any changed file cannot be mapped to a task.
 
 ## Output
 
-Report review path, OpenSpec skill/command path used, Superpowers command/skill path used, pass/fail status, version review, code-management review, blockers, required updates, deviations, and recommended next workflow skill.
+Report review path, skills loaded (`openspec-apply-change`, `requesting-code-review`), pass/fail status, version review, code-management review, blockers, required updates, deviations, and recommended next workflow skill.
