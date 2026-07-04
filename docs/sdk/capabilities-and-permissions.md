@@ -112,4 +112,19 @@ export const CORE_SERVICE_REGISTRY: readonly CoreCapabilityId[] = [
 ] as const;
 ```
 
+### M1 Core Bootstrap capability subset
+
+`@aether-md/core` 的 M1 Core Bootstrap 实现只自动提供以下能力：
+
+```typescript
+export const M1_CORE_CAPABILITIES = [
+  'core:history',
+  'core:selection',
+  'core:clipboard',
+  'core:assets',
+] as const;
+```
+
+`core:engine` 和 `core:parser` 仍属于 `CoreCapabilityId`，但依赖官方 Adapter。M1 在 Adapter package 存在前不会 silent provide 这两个 capability；如果插件要求它们且没有 loaded plugin 提供，bootstrap 必须以 fatal `CoreError` 中止。
+
 ---

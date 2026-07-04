@@ -1,0 +1,7 @@
+interface:
+  display_name: "Aether Create Plan"
+  short_description: "Draft AetherMD implementation plans"
+  default_prompt: "Use $aether-workflow-create-plan to turn this approved OpenSpec change into an implementation plan."
+
+policy:
+  allow_implicit_invocation: true

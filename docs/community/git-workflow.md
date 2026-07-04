@@ -234,6 +234,17 @@ Codex 提交必须遵守：
 
 如果当前变更属于 AI-native workflow 的某一步，commit body 应引用对应 skill 或 task。
 
+## Workflow Code-management Hooks
+
+AI-native workflow steps must run code-management hooks before reporting completion:
+
+- Read `git status --short` before editing or before summarizing a step.
+- Keep unrelated dirty files out of the current task, commit, and PR.
+- Map every changed file to an OpenSpec change, Superpowers task, docs reference, or accepted workflow artifact.
+- Before staging, run `git diff --name-status` and `git diff --cached --name-only` after staging.
+- Stage, commit, push, or open a PR only when the user explicitly asks.
+- Include OpenSpec, Superpowers tasks, validation, deviations, and version impact in commit body or PR description when the change belongs to the AI-native workflow.
+
 ## 约束工具
 
 当前启用的自动约束：

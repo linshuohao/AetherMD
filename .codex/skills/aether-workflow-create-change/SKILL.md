@@ -17,19 +17,36 @@ Create an OpenSpec change that references Docs as the long-term source of truth 
 - Source docs and ADRs
 - Change name or user intent
 
+## Tooling Contract
+
+- Delegate OpenSpec mechanics to the installed OpenSpec skill or command layer first.
+- For a new change, invoke `openspec-propose` or the equivalent `/opsx:propose` command path, then apply AetherMD-specific source-doc, language, and boundary rules.
+- If continuing or repairing an existing change, use the installed OpenSpec skill/command instructions for status, artifact order, instructions, and validation instead of hand-rolling the lifecycle.
+- Direct file edits under `openspec/changes/<change>/` are allowed only after the OpenSpec skill/command has established the artifact path and required shape.
+- If the OpenSpec skill/command layer is not callable in the current host, pause and report the tool visibility problem; do not create artifacts by hand.
+
+## Version And Code Management Hooks
+
+- Version hook: identify whether the proposed change may affect package SemVer, `manifestVersion`, public SDK contracts, package exports, lockfiles, or compatibility docs. Record the result in `proposal.md` or `design.md`.
+- Code-management hook: run `git status --short` before creating artifacts and note any unrelated dirty files. Do not include unrelated work in the change scope.
+- Traceability hook: record the expected branch/commit scope and Conventional Commit type implied by `docs/community/git-workflow.md`.
+
 ## Actions
 
 1. Choose a kebab-case change name, such as `add-core-bootstrap` or `clarify-adapter-rollback-semantics`.
-2. Check current changes with `openspec list --json`.
-3. Create or continue `openspec/changes/<change>/`.
-4. Produce:
+2. Invoke the installed OpenSpec skill/command to create or continue the change.
+3. Use the OpenSpec skill/command output to determine artifact paths, required artifacts, and artifact instructions.
+4. Check or request OpenSpec validation through the same OpenSpec layer.
+5. Apply AetherMD-specific constraints on top of the generated/instructed artifacts.
+6. Produce:
    - `proposal.md`
    - `design.md`
    - `specs/<capability>/spec.md` delta specs
    - `tasks.md`
-5. Reference docs by path instead of copying large sections.
-6. Keep non-goals explicit.
-7. Add acceptance criteria that can be reviewed or tested.
+7. Reference docs by path instead of copying large sections.
+8. Keep non-goals explicit.
+9. Add acceptance criteria that can be reviewed or tested.
+10. Record which OpenSpec skill/command path was used and the validation result.
 
 ## Artifact Rules
 
@@ -47,7 +64,10 @@ Delta specs should describe added, modified, removed, or renamed requirements fo
 - no authoritative docs exist for the proposed behavior;
 - the change would reverse an accepted ADR without an ADR update;
 - the requested scope is too broad for one change.
+- OpenSpec skill/command layer is unavailable.
+- version impact cannot be classified;
+- current git status contains unrelated changes that would be mixed into the change.
 
 ## Output
 
-Report the change name, artifact paths, source docs used, open questions, and recommended next workflow skill.
+Report the change name, artifact paths, OpenSpec skill/command path used, version impact, code-management status, validation status, source docs used, open questions, and recommended next workflow skill.

@@ -19,17 +19,30 @@ Finalize a completed change by preserving OpenSpec artifacts, Superpowers execut
 - Compliance review
 - Docs/spec/ADR update results
 
+## Tooling Contract
+
+- Delegate OpenSpec archive mechanics to the installed OpenSpec archive skill or command first, such as `openspec-archive-change` or the equivalent `/opsx:archive` command path.
+- Use the global Superpowers command/skill layer to verify task/run/final-report state.
+- This Aether skill adds final AetherMD checks and final-report content; it must not manually move OpenSpec changes until the OpenSpec archive skill/command has been invoked.
+
+## Version And Code Management Hooks
+
+- Version hook: final report must state whether package versions, `manifestVersion`, public exports, lockfiles, compatibility docs, or main specs changed.
+- Code-management hook: final report must include changed-file summary, task mapping, validation summary, and whether any untracked or unstaged files remain.
+- Commit/PR hook: if committing or preparing a PR, include OpenSpec, Superpowers tasks, validation, deviations, and version impact in the commit body or PR description.
+
 ## Actions
 
-1. Check OpenSpec status for the change.
-2. Verify all required artifacts exist.
-3. Verify all Superpowers tasks are complete.
-4. Verify validation results are recorded.
-5. Verify compliance review has no unresolved blockers.
-6. Verify docs/spec/ADR updates are complete or explicitly deferred.
-7. Create `.superpowers/runs/<change>/final-report.md`.
-8. Archive the OpenSpec change under `openspec/changes/archive/YYYY-MM-DD-<change>/`.
-9. If committing or preparing a PR, follow `docs/community/git-workflow.md`.
+1. Invoke the installed OpenSpec archive skill/command to check OpenSpec status and archive readiness.
+2. Read `references/archive-readiness.md`.
+3. Verify all required artifacts exist.
+4. Verify all Superpowers tasks are complete through the global Superpowers command/skill layer.
+5. Verify validation results are recorded.
+6. Verify compliance review has no unresolved blockers.
+7. Verify docs/spec/ADR updates are complete or explicitly deferred.
+8. Create `.superpowers/runs/<change>/final-report.md` through the global Superpowers command/skill, using `assets/final-report-template.md` if no stricter template exists.
+9. Archive the OpenSpec change through the OpenSpec archive skill/command.
+10. If committing or preparing a PR, follow `docs/community/git-workflow.md`.
 
 ## Final Report Sections
 
@@ -43,6 +56,11 @@ Finalize a completed change by preserving OpenSpec artifacts, Superpowers execut
 - Docs / ADR Updates
 - Remaining Follow-ups
 
+## Bundled Resources
+
+- `assets/final-report-template.md`: final report scaffold.
+- `references/archive-readiness.md`: readiness checks and no-archive conditions.
+
 ## Pause If
 
 - tasks remain incomplete;
@@ -50,7 +68,11 @@ Finalize a completed change by preserving OpenSpec artifacts, Superpowers execut
 - compliance review has blockers;
 - spec sync is incomplete;
 - public contract or ADR changes lack human confirmation.
+- OpenSpec archive skill/command layer is unavailable;
+- global Superpowers command/skill task/run state cannot be verified.
+- final version impact is not recorded;
+- final changed-file/task mapping is incomplete.
 
 ## Output
 
-Report archive path, final report path, synced specs, validation summary, deviations, and any follow-up changes.
+Report archive path, final report path, OpenSpec archive skill/command path used, Superpowers command/skill path used, synced specs, version impact, code-management summary, validation summary, deviations, and any follow-up changes.

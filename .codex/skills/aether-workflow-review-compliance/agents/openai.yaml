@@ -1,0 +1,7 @@
+interface:
+  display_name: "Aether Review Compliance"
+  short_description: "Review spec and boundary compliance"
+  default_prompt: "Use $aether-workflow-review-compliance to review this change against its specs, tasks, validation, and architecture boundaries."
+
+policy:
+  allow_implicit_invocation: true

@@ -1,10 +1,10 @@
 # AI-native Engineering Workflow
 
-> 状态：设计草案。本文是 AetherMD 的顶层工程工作流原则，定义项目使用 Docs、OpenSpec、Superpowers 与 Codex 协作时的执行流程和产物边界。
+> 状态：设计草案 + M1 Core Bootstrap。本文是 AetherMD 的顶层工程工作流原则，定义项目使用 Docs、OpenSpec、Superpowers 与 Codex 协作时的执行流程和产物边界。
 
 ## 目的
 
-AetherMD 当前处于设计阶段，仓库的长期事实来源仍是 `docs/`。引入 OpenSpec、Superpowers 和 Codex 的目的不是替代文档体系，而是让每次变更都能从长期设计约束中抽取可执行规格，再拆成可审查、可回滚的小任务。
+AetherMD 当前处于设计到最小实现过渡阶段，仓库的长期事实来源仍是 `docs/`。引入 OpenSpec、Superpowers 和 Codex 的目的不是替代文档体系，而是让每次变更都能从长期设计约束中抽取可执行规格，再拆成可审查、可回滚的小任务。
 
 本流程服务于四个目标：
 
@@ -15,7 +15,7 @@ AetherMD 当前处于设计阶段，仓库的长期事实来源仍是 `docs/`。
 
 ## 设计理念
 
-本工作流的核心假设是：AI Coding 的主要风险不是写得不够快，而是写得太快、太散、太难追踪。AetherMD 当前还处于设计阶段，架构边界和 SDK 契约比代码产量更重要。因此，工作流优先保护长期可维护性，再释放自动化效率。
+本工作流的核心假设是：AI Coding 的主要风险不是写得不够快，而是写得太快、太散、太难追踪。AetherMD 仍以设计约束和 SDK 契约为优先，同时开始用小型实现切片验证这些约束。因此，工作流优先保护长期可维护性，再释放自动化效率。
 
 ### 1. Docs 是事实来源，Spec 是执行切片
 
@@ -167,8 +167,7 @@ Existing Docs
   -> OpenSpec Change / Spec
   -> Superpowers Plan
   -> Superpowers Task
-  -> Codex Implementation
-  -> Test / Validation
+  -> Task Execution Loop
   -> Spec Compliance Review
   -> Docs / Spec Update
   -> Archive
@@ -186,6 +185,7 @@ Existing Docs
 | Step 4 | `aether-workflow-create-task` | `.superpowers/tasks/<change>/<NN>-<task>.md` |
 | Step 5 | `aether-workflow-implement-task` | 单个 task 的代码或文档修改、task run log |
 | Step 6 | `aether-workflow-validate-task` | `.superpowers/runs/<change>/validation.md` |
+| Step 6.5 | `aether-workflow-execute-task-loop` | 按顺序执行并验证一个 change 下的所有 task |
 | Step 7 | `aether-workflow-review-compliance` | `.superpowers/reviews/<change>.md` |
 | Step 8 | `aether-workflow-update-docs-spec` | 更新后的 Docs、OpenSpec main specs、ADR 或 deviation 记录 |
 | Step 9 | `aether-workflow-archive-change` | archived change、final report |
@@ -196,6 +196,41 @@ Existing Docs
 2. Codex 使用对应 skill 执行该步骤。
 3. 每一步只读取该 skill 要求的输入，不跨阶段提前执行后续工作。
 4. 当前步骤产物完整后，再进入下一步。
+
+## 底层工具调用规则
+
+Aether workflow skills 是项目约束层，不替代底层 OpenSpec 和 Superpowers 执行层。
+
+- 涉及 OpenSpec change、delta spec、main spec sync 或 archive 的步骤，必须调用已安装的 OpenSpec skill 或 command，例如 `openspec-propose`、`openspec-sync-specs`、`openspec-archive-change` 或对应 `/opsx:*` command。
+- 涉及 plan、task、task execution、validation、review、final report 的步骤，必须调用全局安装的 Superpowers command 或 skill。
+- `.superpowers/` 和 `openspec/` 下的文件是底层工具选定或生成的 artifact 位置，不是绕过底层工具的理由。
+- 如果当前 Codex host 无法调用已安装的 OpenSpec 或 Superpowers 底层能力，必须暂停并报告工具不可见问题。
+- 不允许默认退回到手写文件协议；任何手工修补只能发生在底层工具已经建立 artifact 路径和结构之后。
+
+## 版本与代码管理 Hooks
+
+每个 workflow step 都必须显式经过版本管理和代码管理 hooks。hooks 不替代 OpenSpec 或 Superpowers；它们负责在底层工具调用之间保护 Git、版本和公共契约边界。
+
+版本管理 hook 检查：
+
+- 是否影响 package SemVer、`package.json`、lockfile 或 workspace package 边界。
+- 是否影响 `SUPPORTED_MANIFEST_VERSIONS`、`manifestVersion`、public exports、SDK 类型或兼容策略。
+- 是否需要更新 `docs/architecture/compatibility.md`、`docs/sdk/manifest.md`、`docs/sdk/capabilities-and-permissions.md`、main OpenSpec specs、ADR 或最终报告。
+- 是否属于 breaking change，是否需要 Conventional Commits 的 `!` 或 `BREAKING CHANGE:` 说明。
+
+代码管理 hook 检查：
+
+- 每步开始前运行或读取 `git status --short`，识别 unrelated dirty files。
+- 每个 task 的 changed files 必须能映射到 task allowed files、OpenSpec requirement 或 docs reference。
+- 每步结束前记录 changed-file summary、validation status、deviation 和是否存在未跟踪/未暂存文件。
+- staging、commit、push 只能在用户明确要求时执行，并且必须遵守 [Git 工作流规范](docs/community/git-workflow.md)。
+
+必须暂停的情况：
+
+- version impact 无法分类。
+- public/versioned contract 变化没有 OpenSpec 或 docs 覆盖。
+- changed files 无法映射到当前 task 或当前 workflow step。
+- unrelated dirty files 会被混入当前变更。
 
 ## Step 1: 从 Docs 确认变更上下文
 
@@ -237,10 +272,13 @@ Existing Docs
 执行：
 
 1. 使用 kebab-case 命名 change，例如 `add-core-bootstrap`、`clarify-adapter-rollback-semantics`。
-2. 创建 `openspec/changes/<change>/proposal.md`。
-3. 创建 `openspec/changes/<change>/design.md`。
-4. 创建 `openspec/changes/<change>/specs/<capability>/spec.md` 作为 delta spec。
-5. 创建 `openspec/changes/<change>/tasks.md` 作为高层任务清单。
+2. 调用已安装的 OpenSpec skill 或 command 创建或继续该 change。
+3. 由 OpenSpec 底层能力创建 `openspec/changes/<change>/proposal.md`。
+4. 由 OpenSpec 底层能力创建 `openspec/changes/<change>/design.md`。
+5. 由 OpenSpec 底层能力创建 `openspec/changes/<change>/specs/<capability>/spec.md` 作为 delta spec。
+6. 由 OpenSpec 底层能力创建 `openspec/changes/<change>/tasks.md` 作为高层任务清单。
+7. 运行版本管理 hook，记录 version impact。
+8. 运行代码管理 hook，记录 git 状态和预期 commit scope。
 
 输出：
 
@@ -271,9 +309,11 @@ AI 自动化：
 
 执行：
 
-1. 生成 `.superpowers/plans/<change>.md`。
+1. 调用全局 Superpowers command 或 skill 生成 `.superpowers/plans/<change>.md`。
 2. 把变更拆成实现阶段、依赖顺序、验证策略和风险。
 3. 标出哪些任务可能影响 public contract、架构边界或 ADR。
+4. 运行版本管理 hook，确认 plan 覆盖所有 versioned contract 影响。
+5. 运行代码管理 hook，确认 plan 可以按 task 边界审查和提交。
 
 输出：
 
@@ -302,9 +342,13 @@ AI 自动化：
 
 执行：
 
-1. 为每个小任务创建 `.superpowers/tasks/<change>/<NN>-<task>.md`。
+1. 调用全局 Superpowers command 或 skill 为每个小任务创建 `.superpowers/tasks/<change>/<NN>-<task>.md`。
 2. 每个 task 只能覆盖一个清晰目标。
 3. 每个 task 必须声明 allowed files、forbidden files、spec 绑定和验证方式。
+4. 每个 task 必须声明 TDD entry point，或记录为什么无法从失败测试、contract check 或 design assertion 开始。
+5. 有助于人工审查时，可以单独声明 intuitive verification，但不能替代自动化或设计阶段验证。
+6. 为每个 task 补充 `Version Impact` 和 `Commit Scope`。
+7. 运行代码管理 hook，确认每个 task 的 allowed files、forbidden files 和 rollback notes 足够精确。
 
 Task 模板：
 
@@ -317,7 +361,9 @@ Source Docs:
 Allowed Files:
 Forbidden Files:
 Implementation Notes:
+TDD Notes:
 Validation:
+Intuitive Verification:
 Review Checklist:
 Rollback Notes:
 Status:
@@ -352,12 +398,18 @@ AI 自动化：
 
 执行：
 
-1. Codex 读取当前 task。
-2. Codex 读取当前 OpenSpec change artifacts。
-3. Codex 只读取 task 引用或实现必需的局部文档。
-4. Codex 在 allowed files 内修改。
-5. Codex 运行 task 声明的 validation。
-6. Codex 更新 task 的 Status、Run Log、Deviation。
+1. Codex 通过全局 Superpowers command 或 skill 选择并开始当前 task。
+2. Codex 读取当前 task。
+3. Codex 读取当前 OpenSpec change artifacts。
+4. Codex 只读取 task 引用或实现必需的局部文档。
+5. Codex 在 allowed files 内修改。
+6. Codex 在实现前识别 TDD entry point。
+7. Codex 优先按 red-green-refactor 执行：先创建或确认失败检查，再做最小实现，最后清理结构。
+8. Codex 运行 task 声明的 validation。
+9. 如果 task 定义了 intuitive verification，Codex 单独运行或记录，不把它当作自动验证替代。
+10. Codex 通过全局 Superpowers command 或 skill 更新 task 的 Status、Run Log、Deviation。
+11. 运行版本管理 hook，记录本 task 的 versioned contract 影响。
+12. 运行代码管理 hook，确认 changed files 全部属于当前 task。
 
 输出：
 
@@ -378,6 +430,7 @@ AI 自动化：
 - 需要改变 public contract 但 spec 未说明。
 - 实现发现新的架构取舍。
 - 测试失败且无法在 task 范围内解释。
+- 找不到有意义的 TDD entry point，且没有记录 deviation。
 
 ## Step 6: Test / Validation
 
@@ -390,6 +443,14 @@ AI 自动化：
 - `docs/engineering/test-strategy.md` 和 `docs/architecture/ci-checklist.md` 中相关策略。
 
 执行：
+
+1. 确认 task 的 TDD entry point 已被执行，或 deviation 已说明为什么无法执行。
+2. 运行可用检查。
+3. 如果 task 定义了 intuitive verification，单独运行或记录。
+4. 通过全局 Superpowers command 或 skill 将命令、结果、失败和偏差写入 `.superpowers/runs/<change>/validation.md`。
+5. 更新 task `Run Log`。
+6. 运行版本管理 hook，确认 versioned contract 变化有对应验证。
+7. 运行代码管理 hook，确认 changed files 与 task 边界一致。
 
 设计阶段：
 
@@ -416,6 +477,53 @@ AI 自动化：
 
 - 失败结果不能静默忽略。
 - 如果接受失败或偏差，必须写入 deviation。
+- intuitive verification 不能替代必需的自动化或设计阶段验证。
+
+## Step 6.5: Task Execution Loop
+
+使用 skill：`aether-workflow-execute-task-loop`
+
+输入：
+
+- 一个已完成 task 拆分的 OpenSpec change。
+- `.superpowers/tasks/<change>/` 下的 task 文件。
+- 当前 OpenSpec change artifacts。
+- task 引用的 Docs。
+
+执行：
+
+1. 通过全局 Superpowers command 或 skill 读取 task loop 状态，并按 task 文件名顺序执行。
+2. 每次只选择一个 task。
+3. 对当前 task 应用 Step 5 的实现规则。
+4. 当前 task 实现后立即应用 Step 6 的验证规则。
+5. 更新当前 task 的 Status、Run Log、Deviation。
+6. 通过全局 Superpowers command 或 skill 将验证命令、结果、失败和偏差追加到 `.superpowers/runs/<change>/validation.md`。
+7. 当前 task 通过或偏差已记录后，才进入下一个 task。
+8. 所有 task 完成后停止，进入 Step 7 的 spec compliance review。
+9. 每个 task 结束后运行版本管理 hook 和代码管理 hook。
+
+输出：
+
+- 已逐个完成的 task 文件。
+- 聚合 validation 记录。
+- deviation 记录。
+- 是否可以进入 spec compliance review 的结论。
+- 推荐下一步 skill。
+
+AI 自动化：
+
+- 对于 scope 足够小、plan 和 task 已经人工确认的 change，Codex 可以自动执行整个 task loop。
+- task loop 不替代单 task 边界；它只是把 Step 5 和 Step 6 编排为可重复执行的循环。
+
+必须暂停的情况：
+
+- 任一 task 不清楚。
+- 任一 task 需要修改 forbidden files。
+- 任一 task 需要扩大 OpenSpec scope。
+- 任一 task 需要改变 public contract 但 spec 未说明。
+- 实现发现新的架构取舍或 ADR 需求。
+- 验证失败且无法在当前 task 范围内修复或记录为 deviation。
+- 当前 change 的 task 范围过大，导致 Codex 需要跨架构层连续推理。
 
 ## Step 7: Spec Compliance Review
 
@@ -430,11 +538,13 @@ AI 自动化：
 
 执行：
 
-1. 创建或更新 `.superpowers/reviews/<change>.md`。
+1. 通过全局 Superpowers command 或 skill 创建或更新 `.superpowers/reviews/<change>.md`。
 2. 检查实现是否满足 acceptance criteria。
 3. 检查是否有 unintended changes。
 4. 检查是否保持架构边界和依赖方向。
 5. 检查 Docs、Spec、ADR 是否需要更新。
+6. 运行版本管理 hook，检查 package、Manifest、public API、compatibility 和 main specs。
+7. 运行代码管理 hook，检查每个 changed file 到 task 的映射。
 
 输出：
 
@@ -464,9 +574,11 @@ AI 自动化：
 执行：
 
 1. 如果变更改变长期事实，更新对应 Docs。
-2. 如果变更改变能力要求，sync OpenSpec delta spec 到 `openspec/specs/<capability>/spec.md`。
+2. 如果变更改变能力要求，调用已安装的 OpenSpec sync skill 或 command，将 OpenSpec delta spec 同步到 `openspec/specs/<capability>/spec.md`。
 3. 如果出现新的架构取舍，新增或更新 ADR。
 4. 如果实现与 spec 存在偏差，记录偏差和后续处理。
+5. 运行版本管理 hook，确认 docs/spec 已覆盖 versioned contract 变化。
+6. 运行代码管理 hook，确认 docs/spec sync 未混入无关代码变更。
 
 输出：
 
@@ -499,8 +611,10 @@ AI 自动化：
 3. 检查 validation 是否记录。
 4. 检查 deviation 是否处理。
 5. 检查 Docs、Spec、ADR 是否同步。
-6. 将 change 移动到 `openspec/changes/archive/YYYY-MM-DD-<change>/`。
-7. 写入 `.superpowers/runs/<change>/final-report.md`。
+6. 调用已安装的 OpenSpec archive skill 或 command，将 change 移动到 `openspec/changes/archive/YYYY-MM-DD-<change>/`。
+7. 通过全局 Superpowers command 或 skill 写入 `.superpowers/runs/<change>/final-report.md`。
+8. 运行最终版本管理 hook，记录 version impact。
+9. 运行最终代码管理 hook，记录 changed-file summary、task mapping、validation summary 和剩余未暂存/未跟踪文件。
 
 输出：
 

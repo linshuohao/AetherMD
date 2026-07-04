@@ -1,0 +1,51 @@
+import { CoreError } from "./errors.js";
+import type { LoadedPlugin } from "./manifest.js";
+import type { CapabilityId, CoreCapabilityId } from "./types.js";
+
+export type { CapabilityId, CoreCapabilityId } from "./types.js";
+
+export const M1_CORE_CAPABILITIES = [
+  "core:history",
+  "core:selection",
+  "core:clipboard",
+  "core:assets",
+] as const satisfies readonly CoreCapabilityId[];
+
+export interface CapabilityValidationResult {
+  provided: ReadonlySet<CapabilityId>;
+}
+
+export function validateServiceCapabilities(
+  loadedPlugins: readonly LoadedPlugin[],
+): CapabilityValidationResult {
+  const provided = collectProvidedCapabilities(loadedPlugins);
+
+  for (const loadedPlugin of loadedPlugins) {
+    const requires = loadedPlugin.manifest.metadata.requires ?? [];
+    for (const capability of requires) {
+      if (!provided.has(capability)) {
+        throw new CoreError({
+          code: "CAPABILITY_MISSING",
+          message: `Required capability ${capability} is not provided`,
+          pluginName: loadedPlugin.manifest.metadata.name,
+        });
+      }
+    }
+  }
+
+  return { provided };
+}
+
+export function collectProvidedCapabilities(
+  loadedPlugins: readonly LoadedPlugin[],
+): ReadonlySet<CapabilityId> {
+  const provided = new Set<CapabilityId>(M1_CORE_CAPABILITIES);
+
+  for (const loadedPlugin of loadedPlugins) {
+    for (const capability of loadedPlugin.manifest.metadata.provides ?? []) {
+      provided.add(capability);
+    }
+  }
+
+  return provided;
+}

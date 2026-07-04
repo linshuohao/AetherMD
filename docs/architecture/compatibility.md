@@ -15,4 +15,15 @@ export const SUPPORTED_MANIFEST_VERSIONS = [1] as const;
 export type SupportedManifestVersion = typeof SUPPORTED_MANIFEST_VERSIONS[number];
 ```
 
+## Workflow Version-management Hooks
+
+AI-native workflow steps must classify version impact whenever they touch versioned contracts:
+
+- Package metadata or lockfiles.
+- Public package exports or public SDK/Core API types.
+- `SUPPORTED_MANIFEST_VERSIONS` or `metadata.manifestVersion`.
+- Compatibility policy, SDK docs, ADRs, or OpenSpec main specs.
+
+If a change affects a versioned public contract, the OpenSpec change, validation record, compliance review, docs/spec sync, and final report must say whether it is breaking, additive, internal-only, or deferred.
+
 ---
