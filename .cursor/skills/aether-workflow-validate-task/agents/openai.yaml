@@ -1,0 +1,7 @@
+interface:
+  display_name: "Aether Validate Task"
+  short_description: "Validate and record task results"
+  default_prompt: "Use $aether-workflow-validate-task to validate this implemented task and record the results."
+
+policy:
+  allow_implicit_invocation: true
