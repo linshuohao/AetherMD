@@ -1,15 +1,17 @@
 ---
 name: aether-workflow-create-task
-description: Create small AetherMD Superpowers task files from an implementation plan. Use when a plan exists and work needs to be split into reviewable, reversible, Codex-executable tasks.
+description: Create small AetherMD task files from an implementation plan. Use when a plan exists and work needs to be split into reviewable, reversible, single-task execution units.
 ---
 
 # Aether Workflow: Create Task
 
 Use this skill as Step 4 of the AetherMD AI-native engineering workflow.
 
+These instructions are host-agnostic. Any coding agent may execute them.
+
 ## Goal
 
-Create task files that are small enough for Codex to implement one at a time and for humans to review or roll back.
+Create task files that are small enough to implement one at a time and for humans to review or roll back.
 
 ## Inputs
 
@@ -17,14 +19,34 @@ Create task files that are small enough for Codex to implement one at a time and
 - OpenSpec change artifacts
 - Source docs referenced by the plan
 
+## Required Skills
+
+| Role | Skill name | Kind |
+| --- | --- | --- |
+| OpenSpec status/context | `openspec-apply-change` | Project |
+| Task sizing and file mapping | `writing-plans` | Superpowers |
+
+`writing-plans` supplies bite-sized task granularity and file-mapping rules. This Aether skill owns the `.superpowers/tasks/<change>/` file format and templates.
+
+## Skill Invocation
+
+To invoke a named skill:
+
+1. Use the host skill-invocation mechanism when available (for example a `Skill` tool or `/skill-name`).
+2. Otherwise find the skill by `name` in the host's available-skills list and read its full `SKILL.md` with the host file-read tool, then follow it.
+3. Project skills are mirrored under `.cursor/skills/<name>/SKILL.md` and `.codex/skills/<name>/SKILL.md`. Use either path; content is identical.
+4. Installed Superpowers skills are referenced by name only. Resolve them from the host skill list or the Superpowers plugin install path.
+5. Announce each loaded skill by name before applying it.
+6. If a required skill cannot be loaded, pause and report the missing skill name. Do not silently skip it.
+
 ## Tooling Contract
 
-- Use the installed OpenSpec skill/command layer to confirm change status and requirement coverage before task creation.
-- Use the global Superpowers command/skill layer as the driver for task creation.
-- AetherMD task rules constrain task size, TDD entry points, validation, and allowed files; they should not replace the underlying Superpowers task-generation step.
-- Direct edits to `.superpowers/tasks/<change>/` are allowed only as artifact outputs selected or created by the global Superpowers command/skill.
-- If the global Superpowers command/skill layer is not callable in the current host, pause and report the tool visibility problem; do not use `.superpowers/` files as a substitute.
+- Load and follow `openspec-apply-change` to confirm change status and requirement coverage before task creation.
+- Load and follow `writing-plans` for task sizing, file mapping, and TDD-oriented step shape.
+- Write task files under `.superpowers/tasks/<change>/` using `assets/task-template.md` and `references/task-quality-rules.md`.
+- Direct edits to task files are allowed only after the required skills have been loaded and followed.
 - Do not create tasks that are not traceable to OpenSpec requirements.
+- If a required skill cannot be loaded, pause and report the missing skill; do not hand-write tasks as a substitute.
 
 ## Version And Code Management Hooks
 
@@ -34,10 +56,10 @@ Create task files that are small enough for Codex to implement one at a time and
 
 ## Actions
 
-1. Invoke the installed OpenSpec skill/command to confirm change status.
-2. Invoke the global Superpowers command/skill to create or continue tasks.
+1. Load and follow `openspec-apply-change` to confirm change status.
+2. Load and follow `writing-plans`.
 3. Read `references/task-quality-rules.md` before splitting or repairing task files.
-4. Use `assets/task-template.md` as the task scaffold unless the Superpowers layer provides a stricter template.
+4. Use `assets/task-template.md` as the task scaffold.
 5. Create one task file per focused implementation unit.
 6. Use numbered filenames such as `01-define-core-package-boundary.md`.
 7. Bind every task to:
@@ -50,7 +72,7 @@ Create task files that are small enough for Codex to implement one at a time and
    - validation
    - intuitive verification, when useful
    - review checklist
-6. Keep each task reversible.
+8. Keep each task reversible.
 
 ## Bundled Resources
 
@@ -88,12 +110,11 @@ Use `TDD Notes` to state how the task should be driven:
 - a task has no validation;
 - a task has no TDD entry point and no recorded reason;
 - a task depends on unresolved design questions;
-- a task changes public contracts without explicit spec coverage.
-- OpenSpec skill/command status cannot be checked;
-- global Superpowers command/skill layer is unavailable.
+- a task changes public contracts without explicit spec coverage;
+- `openspec-apply-change` or `writing-plans` cannot be loaded;
 - a task can affect versioned contracts but lacks `Version Impact`;
 - a task cannot be staged or reviewed independently.
 
 ## Output
 
-Report created task paths, task order, OpenSpec skill/command path used, Superpowers command/skill path used, version-impact coverage, code-management boundaries, validation coverage, and recommended next workflow skill.
+Report created task paths, task order, skills loaded (`openspec-apply-change`, `writing-plans`), version-impact coverage, code-management boundaries, validation coverage, and recommended next workflow skill.

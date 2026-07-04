@@ -7,6 +7,8 @@ description: Create or update an AetherMD OpenSpec change from discovered source
 
 Use this skill as Step 2 of the AetherMD AI-native engineering workflow.
 
+These instructions are host-agnostic. Any coding agent may execute them.
+
 ## Goal
 
 Create an OpenSpec change that references Docs as the long-term source of truth and extracts only the implementation contract needed for this change.
@@ -17,13 +19,32 @@ Create an OpenSpec change that references Docs as the long-term source of truth 
 - Source docs and ADRs
 - Change name or user intent
 
+## Required Skills
+
+| Role | Skill name | When |
+| --- | --- | --- |
+| OpenSpec create | `openspec-propose` | Creating a new change |
+| OpenSpec continue/status | `openspec-apply-change` | Continuing, repairing, or checking an existing change |
+
+Superpowers skills are not required for this step.
+
+## Skill Invocation
+
+To invoke a named skill:
+
+1. Use the host skill-invocation mechanism when available (for example a `Skill` tool or `/skill-name`).
+2. Otherwise find the skill by `name` in the host's available-skills list and read its full `SKILL.md` with the host file-read tool, then follow it.
+3. Project skills are mirrored under `.cursor/skills/<name>/SKILL.md` and `.codex/skills/<name>/SKILL.md`. Use either path; content is identical.
+4. Installed Superpowers skills are referenced by name only. Resolve them from the host skill list or the Superpowers plugin install path.
+5. Announce each loaded skill by name before applying it.
+6. If a required skill cannot be loaded, pause and report the missing skill name. Do not silently skip it.
+
 ## Tooling Contract
 
-- Delegate OpenSpec mechanics to the installed OpenSpec skill or command layer first.
-- For a new change, invoke `openspec-propose` or the equivalent `/opsx:propose` command path, then apply AetherMD-specific source-doc, language, and boundary rules.
-- If continuing or repairing an existing change, use the installed OpenSpec skill/command instructions for status, artifact order, instructions, and validation instead of hand-rolling the lifecycle.
-- Direct file edits under `openspec/changes/<change>/` are allowed only after the OpenSpec skill/command has established the artifact path and required shape.
-- If the OpenSpec skill/command layer is not callable in the current host, pause and report the tool visibility problem; do not create artifacts by hand.
+- Load and follow the required OpenSpec skill before writing under `openspec/changes/<change>/`.
+- Apply AetherMD source-doc, language, and boundary rules on top of the OpenSpec skill output.
+- Direct file edits under `openspec/changes/<change>/` are allowed only after the required OpenSpec skill has established the artifact path and required shape.
+- If a required skill cannot be loaded, pause and report the missing skill; do not create artifacts by hand.
 
 ## Version And Code Management Hooks
 
@@ -34,9 +55,9 @@ Create an OpenSpec change that references Docs as the long-term source of truth 
 ## Actions
 
 1. Choose a kebab-case change name, such as `add-core-bootstrap` or `clarify-adapter-rollback-semantics`.
-2. Invoke the installed OpenSpec skill/command to create or continue the change.
-3. Use the OpenSpec skill/command output to determine artifact paths, required artifacts, and artifact instructions.
-4. Check or request OpenSpec validation through the same OpenSpec layer.
+2. Load and follow `openspec-propose` for a new change, or `openspec-apply-change` to continue or check an existing change.
+3. Use that skill's output to determine artifact paths, required artifacts, and artifact instructions.
+4. Check or request OpenSpec validation through the same OpenSpec skill or `openspec` CLI.
 5. Apply AetherMD-specific constraints on top of the generated/instructed artifacts.
 6. Produce:
    - `proposal.md`
@@ -46,7 +67,7 @@ Create an OpenSpec change that references Docs as the long-term source of truth 
 7. Reference docs by path instead of copying large sections.
 8. Keep non-goals explicit.
 9. Add acceptance criteria that can be reviewed or tested.
-10. Record which OpenSpec skill/command path was used and the validation result.
+10. Record which OpenSpec skills were loaded and the validation result.
 
 ## Artifact Rules
 
@@ -63,11 +84,11 @@ Delta specs should describe added, modified, removed, or renamed requirements fo
 - public contract impact is unclear;
 - no authoritative docs exist for the proposed behavior;
 - the change would reverse an accepted ADR without an ADR update;
-- the requested scope is too broad for one change.
-- OpenSpec skill/command layer is unavailable.
+- the requested scope is too broad for one change;
+- a required OpenSpec skill cannot be loaded;
 - version impact cannot be classified;
 - current git status contains unrelated changes that would be mixed into the change.
 
 ## Output
 
-Report the change name, artifact paths, OpenSpec skill/command path used, version impact, code-management status, validation status, source docs used, open questions, and recommended next workflow skill.
+Report the change name, artifact paths, OpenSpec skills loaded, version impact, code-management status, validation status, source docs used, open questions, and recommended next workflow skill.
