@@ -1,0 +1,7 @@
+interface:
+  display_name: "Aether Archive Change"
+  short_description: "Archive completed workflow changes"
+  default_prompt: "Use $aether-workflow-archive-change to archive this completed AetherMD workflow change and write the final report."
+
+policy:
+  allow_implicit_invocation: true
