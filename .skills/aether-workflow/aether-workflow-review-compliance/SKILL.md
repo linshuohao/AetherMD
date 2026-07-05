@@ -20,6 +20,7 @@ Check whether the implementation matches OpenSpec and preserves AetherMD archite
 - Superpowers task files
 - `.superpowers/runs/<change>/validation.md`
 - Relevant Docs and ADRs
+- Workflow path (`Full Change` default, or `Spec Change` when invoked from `aether-workflow-execute-spec-change`)
 
 ## Required Skills
 
@@ -45,7 +46,9 @@ To invoke a named skill:
 
 - Load and follow `openspec-apply-change` to inspect change status, requirements, and validation state before review.
 - Load and follow `requesting-code-review` as the review process driver.
-- Write `.superpowers/reviews/<change>.md` using `assets/compliance-review-template.md` and `references/anticorruption-checklist.md`.
+- Write `.superpowers/reviews/<change>.md` using:
+  - `assets/compliance-review-template.md` and `references/anticorruption-checklist.md` for **Full Change**;
+  - `assets/compliance-review-template-spec-change.md` and `references/anticorruption-checklist.md` for **Spec Change**.
 - Direct edits to the review file are allowed only after the required skills have been loaded and followed.
 - If a required skill cannot be loaded, pause and report the missing skill before completing the review.
 
@@ -61,18 +64,20 @@ To invoke a named skill:
 1. Load and follow `openspec-apply-change` to inspect status and requirements.
 2. Load and follow `requesting-code-review`.
 3. Read `references/anticorruption-checklist.md`.
-4. Create or update `.superpowers/reviews/<change>.md` using `assets/compliance-review-template.md`.
-5. Map changed files to tasks.
-6. Map tasks to spec requirements or docs references.
-7. Check acceptance criteria.
-8. Check architecture boundaries and dependency direction.
-9. Check public contract changes.
-10. Check validation coverage.
-11. Record blockers, accepted deviations, and required docs/spec/ADR updates.
+4. Create or update `.superpowers/reviews/<change>.md` using the template that matches the workflow path.
+5. For **Spec Change**, verify `change-brief.md` exists, exactly one task exists, and plan/task-loop artifacts were not used.
+6. Map changed files to tasks.
+7. Map tasks to spec requirements or docs references.
+8. Check acceptance criteria.
+9. Check architecture boundaries and dependency direction.
+10. Check public contract changes.
+11. Check validation coverage.
+12. Record blockers, accepted deviations, and required docs/spec/ADR updates.
 
 ## Bundled Resources
 
-- `assets/compliance-review-template.md`: compliance review scaffold.
+- `assets/compliance-review-template.md`: Full Change compliance review scaffold.
+- `assets/compliance-review-template-spec-change.md`: Spec Change compliance review scaffold.
 - `references/anticorruption-checklist.md`: traceability, architecture, quality, and versioning checks.
 
 ## Checklist

@@ -20,6 +20,7 @@ Finalize a completed change by preserving OpenSpec artifacts, Superpowers execut
 - Validation record
 - Compliance review
 - Docs/spec/ADR update results
+- Workflow path (`Full Change` default, or `Spec Change` when invoked from `aether-workflow-execute-spec-change`)
 
 ## Required Skills
 
@@ -46,7 +47,9 @@ To invoke a named skill:
 - Load and follow `openspec-archive-change` for OpenSpec archive readiness and archive mechanics.
 - Load and follow `finishing-a-development-branch` for completion checks before finalizing.
 - Verify task/run state by reading `.superpowers/tasks/<change>/`, `.superpowers/runs/<change>/validation.md`, and `.superpowers/reviews/<change>.md`.
-- Write `.superpowers/runs/<change>/final-report.md` using `assets/final-report-template.md`.
+- Write `.superpowers/runs/<change>/final-report.md` using:
+  - `assets/final-report-template.md` for **Full Change**;
+  - `assets/final-report-template-spec-change.md` for **Spec Change**.
 - Do not move OpenSpec changes until `openspec-archive-change` has been loaded and followed.
 - If a required skill cannot be loaded, pause and report the missing skill.
 
@@ -62,12 +65,14 @@ To invoke a named skill:
 1. Load and follow `openspec-archive-change` to check OpenSpec status and archive readiness.
 2. Load and follow `finishing-a-development-branch`.
 3. Read `references/archive-readiness.md`.
-4. Verify all required artifacts exist.
-5. Verify all Superpowers tasks are complete by reading task files and run records.
+4. Verify required artifacts exist:
+   - **Full Change:** proposal, design, delta specs, plan, tasks, validation, review;
+   - **Spec Change:** change-brief, delta specs, single task, validation, review; plan file must not exist.
+5. Verify Superpowers tasks are complete by reading task files and run records.
 6. Verify validation results are recorded.
 7. Verify compliance review has no unresolved blockers.
 8. Verify docs/spec/ADR updates are complete or explicitly deferred.
-9. Create `.superpowers/runs/<change>/final-report.md` using `assets/final-report-template.md`.
+9. Create `.superpowers/runs/<change>/final-report.md` using the template that matches the workflow path.
 10. Complete the OpenSpec archive through `openspec-archive-change`.
 11. If committing or preparing a PR, follow `docs/community/git-workflow.md`.
 
@@ -85,7 +90,8 @@ To invoke a named skill:
 
 ## Bundled Resources
 
-- `assets/final-report-template.md`: final report scaffold.
+- `assets/final-report-template.md`: Full Change final report scaffold.
+- `assets/final-report-template-spec-change.md`: Spec Change final report scaffold.
 - `references/archive-readiness.md`: readiness checks and no-archive conditions.
 
 ## Pause If

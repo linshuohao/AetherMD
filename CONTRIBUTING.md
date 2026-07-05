@@ -28,8 +28,19 @@
 4. 涉及架构取舍时，新增或更新 ADR。
 5. 涉及 SDK 契约时，先更新 SDK 文档，再说明实现影响。
 6. 涉及 public API、package 边界、插件契约、发布或版本影响时，遵守 [组件库治理规范](docs/engineering/component-library-governance.md)。
-7. 遵守 [Git 工作流规范](docs/community/git-workflow.md)。
+7. 遵守 [Git 工作流规范](docs/community/git-workflow.md) 与 [AI-native 工程工作流](../AI_NATIVE_ENGINEERING_WORKFLOW.md) 的路径分类。
 8. 每次修改尽量只处理一个主题。
+
+### Workflow Path 选择（简表）
+
+| 场景 | 路径 |
+| --- | --- |
+| typo / 坏链 / 纯格式 | Maintenance |
+| 小范围 docs 澄清、单点 fix | Quick Change |
+| 单 capability spec delta、1 task | Spec Change |
+| 架构 / SDK / workflow semantics / 多 task | Full Change |
+
+Discover 阶段必须使用 `aether-workflow-discover-context`；不得跳过分类直接实现。
 
 ## 审查期望
 

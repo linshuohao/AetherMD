@@ -57,6 +57,10 @@ Pull requests should focus on one topic, describe whether the change affects arc
 
 Use the Aether workflow skills before changing architecture, SDK contracts, engineering strategy, OpenSpec artifacts, Superpowers artifacts, implementation code, or long-lived project documentation. Skills are host-agnostic and authored under `.skills/aether-workflow/`; `.cursor/skills/` and `.codex/skills/` contain generated mirrors. Start with `aether-workflow-discover-context` when the step is unclear, then use the matching `aether-workflow-*` skill for the current workflow stage:
 
+- `aether-workflow-discover-context` for path classification (Maintenance / Quick Change / Spec Change / Full Change) and source docs.
+- `aether-workflow-quick-change` for scoped Quick Change execution with PR traceability.
+- `aether-workflow-create-spec-change` for lightweight Spec Change artifacts (change-brief + delta + single task).
+- `aether-workflow-execute-spec-change` for Spec Change single-task execution, validation, review, and archive.
 - `aether-workflow-create-change` for OpenSpec proposal, design, delta specs, and high-level tasks (`openspec-propose` or `openspec-apply-change`).
 - `aether-workflow-create-plan` for implementation plans (`openspec-apply-change`, `writing-plans`).
 - `aether-workflow-create-task` for task files (`openspec-apply-change`, `writing-plans`).
