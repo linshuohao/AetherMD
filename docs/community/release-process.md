@@ -48,8 +48,15 @@ M6 仅完成 ADR 009 publish **预备**；五包仍为 `private: true`；**未**
 
 **禁止**：维护者本地 `npm publish`（M6–M7 过渡期亦然，直至 Release CI 就绪）。
 
-## 开放问题
+## 开放问题决议（ADR 009 O1–O4）
 
-见 [ADR 009](../adr/009-release-governance.md) O1–O3（首次版本号、dist-tag 命名、changelog 工具）。
+| ID | 问题 | 状态 | 决议 |
+| --- | --- | --- | --- |
+| O1 | 首次 npm 版本号（`0.x` vs `1.0.0` + 能力子集） | **延后** | Demo 完善且维护者满意后再议；M7 预备阶段不锁定版本号 |
+| O2 | Canary dist-tag（`canary` vs `next`） | **延后** | 与 O1 同批决定；启用 Release workflow 前再确认 |
+| O3 | Changelog（`changelog: false` vs `@changesets/changelog-github`） | **已闭合** | M7 之前延续 `.changeset/config.json` 的 `changelog: false`；真正首次 promote 至 `latest` 前再选手写根 `CHANGELOG.md` 或 `@changesets/changelog-github` |
+| O4 | MIT 许可证复核 | **已闭合** | 维持 MIT；无需为此单独开 ADR 改评 Apache-2.0 |
+
+完整背景见 [ADR 009](../adr/009-release-governance.md) 开放问题表。O1/O2 延后期间：**不**执行 npm publish、**不**配置 `NPM_TOKEN`、**不** `changeset pre enter`。
 
 ---
