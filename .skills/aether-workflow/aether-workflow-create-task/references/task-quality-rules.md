@@ -10,6 +10,9 @@ Each task must bind to:
 - one or more explicit spec requirements or source docs;
 - precise allowed files;
 - precise forbidden files;
+- dependency metadata (`Depends On`);
+- parallel scheduling metadata (`Parallel Group`);
+- barrier metadata (`Barrier`);
 - a validation path;
 - rollback notes;
 - version impact, even when the answer is "none";
@@ -24,6 +27,16 @@ A good task has one clear outcome and can be reviewed without reading the whole 
 - needs unrelated files;
 - cannot be rolled back independently;
 - has multiple unrelated validation paths.
+
+## Scheduling
+
+Task scheduling metadata must come from the accepted implementation plan:
+
+- `Depends On` lists prerequisite task ids, or `none` / blank when there are no prerequisites.
+- `Parallel Group` names the wave group, or `none` when the task is not intended for parallel dispatch.
+- `Barrier` is `true` only for tasks that must run serially and block later work, such as full validation, merge/reconciliation, compliance review preparation, or docs/spec sync.
+
+Tasks in the same parallel wave must have disjoint `Allowed Files`. If two tasks need overlapping files, either split the tasks differently, run them sequentially, or record an explicit worktree-based strategy before parallel execution.
 
 ## TDD Entry Point
 

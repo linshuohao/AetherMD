@@ -64,8 +64,10 @@ To invoke a named skill:
 4. Read only the referenced docs needed to plan implementation.
 5. Read the OpenSpec change artifacts.
 6. Write `.superpowers/plans/<change>.md` with implementation phases, dependencies, risk areas, validation strategy, and review focus.
-7. Identify tasks that may affect public contracts, architecture boundaries, ADRs, or test strategy.
-8. Keep the plan tied to existing OpenSpec requirements.
+7. In `Task Breakdown`, include `Depends On`, `Parallel Group`, and `Barrier` for every planned task so task files can carry machine-reviewable scheduling metadata.
+8. Use `Depends On` for task ids that must complete first, `Parallel Group` for independent tasks that may share a wave, and `Barrier` for validation, merge, or review tasks that must run serially.
+9. Identify tasks that may affect public contracts, architecture boundaries, ADRs, or test strategy.
+10. Keep the plan tied to existing OpenSpec requirements.
 
 ## Plan Sections
 
