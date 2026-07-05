@@ -59,6 +59,27 @@ export function loadPluginManifests(
   });
 }
 
+export function validateUniquePluginNames(
+  loadedPlugins: readonly LoadedPlugin[],
+): void {
+  const seen = new Map<PluginName, number>();
+
+  for (const loadedPlugin of loadedPlugins) {
+    const name = loadedPlugin.manifest.metadata.name;
+    seen.set(name, (seen.get(name) ?? 0) + 1);
+  }
+
+  for (const [name, count] of seen) {
+    if (count > 1) {
+      throw new CoreError({
+        code: "PLUGIN_NAME_DUPLICATE",
+        message: `Duplicate plugin metadata.name: ${name}`,
+        pluginName: name,
+      });
+    }
+  }
+}
+
 export function validateSupportedManifestVersion(
   version: unknown,
   options: { pluginName?: PluginName } = {},

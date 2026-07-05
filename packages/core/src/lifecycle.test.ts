@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
 import { bootstrapCore } from "./bootstrap.js";
+import { CoreError } from "./errors.js";
 import { runDestroyLifecycle } from "./lifecycle.js";
 import { loadPluginManifests } from "./manifest.js";
 
@@ -131,8 +132,277 @@ describe("dispose lifecycle", () => {
     ]);
 
     await runtime.dispose();
-    await runtime.dispose();
+    await assert.doesNotReject(async () => runtime.dispose());
+    await assert.doesNotReject(async () => runtime.dispose());
 
     assert.equal(destroyCalls, 1);
+  });
+
+  it("aborts normal dispose when onDestroy fails", async () => {
+    const destroyCalls: string[] = [];
+
+    const runtime = await bootstrapCore([
+      {
+        manifest: {
+          metadata: {
+            manifestVersion: 1,
+            name: "heading",
+          },
+          runtime: {
+            onDestroy: () => {
+              destroyCalls.push("heading:destroy");
+            },
+          },
+        },
+      },
+      {
+        manifest: {
+          metadata: {
+            manifestVersion: 1,
+            name: "table",
+            dependsOn: ["heading"],
+          },
+          runtime: {
+            onDestroy: () => {
+              destroyCalls.push("table:destroy");
+              throw new Error("destroy failed");
+            },
+          },
+        },
+      },
+    ]);
+
+    await assert.rejects(
+      async () => runtime.dispose(),
+      (error: unknown) => {
+        assert.ok(error instanceof CoreError);
+        assert.equal(error.code, "LIFECYCLE_HOOK_FAILED");
+        assert.equal(error.pluginName, "table");
+        return true;
+      },
+    );
+
+    assert.deepEqual(destroyCalls, ["table:destroy"]);
+  });
+});
+
+describe("bootstrapCore startup failure cleanup", () => {
+  it("cleans up successful onInit plugins when a later onInit fails", async () => {
+    const destroyCalls: string[] = [];
+
+    await assert.rejects(
+      async () =>
+        bootstrapCore([
+          {
+            manifest: {
+              metadata: {
+                manifestVersion: 1,
+                name: "first",
+              },
+              runtime: {
+                onInit: () => {},
+                onDestroy: () => {
+                  destroyCalls.push("first:destroy");
+                },
+              },
+            },
+          },
+          {
+            manifest: {
+              metadata: {
+                manifestVersion: 1,
+                name: "second",
+              },
+              runtime: {
+                onInit: () => {
+                  throw new Error("onInit failed");
+                },
+                onDestroy: () => {
+                  destroyCalls.push("second:destroy");
+                },
+              },
+            },
+          },
+        ]),
+      (error: unknown) => {
+        assert.ok(error instanceof CoreError);
+        assert.equal(error.code, "LIFECYCLE_HOOK_FAILED");
+        assert.equal(error.pluginName, "second");
+        return true;
+      },
+    );
+
+    assert.deepEqual(destroyCalls, ["first:destroy"]);
+  });
+
+  it("cleans up all onInit-success plugins when onReady fails", async () => {
+    const destroyCalls: string[] = [];
+
+    await assert.rejects(
+      async () =>
+        bootstrapCore([
+          {
+            manifest: {
+              metadata: {
+                manifestVersion: 1,
+                name: "alpha",
+              },
+              runtime: {
+                onInit: () => {},
+                onReady: () => {},
+                onDestroy: () => {
+                  destroyCalls.push("alpha:destroy");
+                },
+              },
+            },
+          },
+          {
+            manifest: {
+              metadata: {
+                manifestVersion: 1,
+                name: "beta",
+              },
+              runtime: {
+                onInit: () => {},
+                onReady: () => {
+                  throw new Error("onReady failed");
+                },
+                onDestroy: () => {
+                  destroyCalls.push("beta:destroy");
+                },
+              },
+            },
+          },
+        ]),
+      (error: unknown) => {
+        assert.ok(error instanceof CoreError);
+        assert.equal(error.code, "LIFECYCLE_HOOK_FAILED");
+        assert.equal(error.pluginName, "beta");
+        return true;
+      },
+    );
+
+    assert.deepEqual(destroyCalls, ["beta:destroy", "alpha:destroy"]);
+  });
+
+  it("does not invoke onDestroy when startup fails before any successful onInit", async () => {
+    const destroyCalls: string[] = [];
+
+    await assert.rejects(
+      async () =>
+        bootstrapCore([
+          {
+            manifest: {
+              metadata: {
+                manifestVersion: 1,
+                name: "failing",
+              },
+              runtime: {
+                onInit: () => {
+                  throw new Error("first onInit failed");
+                },
+                onDestroy: () => {
+                  destroyCalls.push("failing:destroy");
+                },
+              },
+            },
+          },
+        ]),
+      (error: unknown) => {
+        assert.ok(error instanceof CoreError);
+        assert.equal(error.code, "LIFECYCLE_HOOK_FAILED");
+        return true;
+      },
+    );
+
+    assert.deepEqual(destroyCalls, []);
+  });
+
+  it("continues startup cleanup when onDestroy fails during cleanup", async () => {
+    const destroyCalls: string[] = [];
+
+    await assert.rejects(
+      async () =>
+        bootstrapCore([
+          {
+            manifest: {
+              metadata: {
+                manifestVersion: 1,
+                name: "first",
+              },
+              runtime: {
+                onInit: () => {},
+                onDestroy: () => {
+                  destroyCalls.push("first:destroy");
+                  throw new Error("destroy failed");
+                },
+              },
+            },
+          },
+          {
+            manifest: {
+              metadata: {
+                manifestVersion: 1,
+                name: "middle",
+              },
+              runtime: {
+                onInit: () => {},
+                onDestroy: () => {
+                  destroyCalls.push("middle:destroy");
+                },
+              },
+            },
+          },
+          {
+            manifest: {
+              metadata: {
+                manifestVersion: 1,
+                name: "last",
+              },
+              runtime: {
+                onInit: () => {
+                  throw new Error("onInit failed");
+                },
+                onDestroy: () => {
+                  destroyCalls.push("last:destroy");
+                },
+              },
+            },
+          },
+        ]),
+      (error: unknown) => {
+        assert.ok(error instanceof CoreError);
+        assert.equal(error.code, "LIFECYCLE_HOOK_FAILED");
+        assert.equal(error.pluginName, "last");
+        return true;
+      },
+    );
+
+    assert.deepEqual(destroyCalls, ["middle:destroy", "first:destroy"]);
+  });
+
+  it("does not return a running bootstrap runtime when startup hook fails", async () => {
+    await assert.rejects(
+      async () =>
+        bootstrapCore([
+          {
+            manifest: {
+              metadata: {
+                manifestVersion: 1,
+                name: "failing",
+              },
+              runtime: {
+                onInit: () => {
+                  throw new Error("startup failed");
+                },
+              },
+            },
+          },
+        ]),
+      (error: unknown) => {
+        assert.ok(error instanceof CoreError);
+        return true;
+      },
+    );
   });
 });

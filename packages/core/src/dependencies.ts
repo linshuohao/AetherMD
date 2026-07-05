@@ -7,6 +7,7 @@ export function resolvePluginDependencyOrder(
 ): LoadedPlugin[] {
   const pluginsByName = new Map<PluginName, LoadedPlugin>();
 
+  // Duplicate metadata.name is rejected by validateUniquePluginNames before dependency resolution.
   for (const loadedPlugin of loadedPlugins) {
     pluginsByName.set(loadedPlugin.manifest.metadata.name, loadedPlugin);
   }

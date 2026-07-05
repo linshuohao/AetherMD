@@ -34,7 +34,7 @@ v1.0 **MUST** 至少包含：
 当前实现状态：
 
 - `packages/core` 已存在，覆盖 M1 Core Bootstrap、M2 Command/Event Runtime 与 M3 document-model / adapter-base 类型子集。
-- M1：`bootstrapCore`、Manifest / Service Capability 校验、lifecycle startup/dispose。
+- M1：`bootstrapCore`、Manifest / Service Capability 校验、duplicate `metadata.name` 拒绝、lifecycle startup/dispose（含 startup failure cleanup 与 bootstrap dispose 公开幂等契约）。
 - M2：`createCommandEventRuntime`、同步 Command Bus、Event Hub、`PluginError` 错误边界；独立于 `bootstrapCore`。
 - M3：`AetherDoc` / `AetherSchema`、Adapter 协议类型、`AdapterError` / `SerializationError` export；`@aether-md/plugin-remark` 与 `@aether-md/plugin-prosemirror` 最小实现；M3 round-trip（paragraph、heading+paragraph）integration tests。
 - `packages/core` 仍不提供 `createEditor`、`AetherEditor`、React Shell、GFM preset，也不通过 `bootstrapCore` 加载 Adapter plugin。
@@ -47,7 +47,7 @@ v1.0 **MUST** 至少包含：
 - Manifest 分层加载与规范化（M1 已有最小 shape validation）
 - `SUPPORTED_MANIFEST_VERSIONS` 校验（M1 已有）
 - Service Capability 校验（M1 已有 Core + loaded plugin provider 校验）
-- Lifecycle：`load -> onInit -> onReady -> dispose -> onDestroy`（M1 已覆盖 startup order 和 reverse destroy）
+- Lifecycle：`load -> onInit -> onReady -> dispose -> onDestroy`（M1 已覆盖 startup order、startup failure reverse cleanup、reverse destroy 与 bootstrap dispose 幂等公开契约）
 - Command Pipeline 的同步路径（M2 已有：`register` / `dispatch`，仅错误边界 Middleware）
 - `CoreError`（M1/M2 已有）、`PluginError`（M2 已有 command handler 隔离）
 - `AdapterError`（M3 已有，Engine apply 失败路径）
@@ -82,12 +82,6 @@ M3 仍排除：
 - GFM 全覆盖 round-trip
 - compile-layer Schema 合并、ConflictResolver
 - SerializationError 占位符输出策略
-
-M1 follow-up（仍未实现，不在 M2/M3 范围）：
-
-- duplicate `metadata.name` 处理
-- partial startup cleanup
-- `bootstrapCore` dispose idempotency 作为公开契约
 
 ## 后续里程碑门槛
 

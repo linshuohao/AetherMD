@@ -36,11 +36,13 @@ flowchart TB
 `@aether-md/core` 当前只实现 lifecycle bootstrap 子集：
 
 - Manifest shape/version validation。
+- duplicate `metadata.name` rejection（lifecycle hooks 运行前）。
 - Service Capability validation。
 - `metadata.dependsOn` deterministic order。
 - `runtime.onInit` 与 `runtime.onReady` dependency order。
-- `dispose()` 逆序调用 `runtime.onDestroy`，重复 dispose 不重复执行 destroy hooks。
+- startup hook failure 时，对已成功 `runtime.onInit` 的插件子集执行 reverse-order `runtime.onDestroy` cleanup，再以 fatal `CoreError`（primary code `LIFECYCLE_HOOK_FAILED`）中止；cleanup 中单个 `onDestroy` 失败时 best-effort 继续其余插件；无任何成功 `onInit` 时不调用 `onDestroy`。
+- `CoreBootstrapRuntime.dispose()` 逆序调用 `runtime.onDestroy`；重复 `dispose()` 为公开契约 no-op（不重复 hooks、不 throw）；正常 dispose 路径上 `onDestroy` 失败仍 fatal abort，不继续后续 destroy hooks。
 
-M1 不执行 compile layer merge、ConflictResolver、Adapter creation、Command Bus、Event Hub 或 document running state。
+M1 不执行 compile layer merge、ConflictResolver、Adapter creation、Command Bus、Event Hub 或 document running state。M2 `createCommandEventRuntime().dispose()` 幂等语义独立于此 bootstrap dispose 契约。
 
 ---
