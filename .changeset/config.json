@@ -3,7 +3,15 @@
   "changelog": false,
   "commit": false,
   "fixed": [],
-  "linked": [],
+  "linked": [
+    [
+      "@aether-md/core",
+      "@aether-md/plugin-remark",
+      "@aether-md/plugin-prosemirror",
+      "@aether-md/preset-gfm",
+      "@aether-md/react"
+    ]
+  ],
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",

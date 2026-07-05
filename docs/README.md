@@ -1,6 +1,6 @@
 # AetherMD 文档
 
-这里是 AetherMD 的公开文档入口。项目当前处于设计到最小实现过渡阶段，本文档体系用于明确架构边界、插件契约、工程策略和 M1–M5 最小实现基线（含 M4.5 Editor Orchestration 与 `@aether-md/react` React Shell）。
+这里是 AetherMD 的公开文档入口。项目当前处于设计到最小实现过渡阶段，本文档体系用于明确架构边界、插件契约、工程策略和 M1–M6 最小实现基线（含 M4.5 Editor Orchestration、`@aether-md/react` React Shell 与 M6 验证套件）。
 
 ## 阅读路径
 
@@ -24,10 +24,10 @@
 
 ## 当前状态
 
-- 阶段：设计草案 + M1 Core Bootstrap + M2 Command/Event Runtime + M3 Adapter 基座 + M4 GFM Preset + M4.5 Editor Orchestration + M5 React Shell
-- 实现：`@aether-md/core` 已提供 M1 bootstrap、M2 Command/Event、M3 document/adapter 类型与 M4.5 headless `createEditor` / `AetherEditor`；`@aether-md/plugin-remark` 与 `@aether-md/plugin-prosemirror` 提供 Adapter 实现；`@aether-md/preset-gfm` 提供 GFM preset 与 round-trip 集成测试；`@aether-md/react` 提供 M5 React Shell（Root / Content / hook、GateLock、happy-dom 集成测试）
-- 主要产物：文档、OpenSpec 规格、`packages/core`、两个 Adapter plugin packages、`packages/preset-gfm`、`packages/react`
-- 目标：进入 M6 验证套件；按 [ADR 009](adr/009-release-governance.md) 落实 LICENSE 与 publish 预备项
+- 阶段：设计草案 + M1 Core Bootstrap + M2 Command/Event Runtime + M3 Adapter 基座 + M4 GFM Preset + M4.5 Editor Orchestration + M5 React Shell + **M6 验证套件**
+- 实现：`@aether-md/core` 已提供 M1 bootstrap、M2 Command/Event、M3 document/adapter 类型与 M4.5 headless `createEditor` / `AetherEditor`；`@aether-md/plugin-remark` 与 `@aether-md/plugin-prosemirror` 提供 Adapter 实现；`@aether-md/preset-gfm` 提供 GFM preset 与 round-trip 集成测试；`@aether-md/react` 提供 M5 React Shell；`examples/headless-gfm` 提供 M6 headless GFM 集成证明与 G11/G6 CI 门禁
+- 主要产物：文档、OpenSpec 规格、`packages/core`、两个 Adapter plugin packages、`packages/preset-gfm`、`packages/react`、`examples/headless-gfm`
+- 目标：M6 验证套件已闭合；规划 M7 首次 canary 发布（见 [ADR 009](adr/009-release-governance.md)）
 
 ## 维护规则
 

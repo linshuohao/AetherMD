@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-AetherMD is currently in the design draft + M1 Core Bootstrap + M2 Command/Event Runtime + M3 Adapter baseline + M4 GFM Preset + M4.5 Editor Orchestration + M5 React Shell stage for a framework-independent, plugin-oriented Markdown editor engine. The repository now includes `@aether-md/core`, `@aether-md/plugin-remark` / `@aether-md/plugin-prosemirror` adapter plugin packages, `@aether-md/preset-gfm`, and `@aether-md/react` alongside the design documents. The main entry points are:
+AetherMD is currently in the design draft + M1 Core Bootstrap + M2 Command/Event Runtime + M3 Adapter baseline + M4 GFM Preset + M4.5 Editor Orchestration + M5 React Shell + M6 Validation Suite stage for a framework-independent, plugin-oriented Markdown editor engine. The repository now includes `@aether-md/core`, `@aether-md/plugin-remark` / `@aether-md/plugin-prosemirror` adapter plugin packages, `@aether-md/preset-gfm`, `@aether-md/react`, and `examples/headless-gfm` alongside the design documents. The main entry points are:
 
 - `README.md`: project status, goals, and recommended reading paths.
 - `CONTRIBUTING.md`: contribution scope and review expectations.
@@ -13,9 +13,10 @@ AetherMD is currently in the design draft + M1 Core Bootstrap + M2 Command/Event
 - `packages/plugins/plugin-remark/` and `packages/plugins/plugin-prosemirror/`: M3 minimal Parser/Serializer and EngineAdapter implementations (M4 GFM extensions; M5 `createProseMirrorView` view-bridge) with cross-package round-trip tests.
 - `packages/preset-gfm/`: M4 `createGfmPreset()` factory and six-syntax GFM round-trip integration tests.
 - `packages/react/`: M5 React Shell (`AetherEditorRoot` / `AetherEditorContent` / `useAetherEditor`, GateLock, happy-dom integration tests).
+- `examples/headless-gfm/`: M6 private headless GFM integration demo (`createEditor` + `createGfmPreset()` + explicit adapter wiring; Node-only, no React/DOM).
 - `.skills/aether-workflow/`: authoritative source for Aether workflow skills.
 - `.codex/skills/` and `.cursor/skills/`: generated host-specific skill mirrors; do not edit Aether workflow mirrors directly.
-- `openspec/specs/`: synced main OpenSpec specs, including Core Bootstrap, Command/Event Runtime, Document Model, Adapter Base, GFM Preset, Editor Orchestration, React Shell, and engineering workflow specs.
+- `openspec/specs/`: synced main OpenSpec specs, including Core Bootstrap, Command/Event Runtime, Document Model, Adapter Base, GFM Preset, Editor Orchestration, React Shell, Validation Suite, and engineering workflow specs.
 - `.superpowers/`: implementation plans, task records, validation notes, reviews, and final reports for completed workflow changes.
 - `docs/architecture/`: long-term principles, boundaries, roadmap, and compatibility notes.
 - `docs/sdk/`: public Plugin SDK contracts, manifests, commands, lifecycle, and examples.

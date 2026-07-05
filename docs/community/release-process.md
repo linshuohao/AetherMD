@@ -1,6 +1,6 @@
 # 发布流程
 
-> 状态：草案（[ADR 009](../adr/009-release-governance.md) M6 预备文档；M7 前不执行 npm publish）
+> 状态：M6 publish 预备已完成（[ADR 009](../adr/009-release-governance.md)）；**M7 前不执行 npm publish**
 
 ## 范围
 
@@ -11,9 +11,21 @@
 | 阶段 | 动作 | 状态 |
 | --- | --- | --- |
 | M1–M5 | `pnpm changeset` 记录 public API 影响；不 publish | ✅ 已执行 |
-| M6 预备 | `fixed`/`linked` 版本组、package 元数据、`LICENSE`、本文档 | 进行中 |
+| M6 预备 | `linked` 版本组、五包 publish 元数据、`LICENSE`、根 `changeset:publish` 脚本、本文档 | ✅ 已完成 |
 | M7 canary | `changeset pre enter canary` → CI `changeset version` → `changeset publish` | 未开始 |
 | stable | promote dist-tag 至 `latest` | 未开始 |
+
+## M6 预备完成项（不 publish）
+
+M6 仅完成 ADR 009 publish **预备**；五包仍为 `private: true`；**未**配置 `NPM_TOKEN`；**未**执行 `changeset publish`。
+
+| 产物 | 说明 |
+| --- | --- |
+| **Changesets `linked` 五包** | `.changeset/config.json` 单组链接：`@aether-md/core`、`@aether-md/plugin-remark`、`@aether-md/plugin-prosemirror`、`@aether-md/preset-gfm`、`@aether-md/react` |
+| **五包 publish 元数据** | 各包 `license: "MIT"`、`repository`、`files`、`publishConfig`（`access: "public"`） |
+| **根 `changeset:publish`** | 根 `package.json` 脚本 `"changeset:publish": "changeset publish"`（M7 前仅预留，维护者 **禁止** 本地 `npm publish`） |
+| **`LICENSE`** | 根目录 MIT 许可证；与各 package `license` 字段一致 |
+| **`examples/headless-gfm`** | `private: true`；**不**纳入 npm 发布矩阵 |
 
 ## 发布包矩阵（M7 目标）
 
@@ -30,11 +42,11 @@
 
 1. 合入带 Changeset 的 PR 至 `main`。
 2. Release workflow（待建）检测 pending changesets。
-3. CI 运行 `changeset version`  bump 版本并更新 CHANGELOG（策略见 ADR 009 O3）。
-4. CI 运行 `changeset publish` 发布至 npm（canary dist-tag）。
+3. CI 运行 `changeset version` bump 版本并更新 CHANGELOG（策略见 ADR 009 O3）。
+4. CI 运行 `changeset publish`（或根 `pnpm changeset:publish`）发布至 npm（canary dist-tag）。
 5. 发布记录写入 GitHub Release；migration note 随 breaking change 附 PR / CHANGELOG。
 
-**禁止**：维护者本地 `npm publish`。
+**禁止**：维护者本地 `npm publish`（M6–M7 过渡期亦然，直至 Release CI 就绪）。
 
 ## 开放问题
 

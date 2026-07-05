@@ -2,6 +2,18 @@
   "name": "@aether-md/plugin-remark",
   "version": "0.0.0",
   "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/linshuohao/AetherMD.git",
+    "directory": "packages/plugins/plugin-remark"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "exports": {
     ".": {
