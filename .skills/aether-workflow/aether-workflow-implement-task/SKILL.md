@@ -77,7 +77,7 @@ To invoke a named skill:
     - implement the smallest change that turns it green;
     - then clean structure, names, and comments without expanding scope.
 11. Make the smallest necessary edits.
-12. Do not cross task scope.
+12. Do not cross task scope; one implementer agent session handles one task file.
 13. Run the task validation if possible.
 14. Add intuitive verification when useful, such as a demo script, CLI trace, screenshot, or manual smoke path, but do not treat it as a replacement for automated validation.
 15. Load and follow `verification-before-completion` before marking the task complete.
@@ -99,7 +99,7 @@ To invoke a named skill:
 ## Guardrails
 
 - Do not implement from the full `docs/` tree.
-- Do not process multiple tasks at once.
+- Do not implement more than one task in a single agent session.
 - Do not modify public contracts unless the task and OpenSpec spec explicitly require it.
 - Do not weaken tests.
 - Do not skip the TDD entry point; if none exists, record the reason as a deviation.

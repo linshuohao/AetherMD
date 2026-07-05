@@ -53,6 +53,7 @@ To invoke a named skill:
 - Version hook: each task that may touch package metadata, lockfiles, public exports, `SUPPORTED_MANIFEST_VERSIONS`, SDK docs, compatibility docs, or main specs must say so explicitly.
 - Branch hook: record the current branch and confirm it matches the active OpenSpec change or has a recorded rationale.
 - Code-management hook: each task must list allowed files, forbidden files, and rollback notes precise enough to stage or revert that task alone.
+- Scheduling hook: each task must copy `Depends On`, `Parallel Group`, and `Barrier` from the accepted implementation plan; if a field is not applicable, mark it empty, `none`, or `false` explicitly.
 - Commit hook: each task should name the likely Conventional Commit type/scope when useful, especially for code or public contract tasks.
 
 ## Actions
@@ -67,6 +68,9 @@ To invoke a named skill:
    - OpenSpec change
    - spec requirement
    - source docs
+   - dependency ids from the plan (`Depends On`)
+   - parallel wave grouping from the plan (`Parallel Group`)
+   - barrier status from the plan (`Barrier`)
    - allowed files
    - forbidden files
    - TDD entry point
@@ -88,6 +92,8 @@ To invoke a named skill:
 - One task should identify the first failing test, contract check, or design-stage assertion before implementation begins.
 - One task should name any useful visual/demo/smoke verification separately from automated tests.
 - A failed task should be revertible without losing unrelated work.
+- Tasks in the same `Parallel Group` must have disjoint allowed files unless the plan records a worktree-based strategy.
+- A task that blocks following work, runs full validation, merges parallel outputs, or performs whole-change review must set `Barrier: true`.
 
 ## TDD Notes Guidance
 
@@ -114,6 +120,8 @@ Use `TDD Notes` to state how the task should be driven:
 - a task changes public contracts without explicit spec coverage;
 - `openspec-apply-change` or `writing-plans` cannot be loaded;
 - a task can affect versioned contracts but lacks `Version Impact`;
+- a task lacks `Depends On`, `Parallel Group`, or `Barrier` metadata copied from the plan;
+- two tasks in the same parallel wave have overlapping allowed files and no worktree strategy;
 - branch scope does not match the active change and no rationale is recorded;
 - a task cannot be staged or reviewed independently.
 

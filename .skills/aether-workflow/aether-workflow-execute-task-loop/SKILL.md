@@ -11,9 +11,9 @@ These instructions are host-agnostic. Any coding agent may execute them.
 
 ## Goal
 
-Run the implementation and validation loop for one OpenSpec change while preserving the single-task execution boundary.
+Run the implementation and validation loop for one OpenSpec change while preserving the single-task implementer boundary.
 
-This skill orchestrates `aether-workflow-implement-task` and `aether-workflow-validate-task`. It does not loosen their guardrails.
+This skill orchestrates `aether-workflow-implement-task` and `aether-workflow-validate-task`. It does not loosen their guardrails: the coordinator may dispatch independent tasks in parallel only when each implementer agent session receives exactly one task.
 
 ## Inputs
 
@@ -36,7 +36,8 @@ This skill orchestrates `aether-workflow-implement-task` and `aether-workflow-va
 | Role | Skill name | Kind |
 | --- | --- | --- |
 | OpenSpec status/context | `openspec-apply-change` | Project |
-| Loop driver (preferred) | `subagent-driven-development` | Superpowers, when the host supports subagents |
+| Loop driver (sequential subagent) | `subagent-driven-development` | Superpowers, when the host supports subagents |
+| Loop driver (wave parallel) | `dispatching-parallel-agents` | Superpowers, when the host supports parallel subagent dispatch and task metadata allows waves |
 | Loop driver (fallback) | `executing-plans` | Superpowers, when subagents are unavailable |
 | Per-task implement | `aether-workflow-implement-task` | Project |
 | Per-task validate | `aether-workflow-validate-task` | Project |
@@ -57,9 +58,12 @@ To invoke a named skill:
 ## Tooling Contract
 
 - Load and follow `openspec-apply-change` before the loop and whenever task execution reveals requirement drift.
-- Load and follow `subagent-driven-development` when subagents are available; otherwise load and follow `executing-plans`.
-- Constrain the Superpowers loop driver to one AetherMD task file at a time by loading `aether-workflow-implement-task` and `aether-workflow-validate-task` for each task.
+- Run and record a Host Capability Probe before choosing the loop driver.
+- Load and follow `dispatching-parallel-agents` when parallel dispatch is available and task metadata permits wave-parallel execution.
+- Load and follow `subagent-driven-development` when subagents are available but wave-parallel execution is unavailable or inappropriate; otherwise load and follow `executing-plans`.
+- Constrain each implementer agent session to one AetherMD task file by loading `aether-workflow-implement-task` and `aether-workflow-validate-task` for each task.
 - Update task `Status`, `Run Log`, `Deviation`, and `.superpowers/runs/<change>/validation.md` as AetherMD execution records after the per-task skills complete.
+- Record capability fallbacks, wave boundaries, and wave-level validation in the validation record or loop run log.
 - If a required skill cannot be loaded, pause and report the missing skill; do not use `.superpowers/` files as a substitute for the process skills.
 
 ## Version And Code Management Hooks
@@ -67,29 +71,44 @@ To invoke a named skill:
 - Pre-loop code hook: run `git status --short` and identify unrelated dirty files before starting the loop.
 - Pre-loop branch hook: record the current branch and confirm it matches the active OpenSpec change or has a recorded rationale.
 - Per-task code hook: after each task, check changed files against that task's allowed files and rollback notes.
+- Per-wave code hook: before dispatching a parallel wave, confirm tasks in the wave have disjoint allowed files or an explicit worktree strategy.
 - Per-task version hook: if a task touches versioned contracts, run or record the required version/contract validation before moving on.
 - Post-loop code hook: produce a changed-file summary grouped by task, and do not stage or commit unless explicitly requested.
 
 ## Actions
 
 1. Load and follow `openspec-apply-change` to confirm change status.
-2. Load and follow `subagent-driven-development` or, if subagents are unavailable, `executing-plans`.
+2. Run a Host Capability Probe and record this matrix in the validation record or loop run log:
+   - task/subagent dispatch availability;
+   - `subagent-driven-development` availability;
+   - `dispatching-parallel-agents` availability;
+   - `executing-plans` availability;
+   - Superpowers CLI / skill fallback availability;
+   - selected fallback for each unavailable capability.
 3. Read `references/task-loop-protocol.md`.
-4. Read the plan and list task files in filename order.
-5. For each task:
+4. Read `references/parallel-wave-protocol.md` when any task has `Parallel Group` metadata or when the plan has four or more tasks.
+5. Read the plan and task files, including `Depends On`, `Parallel Group`, and `Barrier` metadata.
+6. Choose the loop driver:
+   - **Sequential loop**: use when the change has three or fewer tasks, chained dependencies, missing parallel metadata, unavailable parallel dispatch, or maintainer preference for serial execution.
+   - **Wave-parallel loop**: use when the change has four or more tasks, explicit parallel groups, satisfied dependency/barrier checks, disjoint allowed files, and available parallel dispatch.
+7. Load and follow `dispatching-parallel-agents`, `subagent-driven-development`, or `executing-plans` according to the selected driver and available capabilities.
+8. For each task in sequential order, or for each task within the current wave:
    - Load and follow `aether-workflow-implement-task` for that task only.
    - Load and follow `aether-workflow-validate-task` for that task only.
    - Confirm task `Status`, `Run Log`, `Deviation`, and validation record are updated.
-6. Continue to the next task only after the current task is complete or its accepted deviation is recorded.
-7. Stop after all tasks complete. Do not update docs/specs, archive, or commit unless explicitly asked.
+9. In wave-parallel mode, close each wave by recording wave-level validation or the reason no wave-level validation applies.
+10. Continue to the next task or wave only after all required task validations complete or accepted deviations are recorded.
+11. Stop after all tasks complete. Do not update docs/specs, archive, or commit unless explicitly asked.
 
 ## Bundled Resources
 
 - `references/task-loop-protocol.md`: task-by-task loop shape, stop conditions, and end-state reporting.
+- `references/parallel-wave-protocol.md`: DAG construction, wave grouping, allowed-files conflict checks, barrier handling, wave validation, and worktree fallback guidance.
 
 ## Guardrails
 
-- Do not process multiple tasks as one combined implementation.
+- Do not process multiple tasks as one combined implementation in a single implementer session.
+- Coordinator-level parallel dispatch is allowed only when each implementer session receives exactly one task and the parallel-wave protocol checks pass.
 - Do not batch red-green-refactor cycles across task files; each task gets its own failing check, implementation, validation, and log update.
 - Do not use this loop for broad changes that cross architecture, SDK, Adapter, Shell, and UI layers at once.
 - Do not implement from the full `docs/` tree.

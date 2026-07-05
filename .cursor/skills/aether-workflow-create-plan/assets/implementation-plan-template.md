@@ -40,9 +40,9 @@
 
 ## Task Breakdown
 
-| Task | Outcome | Allowed Area | Validation | Version Impact |
-| --- | --- | --- | --- | --- |
-|  |  |  |  |  |
+| Task | Outcome | Allowed Area | Validation | Version Impact | Depends On | Parallel Group | Barrier |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+|  |  |  |  |  |  |  |  |
 
 ## Review Focus
 

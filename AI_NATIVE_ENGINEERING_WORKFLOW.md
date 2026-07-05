@@ -184,11 +184,11 @@ Existing Docs
 | Step 1 | `aether-workflow-discover-context` | 变更分类、权威 Docs 列表、是否需要 OpenSpec |
 | Step 1.5 | Prepare Branch hook | 符合 Git workflow 的 scoped branch、branch traceability |
 | Step 2 | `aether-workflow-create-change` | OpenSpec proposal、design、delta specs、high-level tasks |
-| Step 3 | `aether-workflow-create-plan` | `.superpowers/plans/<change>.md` |
-| Step 4 | `aether-workflow-create-task` | `.superpowers/tasks/<change>/<NN>-<task>.md` |
+| Step 3 | `aether-workflow-create-plan` | `.superpowers/plans/<change>.md`，包含 task 依赖、parallel group 和 barrier |
+| Step 4 | `aether-workflow-create-task` | `.superpowers/tasks/<change>/<NN>-<task>.md`，下沉 plan 中的调度 metadata |
 | Step 5 | `aether-workflow-implement-task` | 单个 task 的代码或文档修改、task run log |
 | Step 6 | `aether-workflow-validate-task` | `.superpowers/runs/<change>/validation.md` |
-| Step 6.5 | `aether-workflow-execute-task-loop` | 按顺序执行并验证一个 change 下的所有 task |
+| Step 6.5 | `aether-workflow-execute-task-loop` | 探测 host 能力后按 sequential loop 或 wave-parallel loop 执行并验证 task |
 | Step 7 | `aether-workflow-review-compliance` | `.superpowers/reviews/<change>.md` |
 | Step 8 | `aether-workflow-update-docs-spec` | 更新后的 Docs、OpenSpec main specs、ADR 或 deviation 记录 |
 | Step 9 | `aether-workflow-archive-change` | archived change、final report |
@@ -364,9 +364,10 @@ AI 自动化：
 
 1. 调用全局 Superpowers command 或 skill 生成 `.superpowers/plans/<change>.md`。
 2. 把变更拆成实现阶段、依赖顺序、验证策略和风险。
-3. 标出哪些任务可能影响 public contract、架构边界或 ADR。
-4. 运行版本管理 hook，确认 plan 覆盖所有 versioned contract 影响。
-5. 运行代码管理 hook，确认 plan 可以按 task 边界审查和提交。
+3. 在 task breakdown 中标出 `Depends On`、`Parallel Group` 和 `Barrier`，作为后续 task 文件和 task loop 调度的来源。
+4. 标出哪些任务可能影响 public contract、架构边界或 ADR。
+5. 运行版本管理 hook，确认 plan 覆盖所有 versioned contract 影响。
+6. 运行代码管理 hook，确认 plan 可以按 task 边界审查和提交。
 
 输出：
 
@@ -397,11 +398,13 @@ AI 自动化：
 
 1. 调用全局 Superpowers command 或 skill 为每个小任务创建 `.superpowers/tasks/<change>/<NN>-<task>.md`。
 2. 每个 task 只能覆盖一个清晰目标。
-3. 每个 task 必须声明 allowed files、forbidden files、spec 绑定和验证方式。
-4. 每个 task 必须声明 TDD entry point，或记录为什么无法从失败测试、contract check 或 design assertion 开始。
-5. 有助于人工审查时，可以单独声明 intuitive verification，但不能替代自动化或设计阶段验证。
-6. 为每个 task 补充 `Version Impact` 和 `Commit Scope`。
-7. 运行代码管理 hook，确认每个 task 的 allowed files、forbidden files 和 rollback notes 足够精确。
+3. 每个 task 必须从 plan 复制 `Depends On`、`Parallel Group` 和 `Barrier`，不能在 task 阶段重新发明调度关系。
+4. 每个 task 必须声明 allowed files、forbidden files、spec 绑定和验证方式。
+5. 同一 parallel wave 中的 task 必须有不交叠的 allowed files；如必须交叠，应记录串行执行或 worktree 策略。
+6. 每个 task 必须声明 TDD entry point，或记录为什么无法从失败测试、contract check 或 design assertion 开始。
+7. 有助于人工审查时，可以单独声明 intuitive verification，但不能替代自动化或设计阶段验证。
+8. 为每个 task 补充 `Version Impact` 和 `Commit Scope`。
+9. 运行代码管理 hook，确认每个 task 的 allowed files、forbidden files 和 rollback notes 足够精确。
 
 Task 模板：
 
@@ -411,6 +414,9 @@ Task 模板：
 Change: <openspec change>
 Spec Requirement: <capability / requirement>
 Source Docs:
+Depends On:
+Parallel Group:
+Barrier:
 Allowed Files:
 Forbidden Files:
 Implementation Notes:
@@ -545,15 +551,19 @@ AI 自动化：
 
 执行：
 
-1. 通过全局 Superpowers command 或 skill 读取 task loop 状态，并按 task 文件名顺序执行。
-2. 每次只选择一个 task。
-3. 对当前 task 应用 Step 5 的实现规则。
-4. 当前 task 实现后立即应用 Step 6 的验证规则。
-5. 更新当前 task 的 Status、Run Log、Deviation。
-6. 通过全局 Superpowers command 或 skill 将验证命令、结果、失败和偏差追加到 `.superpowers/runs/<change>/validation.md`。
-7. 当前 task 通过或偏差已记录后，才进入下一个 task。
-8. 所有 task 完成后停止，进入 Step 7 的 spec compliance review。
-9. 每个 task 结束后运行版本管理 hook 和代码管理 hook。
+1. 通过全局 Superpowers command 或 skill 读取 task loop 状态，并运行 Host Capability Probe。
+2. 记录 task/subagent dispatch、`subagent-driven-development`、`dispatching-parallel-agents`、`executing-plans`、Superpowers CLI / skill fallback 的可用性和 fallback。
+3. 读取 task 的 `Depends On`、`Parallel Group`、`Barrier`、allowed files 和 validation。
+4. 根据 task 数量、依赖、parallel metadata、barrier、allowed files 和 host 能力选择 sequential loop 或 wave-parallel loop。
+5. sequential loop 按 task 文件名和依赖顺序执行；wave-parallel loop 按 DAG 拓扑分层 dispatch 同 wave 内互不冲突的单 task implementer。
+6. 每个 implementer agent session 只能处理一个 task；对该 task 应用 Step 5 的实现规则。
+7. 当前 task 实现后立即应用 Step 6 的验证规则。
+8. 更新当前 task 的 Status、Run Log、Deviation。
+9. 在 wave-parallel mode 中，wave 结束后记录 wave-level validation，或记录为什么不需要 wave-level validation。
+10. 通过全局 Superpowers command 或 skill 将验证命令、结果、失败和偏差追加到 `.superpowers/runs/<change>/validation.md`。
+11. 当前 task 或 wave 通过、或偏差已记录后，才进入下一个 task 或 wave。
+12. 所有 task 完成后停止，进入 Step 7 的 spec compliance review。
+13. 每个 task 和 wave 结束后运行版本管理 hook 和代码管理 hook。
 
 输出：
 
@@ -567,6 +577,7 @@ AI 自动化：
 
 - 对于 scope 足够小、plan 和 task 已经人工确认的 change，Codex 可以自动执行整个 task loop。
 - task loop 不替代单 task 边界；它只是把 Step 5 和 Step 6 编排为可重复执行的循环。
+- 并行只存在于 coordinator 调度层；单个 implementer agent session 仍只能处理一个 task。
 
 必须暂停的情况：
 
