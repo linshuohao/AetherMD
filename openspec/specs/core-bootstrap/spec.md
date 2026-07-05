@@ -8,7 +8,7 @@ Define the M1 Core Bootstrap contract for the minimal `@aether-md/core` package 
 
 ### Requirement: Minimal Core package exists
 
-`@aether-md/core` SHALL provide the minimal package surface required for M1 Core Bootstrap.
+`@aether-md/core` SHALL provide the minimal package surface required for M1 Core Bootstrap and accepted later capabilities including M4.5 editor orchestration.
 
 References:
 
@@ -23,7 +23,8 @@ References:
 - **THEN** the package exposes Manifest, plugin, capability, supported Manifest version, bootstrap runtime, and bootstrap error types required by this spec
 - **AND** the package MAY expose Command Bus and Event Hub APIs defined by the `command-event-runtime` capability
 - **AND** the package MAY expose document-model and adapter-base types defined by the M3 capabilities
-- **AND** the package does not expose `createEditor`, `AetherEditor`, `EditorContext`, React Shell, Vue Shell, or GFM preset APIs
+- **AND** the package MAY expose `createEditor`, `AetherEditor`, and related editor-orchestration types defined by the `editor-orchestration` capability
+- **AND** the package does not expose React Shell, Vue Shell, or GFM preset factory implementations
 
 ### Requirement: Manifest version is validated during bootstrap
 
@@ -266,9 +267,10 @@ References:
 
 #### Scenario: Core package boundary excludes GFM preset implementations
 
-- **GIVEN** M4 package-boundary tests run for `@aether-md/core`
+- **GIVEN** M4.5 package-boundary tests run for `@aether-md/core`
 - **WHEN** tests inspect public exports
-- **THEN** exports do not include `createEditor`, `AetherEditor`, React Shell components, or GFM preset factory implementations
+- **THEN** exports MAY include `createEditor` and `AetherEditor`
+- **AND** exports do not include React Shell components or GFM preset factory implementations
 - **AND** `@aether-md/core` does not declare runtime dependencies on Remark, ProseMirror, React, or Vue packages
 
 #### Scenario: GFM preset package is allowed in workspace verification
@@ -280,7 +282,7 @@ References:
 
 ### Requirement: M1 excludes later milestone behavior
 
-Core Bootstrap implementation SHALL NOT implement later milestone behavior beyond the M1 bootstrap contract, except where a later accepted capability explicitly adds package surface. M4 adds `@aether-md/preset-gfm` as a workspace package without adding editor or Shell APIs to `@aether-md/core`.
+Core Bootstrap implementation SHALL NOT implement later milestone behavior beyond the M1 bootstrap contract, except where a later accepted capability explicitly adds package surface. M4 adds `@aether-md/preset-gfm` as a workspace package without adding Shell APIs to `@aether-md/core`. M4.5 adds editor orchestration APIs to `@aether-md/core` without adding React or Vue Shell APIs.
 
 References:
 
@@ -292,14 +294,14 @@ References:
 
 - **GIVEN** M1 Core Bootstrap tests run
 - **WHEN** tests validate Manifest loading, dependency validation, lifecycle startup, and dispose
-- **THEN** tests do not require Markdown round-trip integration, React Shell, or GFM preset packages unless they intentionally exercise adapter-base or gfm-preset scenarios
+- **THEN** tests do not require Markdown round-trip integration, React Shell, or GFM preset packages unless they intentionally exercise adapter-base, gfm-preset, or editor-orchestration scenarios
 - **AND** M1 bootstrap tests do not require Command Bus or Event Hub behavior unless they intentionally exercise the `command-event-runtime` capability
 - **AND** M1 bootstrap tests do not require Adapter plugin packages unless they intentionally exercise the `adapter-base` capability
 
-#### Scenario: Core package boundary excludes editor and shell entrypoints
+#### Scenario: Core package boundary excludes shell and preset implementation entrypoints
 
-- **GIVEN** M4 package-boundary tests run for `@aether-md/core`
+- **GIVEN** M4.5 package-boundary tests run for `@aether-md/core`
 - **WHEN** tests inspect public exports
-- **THEN** exports include document-model and adapter-base protocol types allowed by M3 and M4
-- **AND** exports do not include `createEditor`, `AetherEditor`, React Shell components, or GFM preset implementations
+- **THEN** exports include document-model, adapter-base, and editor-orchestration surfaces allowed by M3, M4, and M4.5
+- **AND** exports do not include React Shell components or GFM preset factory implementations
 - **AND** `@aether-md/core` does not declare runtime dependencies on Remark, ProseMirror, React, or Vue packages

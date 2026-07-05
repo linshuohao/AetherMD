@@ -12,7 +12,8 @@ Thumbs.db
 # Dependencies (future)
 node_modules/
 .pnpm-store/
-dist/
+# Build outputs (dist = production; dist-test = core test compile to avoid clobbering dist/)
+dist*/
 build/
 .turbo/
 .next/

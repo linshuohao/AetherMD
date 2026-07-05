@@ -10,7 +10,9 @@ export type CoreErrorCode =
   | "PLUGIN_DEPENDENCY_CYCLE"
   | "LIFECYCLE_HOOK_FAILED"
   | "COMMAND_UNKNOWN"
-  | "RUNTIME_DISPOSED";
+  | "RUNTIME_DISPOSED"
+  | "EDITOR_ADAPTER_MISSING"
+  | "EDITOR_DISPOSED";
 
 export interface CoreErrorOptions {
   code: CoreErrorCode;

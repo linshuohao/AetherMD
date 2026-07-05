@@ -81,4 +81,11 @@ export type {
   ReplaceTextCommand,
   SerializerAdapter,
 } from "./adapter-types.js";
+export { createEditor } from "./editor/create-editor.js";
+export type {
+  AetherEditor,
+  EditorConfig,
+  EditorSecurityConfig,
+  EditorStateSnapshot,
+} from "./editor/types.js";
 
