@@ -2,18 +2,20 @@
 
 ## Project Structure & Module Organization
 
-AetherMD is currently in the design draft + M1 Core Bootstrap + M2 Command/Event Runtime + M3 Adapter baseline stage for a framework-independent, plugin-oriented Markdown editor engine. The repository now includes a minimal `@aether-md/core` implementation and `@aether-md/plugin-remark` / `@aether-md/plugin-prosemirror` adapter plugin packages alongside the design documents. The main entry points are:
+AetherMD is currently in the design draft + M1 Core Bootstrap + M2 Command/Event Runtime + M3 Adapter baseline + M4 GFM Preset + M4.5 Editor Orchestration + M5 React Shell stage for a framework-independent, plugin-oriented Markdown editor engine. The repository now includes `@aether-md/core`, `@aether-md/plugin-remark` / `@aether-md/plugin-prosemirror` adapter plugin packages, `@aether-md/preset-gfm`, and `@aether-md/react` alongside the design documents. The main entry points are:
 
 - `README.md`: project status, goals, and recommended reading paths.
 - `CONTRIBUTING.md`: contribution scope and review expectations.
 - `package.json`: root workspace scripts for build, typecheck, tests, checks, Changesets, and Git workflow validation.
 - `pnpm-workspace.yaml`: workspace boundary for current and future packages.
 - `turbo.json`: Turborepo task orchestration for package-level scripts.
-- `packages/core/`: M1–M3 baseline package with Manifest validation, Service Capability validation, dependency ordering, lifecycle startup, dispose, Command/Event runtime, document-model / adapter-base types, and tests.
-- `packages/plugins/plugin-remark/` and `packages/plugins/plugin-prosemirror/`: M3 minimal Parser/Serializer and EngineAdapter implementations with cross-package round-trip tests.
+- `packages/core/`: M1–M4.5 baseline package with Manifest validation, Service Capability validation, dependency ordering, lifecycle startup, dispose, Command/Event runtime, document-model / adapter-base types, headless `createEditor` / `AetherEditor` orchestration, and tests.
+- `packages/plugins/plugin-remark/` and `packages/plugins/plugin-prosemirror/`: M3 minimal Parser/Serializer and EngineAdapter implementations (M4 GFM extensions; M5 `createProseMirrorView` view-bridge) with cross-package round-trip tests.
+- `packages/preset-gfm/`: M4 `createGfmPreset()` factory and six-syntax GFM round-trip integration tests.
+- `packages/react/`: M5 React Shell (`AetherEditorRoot` / `AetherEditorContent` / `useAetherEditor`, GateLock, happy-dom integration tests).
 - `.skills/aether-workflow/`: authoritative source for Aether workflow skills.
 - `.codex/skills/` and `.cursor/skills/`: generated host-specific skill mirrors; do not edit Aether workflow mirrors directly.
-- `openspec/specs/`: synced main OpenSpec specs, including Core Bootstrap, Command/Event Runtime, Document Model, Adapter Base, and engineering workflow specs.
+- `openspec/specs/`: synced main OpenSpec specs, including Core Bootstrap, Command/Event Runtime, Document Model, Adapter Base, GFM Preset, Editor Orchestration, React Shell, and engineering workflow specs.
 - `.superpowers/`: implementation plans, task records, validation notes, reviews, and final reports for completed workflow changes.
 - `docs/architecture/`: long-term principles, boundaries, roadmap, and compatibility notes.
 - `docs/sdk/`: public Plugin SDK contracts, manifests, commands, lifecycle, and examples.
@@ -45,7 +47,7 @@ Write Markdown with clear headings, short paragraphs, and repository-relative li
 
 ## Testing Guidelines
 
-`packages/core` currently uses TypeScript plus the Node built-in test runner for the M1 Core Bootstrap baseline. Treat review as both design validation and executable contract validation: check that architecture changes remain compatible with `docs/architecture/principles.md`, SDK changes update the relevant `docs/sdk/` contract, runtime behavior changes are reflected in `docs/engineering/`, and Core changes keep `pnpm check` green. For major decisions, add or update an ADR rather than burying rationale in a single topic page.
+Workspace packages currently use TypeScript plus the Node built-in test runner (M1–M5 baselines). Treat review as both design validation and executable contract validation: check that architecture changes remain compatible with `docs/architecture/principles.md`, SDK changes update the relevant `docs/sdk/` contract, runtime behavior changes are reflected in `docs/engineering/`, and Core changes keep `pnpm check` green. For major decisions, add or update an ADR rather than burying rationale in a single topic page.
 
 ## Commit & Pull Request Guidelines
 

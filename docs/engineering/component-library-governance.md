@@ -236,7 +236,7 @@ Checklist：
 
 当前阶段不要求立刻引入完整工具链。M1 的重点是保护 `@aether-md/core` 的最小导出、Manifest bootstrap 行为、capability 校验、生命周期顺序和文档同步。
 
-M1 最小 CI 质量门禁只运行 `pnpm install --frozen-lockfile`、`pnpm check` 和 `pnpm build`。该门禁不包含 npm publish、canary release、release token、examples matrix 或发布自动化。
+M1 最小 CI 质量门禁只运行 `pnpm install --frozen-lockfile`、`pnpm check` 和 `pnpm build`。该门禁不包含 npm publish、canary release、release token、examples matrix 或发布自动化。Canary 与 CI publish 的启用时机见 [ADR 009](../adr/009-release-governance.md)（M7）。
 
 后续新增 package 必须提供 `build`、`typecheck`、`test` 同名脚本，或在对应文档中说明为什么该 package 暂不适用某个根命令。没有真实职责和验证方式前，不创建 React、Vue、plugin、preset 或 example 空包。
 
@@ -387,5 +387,5 @@ Pre-1.0 阶段：
 - Adapter package `peerDependencies`。
 - React、Vue、Svelte 等宿主依赖 external。
 - Examples matrix。
-- Canary release。
+- Canary release。（[ADR 009](../adr/009-release-governance.md)：M7 启用）
 - Package ownership。

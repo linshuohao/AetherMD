@@ -35,3 +35,17 @@
 ## 决策状态
 
 实现开始前，已接受的 ADR 是最强项目约束。ADR 可以被替代，但反转必须显式且可追溯。
+
+发布、许可证、SDK 包边界与 examples 范围以 [ADR 009](../adr/009-release-governance.md) 为准。
+
+## 治理角色（占位）
+
+以下角色可在 M7 前指派具名维护者；Review 时应明确判断归属：
+
+| 角色 | 负责内容 |
+| --- | --- |
+| Release owner | Changeset、SemVer、canary / `latest` 通道、CI 发布（ADR 009） |
+| SDK contract owner | Manifest、Capability、Permission、Lifecycle、Command/Event |
+| Core maintainer | Core 边界、package `exports` surface |
+
+详见 [组件库治理规范 §13](../engineering/component-library-governance.md)。

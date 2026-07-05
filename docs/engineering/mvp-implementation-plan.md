@@ -18,7 +18,8 @@ MVP 不追求完整生产能力。
 | M4 GFM Preset | 段落、标题、加粗、斜体、列表、链接 | 已建立基线：`@aether-md/preset-gfm` 六语法 round-trip 已验证；Remark/ProseMirror GFM 扩展；`SerializationError` 占位符策略已实现 |
 | M4.5 Editor Orchestration | headless `createEditor` / `AetherEditor` | 已建立基线：async-only `createEditor`、宿主 `getMarkdown` / `getDocument`、显式 Adapter wiring、最小编排 rollback、GFM headless integration tests；**无** React Shell |
 | M5 React Shell | `@aether-md/react` 最小组件 | 已建立基线：能挂载编辑器、通过 dispatch 路径更新内容、监听 `onChange`、GateLock 防重设、销毁实例；happy-dom 集成测试；**无** Shell Adapter |
-| M6 验证套件 | 契约测试与示例插件 | 关键路径测试可在 CI 中运行 |
+| M6 验证套件 | 契约测试与 `examples/headless-gfm` | 关键路径测试可在 CI 中运行；SDK examples 可 `tsc --noEmit` |
+| M7 首次发布与生态 | npm canary、LICENSE 落地、`examples/react-basic`、Release CI | `pnpm pack` consumer smoke 通过；canary dist-tag 可安装；见 [ADR 009](../adr/009-release-governance.md) |
 
 ## 包范围
 
