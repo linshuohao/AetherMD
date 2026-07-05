@@ -1,6 +1,6 @@
 # 文档模型
 
-> 状态：M3 最小子集已实现（`@aether-md/core` export + Adapter plugin round-trip）。本页定义 AetherMD 的框架无关文档数据边界；扩展类型（list/link/mark/custom）已 export 但 M3 不测 round-trip。
+> 状态：M3 最小子集 + M4 GFM structured round-trip 已实现（`@aether-md/core` export + Adapter plugin + preset-gfm round-trip）。本页定义 AetherMD 的框架无关文档数据边界；`ListBlock`/`LinkInline`/`MarkedInline` 已纳入 M4 round-trip 矩阵，`CustomBlock` export 保留但 structured round-trip 仍 deferred。
 
 ## 目标
 
@@ -96,8 +96,8 @@ export interface CustomBlock {
 | 方向 | 要求 |
 | --- | --- |
 | Markdown -> AetherDoc | Parser Adapter **MUST** 保留 v1.0 内置块语义 |
-| AetherDoc -> Markdown | Serializer Adapter **MUST** 对内置结构提供稳定输出 |
-| AetherDoc -> ProseMirror | Engine Adapter **MUST** 负责私有结构转换 |
+| AetherDoc -> Markdown | Serializer Adapter **MUST** 对内置结构提供稳定输出；M4 覆盖 paragraph、heading、strong、emphasis、list、link；`CustomBlock` 输出 `[unsupported:block:<name>]` 占位符 |
+| AetherDoc -> ProseMirror | Engine Adapter **MUST** 负责私有结构转换；M4 保留 GFM list、link、mark 结构通过 edit leg |
 | ProseMirror -> AetherDoc | Engine Adapter **MUST** 产出框架无关快照 |
 
 ## 开放问题

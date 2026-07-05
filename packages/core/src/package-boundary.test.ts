@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, it } from "node:test";
@@ -45,6 +45,23 @@ describe("@aether-md/core package boundary", () => {
     assert.equal(exportedKeys.includes("remarkPlugin"), false);
     assert.equal(exportedKeys.includes("prosemirrorPlugin"), false);
     assert.equal(exportedKeys.includes("presetGfm"), false);
+    assert.equal(exportedKeys.includes("createGfmPreset"), false);
+  });
+
+  it("allows GFM preset package in workspace without core re-export", () => {
+    const presetPackagePath = join(
+      dirname(fileURLToPath(import.meta.url)),
+      "..",
+      "..",
+      "preset-gfm",
+      "package.json",
+    );
+
+    assert.equal(existsSync(presetPackagePath), true);
+    const presetPackage = JSON.parse(readFileSync(presetPackagePath, "utf8")) as {
+      name: string;
+    };
+    assert.equal(presetPackage.name, "@aether-md/preset-gfm");
   });
 
   it("does not silently provide adapter capabilities in M1 core set", () => {

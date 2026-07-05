@@ -3,10 +3,13 @@ import type {
   AetherDoc,
   AetherInline,
   HeadingBlock,
+  LinkInline,
+  ListBlock,
+  MarkedInline,
   ParagraphBlock,
   TextInline,
 } from "@aether-md/core";
-import { Schema, type Node as ProseMirrorNode } from "prosemirror-model";
+import { Schema, type Mark as ProseMirrorMark, type Node as ProseMirrorNode } from "prosemirror-model";
 
 export const aetherSchema = new Schema({
   nodes: {
@@ -17,41 +20,94 @@ export const aetherSchema = new Schema({
       content: "inline*",
       attrs: { level: { default: 1 } },
     },
+    bullet_list: { group: "block", content: "list_item+" },
+    ordered_list: {
+      group: "block",
+      content: "list_item+",
+      attrs: { order: { default: 1 } },
+    },
+    list_item: { content: "block+" },
     text: { group: "inline" },
+  },
+  marks: {
+    strong: {},
+    emphasis: {},
+    link: {
+      attrs: { href: {}, title: { default: null } },
+      inclusive: false,
+    },
   },
 });
 
-function inlineToPm(inline: AetherInline): ProseMirrorNode | null {
+function textNode(text: string, marks: ProseMirrorMark[] = []): ProseMirrorNode | null {
+  if (text.length === 0) {
+    return null;
+  }
+
+  return aetherSchema.text(text, marks);
+}
+
+function inlineToPm(
+  inline: AetherInline,
+  marks: ProseMirrorMark[] = [],
+): ProseMirrorNode[] {
   if (inline.type === "text") {
-    return aetherSchema.text((inline as TextInline).text);
+    const node = textNode((inline as TextInline).text, marks);
+    return node ? [node] : [];
   }
 
-  if (inline.type === "link" || inline.type === "mark") {
-    const text = inline.children
-      .filter((child): child is TextInline => child.type === "text")
-      .map((child) => child.text)
-      .join("");
-    return aetherSchema.text(text);
+  if (inline.type === "mark") {
+    const marked = inline as MarkedInline;
+    if (marked.mark === "strong") {
+      return marked.children.flatMap((child) =>
+        inlineToPm(child, [...marks, aetherSchema.marks.strong.create()]),
+      );
+    }
+
+    if (marked.mark === "emphasis") {
+      return marked.children.flatMap((child) =>
+        inlineToPm(child, [...marks, aetherSchema.marks.emphasis.create()]),
+      );
+    }
+
+    return marked.children.flatMap((child) => inlineToPm(child, marks));
   }
 
-  return null;
+  if (inline.type === "link") {
+    const link = inline as LinkInline;
+    const linkMark = aetherSchema.marks.link.create({
+      href: link.href,
+      title: link.title ?? null,
+    });
+
+    return link.children.flatMap((child) => inlineToPm(child, [...marks, linkMark]));
+  }
+
+  return [];
 }
 
 function blockToPm(block: AetherBlock): ProseMirrorNode {
   if (block.type === "paragraph") {
     const paragraph = block as ParagraphBlock;
-    const content = paragraph.children
-      .map(inlineToPm)
-      .filter((node): node is ProseMirrorNode => node !== null);
+    const content = paragraph.children.flatMap((inline) => inlineToPm(inline));
     return aetherSchema.nodes.paragraph.create(null, content);
   }
 
   if (block.type === "heading") {
     const heading = block as HeadingBlock;
-    const content = heading.children
-      .map(inlineToPm)
-      .filter((node): node is ProseMirrorNode => node !== null);
+    const content = heading.children.flatMap((inline) => inlineToPm(inline));
     return aetherSchema.nodes.heading.create({ level: heading.level }, content);
+  }
+
+  if (block.type === "list") {
+    const list = block as ListBlock;
+    const listType = list.ordered
+      ? aetherSchema.nodes.ordered_list
+      : aetherSchema.nodes.bullet_list;
+    const items = list.items.map((itemBlocks) =>
+      aetherSchema.nodes.list_item.create(null, itemBlocks.map(blockToPm)),
+    );
+    return listType.create(null, items);
   }
 
   return aetherSchema.nodes.paragraph.create(null, [
@@ -64,20 +120,124 @@ export function aetherDocToPm(doc: AetherDoc): ProseMirrorNode {
   return aetherSchema.nodes.doc.create(null, content);
 }
 
+function wrapTextInMarks(text: string, marks: readonly ProseMirrorMark[]): AetherInline {
+  const orderedMarks = [...marks].sort((left, right) => {
+    const rank: Record<string, number> = { link: 0, strong: 1, emphasis: 2 };
+    return (rank[left.type.name] ?? 99) - (rank[right.type.name] ?? 99);
+  });
+
+  return orderedMarks.reduceRight<AetherInline>(
+    (child, mark) => {
+      if (mark.type.name === "link") {
+        return {
+          type: "link",
+          href: mark.attrs.href as string,
+          ...(mark.attrs.title ? { title: mark.attrs.title as string } : {}),
+          children: [child],
+        };
+      }
+
+      if (mark.type.name === "strong") {
+        return {
+          type: "mark",
+          mark: "strong",
+          children: [child],
+        };
+      }
+
+      if (mark.type.name === "emphasis") {
+        return {
+          type: "mark",
+          mark: "emphasis",
+          children: [child],
+        };
+      }
+
+      return child;
+    },
+    { type: "text", text },
+  );
+}
+
+function canMergeInline(left: AetherInline, right: AetherInline): boolean {
+  if (left.type !== right.type) {
+    return false;
+  }
+
+  if (left.type === "mark" && right.type === "mark") {
+    return left.mark === right.mark;
+  }
+
+  if (left.type === "link" && right.type === "link") {
+    return left.href === right.href && left.title === right.title;
+  }
+
+  return false;
+}
+
+function mergeInlineSiblings(inlines: AetherInline[]): AetherInline[] {
+  const merged: AetherInline[] = [];
+
+  for (const inline of inlines) {
+    const normalized =
+      inline.type === "mark" || inline.type === "link"
+        ? { ...inline, children: mergeInlineSiblings(inline.children) }
+        : inline;
+    const previous = merged[merged.length - 1];
+
+    if (previous && canMergeInline(previous, normalized)) {
+      if (previous.type === "mark" && normalized.type === "mark") {
+        previous.children = mergeInlineSiblings([
+          ...previous.children,
+          ...normalized.children,
+        ]);
+        continue;
+      }
+
+      if (previous.type === "link" && normalized.type === "link") {
+        previous.children = mergeInlineSiblings([
+          ...previous.children,
+          ...normalized.children,
+        ]);
+        continue;
+      }
+    }
+
+    merged.push(normalized);
+  }
+
+  return merged;
+}
+
 function pmInlineToAether(node: ProseMirrorNode): AetherInline {
-  return { type: "text", text: node.text ?? "" };
+  return wrapTextInMarks(node.text ?? "", node.marks);
+}
+
+function pmInlineContentToAether(node: ProseMirrorNode): AetherInline[] {
+  return mergeInlineSiblings(node.content.content.map(pmInlineToAether));
 }
 
 function pmBlockToAether(node: ProseMirrorNode): AetherBlock {
   if (node.type.name === "paragraph") {
-    const children = node.content.content.map(pmInlineToAether);
+    const children = pmInlineContentToAether(node);
     return { type: "paragraph", children };
   }
 
   if (node.type.name === "heading") {
     const level = node.attrs.level as HeadingBlock["level"];
-    const children = node.content.content.map(pmInlineToAether);
+    const children = pmInlineContentToAether(node);
     return { type: "heading", level, children };
+  }
+
+  if (node.type.name === "bullet_list" || node.type.name === "ordered_list") {
+    const items = node.content.content.map((itemNode) =>
+      itemNode.content.content.map(pmBlockToAether),
+    );
+    return {
+      type: "list",
+      ordered: node.type.name === "ordered_list",
+      items,
+    };
   }
 
   return {

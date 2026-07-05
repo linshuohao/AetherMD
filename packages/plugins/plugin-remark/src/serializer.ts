@@ -3,11 +3,13 @@ import type {
   AetherDoc,
   AetherInline,
   AetherSchema,
+  CustomBlock,
   HeadingBlock,
+  ListBlock,
   ParagraphBlock,
   SerializerAdapter,
-  TextInline,
 } from "@aether-md/core";
+import { SerializationError } from "@aether-md/core";
 
 function serializeInline(inline: AetherInline): string {
   if (inline.type === "text") {
@@ -15,14 +17,37 @@ function serializeInline(inline: AetherInline): string {
   }
 
   if (inline.type === "link") {
-    return inline.children.map(serializeInline).join("");
+    const text = inline.children.map(serializeInline).join("");
+    return `[${text}](${inline.href})`;
   }
 
   if (inline.type === "mark") {
-    return inline.children.map(serializeInline).join("");
+    const text = inline.children.map(serializeInline).join("");
+    if (inline.mark === "strong") {
+      return `**${text}**`;
+    }
+    if (inline.mark === "emphasis") {
+      return `*${text}*`;
+    }
+    return text;
   }
 
-  return "";
+  throw new SerializationError({
+    code: "UNSUPPORTED_NODE",
+    message: `Unsupported inline type: ${(inline as { type: string }).type}`,
+  });
+}
+
+function serializeListBlock(list: ListBlock): string {
+  return list.items
+    .map((item, index) => {
+      const itemText = item.map(serializeBlock).join("\n");
+      if (list.ordered) {
+        return `${index + 1}. ${itemText}`;
+      }
+      return `- ${itemText}`;
+    })
+    .join("\n");
 }
 
 function serializeBlock(block: AetherBlock): string {
@@ -38,24 +63,38 @@ function serializeBlock(block: AetherBlock): string {
   }
 
   if (block.type === "list") {
-    return block.items
-      .map((item) => item.map(serializeBlock).join("\n"))
-      .join("\n");
+    return serializeListBlock(block);
   }
 
   if (block.type === "custom") {
-    return block.name;
+    const custom = block as CustomBlock;
+    return `[unsupported:block:${custom.name}]`;
   }
 
-  return "";
+  throw new SerializationError({
+    code: "UNSUPPORTED_NODE",
+    message: `Unsupported block type: ${(block as { type: string }).type}`,
+  });
 }
 
 export function createRemarkSerializerAdapter(): SerializerAdapter {
   return {
     name: "remark-serializer",
     async serialize(doc: AetherDoc, _schema: AetherSchema): Promise<string> {
-      const blocks = doc.children.map(serializeBlock);
-      return `${blocks.join("\n\n")}\n`;
+      try {
+        const blocks = doc.children.map(serializeBlock);
+        return `${blocks.join("\n\n")}\n`;
+      } catch (error) {
+        if (error instanceof SerializationError) {
+          throw error;
+        }
+
+        throw new SerializationError({
+          code: "SERIALIZE_FAILED",
+          message: "Failed to serialize document",
+          cause: error,
+        });
+      }
     },
   };
 }
