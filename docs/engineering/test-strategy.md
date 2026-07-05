@@ -1,6 +1,6 @@
 # 测试策略
 
-> 状态：M1 Core Bootstrap、M2 Command/Event Runtime、M3 Adapter 基座、M4 GFM Preset、M4.5 Editor Orchestration 与 M5 React Shell 已实现并通过验证。本页定义 MVP 的最小测试矩阵。
+> 状态：M1 Core Bootstrap、M2 Command/Event Runtime、M3 Adapter 基座、M4 GFM Preset、M4.5 Editor Orchestration、M5 React Shell 与 M6 验证套件已实现并通过验证。本页定义 MVP 的最小测试矩阵。
 
 ## 测试目标
 
@@ -104,6 +104,18 @@ M5 baseline 覆盖：
 - package export boundary：react 依赖 core + plugin-prosemirror；core 无 react/prosemirror/remark runtime deps；react 无 `prosemirror-view` 直接依赖。
 
 M5 **不**覆盖：Playwright / 浏览器 CI（M6+ 决策）、DOM 键盘输入集成（dispatch 路径替代，见 compliance review D3）、Vue Shell、toolbar/theme。
+
+## M6 验证套件基线
+
+M6 baseline 覆盖：
+
+- `@aether-md/example-headless-gfm`：Node `start` 可运行 headless GFM 集成（`createEditor` + `createGfmPreset()` + adapter wiring）；`typecheck`（`tsc --noEmit`）纳入根 `pnpm check`（G6）。
+- G11 `manifest-doc-consistency.test.ts`：`SUPPORTED_MANIFEST_VERSIONS` ↔ `docs/sdk/manifest.md`；官方 plugin / preset / react 包 `manifestVersion` 扫描。
+- `createEditor` 启动中止集成回归：duplicate `metadata.name`（`startup-abort.integration.test.ts`）；unsupported `manifestVersion`（`editor-orchestration.test.ts`）。
+- `createDefaultConflictResolver` schema abort 单元测试（`conflict-resolver.test.ts`）；**无** compile-layer schema merge 集成要求。
+- 五包 publish 预备元数据与 Changesets `linked` 配置；根 `changeset:publish` 脚本预留；**无** npm publish。
+
+M6 **不**覆盖：compile-layer schema merge、`EditorConfig.conflictResolver` 新 API、`tsd` 类型快照、`CORE_SERVICE_REGISTRY` 自动比对、`examples/react-basic`、Playwright、npm publish。
 
 ## 契约测试要求
 

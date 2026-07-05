@@ -24,6 +24,28 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
 
+  examples/headless-gfm:
+    dependencies:
+      '@aether-md/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@aether-md/plugin-prosemirror':
+        specifier: workspace:*
+        version: link:../../packages/plugins/plugin-prosemirror
+      '@aether-md/plugin-remark':
+        specifier: workspace:*
+        version: link:../../packages/plugins/plugin-remark
+      '@aether-md/preset-gfm':
+        specifier: workspace:*
+        version: link:../../packages/preset-gfm
+    devDependencies:
+      '@types/node':
+        specifier: ^26.1.0
+        version: 26.1.0
+      typescript:
+        specifier: ^6.0.3
+        version: 6.0.3
+
   packages/core:
     devDependencies:
       '@types/node':

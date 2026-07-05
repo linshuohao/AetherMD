@@ -2,6 +2,18 @@
   "name": "@aether-md/core",
   "version": "0.0.0",
   "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/linshuohao/AetherMD.git",
+    "directory": "packages/core"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "exports": {
     ".": {
@@ -12,7 +24,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc --noEmit",
-    "test": "pnpm --filter @aether-md/plugin-remark build && pnpm --filter @aether-md/plugin-prosemirror build && pnpm --filter @aether-md/preset-gfm build && tsc -p tsconfig.test.json && node --test dist-test/**/*.test.js"
+    "test": "pnpm --filter @aether-md/plugin-remark build && pnpm --filter @aether-md/plugin-prosemirror build && pnpm --filter @aether-md/preset-gfm build && tsc -p tsconfig.test.json && node --test $(find dist-test -name '*.test.js' | sort)"
   },
   "devDependencies": {
     "@types/node": "^26.1.0",

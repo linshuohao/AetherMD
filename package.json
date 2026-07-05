@@ -11,6 +11,7 @@
     "changeset": "changeset",
     "changeset:status": "changeset status --since main",
     "changeset:version": "changeset version",
+    "changeset:publish": "changeset publish",
     "skills:sync": "node scripts/sync-aether-workflow-skills.mjs",
     "skills:check": "node scripts/check-aether-workflow-skills.mjs",
     "workflow:pr-check": "node scripts/check-workflow-pr-traceability.mjs -- /dev/null",

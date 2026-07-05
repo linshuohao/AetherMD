@@ -1,24 +1,29 @@
 # v1.0 CI 校验计划
 
-> 状态：设计草案 + M1–M5 基线 CI 门禁已部分启用（`pnpm check` 覆盖 5 个 workspace package）。本页作为对应主题的维护入口。
+> 状态：设计草案 + M1–M6 基线 CI 门禁已部分启用（`pnpm check` 覆盖 6 个 workspace package，含 `examples/headless-gfm`）。本页作为对应主题的维护入口。
 
 ## CI 校验计划
 
 实现阶段在 CI 中逐项启用，防止文档与代码漂移：
 
+### M6 范围说明
+
+M6 验证套件已自动化以下门禁（G11、G6、部分行为回归）。**compile-layer schema merge 不在 M6 scope**（design Decision 6）：Schema 冲突以 `createDefaultConflictResolver` 单元 abort + `createEditor` fatal startup 回归覆盖，完整 compile-layer 集成 deferred。
+
 ### 契约一致性
 
 - [x] 最小 CI 在 PR 和 push 到 `main` 时运行 `pnpm install --frozen-lockfile`、`pnpm check` 和 `pnpm build`，且不包含 npm publish、canary、release token 或 release 自动化（publish 时间表见 [ADR 009](../adr/009-release-governance.md)）
+- [x] **G11** `SUPPORTED_MANIFEST_VERSIONS` 与 [Manifest 版本](../sdk/manifest.md) Stable 版本表一致（`packages/core/src/manifest-doc-consistency.test.ts`；code truth = `manifest.ts`）
+- [x] **G6** `examples/headless-gfm` 通过 `tsc --noEmit`，并纳入根 `pnpm check` turbo pipeline（主路径；非 `docs/sdk/examples.md` 次路径）
 - [ ] `packages/core/src/types/` 导出与 [Manifest](../sdk/manifest.md)、[能力与权限](../sdk/capabilities-and-permissions.md) 中的类型定义自动比对（`tsd` 或快照测试）
-- [ ] `SUPPORTED_MANIFEST_VERSIONS` 与 [Manifest 版本](../sdk/manifest.md) 表格一致
 - [ ] `CORE_SERVICE_REGISTRY` 与 [内置 Service Capability 注册表](../sdk/capabilities-and-permissions.md) 一致
-- [ ] [插件示例](../sdk/examples.md) 可对 `@aether-md/core` 通过 `tsc --noEmit`
+- [ ] [插件示例](../sdk/examples.md) 可对 `@aether-md/core` 通过 `tsc --noEmit`（G6 次路径；M6 主路径为 headless example）
 
 ### Manifest 规范
 
 - [ ] 官方插件（`packages/plugins/*`）全部使用分层 Manifest（`metadata` / `compile` / `runtime` / `security`）
 - [ ] 官方插件 `metadata.provides` / `requires` 使用 `CapabilityId` 命名空间（禁止裸字符串）
-- [ ] 官方插件 `manifestVersion` 在 `SUPPORTED_MANIFEST_VERSIONS` 内
+- [x] 官方 plugin / preset / react 包 `manifestVersion` 在 `SUPPORTED_MANIFEST_VERSIONS` 内（G11 `manifest-doc-consistency.test.ts` 扫描）
 
 ### 文档完整性
 
@@ -36,8 +41,9 @@
 
 ### 行为回归
 
-- [ ] ConflictResolver 默认策略与 [默认策略表](../sdk/conflict-resolution.md) 一致（单元测试）
-- [ ] Schema 冲突触发 `CoreError` + 启动中止（集成测试）
+- [x] ConflictResolver 默认策略与 [默认策略表](../sdk/conflict-resolution.md) 一致（单元测试 — `packages/core/src/editor/conflict-resolver.test.ts`）
+- [x] Schema 冲突 `createDefaultConflictResolver` 对 `type: "schema"` 返回 `abort`（单元测试）；**compile-layer merge deferred** — M6 不要求 compile-layer schema 合并集成测试
+- [x] `createEditor` fatal startup：`metadata.manifestVersion` unsupported、`metadata.name` duplicate → `CoreError` 启动中止（集成测试 — `startup-abort.integration.test.ts`、`editor-orchestration.test.ts`）
 - [x] React Shell GateLock：`prevValue === nextValue` 时不重设文档（集成测试 — `@aether-md/react` `gate-lock.integration.test.tsx`，happy-dom，无 Playwright）
 
 ---

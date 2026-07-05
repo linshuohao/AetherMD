@@ -2,7 +2,7 @@
 
 感谢你关注 AetherMD。
 
-项目当前处于设计到最小实现过渡阶段，`@aether-md/core` 与两个 Adapter plugin packages 已提供 M1–M3 最小基线。因此，现阶段最有价值的贡献是文档审查、架构质疑、SDK 契约反馈、已实现边界验证、ADR 讨论和实现计划拆解。
+项目当前处于设计到最小实现过渡阶段，`@aether-md/core`、两个 Adapter plugin packages、`@aether-md/preset-gfm`、`@aether-md/react` 与 `examples/headless-gfm` 已提供 M1–M6 最小基线。因此，现阶段最有价值的贡献是文档审查、架构质疑、SDK 契约反馈、已实现边界验证、ADR 讨论和实现计划拆解。
 
 ## 现在适合贡献什么
 
@@ -12,6 +12,7 @@
 - 在 [docs/adr](docs/adr/README.md) 中提出或挑战架构决策。
 - 改进 [docs/glossary.md](docs/glossary.md) 的术语一致性。
 - 帮助把设计约束拆成后续可实现任务。
+- 运行或审查 `examples/headless-gfm` headless 集成路径（`pnpm build && pnpm --filter @aether-md/example-headless-gfm start`）以验证 M4.5/M6 边界。
 
 ## 现在暂不适合什么
 

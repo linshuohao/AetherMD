@@ -6,10 +6,10 @@ AetherMD 当前是设计到最小实现过渡阶段的开源项目。
 
 | 字段 | 值 |
 | --- | --- |
-| 阶段 | 设计草案 + M1 Core Bootstrap + M2 Command/Event Runtime + M3 Adapter 基座 + M4 GFM Preset + M4.5 Editor Orchestration + M5 React Shell |
-| 实现 | `@aether-md/core` 已提供 M1 bootstrap、M2 Command/Event、M3 document/adapter 类型与 M4.5 `createEditor` / `AetherEditor` headless 编排；`@aether-md/plugin-remark` 与 `@aether-md/plugin-prosemirror` 提供 Adapter 实现；`@aether-md/preset-gfm` 提供 GFM preset 与 round-trip 集成测试；`@aether-md/react` 提供 M5 React Shell（Root / Content / hook、GateLock、happy-dom 集成测试） |
-| 主要产物 | 文档、OpenSpec 规格、`packages/core`、两个 Adapter plugin packages、`packages/preset-gfm`、`packages/react` |
-| 当前目标 | 进入 M6 验证套件；按 [ADR 009](adr/009-release-governance.md) 落实 LICENSE 与 publish 预备项 |
+| 阶段 | 设计草案 + M1 Core Bootstrap + M2 Command/Event Runtime + M3 Adapter 基座 + M4 GFM Preset + M4.5 Editor Orchestration + M5 React Shell + **M6 验证套件** |
+| 实现 | `@aether-md/core` 已提供 M1 bootstrap、M2 Command/Event、M3 document/adapter 类型与 M4.5 `createEditor` / `AetherEditor` headless 编排；`@aether-md/plugin-remark` 与 `@aether-md/plugin-prosemirror` 提供 Adapter 实现；`@aether-md/preset-gfm` 提供 GFM preset 与 round-trip 集成测试；`@aether-md/react` 提供 M5 React Shell（Root / Content / hook、GateLock、happy-dom 集成测试）；**M6** 交付 `examples/headless-gfm` headless GFM 集成证明、G11 manifest 文档一致性、G6 example `typecheck` 门禁、`createEditor` 启动中止行为回归、五包 publish 预备元数据与 Changesets `linked` 配置 |
+| 主要产物 | 文档、OpenSpec 规格、`packages/core`、两个 Adapter plugin packages、`packages/preset-gfm`、`packages/react`、`examples/headless-gfm` |
+| 当前目标 | M6 验证套件已闭合；规划 M7 首次 canary 发布（见 [ADR 009](adr/009-release-governance.md)） |
 
 ## 已有内容
 
@@ -39,13 +39,33 @@ AetherMD 当前是设计到最小实现过渡阶段的开源项目。
 - `openspec/specs/editor-orchestration/spec.md` 作为已同步的 Editor Orchestration main spec（含 M5 React Shell 桥接措辞）
 - `openspec/specs/react-shell/spec.md` 作为已同步的 React Shell main spec
 - `openspec/specs/engineering-workflow/spec.md` 作为已同步的工程工作流 main spec
+- `openspec/specs/validation-suite/spec.md` 作为已同步的 M6 验证套件 main spec
+- **M6 验证套件基线**：`examples/headless-gfm`（`@aether-md/example-headless-gfm`，`private: true`）Node 可运行 headless GFM 集成演示（`createEditor` + `createGfmPreset()` + 显式 adapter wiring）；G11 `manifest-doc-consistency.test.ts`（`SUPPORTED_MANIFEST_VERSIONS` ↔ `docs/sdk/manifest.md`、官方包 `manifestVersion` 扫描）；G6 `examples/headless-gfm` `typecheck` 纳入根 `pnpm check`；`createEditor` 启动中止集成测试（duplicate `metadata.name`、`manifestVersion` unsupported）；五包 MIT `license` / `repository` / `files` / `publishConfig`；Changesets `linked` 五包；根 `changeset:publish` 脚本（**未执行 publish**）
+
+## v1.0 差距
+
+对照 [v1.0 路线图](architecture/roadmap.md)「必须实现」与当前 M6 基线，以下能力**尚未落地**或仅部分实现。完整路线图见 `docs/architecture/roadmap.md`；本小节为 G12 差距主锚点。
+
+| 差距项 | 当前状态 | 备注 |
+| --- | --- | --- |
+| **compile-layer schema merge** | 未实现 | M6 以 `createDefaultConflictResolver` schema abort **单元测试**与 `createEditor` fatal startup 回归替代；完整 compile-layer 合并 deferred |
+| **ConflictResolver 完整集成** | 部分 | 默认策略单元可测；`createEditor` 编排层未接入完整 command / keymap / capability 冲突解析 |
+| **History / Selection / Clipboard** | 未实现 | v1.0 路线图「内置底座」；无对应 Service Capability 与 runtime |
+| **PermissionGuard 沙盒** | 未实现 | 未授权 Runtime Permission 拦截未 enforce |
+| **Worker Thread** | 未实现 | Parser / Serializer Worker 化 deferred（见 [线程模型](engineering/thread-model.md)） |
+| **Command Bus 完整 Pipeline** | 部分 | 无 ReadOnlyGuard、CapabilityGuard 等完整 Guard 链 |
+| **`bootstrapCore` Adapter 加载** | 未实现 | 无 `core:engine` / `core:parser` silent provide |
+| **分层 Manifest 合并** | 部分 | `metadata` 层校验已有；`compile` / `runtime` / `security` 分层合并未完整 |
+| **npm publish** | 未执行 | M6 仅 publish **预备**（元数据 + Changesets `linked` + `changeset:publish` 脚本）；实际发布 deferred 至 **M7**（[发布流程](community/release-process.md)） |
+
+**M6 已闭合、不计入差距：** headless GFM 集成路径（`examples/headless-gfm`）、GFM preset 六语法 round-trip、React Shell 基线、G11/G6 CI 门禁、manifest 启动中止回归、五包 publish 预备元数据。
 
 ## 尚未开始
 
-- 已发布包（npm；预备项见 ADR 009 M6）
+- 已发布包（npm；M6 预备已完成，见 [发布流程](community/release-process.md)）
 - npm publish、canary release、release token（**M7**，ADR 009）
 - Vue Shell、`packages/vue`
-- `examples/headless-gfm`、`examples/react-basic`（M6 / M6 末，ADR 009）
+- `examples/react-basic`（M6 末或 M7 初，ADR 009）
 - examples matrix（M7 后）
 - 发布流程 CI workflow（**M7**，ADR 009）
 - `createEditor` / `AetherEditor` 完整 Guard 链与 Permission enforce
@@ -54,19 +74,19 @@ AetherMD 当前是设计到最小实现过渡阶段的开源项目。
 
 ## 已拍板、待工程落地（ADR 009）
 
-- **许可证**：MIT（根目录 `LICENSE` 已添加；各 package `license` 字段 M6 预备同步）
+- **许可证**：MIT（根目录 `LICENSE` 与各 package `license` 字段 M6 已同步）
 - **Plugin SDK**：不独立 npm 包；类型入口为 `@aether-md/core`（非 `@aether-md/sdk`）
 - **Canary**：M6 仅 publish 预备；M7 启用 Changesets prerelease + CI
-- **Examples 形态**：headless-gfm（M6）+ react-basic（M6 末或 M7 初），不发布 npm
+- **Examples 形态**：headless-gfm（M6 ✅）+ react-basic（M6 末或 M7 初），不发布 npm
 
 ## 近期重点
 
-1. 稳定文档体系并与 M5 实现对齐。
-2. 持续审查 SDK 契约与已实现 Core / Adapter / GFM preset / editor orchestration / React Shell 边界（M1–M5）。
-3. 将路线图和 CI 校验计划转化为 M6 验证套件里程碑。
-4. 按 [ADR 009](adr/009-release-governance.md) 落实 MIT 许可证与 publish 预备（M6），规划 M7 首次 canary 发布。
+1. 稳定文档体系并与 M6 验证套件实现对齐。
+2. 持续审查 SDK 契约与已实现 Core / Adapter / GFM preset / editor orchestration / React Shell 边界（M1–M6）。
+3. 按 [ADR 009](adr/009-release-governance.md) 规划 M7 首次 canary 发布（Changesets prerelease、Release CI、`NPM_TOKEN`）。
+4. 跟踪 [v1.0 差距](#v10-差距) 项，按路线图优先级推进 compile-layer merge、内置底座与 Guard 链。
 5. 审查 [MVP 实施计划](engineering/mvp-implementation-plan.md)、[Core API](architecture/core-api.md)、[文档模型](architecture/document-model.md)、[Adapter 协议](engineering/adapter-protocol.md) 和 [测试策略](engineering/test-strategy.md)。
-6. 在进入 M6 验证套件前，继续保持 OpenSpec、Docs 和实现同步。
+6. 继续保持 OpenSpec、Docs 和实现同步；M7 前不执行 npm publish。
 
 ## 贡献建议
 

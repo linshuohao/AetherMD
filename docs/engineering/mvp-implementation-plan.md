@@ -1,6 +1,6 @@
 # MVP 实施计划
 
-> 状态：M1 Core Bootstrap、M2 Command/Event Runtime、M3 Adapter 基座、M4 GFM Preset、M4.5 Editor Orchestration 与 M5 React Shell 已实现并通过验证。本页把 v1.0 路线图拆成可执行的最小实现任务。
+> 状态：M1 Core Bootstrap、M2 Command/Event Runtime、M3 Adapter 基座、M4 GFM Preset、M4.5 Editor Orchestration、M5 React Shell 与 M6 验证套件已实现并通过验证。本页把 v1.0 路线图拆成可执行的最小实现任务。
 
 ## 实施目标
 
@@ -18,7 +18,7 @@ MVP 不追求完整生产能力。
 | M4 GFM Preset | 段落、标题、加粗、斜体、列表、链接 | 已建立基线：`@aether-md/preset-gfm` 六语法 round-trip 已验证；Remark/ProseMirror GFM 扩展；`SerializationError` 占位符策略已实现 |
 | M4.5 Editor Orchestration | headless `createEditor` / `AetherEditor` | 已建立基线：async-only `createEditor`、宿主 `getMarkdown` / `getDocument`、显式 Adapter wiring、最小编排 rollback、GFM headless integration tests；**无** React Shell |
 | M5 React Shell | `@aether-md/react` 最小组件 | 已建立基线：能挂载编辑器、通过 dispatch 路径更新内容、监听 `onChange`、GateLock 防重设、销毁实例；happy-dom 集成测试；**无** Shell Adapter |
-| M6 验证套件 | 契约测试与 `examples/headless-gfm` | 关键路径测试可在 CI 中运行；SDK examples 可 `tsc --noEmit` |
+| M6 验证套件 | 契约测试与 `examples/headless-gfm` | 已建立基线：G11 manifest 文档一致性、G6 `examples/headless-gfm` `typecheck` 纳入 `pnpm check`、`createEditor` 启动中止回归、五包 publish 预备与 Changesets `linked`、G12 v1.0 差距文档；**未** npm publish |
 | M7 首次发布与生态 | npm canary、LICENSE 落地、`examples/react-basic`、Release CI | `pnpm pack` consumer smoke 通过；canary dist-tag 可安装；见 [ADR 009](../adr/009-release-governance.md) |
 
 ## 包范围
@@ -48,6 +48,8 @@ v1.0 **MUST** 至少包含：
 - M4.5 main spec：`openspec/specs/editor-orchestration/spec.md`；`command-event-runtime`、`adapter-base`、`core-bootstrap` main specs 已同步 M4.5 delta。
 - M5：`@aether-md/react`（`AetherEditorRoot` / `AetherEditorContent` / `useAetherEditor`）；Shell GateLock；`@aether-md/plugin-prosemirror` additive `createProseMirrorView` view-bridge；happy-dom 集成测试与 GFM React smoke；Core **仍无** remark/prosemirror/react runtime deps。
 - M5 main spec：`openspec/specs/react-shell/spec.md`；`editor-orchestration` main spec 已同步 M5 React Shell 桥接 delta。
+- M6：`examples/headless-gfm`（`@aether-md/example-headless-gfm`，`private: true`）Node headless GFM 集成演示；G11 `manifest-doc-consistency.test.ts`；G6 example `typecheck` 纳入根 `pnpm check`；`startup-abort.integration.test.ts`；五包 MIT publish 预备元数据；Changesets `linked` 五包；根 `changeset:publish` 脚本（**未**执行 publish）。
+- M6 main spec：`openspec/specs/validation-suite/spec.md`；`engineering-workflow` main spec 已同步 M6 CI 门禁 delta。
 
 ## 必须实现
 
@@ -109,7 +111,7 @@ M3/M4 仍排除：
 
 ## 后续里程碑门槛
 
-进入 M6 验证套件及后续代码实现前，以下文档 **SHOULD** 保持可审查状态：
+进入 M7 首次发布及后续代码实现前，以下文档 **SHOULD** 保持可审查状态：
 
 - [Core API](../architecture/core-api.md)
 - [文档模型](../architecture/document-model.md)
@@ -117,6 +119,6 @@ M3/M4 仍排除：
 - [Command/Event 协议](../sdk/command-event-protocol.md)
 - [测试策略](test-strategy.md)
 - [ADR 009：发布与治理策略](../adr/009-release-governance.md)
-- [发布流程](../community/release-process.md)（M6 预备草案）
+- [发布流程](../community/release-process.md)（M6 预备已完成；M7 publish 未开始）
 
 ---
