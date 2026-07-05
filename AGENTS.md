@@ -2,17 +2,18 @@
 
 ## Project Structure & Module Organization
 
-AetherMD is currently in the design draft + M1 Core Bootstrap stage for a framework-independent, plugin-oriented Markdown editor engine. The repository now includes a minimal `@aether-md/core` implementation alongside the design documents. The main entry points are:
+AetherMD is currently in the design draft + M1 Core Bootstrap + M2 Command/Event Runtime + M3 Adapter baseline stage for a framework-independent, plugin-oriented Markdown editor engine. The repository now includes a minimal `@aether-md/core` implementation and `@aether-md/plugin-remark` / `@aether-md/plugin-prosemirror` adapter plugin packages alongside the design documents. The main entry points are:
 
 - `README.md`: project status, goals, and recommended reading paths.
 - `CONTRIBUTING.md`: contribution scope and review expectations.
 - `package.json`: root workspace scripts for build, typecheck, tests, checks, Changesets, and Git workflow validation.
 - `pnpm-workspace.yaml`: workspace boundary for current and future packages.
 - `turbo.json`: Turborepo task orchestration for package-level scripts.
-- `packages/core/`: M1 Core Bootstrap package with Manifest validation, Service Capability validation, dependency ordering, lifecycle startup, dispose, and tests.
+- `packages/core/`: M1–M3 baseline package with Manifest validation, Service Capability validation, dependency ordering, lifecycle startup, dispose, Command/Event runtime, document-model / adapter-base types, and tests.
+- `packages/plugins/plugin-remark/` and `packages/plugins/plugin-prosemirror/`: M3 minimal Parser/Serializer and EngineAdapter implementations with cross-package round-trip tests.
 - `.skills/aether-workflow/`: authoritative source for Aether workflow skills.
 - `.codex/skills/` and `.cursor/skills/`: generated host-specific skill mirrors; do not edit Aether workflow mirrors directly.
-- `openspec/specs/`: synced main OpenSpec specs, including Core Bootstrap and engineering workflow specs.
+- `openspec/specs/`: synced main OpenSpec specs, including Core Bootstrap, Command/Event Runtime, Document Model, Adapter Base, and engineering workflow specs.
 - `.superpowers/`: implementation plans, task records, validation notes, reviews, and final reports for completed workflow changes.
 - `docs/architecture/`: long-term principles, boundaries, roadmap, and compatibility notes.
 - `docs/sdk/`: public Plugin SDK contracts, manifests, commands, lifecycle, and examples.

@@ -1,6 +1,6 @@
 # 版本兼容策略
 
-> 状态：M3 Adapter 基座已开始。本页作为版本兼容与 public export 变更的维护入口。
+> 状态：M3 Adapter 基座最小子集已实现。本页作为版本兼容与 public export 变更的维护入口。
 
 ## 版本兼容策略
 

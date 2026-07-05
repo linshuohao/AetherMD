@@ -1,6 +1,6 @@
 # 核心词汇表
 
-> 状态：设计草案 + M1 Core Bootstrap。本页作为对应主题的维护入口。
+> 状态：设计草案 + M1 Core Bootstrap + M2 Command/Event Runtime + M3 Adapter 基座。本页作为对应主题的维护入口。
 
 三套文档必须使用本页术语作为共同语言。
 

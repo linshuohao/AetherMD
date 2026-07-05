@@ -1,6 +1,6 @@
 # AetherMD 组件库治理规范
 
-> 状态：设计草案 + M1 Core Bootstrap。本文定义 AetherMD 作为 NPM 包型 Monorepo、引擎库和 SDK 库长期演进时的治理规则。
+> 状态：设计草案 + M1 Core Bootstrap + M2 Command/Event Runtime + M3 Adapter plugin packages。本文定义 AetherMD 作为 NPM 包型 Monorepo、引擎库和 SDK 库长期演进时的治理规则。
 
 ## 1. 文档定位
 
