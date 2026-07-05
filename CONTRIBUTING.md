@@ -54,4 +54,4 @@ Discover 阶段必须使用 `aether-workflow-discover-context`；不得跳过分
 
 ## License
 
-项目采用 [MIT License](https://opensource.org/licenses/MIT)，决策见 [ADR 009](docs/adr/009-release-governance.md)。根目录 `LICENSE` 文件在 M6 里程碑工程任务中落地；在该文件合并前，不应假设生产使用或再分发条款已随仓库分发。
+项目采用 [MIT License](https://opensource.org/licenses/MIT)，见仓库根目录 [LICENSE](LICENSE) 与 [ADR 009](docs/adr/009-release-governance.md)。

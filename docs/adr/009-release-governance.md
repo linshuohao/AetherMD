@@ -39,7 +39,7 @@ M5 React Shell 已落地，项目即将进入 M6 验证套件。`docs/project-st
 
 3. **许可证**
    - 项目采用 **MIT License**。
-   - **M6 启动前**在仓库根添加 `LICENSE`，并同步 `CONTRIBUTING.md`、`docs/community/README.md`、各 public package 的 `license` 字段与 README。
+   - **M6 启动前**在仓库根添加 `LICENSE`，并同步 `CONTRIBUTING.md`、`docs/community/README.md`、各 public package 的 `license` 字段与 README。（根目录 `LICENSE` 已随 ADR 009 落地；package `license` 字段在 M6 预备同步。）
 
 4. **Demo / examples 最小形态**
    - **`examples/headless-gfm`**（M6 交付）：Node 可运行脚本，`createEditor` + `createGfmPreset()`，无 UI。

@@ -116,5 +116,7 @@ M3/M4 仍排除：
 - [Adapter 协议](adapter-protocol.md)
 - [Command/Event 协议](../sdk/command-event-protocol.md)
 - [测试策略](test-strategy.md)
+- [ADR 009：发布与治理策略](../adr/009-release-governance.md)
+- [发布流程](../community/release-process.md)（M6 预备草案）
 
 ---

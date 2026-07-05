@@ -19,6 +19,9 @@ aether-md/
 │       ├── plugin-prosemirror/
 │       ├── plugin-remark/
 │       └── ...
+├── examples/                        # 规划：不发布 npm（ADR 009）
+│   ├── headless-gfm/                # M6：Node 可运行示例
+│   └── react-basic/                 # M6 末 / M7：Vite + React 示例
 ```
 
 当前实现状态：

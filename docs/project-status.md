@@ -54,7 +54,7 @@ AetherMD 当前是设计到最小实现过渡阶段的开源项目。
 
 ## 已拍板、待工程落地（ADR 009）
 
-- **许可证**：MIT（M6 启动前添加根目录 `LICENSE` 与 package 元数据）
+- **许可证**：MIT（根目录 `LICENSE` 已添加；各 package `license` 字段 M6 预备同步）
 - **Plugin SDK**：不独立 npm 包；类型入口为 `@aether-md/core`（非 `@aether-md/sdk`）
 - **Canary**：M6 仅 publish 预备；M7 启用 Changesets prerelease + CI
 - **Examples 形态**：headless-gfm（M6）+ react-basic（M6 末或 M7 初），不发布 npm

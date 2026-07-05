@@ -1,6 +1,6 @@
 # Plugin SDK
 
-Plugin SDK 文档定义插件与 `@aether-md/core` 之间的公开契约。
+Plugin SDK 文档定义插件与 `@aether-md/core` 之间的公开契约。公开 TypeScript 类型 **MUST** 从 `@aether-md/core` 导入（见 [SDK 概述](overview.md#类型入口)）；本仓库不提供独立 `@aether-md/sdk` npm 包。
 
 ## 页面
 

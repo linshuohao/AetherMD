@@ -15,7 +15,7 @@
 | [兼容策略](compatibility.md) | 版本与兼容策略 |
 | [目录结构](package-layout.md) | 计划中的 monorepo 包结构 |
 | [路线图](roadmap.md) | 最小实现范围与暂不实现但需预留的契约 |
-| [CI 校验计划](ci-checklist.md) | 进入最小实现前的校验计划 |
+| [CI 校验计划](ci-checklist.md) | M6 验证套件前的 CI 门禁与契约一致性校验 |
 
 ## 权威边界
 
