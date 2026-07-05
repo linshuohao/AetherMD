@@ -74,16 +74,18 @@ AetherMD 当前是设计到最小实现过渡阶段的开源项目。
 
 ## 已拍板、待工程落地（ADR 009）
 
-- **许可证**：MIT（根目录 `LICENSE` 与各 package `license` 字段 M6 已同步）
+- **许可证（O4 ✅）**：MIT（根目录 `LICENSE` 与各 package `license` 字段 M6 已同步；无需为此单独开 ADR）
+- **Changelog（O3 ✅）**：M7 之前延续 Changesets `changelog: false`；真正首次 `latest` 前再选手写 `CHANGELOG.md` 或 `@changesets/changelog-github`
 - **Plugin SDK**：不独立 npm 包；类型入口为 `@aether-md/core`（非 `@aether-md/sdk`）
-- **Canary**：M6 仅 publish 预备；M7 启用 Changesets prerelease + CI
+- **首发版本号（O1 ⏸）**、**Canary dist-tag（O2 ⏸）**：延后至 demo 完善且维护者满意后再议；延后期间不 publish、不配置 `NPM_TOKEN`
+- **Canary 工程**：M6 publish 预备已完成；M7 启用 Changesets prerelease + CI（待 O1/O2 闭合后执行）
 - **Examples 形态**：headless-gfm（M6 ✅）+ react-basic（M6 末或 M7 初），不发布 npm
 
 ## 近期重点
 
 1. 稳定文档体系并与 M6 验证套件实现对齐。
 2. 持续审查 SDK 契约与已实现 Core / Adapter / GFM preset / editor orchestration / React Shell 边界（M1–M6）。
-3. 按 [ADR 009](adr/009-release-governance.md) 规划 M7 首次 canary 发布（Changesets prerelease、Release CI、`NPM_TOKEN`）。
+3. 完善 demo（含 `examples/react-basic`）；O1/O2 闭合后再按 [ADR 009](adr/009-release-governance.md) 启动 M7 首发发布（Changesets prerelease、Release CI、`NPM_TOKEN`）。
 4. 跟踪 [v1.0 差距](#v10-差距) 项，按路线图优先级推进 compile-layer merge、内置底座与 Guard 链。
 5. 审查 [MVP 实施计划](engineering/mvp-implementation-plan.md)、[Core API](architecture/core-api.md)、[文档模型](architecture/document-model.md)、[Adapter 协议](engineering/adapter-protocol.md) 和 [测试策略](engineering/test-strategy.md)。
 6. 继续保持 OpenSpec、Docs 和实现同步；M7 前不执行 npm publish。

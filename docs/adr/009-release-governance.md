@@ -91,12 +91,14 @@ M5 React Shell 已落地，项目即将进入 M6 验证套件。`docs/project-st
 
 **开放问题（M7 预备阶段维护者确认）**
 
-| ID | 问题 | 选项 |
-| --- | --- | --- |
-| O1 | 首次 npm 版本号 | `0.x` 预稳定 vs `1.0.0` + 能力子集说明 |
-| O2 | Canary dist-tag | `canary` vs `next` |
-| O3 | Changelog | 延续 `changelog: false` vs `@changesets/changelog-github` |
-| O4 | MIT 复核 | 若有专利顾虑，单独 ADR 改评 Apache-2.0 |
+| ID | 问题 | 选项 | 状态 |
+| --- | --- | --- | --- |
+| O1 | 首次 npm 版本号 | `0.x` 预稳定 vs `1.0.0` + 能力子集说明 | **延后**（demo 满意后再议） |
+| O2 | Canary dist-tag | `canary` vs `next` | **延后**（与 O1 同批） |
+| O3 | Changelog | 延续 `changelog: false` vs `@changesets/changelog-github` | **已闭合**（M7 前 `changelog: false`；首次 `latest` 前再定工具） |
+| O4 | MIT 复核 | 若有专利顾虑，单独 ADR 改评 Apache-2.0 | **已闭合**（维持 MIT） |
+
+决议详情见 [发布流程 — 开放问题决议](../community/release-process.md#开放问题决议adr-009-o1o4)。
 
 **文档同步**
 
