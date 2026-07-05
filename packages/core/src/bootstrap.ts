@@ -5,6 +5,7 @@ import {
   type ExtensionPlugin,
   type LoadedPlugin,
   loadPluginManifests,
+  validateUniquePluginNames,
 } from "./manifest.js";
 
 export interface BootstrapCoreOptions {
@@ -25,6 +26,7 @@ export async function bootstrapCore(
   const context = options.context ?? {};
   const loadedPlugins = loadPluginManifests(plugins);
 
+  validateUniquePluginNames(loadedPlugins);
   validateServiceCapabilities(loadedPlugins);
   const orderedPlugins = resolvePluginDependencyOrder(loadedPlugins);
   const lifecycle = await runStartupLifecycle(orderedPlugins, context);

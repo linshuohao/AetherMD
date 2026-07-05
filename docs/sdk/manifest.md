@@ -105,6 +105,7 @@ function validateManifestVersion(version: number): void {
 
 - 读取 `ExtensionPlugin.manifest`。
 - 校验 `manifest.metadata`、`metadata.name`、`metadata.manifestVersion`、`metadata.provides`、`metadata.requires`、`metadata.dependsOn` 和 `security.requests` 的基本 shape。
+- 在 lifecycle hooks 运行前拒绝 duplicate `metadata.name`（fatal `CoreError`，code `PLUGIN_NAME_DUPLICATE`）。
 - 使用 `SUPPORTED_MANIFEST_VERSIONS = [1] as const` 拒绝不支持的 Manifest version。
 - 在 lifecycle hooks 运行前以 fatal `CoreError` 拒绝 invalid Manifest。
 
