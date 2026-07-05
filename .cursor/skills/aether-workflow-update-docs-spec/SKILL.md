@@ -3,6 +3,9 @@ name: aether-workflow-update-docs-spec
 description: Update AetherMD Docs and OpenSpec specs after implementation and compliance review. Use when a change has passed or nearly passed review and long-lived facts, specs, ADRs, or changelog entries need synchronization.
 ---
 
+<!-- Generated from .skills/aether-workflow/aether-workflow-update-docs-spec/SKILL.md. Do not edit directly. Run pnpm skills:sync. -->
+
+
 # Aether Workflow: Update Docs and Spec
 
 Use this skill as Step 8 of the AetherMD AI-native engineering workflow.
@@ -38,7 +41,7 @@ To invoke a named skill:
 
 1. Use the host skill-invocation mechanism when available (for example a `Skill` tool or `/skill-name`).
 2. Otherwise find the skill by `name` in the host's available-skills list and read its full `SKILL.md` with the host file-read tool, then follow it.
-3. Project skills are mirrored under `.cursor/skills/<name>/SKILL.md` and `.codex/skills/<name>/SKILL.md`. Use either path; content is identical.
+3. Project Aether workflow skills are authored under `.skills/aether-workflow/<name>/SKILL.md`. Host-specific mirrors under `.codex/skills/<name>/SKILL.md` and `.cursor/skills/<name>/SKILL.md` are generated; do not edit mirrors directly.
 4. Installed Superpowers skills are referenced by name only. Resolve them from the host skill list or the Superpowers plugin install path.
 5. Announce each loaded skill by name before applying it.
 6. If a required skill cannot be loaded, pause and report the missing skill name. Do not silently skip it.
@@ -53,6 +56,7 @@ To invoke a named skill:
 ## Version And Code Management Hooks
 
 - Version hook: update long-lived docs/specs for package versions, Manifest versions, public exports, compatibility policy, or package layout when implementation changed them.
+- Branch hook: record the current branch and confirm it matches the active OpenSpec change or has a recorded rationale.
 - Code-management hook: keep docs/spec sync changes separate from unrelated implementation edits in the changed-file summary.
 - Release-note hook: if the repository defines changelog or final-report fields, record whether the change affects package/API versioning or is internal-only.
 
@@ -82,8 +86,9 @@ To invoke a named skill:
 - `openspec-sync-specs` cannot be loaded;
 - review or validation records are missing;
 - versioned contract docs/specs would remain stale after sync;
+- branch scope does not match the active change and no rationale is recorded;
 - docs/spec sync includes unrelated code-management changes.
 
 ## Output
 
-Report updated docs, updated specs, skills loaded (`openspec-sync-specs`), version docs/spec changes, code-management status, ADR or glossary changes, remaining manual confirmations, and recommended next workflow skill.
+Report updated docs, updated specs, branch, skills loaded (`openspec-sync-specs`), version docs/spec changes, code-management status, ADR or glossary changes, remaining manual confirmations, and recommended next workflow skill.

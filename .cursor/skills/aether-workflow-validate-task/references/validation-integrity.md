@@ -1,3 +1,5 @@
+<!-- Generated from .skills/aether-workflow/aether-workflow-validate-task/references/validation-integrity.md. Do not edit directly. Run pnpm skills:sync. -->
+
 # Validation Integrity
 
 Use this reference when deciding whether a task is actually validated.

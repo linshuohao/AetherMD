@@ -1,3 +1,5 @@
+<!-- Generated from .skills/aether-workflow/aether-workflow-create-task/references/task-quality-rules.md. Do not edit directly. Run pnpm skills:sync. -->
+
 # Task Quality Rules
 
 Use this reference when splitting a plan into Superpowers task files or repairing tasks that are too broad.

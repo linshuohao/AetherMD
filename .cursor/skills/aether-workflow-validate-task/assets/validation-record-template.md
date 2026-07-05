@@ -1,3 +1,5 @@
+<!-- Generated from .skills/aether-workflow/aether-workflow-validate-task/assets/validation-record-template.md. Do not edit directly. Run pnpm skills:sync. -->
+
 # Validation Record: <change>
 
 ## Scope

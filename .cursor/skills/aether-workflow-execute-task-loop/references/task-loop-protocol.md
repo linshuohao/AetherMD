@@ -1,3 +1,5 @@
+<!-- Generated from .skills/aether-workflow/aether-workflow-execute-task-loop/references/task-loop-protocol.md. Do not edit directly. Run pnpm skills:sync. -->
+
 # Task Loop Protocol
 
 Use this reference when running all tasks for one small AetherMD change.

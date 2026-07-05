@@ -69,9 +69,9 @@ task 是防腐的最小执行单元。一个 task 应该足够小，能被人工
 
 ### 7. Skill 是流程边界，不是额外官僚层
 
-每一步对应一个 Codex skill，是为了让 Agent 在正确阶段加载正确规则。skill 的职责是减少上下文噪声、固定产物边界和暂停条件，而不是制造新的长期事实来源。
+每一步对应一个 Aether workflow skill，是为了让 Agent 在正确阶段加载正确规则。skill 的职责是减少上下文噪声、固定产物边界和暂停条件，而不是制造新的长期事实来源。
 
-长期事实仍在 Docs；变更事实在 OpenSpec；执行事实在 Superpowers；skill 只是让 Codex 按这些边界行动。
+长期事实仍在 Docs；变更事实在 OpenSpec；执行事实在 Superpowers；skill 只是让 Codex 或 Cursor 按这些边界行动。Aether workflow skill 的权威源在 `.skills/aether-workflow/`；`.codex/skills/` 与 `.cursor/skills/` 是由权威源生成的 host mirror。
 
 ### 8. Git 记录必须符合社区规范
 
@@ -95,6 +95,8 @@ task 是防腐的最小执行单元。一个 task 应该足够小，能被人工
 | 运行时实现策略 | `docs/engineering/` | 数据流、Adapter、错误模型、安全、并发、测试策略 |
 | 架构决策 | `docs/adr/` | 长期取舍和决策历史 |
 | 协作规则 | `docs/community/`、`CONTRIBUTING.md`、`AGENTS.md` | 治理、审查、贡献和 Agent 规则 |
+| Workflow skill 源 | `.skills/aether-workflow/` | Aether workflow skill 的唯一权威源 |
+| Host skill 镜像 | `.codex/skills/`、`.cursor/skills/` | 由权威源同步生成，供 Codex 和 Cursor 加载 |
 | 变更规格 | `openspec/` | 当前只保存每次变更需要的规格增量和归档 |
 | 执行记录 | `.superpowers/` | 计划、任务、审查和运行记录；当前为建议目录 |
 
@@ -175,11 +177,12 @@ Existing Docs
 
 ## Workflow Skills
 
-每一步都有一个项目本地 Codex skill。skills 存放在 `.codex/skills/` 下，用于让 Codex 在对应阶段加载最小必要流程，而不是把整份原则文档反复塞进上下文。
+每一步都有一个项目本地 Aether workflow skill。skills 从 `.skills/aether-workflow/` 维护，并同步到 `.codex/skills/` 与 `.cursor/skills/`，用于让不同 host 在对应阶段加载最小必要流程，而不是把整份原则文档反复塞进上下文。
 
 | 步骤 | 使用 skill | 主要产物 |
 | --- | --- | --- |
 | Step 1 | `aether-workflow-discover-context` | 变更分类、权威 Docs 列表、是否需要 OpenSpec |
+| Step 1.5 | Prepare Branch hook | 符合 Git workflow 的 scoped branch、branch traceability |
 | Step 2 | `aether-workflow-create-change` | OpenSpec proposal、design、delta specs、high-level tasks |
 | Step 3 | `aether-workflow-create-plan` | `.superpowers/plans/<change>.md` |
 | Step 4 | `aether-workflow-create-task` | `.superpowers/tasks/<change>/<NN>-<task>.md` |
@@ -193,9 +196,27 @@ Existing Docs
 使用方式：
 
 1. 人或 Agent 先判断当前处于哪一步。
-2. Codex 使用对应 skill 执行该步骤。
+2. Codex 或 Cursor 使用 host mirror 中的对应 skill 执行该步骤。
 3. 每一步只读取该 skill 要求的输入，不跨阶段提前执行后续工作。
 4. 当前步骤产物完整后，再进入下一步。
+
+### Workflow Skill 源与同步
+
+`.skills/aether-workflow/` 是 Aether workflow skills 的唯一维护入口。`.codex/skills/aether-workflow-*` 与 `.cursor/skills/aether-workflow-*` 由同步脚本生成。
+
+本地命令：
+
+```bash
+pnpm skills:sync
+pnpm skills:check
+```
+
+规则：
+
+- 修改 workflow skill 时，先修改 `.skills/aether-workflow/`。
+- 不直接编辑 `.codex/skills/aether-workflow-*` 或 `.cursor/skills/aether-workflow-*`，除非是在修复生成输出且随后同步回权威源。
+- `pnpm skills:check` 必须能发现 host mirror 与权威源的漂移。
+- `pnpm check` 包含 `pnpm skills:check`，让 CI 在常规质量门禁中发现 drift。
 
 ## 底层工具调用规则
 
@@ -209,7 +230,7 @@ Aether workflow skills 是项目约束层，不替代底层 OpenSpec 和 Superpo
 
 ## 版本与代码管理 Hooks
 
-每个 workflow step 都必须显式经过版本管理和代码管理 hooks。hooks 不替代 OpenSpec 或 Superpowers；它们负责在底层工具调用之间保护 Git、版本和公共契约边界。
+每个 workflow step 都必须显式经过版本管理、分支管理和代码管理 hooks。hooks 不替代 OpenSpec 或 Superpowers；它们负责在底层工具调用之间保护 Git、版本和公共契约边界。
 
 版本管理 hook 检查：
 
@@ -220,6 +241,7 @@ Aether workflow skills 是项目约束层，不替代底层 OpenSpec 和 Superpo
 
 代码管理 hook 检查：
 
+- 当前 branch 是否匹配 active OpenSpec change，或是否有维护者确认的 rationale。
 - 每步开始前运行或读取 `git status --short`，识别 unrelated dirty files。
 - 每个 task 的 changed files 必须能映射到 task allowed files、OpenSpec requirement 或 docs reference。
 - 每步结束前记录 changed-file summary、validation status、deviation 和是否存在未跟踪/未暂存文件。
@@ -229,6 +251,7 @@ Aether workflow skills 是项目约束层，不替代底层 OpenSpec 和 Superpo
 
 - version impact 无法分类。
 - public/versioned contract 变化没有 OpenSpec 或 docs 覆盖。
+- branch scope 与当前 change 不匹配且没有记录 rationale。
 - changed files 无法映射到当前 task 或当前 workflow step。
 - unrelated dirty files 会被混入当前变更。
 
@@ -259,6 +282,34 @@ Aether workflow skills 是项目约束层，不替代底层 OpenSpec 和 Superpo
 
 - 影响架构边界、SDK 契约或实现策略的变更，必须由维护者确认进入 OpenSpec。
 
+## Step 1.5: 准备工作分支
+
+使用 hook：Prepare Branch hook，由 `aether-workflow-create-change` 在写入 OpenSpec artifacts 前执行。
+
+输入：
+
+- Step 1 的变更分类。
+- 预期 OpenSpec change 名称。
+- 当前 Git branch 与 `git status --short`。
+
+执行：
+
+1. 读取当前 branch。
+2. 读取 `git status --short`，识别 unrelated dirty files。
+3. 如果本次请求会创建 OpenSpec artifacts、Superpowers artifacts、实现代码或长期文档，确认当前 branch 不是 `main`。
+4. 如果当前在 `main` 且工作树可安全切换，根据 change type 和 change name 创建 `<type>/<change-name>` 分支。
+5. 如果已有 branch 与 change 不匹配，记录 rationale 或暂停。
+6. 将 branch 写入 proposal、design、plan、validation、review、final report 或 step output 的 traceability 信息。
+
+分支类型沿用 [Git 工作流规范](docs/community/git-workflow.md)：`docs/`、`spec/`、`feature/`、`fix/`、`test/`、`chore/`、`ci/`、`build/`、`refactor/`、`codex/`。
+
+必须暂停的情况：
+
+- 当前在 `main` 但存在 unrelated dirty files。
+- change type 无法判断，不能安全选择分支前缀。
+- 目标分支已存在但语义冲突。
+- 当前 branch 与 active OpenSpec change 不匹配且没有维护者确认的 rationale。
+
 ## Step 2: 创建 OpenSpec Change
 
 使用 skill：`aether-workflow-create-change`
@@ -268,17 +319,19 @@ Aether workflow skills 是项目约束层，不替代底层 OpenSpec 和 Superpo
 - Step 1 的 Docs 引用。
 - 用户需求。
 - 变更范围。
+- Step 1.5 准备好的 scoped branch。
 
 执行：
 
 1. 使用 kebab-case 命名 change，例如 `add-core-bootstrap`、`clarify-adapter-rollback-semantics`。
-2. 调用已安装的 OpenSpec skill 或 command 创建或继续该 change。
-3. 由 OpenSpec 底层能力创建 `openspec/changes/<change>/proposal.md`。
-4. 由 OpenSpec 底层能力创建 `openspec/changes/<change>/design.md`。
-5. 由 OpenSpec 底层能力创建 `openspec/changes/<change>/specs/<capability>/spec.md` 作为 delta spec。
-6. 由 OpenSpec 底层能力创建 `openspec/changes/<change>/tasks.md` 作为高层任务清单。
-7. 运行版本管理 hook，记录 version impact。
-8. 运行代码管理 hook，记录 git 状态和预期 commit scope。
+2. 运行 Prepare Branch hook，确认当前 branch 符合 [Git 工作流规范](docs/community/git-workflow.md)。
+3. 调用已安装的 OpenSpec skill 或 command 创建或继续该 change。
+4. 由 OpenSpec 底层能力创建 `openspec/changes/<change>/proposal.md`。
+5. 由 OpenSpec 底层能力创建 `openspec/changes/<change>/design.md`。
+6. 由 OpenSpec 底层能力创建 `openspec/changes/<change>/specs/<capability>/spec.md` 作为 delta spec。
+7. 由 OpenSpec 底层能力创建 `openspec/changes/<change>/tasks.md` 作为高层任务清单。
+8. 运行版本管理 hook，记录 version impact。
+9. 运行分支与代码管理 hook，记录 branch、git 状态和预期 commit scope。
 
 输出：
 

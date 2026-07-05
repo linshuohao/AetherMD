@@ -1,3 +1,5 @@
+<!-- Generated from .skills/aether-workflow/aether-workflow-implement-task/references/single-task-guardrails.md. Do not edit directly. Run pnpm skills:sync. -->
+
 # Single Task Guardrails
 
 Use this reference before editing files for one Superpowers task.

@@ -1,3 +1,5 @@
+<!-- Generated from .skills/aether-workflow/aether-workflow-review-compliance/references/anticorruption-checklist.md. Do not edit directly. Run pnpm skills:sync. -->
+
 # Anticorruption Checklist
 
 Use this reference during compliance review.

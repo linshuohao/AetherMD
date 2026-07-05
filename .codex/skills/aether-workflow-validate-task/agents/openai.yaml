@@ -1,3 +1,6 @@
+# Generated from .skills/aether-workflow/aether-workflow-validate-task/agents/openai.yaml.
+# Do not edit directly. Run pnpm skills:sync.
+
 interface:
   display_name: "Aether Validate Task"
   short_description: "Validate and record task results"

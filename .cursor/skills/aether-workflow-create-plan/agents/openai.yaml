@@ -1,3 +1,6 @@
+# Generated from .skills/aether-workflow/aether-workflow-create-plan/agents/openai.yaml.
+# Do not edit directly. Run pnpm skills:sync.
+
 interface:
   display_name: "Aether Create Plan"
   short_description: "Draft AetherMD implementation plans"

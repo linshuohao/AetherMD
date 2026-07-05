@@ -1,3 +1,6 @@
+# Generated from .skills/aether-workflow/aether-workflow-execute-task-loop/agents/openai.yaml.
+# Do not edit directly. Run pnpm skills:sync.
+
 interface:
   display_name: "Aether Task Loop"
   short_description: "Run scoped task implementation loops"

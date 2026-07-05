@@ -3,6 +3,9 @@ name: aether-workflow-create-plan
 description: Generate an AetherMD implementation plan from an approved OpenSpec change. Use after proposal, design, delta specs, and high-level tasks exist and before creating executable tasks.
 ---
 
+<!-- Generated from .skills/aether-workflow/aether-workflow-create-plan/SKILL.md. Do not edit directly. Run pnpm skills:sync. -->
+
+
 # Aether Workflow: Create Plan
 
 Use this skill as Step 3 of the AetherMD AI-native engineering workflow.
@@ -34,7 +37,7 @@ To invoke a named skill:
 
 1. Use the host skill-invocation mechanism when available (for example a `Skill` tool or `/skill-name`).
 2. Otherwise find the skill by `name` in the host's available-skills list and read its full `SKILL.md` with the host file-read tool, then follow it.
-3. Project skills are mirrored under `.cursor/skills/<name>/SKILL.md` and `.codex/skills/<name>/SKILL.md`. Use either path; content is identical.
+3. Project Aether workflow skills are authored under `.skills/aether-workflow/<name>/SKILL.md`. Host-specific mirrors under `.codex/skills/<name>/SKILL.md` and `.cursor/skills/<name>/SKILL.md` are generated; do not edit mirrors directly.
 4. Installed Superpowers skills are referenced by name only. Resolve them from the host skill list or the Superpowers plugin install path.
 5. Announce each loaded skill by name before applying it.
 6. If a required skill cannot be loaded, pause and report the missing skill name. Do not silently skip it.
@@ -52,6 +55,7 @@ To invoke a named skill:
 ## Version And Code Management Hooks
 
 - Version hook: include a plan section or bullet that states whether the change affects package versions, `SUPPORTED_MANIFEST_VERSIONS`, `manifestVersion`, public exports, lockfiles, or compatibility docs.
+- Branch hook: record the current branch and confirm it matches the active OpenSpec change or has a recorded rationale.
 - Code-management hook: run `git status --short` before planning and keep the plan scoped to the active OpenSpec change.
 - Branch/commit hook: identify the expected commit type and scope, and whether one task should map to one commit or the whole change should be squashed later.
 
@@ -92,8 +96,9 @@ Use these sections:
 - validation cannot be defined;
 - `openspec-apply-change` or `writing-plans` cannot be loaded;
 - version impact is omitted from the plan;
+- branch scope does not match the active change and no rationale is recorded;
 - code-management scope cannot be isolated from unrelated work.
 
 ## Output
 
-Report the plan path, skills loaded (`openspec-apply-change`, `writing-plans`), version impact, code-management status, phases, task breakdown summary, risks, and recommended next workflow skill.
+Report the plan path, branch, skills loaded (`openspec-apply-change`, `writing-plans`), version impact, code-management status, phases, task breakdown summary, risks, and recommended next workflow skill.

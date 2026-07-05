@@ -3,6 +3,9 @@ name: aether-workflow-archive-change
 description: Archive a completed AetherMD workflow change after tasks, validation, compliance review, and docs/spec sync are complete. Use at the end of the AI-native engineering workflow.
 ---
 
+<!-- Generated from .skills/aether-workflow/aether-workflow-archive-change/SKILL.md. Do not edit directly. Run pnpm skills:sync. -->
+
+
 # Aether Workflow: Archive Change
 
 Use this skill as Step 9 of the AetherMD AI-native engineering workflow.
@@ -36,7 +39,7 @@ To invoke a named skill:
 
 1. Use the host skill-invocation mechanism when available (for example a `Skill` tool or `/skill-name`).
 2. Otherwise find the skill by `name` in the host's available-skills list and read its full `SKILL.md` with the host file-read tool, then follow it.
-3. Project skills are mirrored under `.cursor/skills/<name>/SKILL.md` and `.codex/skills/<name>/SKILL.md`. Use either path; content is identical.
+3. Project Aether workflow skills are authored under `.skills/aether-workflow/<name>/SKILL.md`. Host-specific mirrors under `.codex/skills/<name>/SKILL.md` and `.cursor/skills/<name>/SKILL.md` are generated; do not edit mirrors directly.
 4. Installed Superpowers skills are referenced by name only. Resolve them from the host skill list or the Superpowers plugin install path.
 5. Announce each loaded skill by name before applying it.
 6. If a required skill cannot be loaded, pause and report the missing skill name. Do not silently skip it.
@@ -53,6 +56,7 @@ To invoke a named skill:
 ## Version And Code Management Hooks
 
 - Version hook: final report must state whether package versions, `manifestVersion`, public exports, lockfiles, compatibility docs, or main specs changed.
+- Branch hook: final report must state the current branch and whether it matches the archived change scope.
 - Code-management hook: final report must include changed-file summary, task mapping, validation summary, and whether any untracked or unstaged files remain.
 - Commit/PR hook: if committing or preparing a PR, include OpenSpec, Superpowers tasks, validation, deviations, and version impact in the commit body or PR description.
 
@@ -97,8 +101,9 @@ To invoke a named skill:
 - `openspec-archive-change` or `finishing-a-development-branch` cannot be loaded;
 - task/run state cannot be verified from artifacts;
 - final version impact is not recorded;
+- branch scope does not match the active change and no rationale is recorded;
 - final changed-file/task mapping is incomplete.
 
 ## Output
 
-Report archive path, final report path, skills loaded (`openspec-archive-change`, `finishing-a-development-branch`), synced specs, version impact, code-management summary, validation summary, deviations, and any follow-up changes.
+Report archive path, final report path, branch, skills loaded (`openspec-archive-change`, `finishing-a-development-branch`), synced specs, version impact, code-management summary, validation summary, deviations, and any follow-up changes.

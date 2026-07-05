@@ -10,6 +10,8 @@ AetherMD is currently in the design draft + M1 Core Bootstrap stage for a framew
 - `pnpm-workspace.yaml`: workspace boundary for current and future packages.
 - `turbo.json`: Turborepo task orchestration for package-level scripts.
 - `packages/core/`: M1 Core Bootstrap package with Manifest validation, Service Capability validation, dependency ordering, lifecycle startup, dispose, and tests.
+- `.skills/aether-workflow/`: authoritative source for Aether workflow skills.
+- `.codex/skills/` and `.cursor/skills/`: generated host-specific skill mirrors; do not edit Aether workflow mirrors directly.
 - `openspec/specs/`: synced main OpenSpec specs, including Core Bootstrap and engineering workflow specs.
 - `.superpowers/`: implementation plans, task records, validation notes, reviews, and final reports for completed workflow changes.
 - `docs/architecture/`: long-term principles, boundaries, roadmap, and compatibility notes.
@@ -25,7 +27,9 @@ The repository uses pnpm workspaces and Turborepo. Current validation commands:
 - `pnpm build`: build all packages in scope.
 - `pnpm typecheck`: run TypeScript checks across packages.
 - `pnpm test`: run package test suites.
-- `pnpm check`: run build, typecheck, and test through the workspace check pipeline.
+- `pnpm check`: run workflow skill drift checks, then build, typecheck, and test through the workspace check pipeline.
+- `pnpm skills:sync`: regenerate `.codex/skills/aether-workflow-*` and `.cursor/skills/aether-workflow-*` from `.skills/aether-workflow/`.
+- `pnpm skills:check`: fail if generated Aether workflow skill mirrors drift from the authoritative source.
 - `pnpm core:test`: run the `@aether-md/core` test suite in watchless mode.
 
 For documentation and terminology work, also use:
@@ -50,7 +54,7 @@ Pull requests should focus on one topic, describe whether the change affects arc
 
 ## Agent-Specific Instructions
 
-Use the Aether workflow skills before changing architecture, SDK contracts, engineering strategy, OpenSpec artifacts, Superpowers artifacts, implementation code, or long-lived project documentation. Skills are host-agnostic and mirrored under `.cursor/skills/` and `.codex/skills/` with identical content. Start with `aether-workflow-discover-context` when the step is unclear, then use the matching `aether-workflow-*` skill for the current workflow stage:
+Use the Aether workflow skills before changing architecture, SDK contracts, engineering strategy, OpenSpec artifacts, Superpowers artifacts, implementation code, or long-lived project documentation. Skills are host-agnostic and authored under `.skills/aether-workflow/`; `.cursor/skills/` and `.codex/skills/` contain generated mirrors. Start with `aether-workflow-discover-context` when the step is unclear, then use the matching `aether-workflow-*` skill for the current workflow stage:
 
 - `aether-workflow-create-change` for OpenSpec proposal, design, delta specs, and high-level tasks (`openspec-propose` or `openspec-apply-change`).
 - `aether-workflow-create-plan` for implementation plans (`openspec-apply-change`, `writing-plans`).
@@ -63,5 +67,9 @@ Use the Aether workflow skills before changing architecture, SDK contracts, engi
 - `aether-workflow-archive-change` for final archive and report (`openspec-archive-change`, `finishing-a-development-branch`).
 
 Each skill names its required project and Superpowers skills. Load them via the host skill mechanism when available, otherwise read the skill's `SKILL.md` and follow it. Do not bypass those skills by hand-writing `openspec/` or `.superpowers/` artifacts unless the required lower-level skill has already been loaded and has established the artifact path and structure, or the workflow explicitly allows a small manual clarification. If a required skill is unavailable, pause and report the missing skill name instead of silently falling back.
+
+For non-trivial workflow changes, prepare a scoped branch before writing OpenSpec, Superpowers, implementation, or long-lived documentation artifacts. If currently on `main`, create a branch that follows `docs/community/git-workflow.md`, preferably `<type>/<openspec-change-name>`, after confirming `git status --short` has no unrelated dirty files.
+
+When editing Aether workflow skills, modify `.skills/aether-workflow/` first, then run `pnpm skills:sync` and `pnpm skills:check`. Mirror-only edits under `.codex/skills/aether-workflow-*` or `.cursor/skills/aether-workflow-*` should be treated as generated-output drift unless explicitly repairing generated files.
 
 Do not introduce large implementation scaffolding until the design documents call for it. Prefer small, traceable documentation edits, keep terminology consistent, and update `CONTRIBUTING.md` or this file when repository workflows change.
