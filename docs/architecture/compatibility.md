@@ -1,6 +1,6 @@
 # 版本兼容策略
 
-> 状态：M3 Adapter 基座最小子集已实现。本页作为版本兼容与 public export 变更的维护入口。
+> 状态：M3 Adapter 基座与 M4 GFM preset 最小子集已实现。本页作为版本兼容与 public export 变更的维护入口。
 
 ## 版本兼容策略
 
@@ -22,6 +22,21 @@
 M3 **不**引入 breaking change 到 M1 bootstrap 或 M2 Command/Event 行为。`createEditor`、`AetherEditor`、宿主 `getMarkdown()` / `getDocument()` 仍未 export。
 
 OpenSpec main specs：`openspec/specs/document-model/spec.md`、`openspec/specs/adapter-base/spec.md`；`openspec/specs/core-bootstrap/spec.md` package boundary MODIFIED。
+
+## M4 public export 变更（相对 M3）
+
+| Package | 变更类型 | 说明 |
+| --- | --- | --- |
+| `@aether-md/core` | unchanged (production) | 生产 export 面不变；M4 仅新增 GFM 相关测试与 package-boundary guard |
+| `@aether-md/plugin-remark` | minor extension | GFM parse/serialize（`remark-gfm`）；`SerializationError` 占位符 `[unsupported:block:<name>]` |
+| `@aether-md/plugin-prosemirror` | minor extension | GFM schema/conversion；edit leg 后保留 list、link、mark 结构 |
+| `@aether-md/preset-gfm` | new package (`0.0.0`) | `createGfmPreset()`、`metadata.name: gfm` Manifest；六语法 round-trip 集成测试 |
+| `manifestVersion` | unchanged | `[1]` |
+| M1 bootstrap / M2 Command/Event API | unchanged | 语义与 export 面不变 |
+
+M4 **不**引入 breaking change 到 M1 bootstrap 或 M2 Command/Event 行为。`@aether-md/core` **MUST NOT** re-export GFM preset 工厂或 adapter 实现。`createEditor`、`AetherEditor`、宿主 `getMarkdown()` / `getDocument()` 仍未 export。
+
+OpenSpec main specs：`openspec/specs/gfm-preset/spec.md` ADDED；`openspec/specs/document-model/spec.md`、`openspec/specs/adapter-base/spec.md`、`openspec/specs/core-bootstrap/spec.md` MODIFIED for M4 delta。
 
 ```typescript
 // @aether-md/core 导出
