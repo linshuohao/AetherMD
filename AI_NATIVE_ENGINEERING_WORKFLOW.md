@@ -162,17 +162,39 @@ openspec/
 
 其中 `openspec/` 记录规格生命周期，`.superpowers/` 记录执行生命周期。
 
+## Workflow Path Classification
+
+Discover 阶段必须为每个请求输出 **Workflow Path Classification**，将「是否需要 OpenSpec」与「执行路径的产物厚度」分离。
+
+| Path | OpenSpec | Superpowers | 典型场景 |
+| --- | --- | --- | --- |
+| Maintenance | 否 | 否 | typo、坏链、纯格式 |
+| Quick Change | 否 | 否（委托验证 skill） | 单点 fix、小 docs 澄清 |
+| Spec Change | 是（轻量） | 是（单 task） | 单 capability delta、1 task 可完成 |
+| Full Change | 是（完整） | 是（plan + 多 task + loop） | 架构 / SDK / workflow semantics / 多步 |
+
+升级 ladder（只能向上）：
+
+`Maintenance → Quick Change → Spec Change → Full Change`
+
+路径专用 skill：
+
+- Maintenance：Discover 后直接实现 + PR 最小 traceability
+- Quick Change：`aether-workflow-quick-change`
+- Spec Change：`aether-workflow-create-spec-change` → `aether-workflow-execute-spec-change`
+- Full Change：Step 2–9 现有流程
+
 ## 端到端流程
 
 ```text
 Existing Docs
-  -> OpenSpec Change / Spec
-  -> Superpowers Plan
-  -> Superpowers Task
-  -> Task Execution Loop
-  -> Spec Compliance Review
-  -> Docs / Spec Update
-  -> Archive
+  -> Discover / Path Classification
+  -> Maintenance | Quick Change | Spec Change | Full Change
+  -> (Full Change) OpenSpec Change / Spec
+  -> (Full Change) Superpowers Plan
+  -> (Full Change) Superpowers Task
+  -> (Full Change) Task Execution Loop
+  -> Review / Docs Sync / Archive
 ```
 
 ## Workflow Skills
@@ -181,17 +203,20 @@ Existing Docs
 
 | 步骤 | 使用 skill | 主要产物 |
 | --- | --- | --- |
-| Step 1 | `aether-workflow-discover-context` | 变更分类、权威 Docs 列表、是否需要 OpenSpec |
-| Step 1.5 | Prepare Branch hook | 符合 Git workflow 的 scoped branch、branch traceability |
+| Step 1 | `aether-workflow-discover-context` | path classification、权威 Docs、open_spec_required、推荐 next skill |
+| Step 1.5 | Prepare Branch hook | 符合 Git workflow 的 scoped branch（Quick / Spec / Full 路径） |
+| Quick Change | `aether-workflow-quick-change` | 结构化 PR traceability、validation 结果 |
+| Spec Change Step 2 | `aether-workflow-create-spec-change` | change-brief、delta spec、单 task |
+| Spec Change Execute | `aether-workflow-execute-spec-change` | 单 task 实现、validation、轻量 review/archive |
 | Step 2 | `aether-workflow-create-change` | OpenSpec proposal、design、delta specs、high-level tasks |
 | Step 3 | `aether-workflow-create-plan` | `.superpowers/plans/<change>.md`，包含 task 依赖、parallel group 和 barrier |
 | Step 4 | `aether-workflow-create-task` | `.superpowers/tasks/<change>/<NN>-<task>.md`，下沉 plan 中的调度 metadata |
 | Step 5 | `aether-workflow-implement-task` | 单个 task 的代码或文档修改、task run log |
 | Step 6 | `aether-workflow-validate-task` | `.superpowers/runs/<change>/validation.md` |
 | Step 6.5 | `aether-workflow-execute-task-loop` | 探测 host 能力后按 sequential loop 或 wave-parallel loop 执行并验证 task |
-| Step 7 | `aether-workflow-review-compliance` | `.superpowers/reviews/<change>.md` |
+| Step 7 | `aether-workflow-review-compliance` | `.superpowers/reviews/<change>.md`（Full 或 Spec Change 模式） |
 | Step 8 | `aether-workflow-update-docs-spec` | 更新后的 Docs、OpenSpec main specs、ADR 或 deviation 记录 |
-| Step 9 | `aether-workflow-archive-change` | archived change、final report |
+| Step 9 | `aether-workflow-archive-change` | archived change、final report（Full 或 Spec Change 模式） |
 
 使用方式：
 
@@ -275,7 +300,9 @@ Aether workflow skills 是项目约束层，不替代底层 OpenSpec 和 Superpo
 
 - 相关 Docs 链接列表。
 - 变更类型判断。
-- 是否需要 OpenSpec change 的结论。
+- **Workflow Path Classification**（Maintenance / Quick Change / Spec Change / Full Change）。
+- **why this path is sufficient** 与 **escalation triggers**。
+- 是否需要 OpenSpec change 的结论（`open_spec_required`）。
 - 推荐下一步 skill。
 
 人工确认：

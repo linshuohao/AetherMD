@@ -1,0 +1,10 @@
+# Generated from .skills/aether-workflow/aether-workflow-quick-change/agents/openai.yaml.
+# Do not edit directly. Run pnpm skills:sync.
+
+interface:
+  display_name: "Aether Quick Change"
+  short_description: "Execute a scoped Quick Change with PR traceability"
+  default_prompt: "Use $aether-workflow-quick-change to implement this Quick Change within its declared scope."
+
+policy:
+  allow_implicit_invocation: true

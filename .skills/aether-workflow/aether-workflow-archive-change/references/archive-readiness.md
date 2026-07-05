@@ -11,6 +11,8 @@ Use this reference before archiving a completed change.
 - Docs, specs, ADRs, and glossary updates are complete or explicitly deferred.
 - Final version impact is recorded.
 - Changed files map to tasks or documented finalization work.
+- **Full Change:** plan file exists.
+- **Spec Change:** exactly one task exists; plan file must not exist.
 
 ## Do Not Archive When
 

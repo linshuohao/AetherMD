@@ -1,0 +1,10 @@
+# Generated from .skills/aether-workflow/aether-workflow-execute-spec-change/agents/openai.yaml.
+# Do not edit directly. Run pnpm skills:sync.
+
+interface:
+  display_name: "Aether Execute Spec Change"
+  short_description: "Execute a Spec Change through single-task implement, validate, review, and archive"
+  default_prompt: "Use $aether-workflow-execute-spec-change to execute the single task for this Spec Change."
+
+policy:
+  allow_implicit_invocation: true

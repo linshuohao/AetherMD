@@ -1,0 +1,10 @@
+# Generated from .skills/aether-workflow/aether-workflow-create-spec-change/agents/openai.yaml.
+# Do not edit directly. Run pnpm skills:sync.
+
+interface:
+  display_name: "Aether Create Spec Change"
+  short_description: "Create a lightweight Spec Change with change-brief and delta spec"
+  default_prompt: "Use $aether-workflow-create-spec-change to create a Spec Change after Discover classification."
+
+policy:
+  allow_implicit_invocation: true
