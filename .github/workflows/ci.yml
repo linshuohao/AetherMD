@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: read
 
 jobs:
   quality:
@@ -36,3 +37,48 @@ jobs:
 
       - name: Build
         run: pnpm build
+
+  governance:
+    name: Validate branch name
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate head branch
+        env:
+          BRANCH_NAME: ${{ github.head_ref }}
+        run: |
+          if [[ ! "$BRANCH_NAME" =~ ^(docs|spec|feature|feat|fix|test|chore|ci|build|refactor|codex)/[a-z0-9]+(-[a-z0-9]+)*$ ]]; then
+            echo "Branch name '$BRANCH_NAME' must match <type>/<kebab-topic>."
+            echo "Allowed types: docs, spec, feature, feat, fix, test, chore, ci, build, refactor, codex."
+            echo "Prefer feature/ for new capabilities; feat/ is accepted as a Conventional Commits alias."
+            exit 1
+          fi
+
+  conventions:
+    name: Validate PR title and commits
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install commitlint
+        run: npm install --no-save @commitlint/cli@19.8.1 @commitlint/config-conventional@19.8.1
+
+      - name: Validate commit messages
+        run: npx commitlint --config .commitlintrc.cjs --from "$BASE_SHA" --to "$HEAD_SHA" --verbose
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+
+      - name: Validate PR title
+        run: printf '%s\n' "$PR_TITLE" | npx commitlint --config .commitlintrc.cjs --verbose
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}

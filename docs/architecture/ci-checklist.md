@@ -28,10 +28,11 @@
 
 ### Git 工作流
 
-- [x] PR 标题和 Commit message 按 [Git 工作流规范](../community/git-workflow.md) 使用 commitlint 自动校验
-- [x] PR 分支名由 Branch governance workflow 校验为 `<type>/<kebab-topic>`
-- [ ] GitHub Rulesets 或 Branch protection 要求 `main` 只能通过 PR 合入，并要求 CI、Git conventions 和 Branch governance checks 通过
-- [ ] PR 描述包含 OpenSpec、Superpowers task、Docs / ADR 和 Validation 追踪信息
+- [x] PR 标题和 Commit message 按 [Git 工作流规范](../community/git-workflow.md) 使用 commitlint 自动校验（`CI / Validate PR title and commits`）
+- [x] PR 分支名由 `CI / Validate branch name` 校验为 `<type>/<kebab-topic>`（接受 `feature/` 与 `feat/`）
+- [x] GitHub Ruleset 声明式配置位于 `.github/rulesets/main.json`，由 `node scripts/apply-github-ruleset.mjs` 应用；要求 PR 合入、`main` 禁止 force push、required checks 通过后再 merge
+- [x] PR 合入前 required checks：`Quality gates`、`Validate branch name`、`Validate PR title and commits`；`main` push 仅重跑 `Quality gates`（已移除 flaky post-merge PR 关联审计）
+- [ ] PR 描述包含 OpenSpec、Superpowers task、Docs / ADR 和 Validation 追踪信息（政策要求；尚未自动化校验）
 
 ### 行为回归
 

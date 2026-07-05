@@ -15,6 +15,7 @@
     "skills:check": "node scripts/check-aether-workflow-skills.mjs",
     "lint:commits": "commitlint --config .commitlintrc.cjs --from origin/main --to HEAD --verbose",
     "lint:pr-title": "commitlint --config .commitlintrc.cjs --verbose",
+    "ruleset:apply": "node scripts/apply-github-ruleset.mjs",
     "core:build": "pnpm --filter @aether-md/core build",
     "core:typecheck": "pnpm --filter @aether-md/core exec tsc --noEmit",
     "core:test": "pnpm --filter @aether-md/core test -- --run"
