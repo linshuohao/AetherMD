@@ -29,7 +29,9 @@
 ## 进入后续实现前检查
 
 - 每个公开契约都有唯一归属文档。
-- 每个已接受的架构决策都出现在 [ADR](adr/README.md)。
-- 路线图条目能映射到未来包或里程碑。
-- CI 校验计划足够具体，后续可自动化。
-- 开放问题清晰可见，而不是藏在正文里。
+- 每个已接受的架构决策都出现在 [ADR](adr/README.md)（含 [ADR 009：发布与治理](adr/009-release-governance.md)）。
+- 路线图与 [MVP 实施计划](engineering/mvp-implementation-plan.md) 条目能映射到包或里程碑（含 M6 / M7）。
+- [版本兼容策略](architecture/compatibility.md) 记录各里程碑 public export 变更。
+- CI 校验计划足够具体，后续可自动化（见 [CI 校验计划](architecture/ci-checklist.md)）。
+- 发布与许可证决策已闭合或显式标注待落地项（见 [发布流程](community/release-process.md)）。
+- 开放问题清晰可见，而不是藏在正文里（ADR 009 O1–O3 等）。

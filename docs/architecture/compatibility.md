@@ -1,6 +1,6 @@
 # 版本兼容策略
 
-> 状态：M3 Adapter 基座与 M4 GFM preset 最小子集已实现。本页作为版本兼容与 public export 变更的维护入口。
+> 状态：M3 Adapter 基座、M4 GFM preset、M4.5 Editor Orchestration 与 M5 React Shell 最小子集已实现。本页作为版本兼容与 public export 变更的维护入口。
 
 ## 版本兼容策略
 
@@ -37,6 +37,34 @@ OpenSpec main specs：`openspec/specs/document-model/spec.md`、`openspec/specs/
 M4 **不**引入 breaking change 到 M1 bootstrap 或 M2 Command/Event 行为。`@aether-md/core` **MUST NOT** re-export GFM preset 工厂或 adapter 实现。`createEditor`、`AetherEditor`、宿主 `getMarkdown()` / `getDocument()` 仍未 export。
 
 OpenSpec main specs：`openspec/specs/gfm-preset/spec.md` ADDED；`openspec/specs/document-model/spec.md`、`openspec/specs/adapter-base/spec.md`、`openspec/specs/core-bootstrap/spec.md` MODIFIED for M4 delta。
+
+## M4.5 public export 变更（相对 M4）
+
+| Package | 变更类型 | 说明 |
+| --- | --- | --- |
+| `@aether-md/core` | additive (minor-level) | 新增 `createEditor`、`AetherEditor`、`EditorConfig`、`EditorSecurityConfig`、`EditorStateSnapshot` export；宿主 `getMarkdown()` / `getDocument()`、`dispatch`、`on`、`dispose` |
+| `@aether-md/preset-gfm` | unchanged | 工厂与 Manifest 不变；headless integration 经 `createEditor` 验证 |
+| `@aether-md/plugin-remark` / `@aether-md/plugin-prosemirror` | unchanged (production) | 生产 export 面不变；由显式 wiring 接入 `createEditor` |
+| `manifestVersion` | unchanged | `[1]` |
+| M1 bootstrap / M2 Command/Event API | unchanged | 语义与 export 面不变 |
+
+M4.5 **不**引入 breaking change 到 M1–M4 行为。Core **MUST NOT** re-export GFM preset 或 adapter 实现；**不**通过 `bootstrapCore` silent provide Adapter。React Shell **未** export。
+
+OpenSpec main specs：`openspec/specs/editor-orchestration/spec.md` ADDED；`openspec/specs/command-event-runtime/spec.md`、`openspec/specs/adapter-base/spec.md`、`openspec/specs/core-bootstrap/spec.md` MODIFIED for M4.5 delta。
+
+## M5 public export 变更（相对 M4.5）
+
+| Package | 变更类型 | 说明 |
+| --- | --- | --- |
+| `@aether-md/react` | new package (`0.0.0`) | `AetherEditorRoot`、`AetherEditorContent`、`useAetherEditor`；`peerDependencies`: `react`；依赖 `@aether-md/core` 与 `@aether-md/plugin-prosemirror` |
+| `@aether-md/plugin-prosemirror` | additive (minor-level) | 新增 `createProseMirrorView`、`refreshProseMirrorViewFromSession` 及 view-bridge types；`prosemirror-view` 依赖隔离在本 package |
+| `@aether-md/core` | unchanged (production) | 生产 export 面不变；**无** React / DOM export |
+| `@aether-md/preset-gfm` / `@aether-md/plugin-remark` | unchanged | export 面不变 |
+| `manifestVersion` | unchanged | `[1]` |
+
+M5 **不**引入 breaking change 到 M1–M4.5 Core / preset / remark 行为。`@aether-md/react` **MUST NOT** 直接依赖 `prosemirror-view`；Shell 直接消费 `AetherEditor`（无 Shell Adapter）。
+
+OpenSpec main specs：`openspec/specs/react-shell/spec.md` ADDED；`openspec/specs/editor-orchestration/spec.md` MODIFIED for M5 React Shell 桥接 delta。
 
 ```typescript
 // @aether-md/core 导出
