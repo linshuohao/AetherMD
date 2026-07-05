@@ -1,6 +1,6 @@
 # Plugin SDK 概述
 
-> 状态：设计草案 + M1–M3 最小基线已实现。本页作为对应主题的维护入口；完整 Command Pipeline 与 Shell 集成仍属 v1.0 目标。
+> 状态：设计草案 + M1–M4 最小基线已实现。本页作为对应主题的维护入口；完整 Command Pipeline 与 Shell 集成仍属 v1.0 目标。
 
 ## 概述
 
