@@ -6,10 +6,10 @@ AetherMD 当前是设计到最小实现过渡阶段的开源项目。
 
 | 字段 | 值 |
 | --- | --- |
-| 阶段 | 设计草案 + M1 Core Bootstrap + M2 Command/Event Runtime + M3 Adapter 基座 + M4 GFM Preset + M4.5 Editor Orchestration |
-| 实现 | `@aether-md/core` 已提供 M1 bootstrap、M2 Command/Event、M3 document/adapter 类型与 M4.5 `createEditor` / `AetherEditor` headless 编排；`@aether-md/plugin-remark` 与 `@aether-md/plugin-prosemirror` 提供 Adapter 实现；`@aether-md/preset-gfm` 提供 GFM preset 与 round-trip 集成测试 |
-| 主要产物 | 文档、OpenSpec 规格、`packages/core`、两个 Adapter plugin packages、`packages/preset-gfm` |
-| 当前目标 | 保持 M4.5 实现与长期架构和 SDK 契约同步，再进入 M5 Shell 里程碑 |
+| 阶段 | 设计草案 + M1 Core Bootstrap + M2 Command/Event Runtime + M3 Adapter 基座 + M4 GFM Preset + M4.5 Editor Orchestration + M5 React Shell |
+| 实现 | `@aether-md/core` 已提供 M1 bootstrap、M2 Command/Event、M3 document/adapter 类型与 M4.5 `createEditor` / `AetherEditor` headless 编排；`@aether-md/plugin-remark` 与 `@aether-md/plugin-prosemirror` 提供 Adapter 实现；`@aether-md/preset-gfm` 提供 GFM preset 与 round-trip 集成测试；`@aether-md/react` 提供 M5 React Shell（Root / Content / hook、GateLock、happy-dom 集成测试） |
+| 主要产物 | 文档、OpenSpec 规格、`packages/core`、两个 Adapter plugin packages、`packages/preset-gfm`、`packages/react` |
+| 当前目标 | 保持 M5 实现与长期架构和 SDK 契约同步，再进入 M6 验证套件里程碑 |
 
 ## 已有内容
 
@@ -29,13 +29,15 @@ AetherMD 当前是设计到最小实现过渡阶段的开源项目。
 - `@aether-md/plugin-prosemirror` M3 基线：最小 `EngineAdapter`（create/apply/getDocument/dispose）；跨包 round-trip integration tests
 - `@aether-md/preset-gfm` M4 基线：`createGfmPreset()` 工厂、`metadata.name: gfm` Manifest；六语法 GFM round-trip integration tests（paragraph、heading、strong、emphasis、list、link）
 - `@aether-md/plugin-remark` M4 扩展：GFM parse/serialize（`remark-gfm`）；`CustomBlock` 占位符 `[unsupported:block:<name>]`；不支持节点 `SerializationError` 拒绝
-- `@aether-md/plugin-prosemirror` M4 扩展：GFM schema/conversion；edit leg 后保留 list、link、mark 结构
+- `@aether-md/plugin-prosemirror` M4 扩展：GFM schema/conversion；edit leg 后保留 list、link、mark 结构；M5 扩展：`createProseMirrorView` view-bridge、`prosemirror-view` 依赖隔离在本 package
+- `@aether-md/react` M5 基线：`AetherEditorRoot` / `AetherEditorContent` / `useAetherEditor` 公开 API；直接消费 `AetherEditor`（无 Shell Adapter）；Shell GateLock（`prevValue === nextValue` 跳过重设）；`plugin-prosemirror` view-bridge 挂载；happy-dom 集成测试与 GFM React smoke（paragraph、strong、list）；**无** `prosemirror-view` 直接依赖
 - `openspec/specs/core-bootstrap/spec.md` 作为已同步的 Core Bootstrap main spec
 - `openspec/specs/command-event-runtime/spec.md` 作为已同步的 Command/Event Runtime main spec
 - `openspec/specs/document-model/spec.md` 作为已同步的 Document Model main spec
 - `openspec/specs/adapter-base/spec.md` 作为已同步的 Adapter Base main spec
 - `openspec/specs/gfm-preset/spec.md` 作为已同步的 GFM Preset main spec
-- `openspec/specs/editor-orchestration/spec.md` 作为已同步的 Editor Orchestration main spec
+- `openspec/specs/editor-orchestration/spec.md` 作为已同步的 Editor Orchestration main spec（含 M5 React Shell 桥接措辞）
+- `openspec/specs/react-shell/spec.md` 作为已同步的 React Shell main spec
 - `openspec/specs/engineering-workflow/spec.md` 作为已同步的工程工作流 main spec
 
 ## 尚未开始
@@ -43,7 +45,7 @@ AetherMD 当前是设计到最小实现过渡阶段的开源项目。
 - 已发布包
 - npm publish、canary release、release token
 - Plugin SDK 包（独立 npm 包）
-- React / Vue Shell、`packages/react`
+- Vue Shell、`packages/vue`
 - Demo 应用
 - examples matrix
 - 发布流程
@@ -53,12 +55,12 @@ AetherMD 当前是设计到最小实现过渡阶段的开源项目。
 
 ## 近期重点
 
-1. 稳定文档体系并与 M4.5 实现对齐。
-2. 持续审查 SDK 契约与已实现 Core / Adapter / GFM preset / editor orchestration 边界（M1–M4.5）。
-3. 将路线图和 CI 校验计划转化为 M5 Shell 里程碑。
+1. 稳定文档体系并与 M5 实现对齐。
+2. 持续审查 SDK 契约与已实现 Core / Adapter / GFM preset / editor orchestration / React Shell 边界（M1–M5）。
+3. 将路线图和 CI 校验计划转化为 M6 验证套件里程碑。
 4. 决定仓库治理、许可证和发布策略。
 5. 审查 [MVP 实施计划](engineering/mvp-implementation-plan.md)、[Core API](architecture/core-api.md)、[文档模型](architecture/document-model.md)、[Adapter 协议](engineering/adapter-protocol.md) 和 [测试策略](engineering/test-strategy.md)。
-6. 在进入 Shell 里程碑前，继续保持 OpenSpec、Docs 和实现同步。
+6. 在进入 M6 验证套件前，继续保持 OpenSpec、Docs 和实现同步。
 
 ## 贡献建议
 

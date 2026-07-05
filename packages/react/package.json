@@ -1,0 +1,37 @@
+{
+  "name": "@aether-md/react",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit",
+    "test": "pnpm --filter @aether-md/core build && pnpm --filter @aether-md/plugin-prosemirror build && pnpm --filter @aether-md/preset-gfm build && tsc -p tsconfig.test.json && node --test dist/**/*.test.js"
+  },
+  "peerDependencies": {
+    "react": "^18 || ^19"
+  },
+  "dependencies": {
+    "@aether-md/core": "workspace:*",
+    "@aether-md/plugin-prosemirror": "workspace:*"
+  },
+  "devDependencies": {
+    "@aether-md/plugin-remark": "workspace:*",
+    "@aether-md/preset-gfm": "workspace:*",
+    "@happy-dom/global-registrator": "^17.4.7",
+    "@testing-library/react": "^16.3.0",
+    "@types/node": "^26.1.0",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "happy-dom": "^17.4.7",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "typescript": "^6.0.3"
+  }
+}

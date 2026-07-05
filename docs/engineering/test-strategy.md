@@ -1,6 +1,6 @@
 # 测试策略
 
-> 状态：M1 Core Bootstrap、M2 Command/Event Runtime、M3 Adapter 基座、M4 GFM Preset 与 M4.5 Editor Orchestration 已实现并通过验证。本页定义 MVP 的最小测试矩阵。
+> 状态：M1 Core Bootstrap、M2 Command/Event Runtime、M3 Adapter 基座、M4 GFM Preset、M4.5 Editor Orchestration 与 M5 React Shell 已实现并通过验证。本页定义 MVP 的最小测试矩阵。
 
 ## 测试目标
 
@@ -30,6 +30,9 @@
 - 段落、标题、加粗、斜体、列表、链接完成 Markdown round-trip。（M4 已覆盖 — `@aether-md/preset-gfm` 六语法 integration tests）
 - `dispose` 按逆序调用 `onDestroy`。（M1 已覆盖）
 - 未授权 Runtime Permission 不进入受保护能力路径。（尚未实现）
+- React Shell 挂载、dispatch 路径变更、`onChange` 回调与 `dispose`。（M5 已覆盖 — `@aether-md/react` happy-dom 集成测试）
+- GateLock：`prevValue === nextValue` 时不重设文档。（M5 已覆盖 — `gate-lock.integration.test.tsx`）
+- GFM preset 经 React Shell 的 paragraph、strong、list smoke。（M5 已覆盖 — `gfm-react-smoke.test.tsx`）
 
 ## M1 Core Bootstrap 验证基线
 
@@ -89,6 +92,18 @@ M4.5 baseline 覆盖：
 - M2 regression：standalone `createCommandEventRuntime` 无 `transactionFailed` auto emit；M2 tests 不依赖 preset/plugins。
 
 M4.5 **不**覆盖：React Shell、Guard 链、compile-layer merge、duplicate-command integration test（resolver unit-tested）、Permission enforce。
+
+## M5 React Shell 验证基线
+
+M5 baseline 覆盖：
+
+- `@aether-md/react`：package-boundary guards（公开 exports、无 `ShellAdapter`、无 `prosemirror-view` 直接 import）；`useAetherEditor` change 桥接单元测试；GateLock 单元与集成测试。
+- happy-dom 集成：`AetherEditorRoot` 挂载、`.ProseMirror` 视图、`dispatch` 路径 `onChange`、`dispose` 后 DOM 清理（`react-shell.integration.test.tsx`）；GateLock 受控 `value` 等值 rerender 不重设（`gate-lock.integration.test.tsx`）。
+- GFM React smoke：`createGfmPreset()` + paragraph、strong、unordered list fixtures（`gfm-react-smoke.test.tsx`）；与 M4.5 headless integration 区分。
+- `@aether-md/plugin-prosemirror`：view-bridge unit tests（`createProseMirrorView`、`dispatchInput`、destroy）；additive `readSessionEditorState` 仅供 bridge sync。
+- package export boundary：react 依赖 core + plugin-prosemirror；core 无 react/prosemirror/remark runtime deps；react 无 `prosemirror-view` 直接依赖。
+
+M5 **不**覆盖：Playwright / 浏览器 CI、DOM 键盘输入集成（dispatch 路径替代，见 compliance review D3）、post-unmount `EDITOR_DISPOSED` react 集成（core M4.5 已覆盖）、Vue Shell、toolbar/theme。
 
 ## 契约测试要求
 

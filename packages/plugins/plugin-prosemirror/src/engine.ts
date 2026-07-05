@@ -17,6 +17,19 @@ interface SessionRecord {
 
 const sessions = new Map<string, SessionRecord>();
 
+/** Internal read for view-bridge sync; not part of the public EngineAdapter contract. */
+export function readSessionEditorState(session: EngineSession): EditorState {
+  const record = sessions.get(session.id);
+  if (!record || record.disposed) {
+    throw new AdapterError({
+      code: "APPLY_FAILED",
+      message: "Invalid or disposed engine session",
+    });
+  }
+
+  return record.state;
+}
+
 function replaceTextInDoc(
   doc: AetherDoc,
   blockIndex: number,
