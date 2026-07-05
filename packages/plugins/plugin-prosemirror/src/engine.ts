@@ -40,6 +40,11 @@ function replaceTextInDoc(
   return { type: "doc", children };
 }
 
+function canReplaceTextInBlock(doc: AetherDoc, blockIndex: number): boolean {
+  const block = doc.children[blockIndex];
+  return block?.type === "paragraph" || block?.type === "heading";
+}
+
 export function createProseMirrorEngineAdapter(): EngineAdapter {
   return {
     name: "prosemirror-engine",
@@ -96,6 +101,16 @@ export function createProseMirrorEngineAdapter(): EngineAdapter {
               error: new AdapterError({
                 code: "APPLY_FAILED",
                 message: `Invalid block index: ${request.blockIndex}`,
+              }),
+            };
+          }
+
+          if (!canReplaceTextInBlock(beforeDoc, request.blockIndex)) {
+            return {
+              ok: false,
+              error: new AdapterError({
+                code: "APPLY_FAILED",
+                message: `replaceText does not support block type: ${beforeDoc.children[request.blockIndex]?.type}`,
               }),
             };
           }

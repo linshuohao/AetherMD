@@ -1,5 +1,5 @@
 {
-  "name": "@aether-md/plugin-remark",
+  "name": "@aether-md/preset-gfm",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -16,12 +16,10 @@
   },
   "dependencies": {
     "@aether-md/core": "workspace:*",
-    "remark-gfm": "^4.0.1",
-    "remark-parse": "^11.0.0",
-    "unified": "^11.0.5"
+    "@aether-md/plugin-prosemirror": "workspace:*",
+    "@aether-md/plugin-remark": "workspace:*"
   },
   "devDependencies": {
-    "@types/mdast": "^4.0.4",
     "@types/node": "^26.1.0",
     "typescript": "^6.0.3"
   }

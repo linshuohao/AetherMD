@@ -1,6 +1,6 @@
 # 测试策略
 
-> 状态：M1 Core Bootstrap、M2 Command/Event Runtime 与 M3 Adapter 基座已实现并通过验证。本页定义 MVP 的最小测试矩阵。
+> 状态：M1 Core Bootstrap、M2 Command/Event Runtime、M3 Adapter 基座与 M4 GFM Preset 已实现并通过验证。本页定义 MVP 的最小测试矩阵。
 
 ## 测试目标
 
@@ -27,7 +27,7 @@
 - dispose 后 `dispatch` fail-closed，`emit` 为 no-op。（M2 已覆盖）
 - Adapter 失败时保留上一次可见文档快照。（M3 已覆盖 — `EngineAdapter.apply` contract tests）
 - M3 最小 Markdown round-trip：paragraph、heading+paragraph。（M3 已覆盖 — cross-package integration tests）
-- 段落、标题、加粗、斜体、列表、链接完成 Markdown round-trip。（M4 GFM preset，尚未实现）
+- 段落、标题、加粗、斜体、列表、链接完成 Markdown round-trip。（M4 已覆盖 — `@aether-md/preset-gfm` 六语法 integration tests）
 - `dispose` 按逆序调用 `onDestroy`。（M1 已覆盖）
 - 未授权 Runtime Permission 不进入受保护能力路径。（尚未实现）
 
@@ -64,7 +64,20 @@ M3 baseline 覆盖：
 - cross-package round-trip integration（不依赖 `createEditor` / React / GFM）。
 - package export boundary：M3 允许面 + M4/M5 禁止面；Core 无 remark/prosemirror/react/vue runtime deps。
 
-M3 **不**覆盖：GFM 全覆盖 round-trip、Command Bus 自动 rollback、SerializationError 占位符失败路径。
+M3 **不**覆盖：Command Bus 自动 rollback。
+
+## M4 GFM Preset 验证基线
+
+M4 baseline 覆盖：
+
+- `@aether-md/preset-gfm`：Manifest（`manifestVersion: 1`、`name: gfm`）、`createGfmPreset()` 工厂、package-boundary guards（无 `createEditor` / React / `bootstrapCore` wiring）。
+- 六语法 GFM round-trip matrix：paragraph、heading、strong、emphasis、unordered list、ordered list、link — Markdown → parse → `EngineAdapter.apply`（minimal edit）→ serialize，golden strings 可审查。
+- `@aether-md/plugin-remark` GFM parse/serialize contract tests；`CustomBlock` 占位符 `[unsupported:block:<name>]`；不支持节点 `SerializationError` 拒绝。
+- `@aether-md/plugin-prosemirror` GFM conversion/engine preservation tests（成功 apply 与失败 apply 快照语义）。
+- M3 paragraph/heading round-trip regression（不依赖 preset package）。
+- `CustomBlock` structured round-trip **不**纳入 M4 GFM matrix。
+
+M4 **不**覆盖：`createEditor` / React Shell、`bootstrapCore` Adapter loading、Command Bus 自动 rollback、nested lists/tables、compile-layer。
 
 ## 契约测试要求
 
