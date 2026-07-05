@@ -1,5 +1,9 @@
 # Core Bootstrap Spec
 
+## Purpose
+
+Define the M1 Core Bootstrap contract for the minimal `@aether-md/core` package surface, Manifest validation, Service Capability validation, dependency ordering, lifecycle startup, cleanup, dispose behavior, and package boundary guarantees.
+
 ## Requirements
 
 ### Requirement: Minimal Core package exists
