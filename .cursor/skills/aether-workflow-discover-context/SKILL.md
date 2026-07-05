@@ -3,6 +3,9 @@ name: aether-workflow-discover-context
 description: Discover AetherMD workflow context before creating or changing implementation artifacts. Use when a request may affect architecture, SDK contracts, engineering strategy, OpenSpec changes, Superpowers tasks, workflow guardrails, or long-lived project documentation.
 ---
 
+<!-- Generated from .skills/aether-workflow/aether-workflow-discover-context/SKILL.md. Do not edit directly. Run pnpm skills:sync. -->
+
+
 # Aether Workflow: Discover Context
 
 Use this skill as Step 1 of the AetherMD AI-native engineering workflow.
@@ -27,7 +30,7 @@ To invoke a named skill:
 
 1. Use the host skill-invocation mechanism when available (for example a `Skill` tool or `/skill-name`).
 2. Otherwise find the skill by `name` in the host's available-skills list and read its full `SKILL.md` with the host file-read tool, then follow it.
-3. Project skills are mirrored under `.cursor/skills/<name>/SKILL.md` and `.codex/skills/<name>/SKILL.md`. Use either path; content is identical.
+3. Project Aether workflow skills are authored under `.skills/aether-workflow/<name>/SKILL.md`. Host-specific mirrors under `.codex/skills/<name>/SKILL.md` and `.cursor/skills/<name>/SKILL.md` are generated; do not edit mirrors directly.
 4. Installed Superpowers skills are referenced by name only. Resolve them from the host skill list or the Superpowers plugin install path.
 5. Announce each loaded skill by name before applying it.
 6. If a required skill cannot be loaded, pause and report the missing skill name. Do not silently skip it.

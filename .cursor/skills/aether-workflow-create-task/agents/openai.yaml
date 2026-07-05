@@ -1,3 +1,6 @@
+# Generated from .skills/aether-workflow/aether-workflow-create-task/agents/openai.yaml.
+# Do not edit directly. Run pnpm skills:sync.
+
 interface:
   display_name: "Aether Create Task"
   short_description: "Split plans into scoped tasks"

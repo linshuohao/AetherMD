@@ -1,3 +1,5 @@
+<!-- Generated from .skills/aether-workflow/aether-workflow-review-compliance/assets/compliance-review-template.md. Do not edit directly. Run pnpm skills:sync. -->
+
 # Compliance Review: <change>
 
 ## Summary

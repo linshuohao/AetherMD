@@ -1,3 +1,6 @@
+# Generated from .skills/aether-workflow/aether-workflow-archive-change/agents/openai.yaml.
+# Do not edit directly. Run pnpm skills:sync.
+
 interface:
   display_name: "Aether Archive Change"
   short_description: "Archive completed workflow changes"

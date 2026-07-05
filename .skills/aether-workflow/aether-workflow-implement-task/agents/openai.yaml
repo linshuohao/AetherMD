@@ -1,0 +1,7 @@
+interface:
+  display_name: "Aether Implement Task"
+  short_description: "Implement one scoped AetherMD task"
+  default_prompt: "Use $aether-workflow-implement-task to implement this selected Superpowers task within its boundaries."
+
+policy:
+  allow_implicit_invocation: true

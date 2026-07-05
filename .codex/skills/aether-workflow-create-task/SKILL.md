@@ -3,6 +3,9 @@ name: aether-workflow-create-task
 description: Create small AetherMD task files from an implementation plan. Use when a plan exists and work needs to be split into reviewable, reversible, single-task execution units.
 ---
 
+<!-- Generated from .skills/aether-workflow/aether-workflow-create-task/SKILL.md. Do not edit directly. Run pnpm skills:sync. -->
+
+
 # Aether Workflow: Create Task
 
 Use this skill as Step 4 of the AetherMD AI-native engineering workflow.
@@ -34,7 +37,7 @@ To invoke a named skill:
 
 1. Use the host skill-invocation mechanism when available (for example a `Skill` tool or `/skill-name`).
 2. Otherwise find the skill by `name` in the host's available-skills list and read its full `SKILL.md` with the host file-read tool, then follow it.
-3. Project skills are mirrored under `.cursor/skills/<name>/SKILL.md` and `.codex/skills/<name>/SKILL.md`. Use either path; content is identical.
+3. Project Aether workflow skills are authored under `.skills/aether-workflow/<name>/SKILL.md`. Host-specific mirrors under `.codex/skills/<name>/SKILL.md` and `.cursor/skills/<name>/SKILL.md` are generated; do not edit mirrors directly.
 4. Installed Superpowers skills are referenced by name only. Resolve them from the host skill list or the Superpowers plugin install path.
 5. Announce each loaded skill by name before applying it.
 6. If a required skill cannot be loaded, pause and report the missing skill name. Do not silently skip it.
@@ -51,6 +54,7 @@ To invoke a named skill:
 ## Version And Code Management Hooks
 
 - Version hook: each task that may touch package metadata, lockfiles, public exports, `SUPPORTED_MANIFEST_VERSIONS`, SDK docs, compatibility docs, or main specs must say so explicitly.
+- Branch hook: record the current branch and confirm it matches the active OpenSpec change or has a recorded rationale.
 - Code-management hook: each task must list allowed files, forbidden files, and rollback notes precise enough to stage or revert that task alone.
 - Commit hook: each task should name the likely Conventional Commit type/scope when useful, especially for code or public contract tasks.
 
@@ -113,8 +117,9 @@ Use `TDD Notes` to state how the task should be driven:
 - a task changes public contracts without explicit spec coverage;
 - `openspec-apply-change` or `writing-plans` cannot be loaded;
 - a task can affect versioned contracts but lacks `Version Impact`;
+- branch scope does not match the active change and no rationale is recorded;
 - a task cannot be staged or reviewed independently.
 
 ## Output
 
-Report created task paths, task order, skills loaded (`openspec-apply-change`, `writing-plans`), version-impact coverage, code-management boundaries, validation coverage, and recommended next workflow skill.
+Report created task paths, branch, task order, skills loaded (`openspec-apply-change`, `writing-plans`), version-impact coverage, code-management boundaries, validation coverage, and recommended next workflow skill.

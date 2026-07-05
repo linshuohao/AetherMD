@@ -3,6 +3,9 @@ name: aether-workflow-execute-task-loop
 description: Execute and validate all tasks for one AetherMD change in order. Use after task files exist and before spec compliance review, when the change scope is small enough for an automated implement/validate loop.
 ---
 
+<!-- Generated from .skills/aether-workflow/aether-workflow-execute-task-loop/SKILL.md. Do not edit directly. Run pnpm skills:sync. -->
+
+
 # Aether Workflow: Execute Task Loop
 
 Use this skill as Step 6.5 of the AetherMD AI-native engineering workflow.
@@ -49,7 +52,7 @@ To invoke a named skill:
 
 1. Use the host skill-invocation mechanism when available (for example a `Skill` tool or `/skill-name`).
 2. Otherwise find the skill by `name` in the host's available-skills list and read its full `SKILL.md` with the host file-read tool, then follow it.
-3. Project skills are mirrored under `.cursor/skills/<name>/SKILL.md` and `.codex/skills/<name>/SKILL.md`. Use either path; content is identical.
+3. Project Aether workflow skills are authored under `.skills/aether-workflow/<name>/SKILL.md`. Host-specific mirrors under `.codex/skills/<name>/SKILL.md` and `.cursor/skills/<name>/SKILL.md` are generated; do not edit mirrors directly.
 4. Installed Superpowers skills are referenced by name only. Resolve them from the host skill list or the Superpowers plugin install path.
 5. Announce each loaded skill by name before applying it.
 6. If a required skill cannot be loaded, pause and report the missing skill name. Do not silently skip it.
@@ -65,6 +68,7 @@ To invoke a named skill:
 ## Version And Code Management Hooks
 
 - Pre-loop code hook: run `git status --short` and identify unrelated dirty files before starting the loop.
+- Pre-loop branch hook: record the current branch and confirm it matches the active OpenSpec change or has a recorded rationale.
 - Per-task code hook: after each task, check changed files against that task's allowed files and rollback notes.
 - Per-task version hook: if a task touches versioned contracts, run or record the required version/contract validation before moving on.
 - Post-loop code hook: produce a changed-file summary grouped by task, and do not stage or commit unless explicitly requested.
@@ -129,6 +133,7 @@ During refactor, prefer:
 - tests were deleted, skipped, or weakened;
 - a required source doc contradicts the task;
 - a required skill cannot be loaded;
+- branch scope does not match the active change and no rationale is recorded;
 - unrelated git changes cannot be separated from task changes;
 - a task with versioned contract impact lacks validation.
 
@@ -137,6 +142,7 @@ During refactor, prefer:
 Report:
 
 - change name;
+- branch;
 - skills loaded;
 - task files completed;
 - files changed;

@@ -1,3 +1,6 @@
+# Generated from .skills/aether-workflow/aether-workflow-review-compliance/agents/openai.yaml.
+# Do not edit directly. Run pnpm skills:sync.
+
 interface:
   display_name: "Aether Review Compliance"
   short_description: "Review spec and boundary compliance"

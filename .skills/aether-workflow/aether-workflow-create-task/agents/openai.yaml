@@ -1,0 +1,7 @@
+interface:
+  display_name: "Aether Create Task"
+  short_description: "Split plans into scoped tasks"
+  default_prompt: "Use $aether-workflow-create-task to split this implementation plan into scoped Superpowers tasks."
+
+policy:
+  allow_implicit_invocation: true

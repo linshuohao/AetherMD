@@ -3,6 +3,9 @@ name: aether-workflow-implement-task
 description: Implement exactly one AetherMD Superpowers task with project guardrails. Use when a single task file has been selected and scoped code or documentation changes are required.
 ---
 
+<!-- Generated from .skills/aether-workflow/aether-workflow-implement-task/SKILL.md. Do not edit directly. Run pnpm skills:sync. -->
+
+
 # Aether Workflow: Implement Task
 
 Use this skill as Step 5 of the AetherMD AI-native engineering workflow.
@@ -36,7 +39,7 @@ To invoke a named skill:
 
 1. Use the host skill-invocation mechanism when available (for example a `Skill` tool or `/skill-name`).
 2. Otherwise find the skill by `name` in the host's available-skills list and read its full `SKILL.md` with the host file-read tool, then follow it.
-3. Project skills are mirrored under `.cursor/skills/<name>/SKILL.md` and `.codex/skills/<name>/SKILL.md`. Use either path; content is identical.
+3. Project Aether workflow skills are authored under `.skills/aether-workflow/<name>/SKILL.md`. Host-specific mirrors under `.codex/skills/<name>/SKILL.md` and `.cursor/skills/<name>/SKILL.md` are generated; do not edit mirrors directly.
 4. Installed Superpowers skills are referenced by name only. Resolve them from the host skill list or the Superpowers plugin install path.
 5. Announce each loaded skill by name before applying it.
 6. If a required skill cannot be loaded, pause and report the missing skill name. Do not silently skip it.
@@ -53,6 +56,7 @@ To invoke a named skill:
 ## Version And Code Management Hooks
 
 - Pre-edit code hook: run `git status --short` and inspect the task's allowed/forbidden files before editing.
+- Branch hook: record the current branch and confirm it matches the active OpenSpec change or has a recorded rationale before editing.
 - Version hook: if the task changes package metadata, lockfiles, exports, manifest support, public types, SDK docs, compatibility docs, or OpenSpec main specs, record the version/contract impact in the task `Run Log` or `Deviation`.
 - Post-edit code hook: run `git diff --name-status` or equivalent scoped diff review and confirm every changed file maps to the current task.
 - Staging hook: do not stage, commit, or push unless explicitly requested; if requested, stage only files belonging to the current task and follow `docs/community/git-workflow.md`.
@@ -115,9 +119,10 @@ To invoke a named skill:
 - no meaningful failing test/check/design assertion can be identified;
 - a required source doc contradicts the task;
 - `openspec-apply-change`, `test-driven-development`, or `verification-before-completion` cannot be loaded;
+- branch scope does not match the active change and no rationale is recorded;
 - git status shows unrelated changes that cannot be separated from this task;
 - versioned contract impact appears but is not covered by OpenSpec or task `Version Impact`.
 
 ## Output
 
-Report change name, task id, skills loaded (`openspec-apply-change`, `test-driven-development`, `verification-before-completion`), files changed, version impact, code-management status, validation performed, deviations, and recommended next workflow skill.
+Report change name, branch, task id, skills loaded (`openspec-apply-change`, `test-driven-development`, `verification-before-completion`), files changed, version impact, code-management status, validation performed, deviations, and recommended next workflow skill.

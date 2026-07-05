@@ -1,3 +1,5 @@
+<!-- Generated from .skills/aether-workflow/aether-workflow-create-task/assets/task-template.md. Do not edit directly. Run pnpm skills:sync. -->
+
 # Task <NN>: <title>
 
 Change:

@@ -1,3 +1,5 @@
+<!-- Generated from .skills/aether-workflow/aether-workflow-archive-change/references/archive-readiness.md. Do not edit directly. Run pnpm skills:sync. -->
+
 # Archive Readiness
 
 Use this reference before archiving a completed change.

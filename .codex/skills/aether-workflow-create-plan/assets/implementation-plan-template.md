@@ -1,3 +1,5 @@
+<!-- Generated from .skills/aether-workflow/aether-workflow-create-plan/assets/implementation-plan-template.md. Do not edit directly. Run pnpm skills:sync. -->
+
 # <change> Implementation Plan
 
 ## Change

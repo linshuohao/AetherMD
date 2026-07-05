@@ -1,3 +1,5 @@
+<!-- Generated from .skills/aether-workflow/aether-workflow-archive-change/assets/final-report-template.md. Do not edit directly. Run pnpm skills:sync. -->
+
 # Final Report: <change>
 
 ## Change

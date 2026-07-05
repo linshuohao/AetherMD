@@ -3,6 +3,9 @@ name: aether-workflow-validate-task
 description: Validate an AetherMD task implementation and record results. Use after a task is implemented or when validation needs to be rerun before review or archive.
 ---
 
+<!-- Generated from .skills/aether-workflow/aether-workflow-validate-task/SKILL.md. Do not edit directly. Run pnpm skills:sync. -->
+
+
 # Aether Workflow: Validate Task
 
 Use this skill as Step 6 of the AetherMD AI-native engineering workflow.
@@ -36,7 +39,7 @@ To invoke a named skill:
 
 1. Use the host skill-invocation mechanism when available (for example a `Skill` tool or `/skill-name`).
 2. Otherwise find the skill by `name` in the host's available-skills list and read its full `SKILL.md` with the host file-read tool, then follow it.
-3. Project skills are mirrored under `.cursor/skills/<name>/SKILL.md` and `.codex/skills/<name>/SKILL.md`. Use either path; content is identical.
+3. Project Aether workflow skills are authored under `.skills/aether-workflow/<name>/SKILL.md`. Host-specific mirrors under `.codex/skills/<name>/SKILL.md` and `.cursor/skills/<name>/SKILL.md` are generated; do not edit mirrors directly.
 4. Installed Superpowers skills are referenced by name only. Resolve them from the host skill list or the Superpowers plugin install path.
 5. Announce each loaded skill by name before applying it.
 6. If a required skill cannot be loaded, pause and report the missing skill name. Do not silently skip it.
@@ -52,6 +55,7 @@ To invoke a named skill:
 ## Version And Code Management Hooks
 
 - Version hook: validate any task that touched package metadata, lockfiles, exports, Manifest version support, SDK docs, compatibility docs, or main specs with a focused check or recorded review.
+- Branch hook: record the current branch and confirm it matches the active OpenSpec change or has a recorded rationale.
 - Code-management hook: record changed files and confirm they match task allowed files before marking validation passed.
 - Commit-readiness hook: if the task is intended to be committed, verify the validation record includes commands, status, deviations, and suggested commit scope.
 
@@ -111,8 +115,9 @@ Use the project-defined commands when they exist. Expected future checks include
 - `verification-before-completion` cannot be loaded;
 - `openspec-apply-change` is required for this validation and cannot be loaded;
 - version-impact validation is missing for a versioned contract change;
+- branch scope does not match the active change and no rationale is recorded;
 - changed files do not match the task boundary.
 
 ## Output
 
-Report validation commands, pass/fail status, skills loaded, version checks, code-management checks, recorded results path, deviations, and recommended next workflow skill.
+Report validation commands, pass/fail status, branch, skills loaded, version checks, code-management checks, recorded results path, deviations, and recommended next workflow skill.
