@@ -1,0 +1,155 @@
+import type {
+  AdapterCommandRequest,
+  AdapterTransactionResult,
+  AetherDoc,
+  EngineAdapter,
+  EngineSession,
+} from "@aether-md/core";
+import { AdapterError } from "@aether-md/core";
+import { EditorState } from "prosemirror-state";
+
+import { aetherDocToPm, pmToAetherDoc } from "./conversion.js";
+
+interface SessionRecord {
+  state: EditorState;
+  disposed: boolean;
+}
+
+const sessions = new Map<string, SessionRecord>();
+
+function replaceTextInDoc(
+  doc: AetherDoc,
+  blockIndex: number,
+  text: string,
+): AetherDoc {
+  const children = doc.children.map((block, index) => {
+    if (index !== blockIndex) {
+      return block;
+    }
+
+    if (block.type === "paragraph" || block.type === "heading") {
+      return {
+        ...block,
+        children: [{ type: "text" as const, text }],
+      };
+    }
+
+    return block;
+  });
+
+  return { type: "doc", children };
+}
+
+export function createProseMirrorEngineAdapter(): EngineAdapter {
+  return {
+    name: "prosemirror-engine",
+
+    async create(initialDoc: AetherDoc): Promise<EngineSession> {
+      try {
+        const pmDoc = aetherDocToPm(initialDoc);
+        const state = EditorState.create({ doc: pmDoc });
+        const session: EngineSession = { id: crypto.randomUUID() };
+        sessions.set(session.id, { state, disposed: false });
+        return session;
+      } catch (error) {
+        throw new AdapterError({
+          code: "CREATE_FAILED",
+          message: "Failed to create engine session",
+          cause: error,
+        });
+      }
+    },
+
+    async apply(
+      session: EngineSession,
+      request: AdapterCommandRequest,
+    ): Promise<AdapterTransactionResult> {
+      const record = sessions.get(session.id);
+
+      if (!record) {
+        return {
+          ok: false,
+          error: new AdapterError({
+            code: "APPLY_FAILED",
+            message: "Invalid engine session",
+          }),
+        };
+      }
+
+      if (record.disposed) {
+        return {
+          ok: false,
+          error: new AdapterError({
+            code: "APPLY_FAILED",
+            message: "Engine session is disposed",
+          }),
+        };
+      }
+
+      const beforeDoc = pmToAetherDoc(record.state.doc);
+
+      try {
+        if (request.type === "replaceText") {
+          if (request.blockIndex < 0 || request.blockIndex >= beforeDoc.children.length) {
+            return {
+              ok: false,
+              error: new AdapterError({
+                code: "APPLY_FAILED",
+                message: `Invalid block index: ${request.blockIndex}`,
+              }),
+            };
+          }
+
+          const updatedDoc = replaceTextInDoc(
+            beforeDoc,
+            request.blockIndex,
+            request.text,
+          );
+          const pmDoc = aetherDocToPm(updatedDoc);
+          record.state = EditorState.create({ doc: pmDoc });
+
+          return {
+            ok: true,
+            doc: pmToAetherDoc(record.state.doc),
+          };
+        }
+
+        return {
+          ok: false,
+          error: new AdapterError({
+            code: "APPLY_FAILED",
+            message: `Unsupported command type: ${(request as { type: string }).type}`,
+          }),
+        };
+      } catch (error) {
+        return {
+          ok: false,
+          error: new AdapterError({
+            code: "APPLY_FAILED",
+            message: "Apply failed",
+            cause: error,
+          }),
+        };
+      }
+    },
+
+    getDocument(session: EngineSession): AetherDoc {
+      const record = sessions.get(session.id);
+      if (!record || record.disposed) {
+        return { type: "doc", children: [] };
+      }
+
+      return pmToAetherDoc(record.state.doc);
+    },
+
+    async dispose(session: EngineSession): Promise<void> {
+      const record = sessions.get(session.id);
+      if (!record) {
+        return;
+      }
+
+      record.disposed = true;
+      sessions.delete(session.id);
+    },
+  };
+}
