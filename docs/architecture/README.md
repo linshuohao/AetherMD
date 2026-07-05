@@ -12,10 +12,10 @@
 | [架构总览](overview.md) | 系统总览、确定性数据流、适配器容器模型 |
 | [Core API](core-api.md) | 宿主应用调用 `@aether-md/core` 的最小公开入口 |
 | [文档模型](document-model.md) | AetherDoc / AetherSchema 的框架无关数据边界 |
-| [兼容策略](compatibility.md) | 版本与兼容策略 |
+| [兼容策略](compatibility.md) | 版本与兼容策略；各里程碑 public export 变更（M3–M5） |
 | [目录结构](package-layout.md) | 计划中的 monorepo 包结构 |
 | [路线图](roadmap.md) | 最小实现范围与暂不实现但需预留的契约 |
-| [CI 校验计划](ci-checklist.md) | 进入最小实现前的校验计划 |
+| [CI 校验计划](ci-checklist.md) | M6 验证套件前的 CI 门禁与契约一致性校验 |
 
 ## 权威边界
 

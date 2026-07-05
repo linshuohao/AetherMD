@@ -98,12 +98,12 @@ M4.5 **不**覆盖：React Shell、Guard 链、compile-layer merge、duplicate-c
 M5 baseline 覆盖：
 
 - `@aether-md/react`：package-boundary guards（公开 exports、无 `ShellAdapter`、无 `prosemirror-view` 直接 import）；`useAetherEditor` change 桥接单元测试；GateLock 单元与集成测试。
-- happy-dom 集成：`AetherEditorRoot` 挂载、`.ProseMirror` 视图、`dispatch` 路径 `onChange`、`dispose` 后 DOM 清理（`react-shell.integration.test.tsx`）；GateLock 受控 `value` 等值 rerender 不重设（`gate-lock.integration.test.tsx`）。
-- GFM React smoke：`createGfmPreset()` + paragraph、strong、unordered list fixtures（`gfm-react-smoke.test.tsx`）；与 M4.5 headless integration 区分。
+- happy-dom 集成：`AetherEditorRoot` 挂载、`.ProseMirror` 视图、`dispatch` 路径 `onChange`、`dispose` 后 DOM 清理与 post-unmount `dispatch` fail-closed `EDITOR_DISPOSED`（`react-shell.integration.test.tsx`）；GateLock 受控 `value` 等值 rerender 不重设（`gate-lock.integration.test.tsx`）。
+- GFM React smoke：`createGfmPreset()` + paragraph（含 `dispatch` minimal edit）、strong、unordered list fixtures（`gfm-react-smoke.test.tsx`）；与 M4.5 headless integration 区分。
 - `@aether-md/plugin-prosemirror`：view-bridge unit tests（`createProseMirrorView`、`dispatchInput`、destroy）；additive `readSessionEditorState` 仅供 bridge sync。
 - package export boundary：react 依赖 core + plugin-prosemirror；core 无 react/prosemirror/remark runtime deps；react 无 `prosemirror-view` 直接依赖。
 
-M5 **不**覆盖：Playwright / 浏览器 CI、DOM 键盘输入集成（dispatch 路径替代，见 compliance review D3）、post-unmount `EDITOR_DISPOSED` react 集成（core M4.5 已覆盖）、Vue Shell、toolbar/theme。
+M5 **不**覆盖：Playwright / 浏览器 CI（M6+ 决策）、DOM 键盘输入集成（dispatch 路径替代，见 compliance review D3）、Vue Shell、toolbar/theme。
 
 ## 契约测试要求
 

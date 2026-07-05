@@ -10,4 +10,6 @@ Current boundaries:
 - Do not add npm tokens, release workflows, or publish scripts as part of this baseline.
 - Keep `@aether-md/core` private until the release strategy is explicitly decided.
 
+Publish and canary timing is defined in [ADR 009](../docs/adr/009-release-governance.md) (M7 execution; M6 prep only).
+
 Documentation-only changes usually do not need a changeset unless they change the meaning of a public contract.

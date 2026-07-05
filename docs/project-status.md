@@ -9,14 +9,14 @@ AetherMD 当前是设计到最小实现过渡阶段的开源项目。
 | 阶段 | 设计草案 + M1 Core Bootstrap + M2 Command/Event Runtime + M3 Adapter 基座 + M4 GFM Preset + M4.5 Editor Orchestration + M5 React Shell |
 | 实现 | `@aether-md/core` 已提供 M1 bootstrap、M2 Command/Event、M3 document/adapter 类型与 M4.5 `createEditor` / `AetherEditor` headless 编排；`@aether-md/plugin-remark` 与 `@aether-md/plugin-prosemirror` 提供 Adapter 实现；`@aether-md/preset-gfm` 提供 GFM preset 与 round-trip 集成测试；`@aether-md/react` 提供 M5 React Shell（Root / Content / hook、GateLock、happy-dom 集成测试） |
 | 主要产物 | 文档、OpenSpec 规格、`packages/core`、两个 Adapter plugin packages、`packages/preset-gfm`、`packages/react` |
-| 当前目标 | 保持 M5 实现与长期架构和 SDK 契约同步，再进入 M6 验证套件里程碑 |
+| 当前目标 | 进入 M6 验证套件；按 [ADR 009](adr/009-release-governance.md) 落实 LICENSE 与 publish 预备项 |
 
 ## 已有内容
 
 - 架构原则与边界
 - 插件 SDK 契约草案
 - 工程实现策略
-- 已接受的 ADR
+- 已接受的 ADR（含 [ADR 009：发布与治理策略](adr/009-release-governance.md)）
 - 最小实现路线图与 CI 校验计划
 - 传统设计文档映射
 - MVP 实施计划、Core API、文档模型、Adapter 协议与测试策略草案
@@ -42,23 +42,29 @@ AetherMD 当前是设计到最小实现过渡阶段的开源项目。
 
 ## 尚未开始
 
-- 已发布包
-- npm publish、canary release、release token
-- Plugin SDK 包（独立 npm 包）
+- 已发布包（npm；预备项见 ADR 009 M6）
+- npm publish、canary release、release token（**M7**，ADR 009）
 - Vue Shell、`packages/vue`
-- Demo 应用
-- examples matrix
-- 发布流程
+- `examples/headless-gfm`、`examples/react-basic`（M6 / M6 末，ADR 009）
+- examples matrix（M7 后）
+- 发布流程 CI workflow（**M7**，ADR 009）
 - `createEditor` / `AetherEditor` 完整 Guard 链与 Permission enforce
 - Command Bus 完整 Pipeline（ReadOnlyGuard、CapabilityGuard 等）
 - `bootstrapCore` Adapter plugin 加载与 `core:engine` / `core:parser` silent provide
+
+## 已拍板、待工程落地（ADR 009）
+
+- **许可证**：MIT（根目录 `LICENSE` 已添加；各 package `license` 字段 M6 预备同步）
+- **Plugin SDK**：不独立 npm 包；类型入口为 `@aether-md/core`（非 `@aether-md/sdk`）
+- **Canary**：M6 仅 publish 预备；M7 启用 Changesets prerelease + CI
+- **Examples 形态**：headless-gfm（M6）+ react-basic（M6 末或 M7 初），不发布 npm
 
 ## 近期重点
 
 1. 稳定文档体系并与 M5 实现对齐。
 2. 持续审查 SDK 契约与已实现 Core / Adapter / GFM preset / editor orchestration / React Shell 边界（M1–M5）。
 3. 将路线图和 CI 校验计划转化为 M6 验证套件里程碑。
-4. 决定仓库治理、许可证和发布策略。
+4. 按 [ADR 009](adr/009-release-governance.md) 落实 MIT 许可证与 publish 预备（M6），规划 M7 首次 canary 发布。
 5. 审查 [MVP 实施计划](engineering/mvp-implementation-plan.md)、[Core API](architecture/core-api.md)、[文档模型](architecture/document-model.md)、[Adapter 协议](engineering/adapter-protocol.md) 和 [测试策略](engineering/test-strategy.md)。
 6. 在进入 M6 验证套件前，继续保持 OpenSpec、Docs 和实现同步。
 

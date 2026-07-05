@@ -2,8 +2,10 @@ import "./test-setup.js";
 
 import assert from "node:assert/strict";
 import { afterEach, describe, it } from "node:test";
-import { cleanup, render, waitFor } from "@testing-library/react";
+import { act, cleanup, render, waitFor } from "@testing-library/react";
 import React from "react";
+
+import type { AetherEditor } from "@aether-md/core";
 
 import {
   AetherEditorContent,
@@ -25,7 +27,25 @@ describe("GFM React smoke", () => {
     cleanup();
   });
 
-  it("renders paragraph fixture through React Shell", async () => {
+  it("renders and edits paragraph fixture through dispatch path", async () => {
+    let capturedEditor: AetherEditor | null = null;
+
+    function EditorCapture({
+      onReady,
+    }: {
+      onReady: (editor: AetherEditor) => void;
+    }) {
+      const { editor, ready } = useAetherEditor();
+
+      React.useEffect(() => {
+        if (ready && editor) {
+          onReady(editor);
+        }
+      }, [ready, editor, onReady]);
+
+      return null;
+    }
+
     render(
       React.createElement(
         AetherEditorRoot,
@@ -35,6 +55,11 @@ describe("GFM React smoke", () => {
         },
         React.createElement(AetherEditorContent),
         React.createElement(MarkdownProbe),
+        React.createElement(EditorCapture, {
+          onReady: (editor) => {
+            capturedEditor = editor;
+          },
+        }),
       ),
     );
 
@@ -42,6 +67,21 @@ describe("GFM React smoke", () => {
       const probe = document.querySelector('[data-testid="markdown-probe"]');
       assert.ok(probe);
       assert.match(probe?.textContent ?? "", /Hello world/);
+      assert.ok(capturedEditor);
+    });
+
+    await act(async () => {
+      assert.ok(capturedEditor);
+      const result = await capturedEditor.dispatch({
+        id: "core:replaceText",
+        payload: { blockIndex: 0, text: "Edited paragraph" },
+      });
+      assert.equal(result.ok, true);
+    });
+
+    await waitFor(() => {
+      const probe = document.querySelector('[data-testid="markdown-probe"]');
+      assert.match(probe?.textContent ?? "", /Edited paragraph/);
     });
   });
 

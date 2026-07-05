@@ -54,4 +54,4 @@ Discover 阶段必须使用 `aether-workflow-discover-context`；不得跳过分
 
 ## License
 
-本仓库尚未选择项目许可证。在添加 License 文件前，不应假设生产使用或再分发条款。
+项目采用 [MIT License](https://opensource.org/licenses/MIT)，见仓库根目录 [LICENSE](LICENSE) 与 [ADR 009](docs/adr/009-release-governance.md)。
