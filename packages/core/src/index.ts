@@ -12,8 +12,17 @@ export type {
   CoreErrorOptions,
   PluginErrorCode,
   PluginErrorOptions,
+  AdapterErrorCode,
+  AdapterErrorOptions,
+  SerializationErrorCode,
+  SerializationErrorOptions,
 } from "./errors.js";
-export { CoreError, PluginError } from "./errors.js";
+export {
+  CoreError,
+  PluginError,
+  AdapterError,
+  SerializationError,
+} from "./errors.js";
 export {
   bootstrapCore,
   type BootstrapCoreOptions,
@@ -49,4 +58,27 @@ export {
   createCommandEventRuntime,
   type CommandEventRuntime,
 } from "./command-event-runtime.js";
+export type {
+  AetherBlock,
+  AetherDoc,
+  AetherInline,
+  AetherSchema,
+  CustomBlock,
+  HeadingBlock,
+  LinkInline,
+  ListBlock,
+  MarkedInline,
+  ParagraphBlock,
+  TextInline,
+} from "./document-model.js";
+export type {
+  AdapterCommandRequest,
+  AdapterEvent,
+  AdapterTransactionResult,
+  EngineAdapter,
+  EngineSession,
+  ParserAdapter,
+  ReplaceTextCommand,
+  SerializerAdapter,
+} from "./adapter-types.js";
 

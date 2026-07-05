@@ -68,3 +68,55 @@ export class PluginError extends Error implements AetherError {
     }
   }
 }
+
+export type AdapterErrorCode =
+  | "APPLY_FAILED"
+  | "CREATE_FAILED"
+  | "DISPOSE_FAILED"
+  | "PARSE_FAILED";
+
+export interface AdapterErrorOptions {
+  code: AdapterErrorCode;
+  message: string;
+  cause?: unknown;
+}
+
+export class AdapterError extends Error implements AetherError {
+  readonly code: AdapterErrorCode;
+  readonly severity = "recoverable";
+  readonly source = "adapter";
+  readonly cause?: unknown;
+
+  constructor(options: AdapterErrorOptions) {
+    super(options.message);
+    this.name = "AdapterError";
+    this.code = options.code;
+    if (options.cause !== undefined) {
+      this.cause = options.cause;
+    }
+  }
+}
+
+export type SerializationErrorCode = "UNSUPPORTED_NODE" | "SERIALIZE_FAILED";
+
+export interface SerializationErrorOptions {
+  code: SerializationErrorCode;
+  message: string;
+  cause?: unknown;
+}
+
+export class SerializationError extends Error implements AetherError {
+  readonly code: SerializationErrorCode;
+  readonly severity = "degraded";
+  readonly source = "serialization";
+  readonly cause?: unknown;
+
+  constructor(options: SerializationErrorOptions) {
+    super(options.message);
+    this.name = "SerializationError";
+    this.code = options.code;
+    if (options.cause !== undefined) {
+      this.cause = options.cause;
+    }
+  }
+}

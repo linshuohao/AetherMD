@@ -1,0 +1,51 @@
+import type { AetherDoc, AetherSchema } from "./document-model.js";
+import type { AdapterError, SerializationError } from "./errors.js";
+
+export interface EngineSession {
+  readonly id: string;
+}
+
+export interface ReplaceTextCommand {
+  type: "replaceText";
+  blockIndex: number;
+  text: string;
+}
+
+export type AdapterCommandRequest = ReplaceTextCommand;
+
+export interface AdapterEvent {
+  name: string;
+  source: "adapter";
+  payload?: unknown;
+}
+
+export interface AdapterTransactionResult {
+  ok: boolean;
+  doc?: AetherDoc;
+  markdown?: string;
+  events?: AdapterEvent[];
+  error?: AdapterError;
+}
+
+export interface ParserAdapter {
+  readonly name: string;
+  parse(markdown: string, schema: AetherSchema): Promise<AetherDoc>;
+}
+
+export interface SerializerAdapter {
+  readonly name: string;
+  serialize(doc: AetherDoc, schema: AetherSchema): Promise<string>;
+}
+
+export interface EngineAdapter {
+  readonly name: string;
+  create(initialDoc: AetherDoc): Promise<EngineSession>;
+  apply(
+    session: EngineSession,
+    request: AdapterCommandRequest,
+  ): Promise<AdapterTransactionResult>;
+  getDocument(session: EngineSession): AetherDoc;
+  dispose(session: EngineSession): Promise<void>;
+}
+
+export type { SerializationError };
