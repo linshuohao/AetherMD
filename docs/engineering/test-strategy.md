@@ -1,6 +1,6 @@
 # 测试策略
 
-> 状态：M1 Core Bootstrap 与 M2 Command/Event Runtime 已开始。本页定义 MVP 的最小测试矩阵。
+> 状态：M1 Core Bootstrap、M2 Command/Event Runtime 与 M3 Adapter 基座已开始。本页定义 MVP 的最小测试矩阵。
 
 ## 测试目标
 
@@ -25,8 +25,9 @@
 - Command handler 抛错时返回 `PluginError` 并发出 `pluginError`，不向宿主抛出。（M2 已覆盖；事务回滚延后到 Adapter 里程碑）
 - Event Hub 订阅、投递与取消订阅。（M2 已覆盖）
 - dispose 后 `dispatch` fail-closed，`emit` 为 no-op。（M2 已覆盖）
-- Adapter 失败时保留上一次可见文档快照。（尚未实现）
-- 段落、标题、加粗、斜体、列表、链接完成 Markdown round-trip。（尚未实现）
+- Adapter 失败时保留上一次可见文档快照。（M3 已覆盖 — `EngineAdapter.apply` contract tests）
+- M3 最小 Markdown round-trip：paragraph、heading+paragraph。（M3 已覆盖 — cross-package integration tests）
+- 段落、标题、加粗、斜体、列表、链接完成 Markdown round-trip。（M4 GFM preset，尚未实现）
 - `dispose` 按逆序调用 `onDestroy`。（M1 已覆盖）
 - 未授权 Runtime Permission 不进入受保护能力路径。（尚未实现）
 
@@ -50,17 +51,30 @@ M2 baseline 覆盖：
 - Event Hub `on` / `emit` / unsubscribe，以及 `change` / `pluginError` 投递。
 - handler 抛错隔离为 `PluginError`，并发出 `pluginError`。
 - dispose 后 `dispatch` 返回 core 失败结果，`emit` no-op，重复 dispose 不抛出。
-- package export boundary：允许 Command/Event，继续禁止 Adapter、Markdown parse/serialize、React Shell、Remark、ProseMirror、GFM preset。
+- package export boundary：允许 Command/Event，继续禁止 `createEditor`、Shell、GFM preset；允许 M3 document/adapter types 与 error classes。
+
+## M3 Adapter 基座验证基线
+
+M3 baseline 覆盖：
+
+- `AetherDoc` / `AetherSchema` export 与 JSON 可序列化 shape tests。
+- Adapter 协议 types 与 `AdapterError` / `SerializationError` shape tests。
+- `@aether-md/plugin-remark`：paragraph/heading parse、unknown syntax 降级、deterministic serialize。
+- `@aether-md/plugin-prosemirror`：create/apply/getDocument/dispose、失败 apply 快照保持。
+- cross-package round-trip integration（不依赖 `createEditor` / React / GFM）。
+- package export boundary：M3 允许面 + M4/M5 禁止面；Core 无 remark/prosemirror/react/vue runtime deps。
+
+M3 **不**覆盖：GFM 全覆盖 round-trip、Command Bus 自动 rollback、SerializationError 占位符失败路径。
 
 ## 契约测试要求
 
-Adapter 实现 **SHOULD** 共用同一套 contract tests。任何新的 Adapter 只有通过以下测试，才可视为可用：
+Adapter 实现 **SHOULD** 共用同一套 contract tests。M3 各 plugin package 内已实现等效 contract tests：
 
-- `parse` 返回合法 `AetherDoc`
-- `serialize` 对内置结构确定性输出
-- `apply` 成功返回新快照
-- `apply` 失败不污染旧快照
-- `dispose` 可重复或可安全拒绝重复调用
+- `parse` 返回合法 `AetherDoc`（plugin-remark）
+- `serialize` 对内置结构确定性输出（plugin-remark）
+- `apply` 成功返回新快照（plugin-prosemirror）
+- `apply` 失败不污染旧快照（plugin-prosemirror）
+- `dispose` 可重复或可安全拒绝重复调用（plugin-prosemirror）
 
 ## CI 门禁
 

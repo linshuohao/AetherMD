@@ -1,7 +1,11 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { describe, it } from "node:test";
 
 import * as core from "./index.js";
+import { M1_CORE_CAPABILITIES } from "./capabilities.js";
 
 describe("@aether-md/core package boundary", () => {
   it("exposes the M1 bootstrap runtime surface", () => {
@@ -21,10 +25,17 @@ describe("@aether-md/core package boundary", () => {
     assert.equal(typeof core.PluginError, "function");
   });
 
+  it("exposes the M3 document-model and adapter-base surface", () => {
+    assert.equal(typeof core.AdapterError, "function");
+    assert.equal(typeof core.SerializationError, "function");
+  });
+
   it("does not expose later milestone runtime APIs", () => {
     const exportedKeys = Object.keys(core);
 
     assert.equal(exportedKeys.includes("createEditor"), false);
+    assert.equal(exportedKeys.includes("AetherEditor"), false);
+    assert.equal(exportedKeys.includes("EditorContext"), false);
     assert.equal(exportedKeys.includes("parseMarkdown"), false);
     assert.equal(exportedKeys.includes("serializeMarkdown"), false);
     assert.equal(exportedKeys.includes("getMarkdown"), false);
@@ -34,5 +45,30 @@ describe("@aether-md/core package boundary", () => {
     assert.equal(exportedKeys.includes("remarkPlugin"), false);
     assert.equal(exportedKeys.includes("prosemirrorPlugin"), false);
     assert.equal(exportedKeys.includes("presetGfm"), false);
+  });
+
+  it("does not silently provide adapter capabilities in M1 core set", () => {
+    assert.equal(M1_CORE_CAPABILITIES.includes("core:engine" as never), false);
+    assert.equal(M1_CORE_CAPABILITIES.includes("core:parser" as never), false);
+  });
+
+  it("does not declare remark, prosemirror, react, or vue runtime dependencies", () => {
+    const packageJsonPath = join(
+      dirname(fileURLToPath(import.meta.url)),
+      "..",
+      "package.json",
+    );
+    const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf8")) as {
+      dependencies?: Record<string, string>;
+    };
+    const deps = Object.keys(packageJson.dependencies ?? {});
+
+    for (const dep of deps) {
+      assert.doesNotMatch(
+        dep,
+        /remark|prosemirror|react|vue/i,
+        `unexpected dependency: ${dep}`,
+      );
+    }
   });
 });

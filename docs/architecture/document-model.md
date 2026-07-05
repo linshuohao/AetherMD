@@ -1,6 +1,6 @@
 # 文档模型
 
-> 状态：设计草案。实现开始前，本页定义 AetherMD 的框架无关文档数据边界。
+> 状态：M3 最小子集已实现（`@aether-md/core` export + Adapter plugin round-trip）。本页定义 AetherMD 的框架无关文档数据边界；扩展类型（list/link/mark/custom）已 export 但 M3 不测 round-trip。
 
 ## 目标
 

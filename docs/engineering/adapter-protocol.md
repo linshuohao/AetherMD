@@ -1,6 +1,6 @@
 # Adapter 协议
 
-> 状态：设计草案。实现开始前，本页定义 Core 与底层编辑、解析、序列化引擎之间的协议边界。
+> 状态：M3 最小子集已实现。本页定义 Core 与底层编辑、解析、序列化引擎之间的协议边界；Command Bus 自动 rollback 与完整 command vocabulary 仍属后续里程碑。
 
 ## 设计原则
 
@@ -69,14 +69,25 @@ export interface AdapterTransactionResult {
 - 失败事务 **MUST** 不改变 Core 可见文档快照。
 - Adapter 内部异常 **MUST** 转换为 `AdapterError`。
 
+## M3 已实现子集
+
+| 能力 | M3 状态 | 说明 |
+| --- | --- | --- |
+| 协议类型 export | 已实现 | `@aether-md/core` 导出三类 Adapter 接口与 supporting types |
+| `@aether-md/plugin-remark` | 已实现 | paragraph/heading parse 与 serialize；未知语法降级为 paragraph/text |
+| `@aether-md/plugin-prosemirror` | 已实现 | create/apply/getDocument/dispose；M3 `replaceText` 命令 |
+| 跨包 round-trip | 已实现 | integration tests；不依赖 `createEditor` / React / GFM |
+| Command Bus rollback | 未实现 | M3 通过 Adapter contract tests 验证快照；Bus 仍独立 |
+| Adapter 能力矩阵 / SelectionAdapter | 未实现 | 开放问题 |
+
 ## 回滚语义
 
 Core 在调用 `apply` 前 **SHOULD** 保存当前文档快照。`apply` 失败时：
 
 1. 丢弃失败事务结果。
 2. 恢复 Core 可见快照。
-3. 发出 `transactionFailed` 事件。
-4. 返回失败 `CommandResult`。
+3. 发出 `transactionFailed` 事件。（**M3 未实现** — Command Bus 集成留后续 change）
+4. 返回失败 `CommandResult`。（**M3 未实现** — 当前仅 Adapter 层 `AdapterTransactionResult`）
 
 ## 开放问题
 

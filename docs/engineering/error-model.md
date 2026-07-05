@@ -1,6 +1,6 @@
 # 错误模型
 
-> 状态：设计草案 + M1 Core Bootstrap + M2 Command/Event Runtime。本页作为对应主题的维护入口。
+> 状态：设计草案 + M1 Core Bootstrap + M2 Command/Event Runtime + M3 Adapter 基座（部分）。本页作为对应主题的维护入口。
 
 ## 错误模型
 
@@ -25,7 +25,7 @@ type RenderError        = AetherError & { source: 'render' };
 type SerializationError = AetherError & { source: 'serialization' };
 ```
 
-`@aether-md/core` 当前导出可实例化的 `CoreError` 与 `PluginError` 类，二者均实现 `AetherError`。`AdapterError`、`RenderError` 与 `SerializationError` 仍属后续里程碑。
+`@aether-md/core` 当前导出可实例化的 `CoreError`、`PluginError`、`AdapterError` 与 `SerializationError` 类，均实现 `AetherError`。`RenderError` 仍属后续里程碑。
 
 ### 恢复策略矩阵
 
@@ -33,9 +33,9 @@ type SerializationError = AetherError & { source: 'serialization' };
 | --- | --- | --- | --- |
 | `CoreError` | Manifest 校验失败、Schema 冲突、未知命令、runtime 已 dispose | `fatal` 或 `recoverable` | 启动中止（fatal）；命令路径返回失败结果（recoverable） |
 | `PluginError` | Command handler 未捕获异常 | `recoverable` | 沙盒隔离；返回失败结果并发出 `pluginError`（M2 不要求事务回滚） |
-| `AdapterError` | PM Transaction 失败 | `recoverable` | 原子回滚；`transactionFailed` 事件（尚未实现） |
+| `AdapterError` | PM Transaction 失败 | `recoverable` | M3：Adapter 层返回失败结果并保持 apply 前快照；`transactionFailed` 事件仍 deferred |
 | `RenderError` | NodeView 崩溃 | `degraded` | Fallback Error View Block（尚未实现） |
-| `SerializationError` | 节点无法序列化 | `degraded` | 输出 `[unsupported:block]` 占位符（尚未实现） |
+| `SerializationError` | 节点无法序列化 | `degraded` | M3：类已 export；占位符 `[unsupported:block]` 输出策略仍 deferred |
 
 ### Error Boundary 层级
 
@@ -47,6 +47,17 @@ Core Bootstrap  →  try/catch → CoreError     → Abort Init
 ```
 
 M2 仅实现 Plugin Handler 错误边界：handler 抛错时转换为 `PluginError`，不向宿主抛出，不要求 Adapter 事务回滚。
+
+## M3 Adapter baseline
+
+`@aether-md/core` 与 `@aether-md/plugin-prosemirror` 在 Adapter 路径上实现：
+
+- recoverable `AdapterError`：`APPLY_FAILED`、`CREATE_FAILED` 等（`apply` 返回 `{ ok: false, error }`，不抛出）。
+- degraded `SerializationError`：可实例化并 export；M3 Serializer happy-path 为主，失败占位符策略 deferred。
+
+M3 **不**实现 Command Bus 自动 rollback 或 `transactionFailed` auto emit。Adapter 快照语义由 Adapter contract tests 验证。
+
+`RenderError` 仍属于后续里程碑。
 
 ## M1 Core Bootstrap baseline
 
@@ -66,6 +77,6 @@ M2 仅实现 Plugin Handler 错误边界：handler 抛错时转换为 `PluginErr
 - recoverable `CoreError`：`COMMAND_UNKNOWN`、`RUNTIME_DISPOSED`（`dispatch` 返回 `{ ok: false }`，不抛出）。
 - recoverable `PluginError`：`COMMAND_HANDLER_FAILED`（handler 抛错时隔离，并发出 `pluginError`）。
 
-`AdapterError`、`RenderError` 和 `SerializationError` 仍属于后续里程碑。
+M2 **不**实现 Adapter 事务回滚或 `transactionFailed` 自动 emit。
 
 ---
