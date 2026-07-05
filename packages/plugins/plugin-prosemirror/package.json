@@ -17,11 +17,14 @@
   "dependencies": {
     "@aether-md/core": "workspace:*",
     "prosemirror-model": "^1.24.1",
-    "prosemirror-state": "^1.4.3"
+    "prosemirror-state": "^1.4.3",
+    "prosemirror-view": "^1.38.1"
   },
   "devDependencies": {
     "@aether-md/plugin-remark": "workspace:*",
+    "@happy-dom/global-registrator": "^17.4.7",
     "@types/node": "^26.1.0",
+    "happy-dom": "^17.4.7",
     "typescript": "^6.0.3"
   }
 }

@@ -1,6 +1,6 @@
 # v1.0 CI 校验计划
 
-> 状态：设计草案 + M1–M4 基线 CI 门禁已部分启用（`pnpm check` 覆盖 4 个 workspace package）。本页作为对应主题的维护入口。
+> 状态：设计草案 + M1–M5 基线 CI 门禁已部分启用（`pnpm check` 覆盖 5 个 workspace package）。本页作为对应主题的维护入口。
 
 ## CI 校验计划
 
@@ -38,6 +38,6 @@
 
 - [ ] ConflictResolver 默认策略与 [默认策略表](../sdk/conflict-resolution.md) 一致（单元测试）
 - [ ] Schema 冲突触发 `CoreError` + 启动中止（集成测试）
-- [ ] React Shell GateLock：`prevValue === nextValue` 时不重设文档（集成测试）
+- [x] React Shell GateLock：`prevValue === nextValue` 时不重设文档（集成测试 — `@aether-md/react` `gate-lock.integration.test.tsx`，happy-dom，无 Playwright）
 
 ---

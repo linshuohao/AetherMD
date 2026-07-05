@@ -14,27 +14,68 @@ import { Schema, type Mark as ProseMirrorMark, type Node as ProseMirrorNode } fr
 export const aetherSchema = new Schema({
   nodes: {
     doc: { content: "block+" },
-    paragraph: { group: "block", content: "inline*" },
+    paragraph: {
+      group: "block",
+      content: "inline*",
+      toDOM: () => ["p", 0],
+      parseDOM: [{ tag: "p" }],
+    },
     heading: {
       group: "block",
       content: "inline*",
       attrs: { level: { default: 1 } },
+      toDOM: (node) => [`h${node.attrs.level}`, 0],
+      parseDOM: [
+        { tag: "h1", attrs: { level: 1 } },
+        { tag: "h2", attrs: { level: 2 } },
+        { tag: "h3", attrs: { level: 3 } },
+        { tag: "h4", attrs: { level: 4 } },
+        { tag: "h5", attrs: { level: 5 } },
+        { tag: "h6", attrs: { level: 6 } },
+      ],
     },
-    bullet_list: { group: "block", content: "list_item+" },
+    bullet_list: {
+      group: "block",
+      content: "list_item+",
+      toDOM: () => ["ul", 0],
+      parseDOM: [{ tag: "ul" }],
+    },
     ordered_list: {
       group: "block",
       content: "list_item+",
       attrs: { order: { default: 1 } },
+      toDOM: () => ["ol", 0],
+      parseDOM: [{ tag: "ol" }],
     },
-    list_item: { content: "block+" },
+    list_item: {
+      content: "block+",
+      toDOM: () => ["li", 0],
+      parseDOM: [{ tag: "li" }],
+    },
     text: { group: "inline" },
   },
   marks: {
-    strong: {},
-    emphasis: {},
+    strong: {
+      toDOM: () => ["strong", 0],
+      parseDOM: [{ tag: "strong" }, { tag: "b" }],
+    },
+    emphasis: {
+      toDOM: () => ["em", 0],
+      parseDOM: [{ tag: "em" }, { tag: "i" }],
+    },
     link: {
       attrs: { href: {}, title: { default: null } },
       inclusive: false,
+      toDOM: (mark) => ["a", { href: mark.attrs.href, title: mark.attrs.title }, 0],
+      parseDOM: [
+        {
+          tag: "a[href]",
+          getAttrs: (dom) => {
+            const element = dom as HTMLAnchorElement;
+            return { href: element.getAttribute("href"), title: element.getAttribute("title") };
+          },
+        },
+      ],
     },
   },
 });
