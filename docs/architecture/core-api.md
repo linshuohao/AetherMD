@@ -1,6 +1,6 @@
 # Core API 契约
 
-> 状态：M1 Core Bootstrap 与 M2 Command/Event Runtime 已实现。本页定义宿主应用调用 `@aether-md/core` 的 v1.0 目标公开入口，并记录当前已实现子集。
+> 状态：M1 Core Bootstrap、M2 Command/Event Runtime 与 M3 document-model / adapter-base 类型已实现。本页定义宿主应用调用 `@aether-md/core` 的 v1.0 目标公开入口，并记录当前已实现子集。
 
 ## 范围
 
@@ -17,9 +17,10 @@ v1.0 目标是提供最小可运行编辑器入口：
 当前已实现子集：
 
 - M1：`bootstrapCore`，用于验证 Manifest、Service Capability、plugin dependency order 和 lifecycle startup/dispose。
-- M2：`createCommandEventRuntime`，提供独立的同步 Command Bus 与 Event Hub；不依赖 `bootstrapCore`、Adapter、Markdown 或 Shell。
+- M2：`createCommandEventRuntime`，提供独立的同步 Command Bus 与 Event Hub；不依赖 `bootstrapCore`、Adapter 实现、Markdown 或 Shell。
+- M3：document-model 与 adapter-base **类型** export（`AetherDoc`、`AetherSchema`、三类 Adapter 协议、`AdapterError` / `SerializationError`）；Adapter **实现**位于 `@aether-md/plugin-remark` 与 `@aether-md/plugin-prosemirror`，不由 Core 直接提供 parse/serialize/engine 运行时。
 
-尚未实现：`createEditor`、`AetherEditor`、Adapter、Markdown parse/serialize、React Shell、完整 Guard 链与文档读写 API。
+尚未实现：`createEditor`、`AetherEditor`、宿主级 `getMarkdown()` / `getDocument()`、React Shell、完整 Guard 链、Command Bus ↔ Adapter 编排、`bootstrapCore` Adapter plugin 加载。
 
 ## M1：`bootstrapCore`
 
@@ -55,6 +56,33 @@ export interface CommandEventRuntime {
 - 创建 runtime **MUST NOT** 要求 `bootstrapCore`、Adapter、Markdown 或 Shell。
 
 完整类型见 [Command/Event 协议](../sdk/command-event-protocol.md)。main spec 见 `openspec/specs/command-event-runtime/spec.md`。
+
+## M3：document-model 与 adapter-base 类型（已实现子集）
+
+`@aether-md/core` 导出框架无关文档类型与 Adapter 协议，供 plugin package 与后续 Shell 消费：
+
+```typescript
+// document-model（type exports）
+export type { AetherDoc, AetherBlock, AetherInline, AetherSchema, ParagraphBlock, HeadingBlock, TextInline, /* … */ };
+
+// adapter-base（type exports + error classes）
+export type { ParserAdapter, SerializerAdapter, EngineAdapter, EngineSession, AdapterCommandRequest, AdapterTransactionResult, AdapterEvent };
+export { AdapterError, SerializationError };
+```
+
+行为约束：
+
+- Core **MUST NOT** 直接依赖 Remark、ProseMirror、React 或 Vue。
+- `EngineAdapter.getDocument(session)` 是 Adapter 协议方法，**不是**宿主 `AetherEditor.getDocument()`。
+- M3 **MUST NOT** 通过 `bootstrapCore` silent provide `core:engine` / `core:parser`。
+- M3 **MUST NOT** 在 `createCommandEventRuntime.dispatch` 中自动 invoke Adapter rollback 或 emit `transactionFailed`。
+
+最小 Adapter 实现包：
+
+- `@aether-md/plugin-remark`：`createRemarkParserAdapter()`、`createRemarkSerializerAdapter()`
+- `@aether-md/plugin-prosemirror`：`createProseMirrorEngineAdapter()`
+
+main specs 见 `openspec/specs/document-model/spec.md`、`openspec/specs/adapter-base/spec.md`。
 
 ## 创建入口（v1.0 目标，尚未实现）
 

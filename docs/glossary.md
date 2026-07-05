@@ -22,7 +22,7 @@
 * **清单 (Manifest / ExtensionManifest)**：插件声明式描述符，四层：`metadata` / `compile` / `runtime` / `security`（详见 [Manifest 分层契约](sdk/manifest.md)）。
 * **适配器 (Adapter)**：对 ProseMirror、Remark 等重型依赖的容器化封装层。
 * **文档快照 (AetherDoc)**：Core、SDK 与 Adapter 之间共享的框架无关文档树。
-* **模式声明 (AetherSchema)**：插件声明的节点、标记、序列化规则集合。
+* **模式声明 (AetherSchema)**：Parser/Serializer Adapter 签名使用的 schema 占位；M3 最小形状 `{ version: 1 }`，compile-layer merge 仍属 M4+。
 * **契约数据 (AetherDoc / AetherSchema)**：框架无关的中间态数据结构。
 
 ---
