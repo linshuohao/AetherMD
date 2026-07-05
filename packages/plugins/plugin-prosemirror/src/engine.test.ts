@@ -1,9 +1,10 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
-import type { AetherDoc, HeadingBlock, ParagraphBlock, TextInline } from "@aether-md/core";
+import type { AetherDoc, HeadingBlock, LinkInline, ListBlock, MarkedInline, ParagraphBlock, TextInline } from "@aether-md/core";
 import { AdapterError } from "@aether-md/core";
 
+import { gfmFixtureDoc } from "./fixtures/gfm-doc.js";
 import { createProseMirrorEngineAdapter } from "./engine.js";
 
 function paragraphDoc(text: string): AetherDoc {
@@ -99,5 +100,60 @@ describe("ProseMirror EngineAdapter", () => {
 
     const afterDispose = engine.getDocument(session);
     assert.equal(afterDispose.children.length, 0);
+  });
+});
+
+describe("ProseMirror EngineAdapter GFM structures", () => {
+  const engine = createProseMirrorEngineAdapter();
+
+  it("preserves GFM structures in unedited blocks after successful apply", async () => {
+    const initial = gfmFixtureDoc();
+    const session = await engine.create(initial);
+
+    const result = await engine.apply(session, {
+      type: "replaceText",
+      blockIndex: 0,
+      text: "updated bold",
+    });
+
+    assert.equal(result.ok, true);
+    const snapshot = engine.getDocument(session);
+
+    const list = snapshot.children[2] as ListBlock;
+    assert.equal(list.type, "list");
+    assert.equal(list.ordered, false);
+
+    const linkParagraph = snapshot.children[3] as ParagraphBlock;
+    const link = linkParagraph.children[0] as LinkInline;
+    assert.equal(link.type, "link");
+    assert.equal(link.href, "https://example.com");
+
+    const emphasisParagraph = snapshot.children[1] as ParagraphBlock;
+    const emphasis = emphasisParagraph.children[0] as MarkedInline;
+    assert.equal(emphasis.type, "mark");
+    assert.equal(emphasis.mark, "emphasis");
+  });
+
+  it("preserves GFM snapshot on failed apply without polluting structures", async () => {
+    const initial = gfmFixtureDoc();
+    const session = await engine.create(initial);
+    const before = engine.getDocument(session);
+
+    const result = await engine.apply(session, {
+      type: "replaceText",
+      blockIndex: 99,
+      text: "invalid",
+    });
+
+    assert.equal(result.ok, false);
+    assert.ok(result.error instanceof AdapterError);
+
+    const after = engine.getDocument(session);
+    assert.deepEqual(after, before);
+
+    const list = after.children[2] as ListBlock;
+    assert.equal(list.type, "list");
+    const linkParagraph = after.children[3] as ParagraphBlock;
+    assert.equal((linkParagraph.children[0] as LinkInline).type, "link");
   });
 });
