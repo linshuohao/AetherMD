@@ -2,14 +2,25 @@
 
 AetherMD 是一个处于设计到最小实现过渡阶段的开源 Markdown 编辑器架构项目。
 
-项目目标是沉淀一个交互驱动、框架无关、高度插件化的现代富文本 Markdown 引擎。当前仓库已引入 `@aether-md/core` 的 M1–M4.5 最小基线、`@aether-md/plugin-remark` 与 `@aether-md/plugin-prosemirror` 两个 Adapter plugin packages、`@aether-md/preset-gfm` GFM preset、`@aether-md/react` M5 React Shell，以及 `examples/headless-gfm` M6 headless 集成演示；主要产物仍是架构、插件契约、工程策略、OpenSpec 规格和最小 Core / Adapter / Preset / React 实现。
+项目目标是沉淀一个交互驱动、框架无关、高度插件化的现代富文本 Markdown 引擎。当前仓库已引入 `@aether-md/core` 的 M1–M4.5 最小基线、`@aether-md/plugin-remark` 与 `@aether-md/plugin-prosemirror` 两个 Adapter plugin packages、`@aether-md/preset-gfm` GFM preset、`@aether-md/react` M5 React Shell，以及 M6 集成演示 `examples/headless-gfm`（Node headless）与 `examples/react-basic`（Vite + React）；主要产物仍是架构、插件契约、工程策略、OpenSpec 规格和最小 Core / Adapter / Preset / React 实现。
 
 ## 当前状态
 
 - 阶段：设计草案 + M1 Core Bootstrap + M2 Command/Event Runtime + M3 Adapter 基座 + M4 GFM Preset + M4.5 Editor Orchestration + M5 React Shell + **M6 验证套件**
-- 实现状态：`@aether-md/core` 已提供 M1 bootstrap、M2 Command/Event、M3 document/adapter 类型与 M4.5 headless `createEditor` / `AetherEditor`；两个 Adapter plugin packages、`@aether-md/preset-gfm` 与 `@aether-md/react` 提供 GFM round-trip 与 React Shell 挂载；M6 交付 headless GFM 集成证明、G11/G6 CI 门禁与 publish 预备元数据
-- 主要产物：文档、OpenSpec 规格、`packages/core`、两个 Adapter plugin packages、`packages/preset-gfm`、`packages/react`、`examples/headless-gfm`
+- 实现状态：`@aether-md/core` 已提供 M1 bootstrap、M2 Command/Event、M3 document/adapter 类型与 M4.5 headless `createEditor` / `AetherEditor`；两个 Adapter plugin packages、`@aether-md/preset-gfm` 与 `@aether-md/react` 提供 GFM round-trip 与 React Shell 挂载；M6 交付 headless GFM 集成证明、React Shell 集成 demo、G11/G6 CI 门禁与 publish 预备元数据
+- 主要产物：文档、OpenSpec 规格、`packages/core`、两个 Adapter plugin packages、`packages/preset-gfm`、`packages/react`、`examples/headless-gfm`、`examples/react-basic`
 - 当前目标：M6 验证套件已闭合；规划 M7 首次 canary 发布（见 [ADR 009](docs/adr/009-release-governance.md)）
+
+## 工作区示例
+
+两个示例均为 workspace private package，**不发布 npm**。在仓库根目录执行 `pnpm install` 与 `pnpm build` 后：
+
+| 示例 | 说明 | 本地运行 |
+| --- | --- | --- |
+| `examples/headless-gfm` | Node headless GFM 集成（`createEditor` + `createGfmPreset()`） | `pnpm --filter @aether-md/example-headless-gfm build && pnpm --filter @aether-md/example-headless-gfm start` |
+| `examples/react-basic` | Vite + React Shell（`AetherEditorRoot` / GateLock 受控演示） | `pnpm --filter @aether-md/example-react-basic dev` |
+
+两个示例的 `typecheck`（`tsc --noEmit`）均纳入根 `pnpm check`（G6）。详见各示例目录下的 `README.md` 与 [项目状态](docs/project-status.md)。
 
 ## 文档入口
 

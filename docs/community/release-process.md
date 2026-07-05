@@ -26,6 +26,7 @@ M6 仅完成 ADR 009 publish **预备**；五包仍为 `private: true`；**未**
 | **根 `changeset:publish`** | 根 `package.json` 脚本 `"changeset:publish": "changeset publish"`（M7 前仅预留，维护者 **禁止** 本地 `npm publish`） |
 | **`LICENSE`** | 根目录 MIT 许可证；与各 package `license` 字段一致 |
 | **`examples/headless-gfm`** | `private: true`；**不**纳入 npm 发布矩阵 |
+| **`examples/react-basic`** | `private: true`；**不**纳入 npm 发布矩阵 |
 
 ## 发布包矩阵（M7 目标）
 
