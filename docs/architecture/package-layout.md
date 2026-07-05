@@ -1,6 +1,6 @@
 # 规范目录结构
 
-> 状态：M1 Core Bootstrap 与 M3 Adapter plugin packages 已开始。本页作为包布局主题的维护入口。
+> 状态：M1 Core Bootstrap 与 M3 Adapter plugin packages 已实现（MVP 子集）。本页作为包布局主题的维护入口。
 
 ## 规范目录结构
 

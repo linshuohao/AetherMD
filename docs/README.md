@@ -1,6 +1,6 @@
 # AetherMD 文档
 
-这里是 AetherMD 的公开文档入口。项目当前处于设计到最小实现过渡阶段，本文档体系用于明确架构边界、插件契约、工程策略和 M1 Core Bootstrap 的实现基线。
+这里是 AetherMD 的公开文档入口。项目当前处于设计到最小实现过渡阶段，本文档体系用于明确架构边界、插件契约、工程策略和 M1–M3 最小实现基线。
 
 ## 阅读路径
 
@@ -24,9 +24,9 @@
 
 ## 当前状态
 
-- 阶段：设计草案 + M1 Core Bootstrap
-- 实现：`@aether-md/core` 最小 bootstrap 基线已开始
-- 目标：保持最小实现、OpenSpec 规格和长期 Docs 一致
+- 阶段：设计草案 + M1 Core Bootstrap + M2 Command/Event Runtime + M3 Adapter 基座
+- 实现：`@aether-md/core` 已提供 M1 bootstrap、M2 Command/Event 与 M3 document/adapter 类型；`@aether-md/plugin-remark` 与 `@aether-md/plugin-prosemirror` 提供最小 Adapter 实现
+- 目标：保持已实现里程碑、OpenSpec 规格和长期 Docs 一致
 
 ## 维护规则
 

@@ -1,6 +1,6 @@
 # AI-native Engineering Workflow
 
-> 状态：设计草案 + M1 Core Bootstrap。本文是 AetherMD 的顶层工程工作流原则，定义项目使用 Docs、OpenSpec、Superpowers 与 Codex 协作时的执行流程和产物边界。
+> 状态：设计草案 + M1 Core Bootstrap + M2 Command/Event Runtime + M3 Adapter 基座。本文是 AetherMD 的顶层工程工作流原则，定义项目使用 Docs、OpenSpec、Superpowers 与 Codex 协作时的执行流程和产物边界。
 
 ## 目的
 

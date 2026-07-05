@@ -1,6 +1,6 @@
 # 测试策略
 
-> 状态：M1 Core Bootstrap、M2 Command/Event Runtime 与 M3 Adapter 基座已开始。本页定义 MVP 的最小测试矩阵。
+> 状态：M1 Core Bootstrap、M2 Command/Event Runtime 与 M3 Adapter 基座已实现并通过验证。本页定义 MVP 的最小测试矩阵。
 
 ## 测试目标
 

@@ -1,6 +1,6 @@
 # Service Capability 与 Runtime Permission
 
-> 状态：设计草案。实现开始前，本页作为对应主题的维护入口。
+> 状态：设计草案 + M1 Core Bootstrap（Service Capability 校验已实现）。本页作为对应主题的维护入口。
 
 ## Service Capability 与 Runtime Permission 双轨模型
 
