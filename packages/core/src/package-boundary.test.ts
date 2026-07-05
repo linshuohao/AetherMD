@@ -30,11 +30,13 @@ describe("@aether-md/core package boundary", () => {
     assert.equal(typeof core.SerializationError, "function");
   });
 
-  it("does not expose later milestone runtime APIs", () => {
+  it("exposes M4.5 editor orchestration entry without Shell or preset re-exports", () => {
     const exportedKeys = Object.keys(core);
 
-    assert.equal(exportedKeys.includes("createEditor"), false);
-    assert.equal(exportedKeys.includes("AetherEditor"), false);
+    assert.equal(exportedKeys.includes("createEditor"), true);
+    assert.equal(typeof core.createEditor, "function");
+    assert.equal(exportedKeys.includes("createEditorSync"), false);
+    assert.equal(exportedKeys.includes("createEditorLite"), false);
     assert.equal(exportedKeys.includes("EditorContext"), false);
     assert.equal(exportedKeys.includes("parseMarkdown"), false);
     assert.equal(exportedKeys.includes("serializeMarkdown"), false);

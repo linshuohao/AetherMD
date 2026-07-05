@@ -1,6 +1,6 @@
 # MVP 实施计划
 
-> 状态：M1 Core Bootstrap、M2 Command/Event Runtime、M3 Adapter 基座与 M4 GFM Preset 已实现并通过验证。本页把 v1.0 路线图拆成可执行的最小实现任务。
+> 状态：M1 Core Bootstrap、M2 Command/Event Runtime、M3 Adapter 基座、M4 GFM Preset 与 M4.5 Editor Orchestration 已实现并通过验证。本页把 v1.0 路线图拆成可执行的最小实现任务。
 
 ## 实施目标
 
@@ -16,6 +16,7 @@ MVP 不追求完整生产能力。
 | M2 Command/Event | Command Bus、Event Hub | 已建立最小基线：能派发命令、返回结果、发出 `change` 与错误事件 |
 | M3 Adapter 基座 | ProseMirror / Remark 最小适配器 | 已建立最小基线：能 parse Markdown（paragraph/heading）、编辑文档（`replaceText`）、serialize Markdown；跨包 round-trip 已验证 |
 | M4 GFM Preset | 段落、标题、加粗、斜体、列表、链接 | 已建立基线：`@aether-md/preset-gfm` 六语法 round-trip 已验证；Remark/ProseMirror GFM 扩展；`SerializationError` 占位符策略已实现 |
+| M4.5 Editor Orchestration | headless `createEditor` / `AetherEditor` | 已建立基线：async-only `createEditor`、宿主 `getMarkdown` / `getDocument`、显式 Adapter wiring、最小编排 rollback、GFM headless integration tests；**无** React Shell |
 | M5 React Shell | `@aether-md/react` 最小组件 | 能挂载编辑器、输入内容、监听变更、销毁实例 |
 | M6 验证套件 | 契约测试与示例插件 | 关键路径测试可在 CI 中运行 |
 
@@ -38,11 +39,12 @@ v1.0 **MUST** 至少包含：
 - M2：`createCommandEventRuntime`、同步 Command Bus、Event Hub、`PluginError` 错误边界；独立于 `bootstrapCore`。
 - M3：`AetherDoc` / `AetherSchema`、Adapter 协议类型、`AdapterError` / `SerializationError` export；`@aether-md/plugin-remark` 与 `@aether-md/plugin-prosemirror` 最小实现；M3 round-trip（paragraph、heading+paragraph）integration tests。
 - M4：`@aether-md/preset-gfm`（`createGfmPreset()`、`metadata.name: gfm`）；GFM 六语法 round-trip integration tests；Remark GFM parse/serialize（`remark-gfm`）；ProseMirror GFM schema/conversion；`CustomBlock` 占位符与 `SerializationError` 拒绝路径。
-- `packages/core` 仍不提供 `createEditor`、`AetherEditor`、React Shell，也不通过 `bootstrapCore` 加载 Adapter plugin；Core 不 re-export GFM preset。
+- M4.5：`createEditor(config): Promise<AetherEditor>`（async-only）；`AetherEditor` 宿主 API；显式 Adapter wiring（**不**通过 `bootstrapCore` silent provide）；engine-bound `core:replaceText` 最小编排 rollback；`ready` / `change` / `transactionFailed` / `disposed`；headless GFM integration tests（paragraph、strong、list）；Core **仍无** remark/prosemirror/react runtime deps，**不** re-export GFM preset。
 - M1 main spec：`openspec/specs/core-bootstrap/spec.md`。
 - M2 main spec：`openspec/specs/command-event-runtime/spec.md`。
 - M3 main specs：`openspec/specs/document-model/spec.md`、`openspec/specs/adapter-base/spec.md`。
 - M4 main specs：`openspec/specs/gfm-preset/spec.md`；`document-model`、`adapter-base`、`core-bootstrap` main specs 已同步 M4 delta。
+- M4.5 main spec：`openspec/specs/editor-orchestration/spec.md`；`command-event-runtime`、`adapter-base`、`core-bootstrap` main specs 已同步 M4.5 delta。
 
 ## 必须实现
 
@@ -54,8 +56,8 @@ v1.0 **MUST** 至少包含：
 - `CoreError`（M1/M2 已有）、`PluginError`（M2 已有 command handler 隔离）
 - `AdapterError`（M3 已有，Engine apply 失败路径）
 - `SerializationError`（M4 已实现：类 export + Serializer 占位符 `[unsupported:block:<name>]` 与不支持节点拒绝）
-- Markdown 字符串初始化（通过 plugin round-trip tests 验证，非宿主 `createEditor` API）
-- `getMarkdown()` 与 `getDocument()`（v1.0 宿主 API，尚未实现）
+- Markdown 字符串初始化（M4.5：`createEditor` 经 Parser Adapter；M3/M4 亦经 plugin round-trip tests 验证）
+- `getMarkdown()` 与 `getDocument()`（M4.5 宿主 API 已实现；lazy serialize on call）
 
 ## 暂不实现
 
@@ -67,12 +69,17 @@ v1.0 **MUST** 至少包含：
 - 插件热插拔
 - 多人协作
 
-M1/M2 已明确排除（M3/M4 仍排除）：
+M1/M2 已明确排除（M3/M4/M4.5 仍排除）：
 
-- `createEditor` / `AetherEditor`、Guard 链
-- React / Vue Shell
-- Command Bus 自动 Adapter rollback / `transactionFailed` auto emit
-- `bootstrapCore` Adapter plugin 加载
+- React / Vue Shell、完整 Guard 链
+- standalone M2 Command Bus 自动 Adapter rollback / `transactionFailed` auto emit
+- `bootstrapCore` Adapter plugin 加载与 silent provide
+
+M4.5 已实现 headless `createEditor` / `AetherEditor`，但 **不** 等同于 v1.0 完整编辑器能力：
+
+- 无 React Shell / DOM；无 Permission enforce / Command Queue
+- compile-layer Schema 合并、宿主自定义 ConflictResolver 注入仍排除
+- History / Selection / Clipboard 完整语义仍为 stub
 
 M3 已实现但 **不** 等同于 v1.0 完整 Adapter / 编辑器能力：
 

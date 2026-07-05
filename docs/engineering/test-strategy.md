@@ -1,6 +1,6 @@
 # 测试策略
 
-> 状态：M1 Core Bootstrap、M2 Command/Event Runtime、M3 Adapter 基座与 M4 GFM Preset 已实现并通过验证。本页定义 MVP 的最小测试矩阵。
+> 状态：M1 Core Bootstrap、M2 Command/Event Runtime、M3 Adapter 基座、M4 GFM Preset 与 M4.5 Editor Orchestration 已实现并通过验证。本页定义 MVP 的最小测试矩阵。
 
 ## 测试目标
 
@@ -51,7 +51,7 @@ M2 baseline 覆盖：
 - Event Hub `on` / `emit` / unsubscribe，以及 `change` / `pluginError` 投递。
 - handler 抛错隔离为 `PluginError`，并发出 `pluginError`。
 - dispose 后 `dispatch` 返回 core 失败结果，`emit` no-op，重复 dispose 不抛出。
-- package export boundary：允许 Command/Event，继续禁止 `createEditor`、Shell、GFM preset；允许 M3 document/adapter types 与 error classes。
+- package export boundary：允许 Command/Event 与 M4.5 `createEditor`；继续禁止 Shell、GFM preset re-export；允许 M3 document/adapter types 与 error classes。
 
 ## M3 Adapter 基座验证基线
 
@@ -77,7 +77,18 @@ M4 baseline 覆盖：
 - M3 paragraph/heading round-trip regression（不依赖 preset package）。
 - `CustomBlock` structured round-trip **不**纳入 M4 GFM matrix。
 
-M4 **不**覆盖：`createEditor` / React Shell、`bootstrapCore` Adapter loading、Command Bus 自动 rollback、nested lists/tables、compile-layer。
+M4 **不**覆盖：React Shell、`bootstrapCore` Adapter loading、standalone M2 Command Bus 自动 rollback、nested lists/tables、compile-layer。
+
+## M4.5 Editor Orchestration 验证基线
+
+M4.5 baseline 覆盖：
+
+- `@aether-md/core`：`createEditor` orchestration unit tests（startup、`CoreError` reject、Parser `initialValue`、lazy `getMarkdown`、dispatch rollback、`ready` / `disposed` / `change` / `transactionFailed`）。
+- headless GFM integration：`createEditor` + `@aether-md/preset-gfm` round-trip（paragraph、strong、unordered list fixtures）；Node 执行，无 React/DOM import。
+- package export boundary：允许 `createEditor` / `AetherEditor`；禁止 `createGfmPreset` re-export、Shell exports、`createEditorSync`；Core 无 remark/prosemirror/react runtime deps。
+- M2 regression：standalone `createCommandEventRuntime` 无 `transactionFailed` auto emit；M2 tests 不依赖 preset/plugins。
+
+M4.5 **不**覆盖：React Shell、Guard 链、compile-layer merge、duplicate-command integration test（resolver unit-tested）、Permission enforce。
 
 ## 契约测试要求
 
