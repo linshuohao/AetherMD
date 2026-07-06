@@ -8,7 +8,7 @@ import { createGfmPreset } from "../../../preset-gfm/dist/index.js";
 import type { ExtensionPlugin } from "../manifest.js";
 import { toExtensionPluginFromPreset } from "./adapter-wiring.js";
 import { createEditor } from "./create-editor.js";
-import { ENGINE_REPLACE_TEXT_COMMAND } from "./engine-dispatch.js";
+import { ENGINE_MOVE_BLOCK_COMMAND, ENGINE_REPLACE_TEXT_COMMAND } from "./engine-dispatch.js";
 
 function createBootstrapStubPlugin(): ExtensionPlugin {
   return {
@@ -89,6 +89,27 @@ describe("createEditor GFM headless integration", () => {
   it("round-trips unordered list with golden string output", async () => {
     const result = await editAndSerialize("- item one\n- item two\n\nTail\n", 1, "Updated tail");
     assert.equal(result, "- item one\n- item two\n\nUpdated tail\n");
+  });
+
+  it("moveBlock reorders blocks in-session while preserving stable ids", async () => {
+    const editor = await createEditor({
+      plugins: createGfmEditorPlugins(),
+      initialValue: "First\n\nSecond\n\nThird\n",
+    });
+
+    const before = editor.getDocument();
+    const blockId = before.children[1]?.id;
+    assert.ok(blockId);
+
+    const result = await editor.dispatch({
+      id: ENGINE_MOVE_BLOCK_COMMAND,
+      payload: { blockId, toIndex: 2 },
+    });
+    assert.equal(result.ok, true);
+
+    const after = editor.getDocument();
+    assert.equal(after.children[2]?.id, blockId);
+    await editor.dispose();
   });
 
   it("does not import React or DOM bindings", () => {

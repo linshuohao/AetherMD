@@ -1,4 +1,4 @@
-import type { AdapterCommandRequest } from "@aether-md/core";
+import type { ReplaceTextCommand } from "@aether-md/core";
 import {
   createProseMirrorView,
   refreshProseMirrorViewFromSession,
@@ -29,7 +29,7 @@ export function AetherEditorContent() {
     const handle = createProseMirrorView({
       session,
       dom: containerRef.current,
-      dispatchInput: (request: AdapterCommandRequest) => {
+      dispatchInput: (request: ReplaceTextCommand) => {
         pendingLocalEditsRef.current += 1;
         void editor
           .dispatch({

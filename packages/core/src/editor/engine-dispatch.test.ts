@@ -5,6 +5,7 @@ import type { AetherDoc } from "../document-model.js";
 import {
   resolveReplaceTextBlockIndex,
   toAdapterCommand,
+  ENGINE_MOVE_BLOCK_COMMAND,
   ENGINE_REPLACE_TEXT_COMMAND,
 } from "./engine-dispatch.js";
 
@@ -38,7 +39,11 @@ describe("engine-dispatch blockId", () => {
     });
 
     assert.ok(command);
-    assert.equal(command?.blockIndex, 0);
+    assert.equal(command.type, "replaceText");
+    if (command.type !== "replaceText") {
+      return;
+    }
+    assert.equal(command.blockIndex, 0);
   });
 
   it("toAdapterCommand preserves target id on replacement", () => {
@@ -53,7 +58,34 @@ describe("engine-dispatch blockId", () => {
       },
     });
 
-    assert.ok(command?.replacement);
-    assert.equal(command?.replacement?.id, "blk_b");
+    assert.ok(command);
+    assert.equal(command.type, "replaceText");
+    if (command.type !== "replaceText") {
+      return;
+    }
+    assert.ok(command.replacement);
+    assert.equal(command.replacement.id, "blk_b");
+  });
+
+  it("toAdapterCommand maps moveBlock payload to adapter request", () => {
+    const command = toAdapterCommand(DOC, {
+      id: ENGINE_MOVE_BLOCK_COMMAND,
+      payload: { blockId: "blk_a", toIndex: 1 },
+    });
+
+    assert.deepEqual(command, {
+      type: "moveBlock",
+      blockId: "blk_a",
+      toIndex: 1,
+    });
+  });
+
+  it("toAdapterCommand rejects moveBlock with unknown block id", () => {
+    const command = toAdapterCommand(DOC, {
+      id: ENGINE_MOVE_BLOCK_COMMAND,
+      payload: { blockId: "blk_missing", toIndex: 0 },
+    });
+
+    assert.equal(command, null);
   });
 });

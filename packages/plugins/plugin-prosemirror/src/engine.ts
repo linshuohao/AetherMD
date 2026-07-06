@@ -7,7 +7,7 @@ import type {
   EngineSession,
   ListBlock,
 } from "@aether-md/core";
-import { AdapterError, withPreservedBlockId } from "@aether-md/core";
+import { AdapterError, moveBlockInDocument, withPreservedBlockId } from "@aether-md/core";
 import { EditorState } from "prosemirror-state";
 
 import { aetherDocToPm, pmToAetherDoc } from "./conversion.js";
@@ -220,6 +220,27 @@ export function createProseMirrorEngineAdapter(): EngineAdapter {
           }
 
           const updatedDoc = replaceTextInDoc(beforeDoc, request.blockIndex, request);
+          const pmDoc = aetherDocToPm(updatedDoc);
+          record.state = EditorState.create({ doc: pmDoc });
+
+          return {
+            ok: true,
+            doc: pmToAetherDoc(record.state.doc),
+          };
+        }
+
+        if (request.type === "moveBlock") {
+          const updatedDoc = moveBlockInDocument(beforeDoc, request.blockId, request.toIndex);
+          if (!updatedDoc) {
+            return {
+              ok: false,
+              error: new AdapterError({
+                code: "APPLY_FAILED",
+                message: `Invalid moveBlock: blockId=${request.blockId}, toIndex=${request.toIndex}`,
+              }),
+            };
+          }
+
           const pmDoc = aetherDocToPm(updatedDoc);
           record.state = EditorState.create({ doc: pmDoc });
 
