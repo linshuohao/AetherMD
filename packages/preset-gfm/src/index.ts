@@ -8,12 +8,14 @@ import { createProseMirrorEngineAdapter } from "@aether-md/plugin-prosemirror";
 import { createRemarkParserAdapter, createRemarkSerializerAdapter } from "@aether-md/plugin-remark";
 
 import { gfmManifest } from "./manifest.js";
+import { listMorphingStrategy, paragraphMorphingStrategy } from "./morphing/registry.js";
 
 export interface GfmPreset {
   manifest: ExtensionManifest;
   parser: ParserAdapter;
   serializer: SerializerAdapter;
   engine: EngineAdapter;
+  morphingStrategies: readonly import("@aether-md/core").MorphingBlockStrategy[];
 }
 
 export function createGfmPreset(): GfmPreset {
@@ -22,6 +24,7 @@ export function createGfmPreset(): GfmPreset {
     parser: createRemarkParserAdapter(),
     serializer: createRemarkSerializerAdapter(),
     engine: createProseMirrorEngineAdapter(),
+    morphingStrategies: [paragraphMorphingStrategy, listMorphingStrategy],
   };
 }
 

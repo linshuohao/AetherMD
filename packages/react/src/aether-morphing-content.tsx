@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 import type { AetherBlock } from "@aether-md/core";
-import { getGfmMorphingStrategy } from "@aether-md/preset-gfm";
 
 import { useAetherEditor } from "./use-aether-editor.js";
 import { MorphingBlockSurface } from "./morphing/morphing-block-surface.js";
@@ -12,10 +11,10 @@ export interface AetherMorphingContentProps {
 }
 
 export function AetherMorphingContent({ blockIndex = 0 }: AetherMorphingContentProps) {
-  const { ready, doc } = useAetherEditor();
+  const { ready, doc, editor } = useAetherEditor();
   const [focused, setFocused] = useState(false);
 
-  if (!ready || !doc) {
+  if (!ready || !doc || !editor) {
     return (
       <div data-testid="aether-morphing-content" data-ready="false">
         Loading…
@@ -24,7 +23,7 @@ export function AetherMorphingContent({ blockIndex = 0 }: AetherMorphingContentP
   }
 
   const block = doc.children[blockIndex];
-  const strategy = block ? getGfmMorphingStrategy(block.type) : undefined;
+  const strategy = block ? editor.getMorphingStrategy(block.type) : undefined;
 
   if (!block || !strategy) {
     return (

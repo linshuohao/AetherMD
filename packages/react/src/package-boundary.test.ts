@@ -62,6 +62,21 @@ describe("@aether-md/react package boundary", () => {
     assert.equal(exportedKeys.includes("ShellAdapter"), false);
   });
 
+  it("does not import @aether-md/preset-gfm in production source files", () => {
+    const packageRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
+    const srcDir = join(packageRoot, "src");
+    const productionFiles = collectProductionSourceFiles(srcDir);
+
+    for (const filePath of productionFiles) {
+      const source = readFileSync(filePath, "utf8");
+      assert.doesNotMatch(
+        source,
+        /from ['"]@aether-md\/preset-gfm['"]/,
+        `unexpected preset-gfm import in ${filePath}`,
+      );
+    }
+  });
+
   it("does not import prosemirror-view in production source files", () => {
     const packageRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
     const srcDir = join(packageRoot, "src");

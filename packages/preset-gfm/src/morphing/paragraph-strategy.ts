@@ -1,8 +1,7 @@
-import type { ParagraphBlock } from "@aether-md/core";
+import type { CustomBlockRenderer, MorphingBlockStrategy, ParagraphBlock } from "@aether-md/core";
 import { serializeParagraphInlines } from "@aether-md/plugin-remark";
 
 import { appendInlineToDom } from "./dom-inlines.js";
-import type { CustomBlockRenderer, GfmMorphingBlockStrategy } from "./types.js";
 import { isParagraphBlock } from "./types.js";
 
 const paragraphInteractiveRenderer: CustomBlockRenderer = {
@@ -18,7 +17,7 @@ const paragraphInteractiveRenderer: CustomBlockRenderer = {
   },
 };
 
-export const paragraphMorphingStrategy: GfmMorphingBlockStrategy = {
+export const paragraphMorphingStrategy: MorphingBlockStrategy = {
   blockType: "paragraph",
   serializeSource(block) {
     return serializeParagraphInlines(block as ParagraphBlock);

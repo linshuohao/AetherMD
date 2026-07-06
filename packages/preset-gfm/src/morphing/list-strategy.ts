@@ -2,7 +2,7 @@ import type { AetherBlock, ListBlock, ParagraphBlock } from "@aether-md/core";
 import { serializeListBlock } from "@aether-md/plugin-remark";
 
 import { appendInlineToDom } from "./dom-inlines.js";
-import type { CustomBlockRenderer, GfmMorphingBlockStrategy } from "./types.js";
+import type { CustomBlockRenderer, MorphingBlockStrategy } from "@aether-md/core";
 
 function isListBlock(block: AetherBlock): block is ListBlock {
   return block.type === "list";
@@ -33,7 +33,7 @@ const listInteractiveRenderer: CustomBlockRenderer = {
   },
 };
 
-export const listMorphingStrategy: GfmMorphingBlockStrategy = {
+export const listMorphingStrategy: MorphingBlockStrategy = {
   blockType: "list",
   serializeSource(block) {
     return serializeListBlock(block as ListBlock);

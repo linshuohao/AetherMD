@@ -1,18 +1,16 @@
 import { useCallback, useEffect, useRef, type ChangeEvent } from "react";
 
-import type { AetherBlock } from "@aether-md/core";
-import type { GfmMorphingBlockStrategy } from "@aether-md/preset-gfm";
+import type { AetherBlock, MorphingBlockStrategy } from "@aether-md/core";
+import { PARSE_BLOCK_MARKDOWN_COMMAND } from "@aether-md/core";
 
 import { useAetherEditor } from "../use-aether-editor.js";
 import { RenderedBlockHost } from "./rendered-block-host.js";
 import { useMorphingFocus } from "./morphing-focus-context.js";
 
-const PARSER_SCHEMA = { version: 1 as const };
-
 export interface MorphingBlockSurfaceProps {
   blockIndex: number;
   block: AetherBlock;
-  strategy: GfmMorphingBlockStrategy;
+  strategy: MorphingBlockStrategy;
   /** Local focus mode when not inside MorphingFocusProvider. */
   localFocus?: boolean;
   onLocalFocusChange?: (focused: boolean) => void;
@@ -74,11 +72,14 @@ export function MorphingBlockSurface({
       const rawSource = event.target.value;
       void (async () => {
         const replacement = await strategy.parseSource(rawSource, async (markdown) => {
-          const parsed = await editor.context.services.parser.adapter.parse(
-            markdown,
-            PARSER_SCHEMA,
-          );
-          return parsed.children[0];
+          const result = await editor.dispatch({
+            id: PARSE_BLOCK_MARKDOWN_COMMAND,
+            payload: { markdown },
+          });
+          if (!result.ok) {
+            return undefined;
+          }
+          return result.value as AetherBlock | undefined;
         });
 
         await editor.dispatch({

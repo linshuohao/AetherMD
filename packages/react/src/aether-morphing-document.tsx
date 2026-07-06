@@ -1,14 +1,13 @@
 import type { AetherBlock } from "@aether-md/core";
-import { getGfmMorphingStrategy } from "@aether-md/preset-gfm";
 
 import { useAetherEditor } from "./use-aether-editor.js";
 import { MorphingBlockSurface } from "./morphing/morphing-block-surface.js";
 import { MorphingFocusProvider } from "./morphing/morphing-focus-context.js";
 
 export function AetherMorphingDocument() {
-  const { ready, doc } = useAetherEditor();
+  const { ready, doc, editor } = useAetherEditor();
 
-  if (!ready || !doc) {
+  if (!ready || !doc || !editor) {
     return (
       <div data-testid="aether-morphing-document" data-ready="false">
         Loading…
@@ -19,7 +18,7 @@ export function AetherMorphingDocument() {
   const morphingBlocks = doc.children
     .map((block, index) => ({ block, index }))
     .filter((entry): entry is { block: AetherBlock; index: number } => {
-      return getGfmMorphingStrategy(entry.block.type) !== undefined;
+      return editor.getMorphingStrategy(entry.block.type) !== undefined;
     });
 
   return (
@@ -30,7 +29,7 @@ export function AetherMorphingDocument() {
         className="aether-morphing-document"
       >
         {morphingBlocks.map(({ block, index }) => {
-          const strategy = getGfmMorphingStrategy(block.type)!;
+          const strategy = editor.getMorphingStrategy(block.type)!;
           return (
             <MorphingBlockSurface
               key={index}

@@ -64,6 +64,13 @@ export type {
   TextInline,
 } from "./document-model.js";
 export type {
+  CustomBlockRenderer,
+  MorphingBlockStrategy,
+  MorphingStrategyRegistry,
+  ParseBlockMarkdownPayload,
+} from "./morphing-types.js";
+export { PARSE_BLOCK_MARKDOWN_COMMAND, createMorphingStrategyRegistry } from "./morphing-types.js";
+export type {
   AdapterCommandRequest,
   AdapterEvent,
   AdapterTransactionResult,

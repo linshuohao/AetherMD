@@ -5,6 +5,8 @@ import { CoreError, AdapterError } from "../errors.js";
 import type { AdapterCommandRequest } from "../adapter-types.js";
 import type { AetherDoc } from "../document-model.js";
 import type { EventEnvelope } from "../command-event-types.js";
+import type { MorphingBlockStrategy } from "../morphing-types.js";
+import { PARSE_BLOCK_MARKDOWN_COMMAND } from "../morphing-types.js";
 import type { ExtensionPluginWithAdapters } from "./adapter-wiring.js";
 import { toExtensionPluginFromPreset, type PresetBundle } from "./adapter-wiring.js";
 import { createEditor } from "./create-editor.js";
@@ -266,5 +268,48 @@ describe("createEditor orchestration", () => {
     });
     assert.equal(result.ok, false);
     assert.equal(result.error?.code, "EDITOR_DISPOSED");
+  });
+
+  it("exposes morphing strategies from preset wiring", async () => {
+    const mockStrategy: MorphingBlockStrategy = {
+      blockType: "paragraph",
+      serializeSource() {
+        return "";
+      },
+      async parseSource(rawSource) {
+        return {
+          type: "paragraph",
+          children: [{ type: "text", text: rawSource }],
+        };
+      },
+      interactiveRenderer: {
+        mount() {},
+      },
+    };
+
+    const plugin = createMockPreset();
+    plugin.morphingStrategies = [mockStrategy];
+    const editor = await createEditor({ plugins: [plugin] });
+
+    assert.equal(editor.getMorphingStrategy("paragraph"), mockStrategy);
+    assert.equal(editor.getMorphingStrategy("heading"), undefined);
+    await editor.dispose();
+  });
+
+  it("dispatch core:parseBlockMarkdown returns first parsed block", async () => {
+    const plugin = createMockPreset();
+    const editor = await createEditor({ plugins: [plugin] });
+
+    const result = await editor.dispatch({
+      id: PARSE_BLOCK_MARKDOWN_COMMAND,
+      payload: { markdown: "**bold**\n" },
+    });
+
+    assert.equal(result.ok, true);
+    if (result.ok) {
+      const block = result.value as { type?: string } | undefined;
+      assert.equal(block?.type, "paragraph");
+    }
+    await editor.dispose();
   });
 });

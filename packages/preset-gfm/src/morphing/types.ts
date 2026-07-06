@@ -1,21 +1,15 @@
-import type { AetherBlock, AetherInline, ParagraphBlock } from "@aether-md/core";
+import type {
+  AetherBlock,
+  AetherInline,
+  MorphingBlockStrategy,
+  ParagraphBlock,
+} from "@aether-md/core";
+
+/** @deprecated Use `MorphingBlockStrategy` from `@aether-md/core`. */
+export type GfmMorphingBlockStrategy = MorphingBlockStrategy;
 
 /** DOM morphing renderer contract (see `docs/sdk/custom-block-renderer.md`). */
-export interface CustomBlockRenderer {
-  mount(domContainer: HTMLElement, blockData: unknown): void;
-  update?(newBlockData: unknown): void;
-  unmount?(): void;
-}
-
-export interface GfmMorphingBlockStrategy {
-  readonly blockType: AetherBlock["type"];
-  serializeSource(block: AetherBlock): string;
-  parseSource(
-    rawSource: string,
-    parseMarkdown: (markdown: string) => Promise<AetherBlock | undefined>,
-  ): Promise<AetherBlock>;
-  readonly interactiveRenderer: CustomBlockRenderer;
-}
+export type { CustomBlockRenderer } from "@aether-md/core";
 
 export function isParagraphBlock(block: AetherBlock): block is ParagraphBlock {
   return block.type === "paragraph";
