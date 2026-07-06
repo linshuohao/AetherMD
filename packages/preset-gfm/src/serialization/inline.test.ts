@@ -3,8 +3,8 @@ import { describe, it } from "vitest";
 
 import type { ParagraphBlock } from "@aether-md/core";
 
-import { createGfmPreset } from "./index.js";
-import { serializeInlineToMarkdown, serializeParagraphInlines } from "./gfm-inline-morphing.js";
+import { createGfmPreset } from "../index.js";
+import { serializeInlineToMarkdown, serializeParagraphInlines } from "../gfm-inline-morphing.js";
 
 const schema = { version: 1 as const };
 

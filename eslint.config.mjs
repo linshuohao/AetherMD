@@ -12,7 +12,6 @@ export default tseslint.config(
   {
     ignores: [
       "**/dist/**",
-      "**/dist-test/**",
       "**/node_modules/**",
       "**/.turbo/**",
       "**/.codex/**",
@@ -26,7 +25,6 @@ export default tseslint.config(
   {
     files: [
       "scripts/**/*.{js,mjs,cjs}",
-      "packages/core/scripts/**/*.{js,mjs,cjs}",
       ".commitlintrc.cjs",
       "prettier.config.mjs",
       "eslint.config.mjs",
