@@ -28,8 +28,8 @@ export default tseslint.config(
       "scripts/**/*.{js,mjs,cjs}",
       "packages/core/scripts/**/*.{js,mjs,cjs}",
       ".commitlintrc.cjs",
-      "prettier.config.js",
-      "eslint.config.js",
+      "prettier.config.mjs",
+      "eslint.config.mjs",
     ],
     languageOptions: {
       globals: globals.node,
