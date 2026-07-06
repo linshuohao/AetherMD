@@ -49,13 +49,13 @@ Expected: `pnpm check` exit 0；E2E 4 passed。
 
 ## Escalation Triggers Checked
 
-| 触发器 | 结果 |
-| --- | --- |
-| workflow semantics | **否** |
+| 触发器                  | 结果                                            |
+| ----------------------- | ----------------------------------------------- |
+| workflow semantics      | **否**                                          |
 | 多 task / 多 capability | **否** — 单 task；capability `validation-suite` |
-| public API 变更 | **否** |
-| M7 publish | **否** |
-| E2E 升阻塞门禁 | **否** — 明确 `continue-on-error: true` |
+| public API 变更         | **否**                                          |
+| M7 publish              | **否**                                          |
+| E2E 升阻塞门禁          | **否** — 明确 `continue-on-error: true`         |
 
 **结论：** Spec Change。
 
@@ -65,12 +65,12 @@ Expected: `pnpm check` exit 0；E2E 4 passed。
 
 **MUST 覆盖（Playwright）：**
 
-| 场景 | 验收 |
-| --- | --- |
-| smoke | 应用启动；段落/列表/段落块 `data-block-type` 正确 |
-| Block Focus | 聚焦列表块仅该块 `morphing-source`；其他块 rendered |
-| Instant Morphing | source 编辑 list 后 blur → 三项 `li` 渲染正确 |
-| GateLock regression | Force parent rerender 后列表编辑内容保留 |
+| 场景                | 验收                                                |
+| ------------------- | --------------------------------------------------- |
+| smoke               | 应用启动；段落/列表/段落块 `data-block-type` 正确   |
+| Block Focus         | 聚焦列表块仅该块 `morphing-source`；其他块 rendered |
+| Instant Morphing    | source 编辑 list 后 blur → 三项 `li` 渲染正确       |
+| GateLock regression | Force parent rerender 后列表编辑内容保留            |
 
 **允许改动：** `e2e/**`、根 `package.json`、`pnpm-lock.yaml`、`.github/workflows/ci.yml`、`.gitignore`、`docs/engineering/test-strategy.md`、`README.md`、`examples/block-morphing/README.md`、`openspec/changes/playwright-e2e-phase-1/**`、`openspec/specs/validation-suite/spec.md`（sync）、`.superpowers/**`（本 change 执行记录）
 

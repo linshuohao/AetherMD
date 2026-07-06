@@ -11,21 +11,21 @@
 
 ## Commands
 
-| Command | Purpose | Result | Notes |
-| --- | --- | --- | --- |
-| `pnpm format` | Prettier | **pass** | Fixed `test-strategy.md`, `block-morphing.spec.ts` |
-| `pnpm check` | Workspace pipeline | **pass** | exit 0 |
-| `pnpm e2e:install` | Chromium + deps | **pass** | exit 0 |
-| `pnpm e2e:test` | Playwright suite | **pass** | 4 passed (2.5s) |
+| Command            | Purpose            | Result   | Notes                                              |
+| ------------------ | ------------------ | -------- | -------------------------------------------------- |
+| `pnpm format`      | Prettier           | **pass** | Fixed `test-strategy.md`, `block-morphing.spec.ts` |
+| `pnpm check`       | Workspace pipeline | **pass** | exit 0                                             |
+| `pnpm e2e:install` | Chromium + deps    | **pass** | exit 0                                             |
+| `pnpm e2e:test`    | Playwright suite   | **pass** | 4 passed (2.5s)                                    |
 
 ## E2E Tests
 
-| Test | Assertion |
-| --- | --- |
-| smoke | Heading visible; blocks 0/1/2 `data-block-type` paragraph/list/paragraph |
-| block focus | List block focused → single `morphing-source`; others rendered |
-| instant morphing | Source fill 3 items → blur → 3 `li` with correct text |
-| GateLock regression | Edit list → Force parent rerender → content preserved |
+| Test                | Assertion                                                                |
+| ------------------- | ------------------------------------------------------------------------ |
+| smoke               | Heading visible; blocks 0/1/2 `data-block-type` paragraph/list/paragraph |
+| block focus         | List block focused → single `morphing-source`; others rendered           |
+| instant morphing    | Source fill 3 items → blur → 3 `li` with correct text                    |
+| GateLock regression | Edit list → Force parent rerender → content preserved                    |
 
 ## TDD Integrity
 

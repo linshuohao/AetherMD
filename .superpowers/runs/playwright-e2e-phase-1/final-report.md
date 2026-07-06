@@ -21,23 +21,23 @@
 
 ## Task Completed
 
-| Task | Status | Validation | Deviation |
-| --- | --- | --- | --- |
-| 01-add-playwright-block-morphing-e2e | completed | PASS | none |
+| Task                                 | Status    | Validation | Deviation |
+| ------------------------------------ | --------- | ---------- | --------- |
+| 01-add-playwright-block-morphing-e2e | completed | PASS       | none      |
 
 ## Files Changed
 
-| File | Task / Reason | Notes |
-| --- | --- | --- |
-| `e2e/playwright/**` | 01 | config, fixtures, tests |
-| `package.json` | 01 | e2e scripts |
-| `pnpm-lock.yaml` | 01 | playwright dep |
-| `.github/workflows/ci.yml` | 01 | e2e-playwright job |
-| `.gitignore` | 01 | playwright artifacts |
-| `docs/engineering/test-strategy.md` | 01 | E2E layout |
-| `README.md` | 01 | E2E section |
-| `examples/block-morphing/README.md` | 01 | local E2E |
-| `openspec/specs/validation-suite/spec.md` | sync | main spec |
+| File                                      | Task / Reason | Notes                   |
+| ----------------------------------------- | ------------- | ----------------------- |
+| `e2e/playwright/**`                       | 01            | config, fixtures, tests |
+| `package.json`                            | 01            | e2e scripts             |
+| `pnpm-lock.yaml`                          | 01            | playwright dep          |
+| `.github/workflows/ci.yml`                | 01            | e2e-playwright job      |
+| `.gitignore`                              | 01            | playwright artifacts    |
+| `docs/engineering/test-strategy.md`       | 01            | E2E layout              |
+| `README.md`                               | 01            | E2E section             |
+| `examples/block-morphing/README.md`       | 01            | local E2E               |
+| `openspec/specs/validation-suite/spec.md` | sync          | main spec               |
 
 ## Validation Results
 

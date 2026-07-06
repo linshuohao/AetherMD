@@ -9,7 +9,7 @@ AetherMD 当前是设计到最小实现过渡阶段的开源项目。
 | 阶段     | 设计草案 + M1 Core Bootstrap + M2 Command/Event Runtime + M3 Adapter 基座 + M4 GFM Preset + M4.5 Editor Orchestration + M5 React Shell + **M6 验证套件**                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | 实现     | `@aether-md/core` 已提供 M1 bootstrap、M2 Command/Event、M3 document/adapter 类型与 M4.5 `createEditor` / `AetherEditor` headless 编排；`@aether-md/plugin-remark` 与 `@aether-md/plugin-prosemirror` 提供 Adapter 实现；`@aether-md/preset-gfm` 提供 GFM preset 与 round-trip 集成测试；`@aether-md/react` 提供 M5 React Shell（Root / Content / hook、GateLock、happy-dom 集成测试）；**M6** 交付 `examples/headless-gfm` headless GFM 集成证明、G11 manifest 文档一致性、G6 example `typecheck` 门禁、`createEditor` 启动中止行为回归、五包 publish 预备元数据与 Changesets `linked` 配置 |
 | 主要产物 | 文档、OpenSpec 规格、`packages/core`、两个 Adapter plugin packages、`packages/preset-gfm`、`packages/react`、`examples/headless-gfm`、`examples/react-basic`、`examples/block-morphing`                                                                                                                                                                                                                                                                                                                                                                                                      |
-| 当前目标 | **L1 已闭合**；**L2 Slice A + B + C + D 已交付**（`block-morphing-slice-1` … `block-morphing-slice-d`）。**M7** 前置：L1 + L2 可演示 + 维护者 sign-off（见 [ADR 009](adr/009-release-governance.md)）                                                                                                                                                                                                                                                                                                                                                                                        |
+| 当前目标 | **L1 已闭合**；**L2 Slice A + B + C + D 已交付**。**M7 工程轨已就绪**（G8 consumer smoke、G10 Release CI、五包去 `private`、O1/O2 已决议 `0.1.0` / `canary`）。**待**：维护者浏览器 sign-off + 仓库 `NPM_TOKEN` + `changeset pre enter canary` → 首次 npm publish                                                                                                                                                                                                                                                                                                                            |
 
 ## North star 分层
 
@@ -55,27 +55,27 @@ L1 通过 **不得** 解释为 L2 已满足。
 
 对照 [v1.0 路线图](architecture/roadmap.md)「必须实现」与当前 M6 基线，以下能力**尚未落地**或仅部分实现。完整路线图见 `docs/architecture/roadmap.md`；本小节为 G12 差距主锚点。
 
-| 差距项                              | 当前状态 | 备注                                                                                                                                                       |
-| ----------------------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **compile-layer schema merge**      | 未实现   | M6 以 `createDefaultConflictResolver` schema abort **单元测试**与 `createEditor` fatal startup 回归替代；完整 compile-layer 合并 deferred                  |
-| **ConflictResolver 完整集成**       | 部分     | 默认策略单元可测；`createEditor` 编排层未接入完整 command / keymap / capability 冲突解析                                                                   |
-| **History / Selection / Clipboard** | 未实现   | v1.0 路线图「内置底座」；无对应 Service Capability 与 runtime                                                                                              |
-| **PermissionGuard 沙盒**            | 未实现   | 未授权 Runtime Permission 拦截未 enforce                                                                                                                   |
-| **Worker Thread**                   | 未实现   | Parser / Serializer Worker 化 deferred（见 [线程模型](engineering/thread-model.md)）                                                                       |
-| **Command Bus 完整 Pipeline**       | 部分     | 无 ReadOnlyGuard、CapabilityGuard 等完整 Guard 链                                                                                                          |
-| **`bootstrapCore` Adapter 加载**    | 未实现   | 无 `core:engine` / `core:parser` silent provide                                                                                                            |
-| **分层 Manifest 合并**              | 部分     | `metadata` 层校验已有；`compile` / `runtime` / `security` 分层合并未完整                                                                                   |
-| **npm publish**                     | 未执行   | M6 仅 publish **预备**（元数据 + Changesets `linked` + `changeset:publish` 脚本）；实际发布 deferred 至 **M7**（[发布流程](community/release-process.md)） |
+| 差距项                              | 当前状态 | 备注                                                                                                                                      |
+| ----------------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| **compile-layer schema merge**      | 未实现   | M6 以 `createDefaultConflictResolver` schema abort **单元测试**与 `createEditor` fatal startup 回归替代；完整 compile-layer 合并 deferred |
+| **ConflictResolver 完整集成**       | 部分     | 默认策略单元可测；`createEditor` 编排层未接入完整 command / keymap / capability 冲突解析                                                  |
+| **History / Selection / Clipboard** | 未实现   | v1.0 路线图「内置底座」；无对应 Service Capability 与 runtime                                                                             |
+| **PermissionGuard 沙盒**            | 未实现   | 未授权 Runtime Permission 拦截未 enforce                                                                                                  |
+| **Worker Thread**                   | 未实现   | Parser / Serializer Worker 化 deferred（见 [线程模型](engineering/thread-model.md)）                                                      |
+| **Command Bus 完整 Pipeline**       | 部分     | 无 ReadOnlyGuard、CapabilityGuard 等完整 Guard 链                                                                                         |
+| **`bootstrapCore` Adapter 加载**    | 未实现   | 无 `core:engine` / `core:parser` silent provide                                                                                           |
+| **分层 Manifest 合并**              | 部分     | `metadata` 层校验已有；`compile` / `runtime` / `security` 分层合并未完整                                                                  |
+| **npm publish**                     | 工程就绪 | Release CI + consumer smoke 已落地；待 `NPM_TOKEN` + sign-off 后首次 canary publish                                                       |
 
 **M6 已闭合、不计入差距：** headless GFM 集成路径（`examples/headless-gfm`）、React Shell 集成 demo（`examples/react-basic`）、GFM preset 六语法 round-trip、React Shell 基线、G11/G6 CI 门禁、manifest 启动中止回归、五包 publish 预备元数据。
 
 ## 尚未开始
 
 - 已发布包（npm；M6 预备已完成，见 [发布流程](community/release-process.md)）
-- npm publish、canary release、release token（**M7**，ADR 009）
+- npm publish、canary release、release token（**M7** — Release CI 就绪；待 `NPM_TOKEN` 与 sign-off）
 - Vue Shell、`packages/vue`
 - examples matrix（M7 后）
-- 发布流程 CI workflow（**M7**，ADR 009）
+- 发布流程 CI workflow（**M7** — `release.yml` 已添加；待 secret 配置）
 - `createEditor` / `AetherEditor` 完整 Guard 链与 Permission enforce
 - Command Bus 完整 Pipeline（ReadOnlyGuard、CapabilityGuard 等）
 - `bootstrapCore` Adapter plugin 加载与 `core:engine` / `core:parser` silent provide
@@ -85,16 +85,25 @@ L1 通过 **不得** 解释为 L2 已满足。
 - **许可证（O4 ✅）**：MIT（根目录 `LICENSE` 与各 package `license` 字段 M6 已同步；无需为此单独开 ADR）
 - **Changelog（O3 ✅）**：M7 之前延续 Changesets `changelog: false`；真正首次 `latest` 前再选手写 `CHANGELOG.md` 或 `@changesets/changelog-github`
 - **Plugin SDK**：不独立 npm 包；类型入口为 `@aether-md/core`（非 `@aether-md/sdk`）
-- **首发版本号（O1 ⏸）**、**Canary dist-tag（O2 ⏸）**：延后至 demo 完善且维护者满意后再议；延后期间不 publish、不配置 `NPM_TOKEN`
+- **首发版本号（O1 ✅）**、**Canary dist-tag（O2 ✅）**：`0.1.0` / `canary`；待 sign-off 后 `changeset pre enter canary` 与首次 publish
 - **Canary 工程**：M6 publish 预备已完成；M7 启用 Changesets prerelease + CI（待 O1/O2 闭合后执行）
 - **Examples 形态**：headless-gfm（M6 ✅）+ react-basic（M6 ✅），不发布 npm
 
 ## 近期重点
 
-**L1 Demo Slice 程序（PR0→PR B + typing-sync）已于 2026-07-06 闭合。** 见 [Demo Slice 交付计划](engineering/demo-slice-delivery-program.md)。
+**L1 Demo Slice 程序（PR0→PR B + typing-sync）已于 2026-07-06 闭合。** Playwright E2E Phase 1 于 2026-07-06 合入（`playwright-e2e-phase-1`）。
 
-1. **下一重点：** M7 发布准备 — 维护者 sign-off、ADR O1/O2 决议、Release CI（见 [ADR 009](adr/009-release-governance.md)）。
-2. **M7 发布条件（方案 B）：** L1 `react-basic` 可演示 **且** L2（Slice A–D）可演示 **且** 维护者 sign-off；闭合 ADR 009 O1/O2 后再启动 Release CI / `NPM_TOKEN`。
+### M7 sign-off 状态（2026-07-06）
+
+| 门禁                    | 自动化验证                                                                 | 维护者浏览器 sign-off                                                     |
+| ----------------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| **L1** `react-basic`    | ✅ CI — `demo-slice-typing-sync` + `demo-slice-pr0-acceptance` + GateLock  | ⏳ 待维护者 — `pnpm --filter @aether-md/example-react-basic dev` 连续打字 |
+| **L2** `block-morphing` | ✅ `pnpm e2e:test` — 4/4（smoke、Block Focus、Instant Morphing、GateLock） | ⏳ 待维护者 — 交互手感与 north star 场景 A/B/C                            |
+| **G8** consumer smoke   | ✅ `pnpm consumer:smoke`                                                   | —                                                                         |
+| **G10** Release CI      | ✅ `.github/workflows/release.yml`                                         | ⏳ 待配置 `NPM_TOKEN` + `changeset pre enter canary`                      |
+
+1. **下一重点：** 维护者完成上表浏览器 sign-off → 配置 `NPM_TOKEN` → 首次 canary publish。
+2. **M7 发布条件（方案 B）：** L1 + L2 可演示 **且** 维护者 sign-off；O1/O2 已闭合（`0.1.0` / `canary`）。
 3. **后置 backlog：** History / Selection / Clipboard — 独立 Spec Change。
 4. 新 demo/example 改动默认 **Spec Change**；public contract 变更仍 **Full Change**（见 `AI_NATIVE_ENGINEERING_WORKFLOW.md`）。
 5. 归档 change 时执行 Superpowers retention（`aether-workflow-archive-change`）。

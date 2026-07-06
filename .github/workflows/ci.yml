@@ -38,6 +38,9 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: Consumer smoke (packed imports)
+        run: pnpm consumer:smoke
+
   e2e-playwright:
     name: Playwright E2E (non-blocking)
     runs-on: ubuntu-latest
