@@ -42,6 +42,17 @@ Open the URL Vite prints (typically `http://localhost:5173`).
 
 `pnpm --filter @aether-md/example-block-morphing test` runs happy-dom coverage for Block Focus morphing (focus → `**` sigils, blur → `<strong>`). This is included in root `pnpm check`.
 
+## Browser E2E (Playwright)
+
+From the repository root (after `pnpm install` and `pnpm build`):
+
+```bash
+pnpm e2e:install   # first run / CI
+pnpm e2e:test
+```
+
+Phase 1 covers smoke, Block Focus, Instant Morphing, and GateLock regression against this demo. CI runs the same suite in a **non-blocking** `e2e-playwright` job.
+
 ## Related docs
 
 - [Product Experience Specification](../../docs/architecture/product-experience-spec.md)
