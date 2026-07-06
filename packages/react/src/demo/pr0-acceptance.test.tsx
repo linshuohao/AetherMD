@@ -1,14 +1,12 @@
-import "./test-setup.js";
-
 import assert from "node:assert/strict";
-import { afterEach, describe, it } from "node:test";
+import { afterEach, describe, it } from "vitest";
 import { act, cleanup, render, waitFor } from "@testing-library/react";
 import React, { useState } from "react";
 
 import type { AetherEditor } from "@aether-md/core";
 
-import { AetherEditorContent, AetherEditorRoot, useAetherEditor } from "./index.js";
-import { createGfmEditorPlugins } from "./test-helpers.js";
+import { AetherEditorContent, AetherEditorRoot, useAetherEditor } from "../index.js";
+import { createGfmEditorPlugins } from "../testing/gfm-plugins.js";
 
 const GFM_FIXTURE = `# Demo Title
 

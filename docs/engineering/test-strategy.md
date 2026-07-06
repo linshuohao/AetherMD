@@ -15,6 +15,26 @@
 | Integration | 多模块主路径   | Markdown 初始化、命令执行、序列化、React Shell 挂载 |
 | Regression  | 已知错误       | 插件异常隔离、事务回滚、权限拒绝                    |
 
+## Package 测试目录布局
+
+Workspace packages 与带测试的 examples **MUST** 使用 **colocated tests + Vitest**：
+
+| 路径                  | 用途                                                                      |
+| --------------------- | ------------------------------------------------------------------------- |
+| `src/**/*.test.ts(x)` | 与实现文件同目录的单元/集成测试（colocate）                               |
+| `src/testing/`        | 跨测试共享 helper 与 fixture（**MUST NOT** 进入生产 build）               |
+| `src/test-setup.ts`   | 包级 Vitest setup（如 happy-dom 注册）                                    |
+| `vitest.config.ts`    | 包级 Vitest project 配置（根 `vitest.config.ts` 聚合 workspace projects） |
+| `test-d/`             | `tsd` 类型快照（package 根目录，与 `src/` 并列）                          |
+
+约定：
+
+- 测试文件 **MUST** colocate 在 `src/` 内，命名 `*.test.ts` / `*.test.tsx`；同 feature 可用子目录（如 `src/morphing/slice-a.test.tsx`）。
+- `src/testing/**` 与 `**/*.test.ts(x)` **MUST** 被 package `tsconfig.json` exclude，不进入 `dist/`。
+- 测试 import 同包实现时使用相对路径（如 `./block-ids.js`）；跨 workspace package 使用 `@aether-md/*`（依赖 Turbo `test` → `build` 保证 dist 可用）。
+- 根目录 `pnpm test` 运行 `vitest run`（workspace projects）；单包 `pnpm --filter <pkg> test` 运行该包 Vitest project。
+- Examples **MUST NOT** import 任意 package 的 `src/testing/`；GFM wiring 在 example `src/plugins.ts` 中显式复制。
+
 ## MVP 必测场景
 
 - 不支持的 `manifestVersion` 会中止启动。（M1 已覆盖）
@@ -31,12 +51,12 @@
 - `dispose` 按逆序调用 `onDestroy`。（M1 已覆盖）
 - 未授权 Runtime Permission 不进入受保护能力路径。（尚未实现）
 - React Shell 挂载、dispatch 路径变更、`onChange` 回调与 `dispose`。（M5 已覆盖 — `@aether-md/react` happy-dom 集成测试）
-- GateLock：`prevValue === nextValue` 时不重设文档。（M5 已覆盖 — `gate-lock.integration.test.tsx`）
-- GFM preset 经 React Shell 的 paragraph、strong、list smoke。（M5 已覆盖 — `gfm-react-smoke.test.tsx`）
+- GateLock：`prevValue === nextValue` 时不重设文档。（M5 已覆盖 — `src/gate-lock.integration.test.tsx`）
+- GFM preset 经 React Shell 的 paragraph、strong、list smoke。（M5 已覆盖 — `src/gfm-react-smoke.test.tsx`）
 
 ## M1 Core Bootstrap 验证基线
 
-`packages/core` 当前使用 Node built-in test runner 和 TypeScript 编译输出作为最小可重复验证方案。M1 baseline 覆盖：
+`packages/core` 当前使用 **Vitest** 与 colocated `src/**/*.test.ts` 作为可重复验证方案。M1 baseline 覆盖：
 
 - Manifest version 与 shape validation。
 - Service Capability validation，包括 Adapter-backed capability 不被 M1 silent provide。
@@ -98,8 +118,8 @@ M4.5 **不**覆盖：React Shell、Guard 链、compile-layer merge、duplicate-c
 M5 baseline 覆盖：
 
 - `@aether-md/react`：package-boundary guards（公开 exports、无 `ShellAdapter`、无 `prosemirror-view` 直接 import）；`useAetherEditor` change 桥接单元测试；GateLock 单元与集成测试。
-- happy-dom 集成：`AetherEditorRoot` 挂载、`.ProseMirror` 视图、`dispatch` 路径 `onChange`、`dispose` 后 DOM 清理与 post-unmount `dispatch` fail-closed `EDITOR_DISPOSED`（`react-shell.integration.test.tsx`）；GateLock 受控 `value` 等值 rerender 不重设（`gate-lock.integration.test.tsx`）。
-- GFM React smoke：`createGfmPreset()` + paragraph（含 `dispatch` minimal edit）、strong、unordered list fixtures（`gfm-react-smoke.test.tsx`）；与 M4.5 headless integration 区分。
+- happy-dom 集成：`AetherEditorRoot` 挂载、`.ProseMirror` 视图、`dispatch` 路径 `onChange`、`dispose` 后 DOM 清理与 post-unmount `dispatch` fail-closed `EDITOR_DISPOSED`（`src/react-shell.test.tsx`）；GateLock 受控 `value` 等值 rerender 不重设（`src/gate-lock.integration.test.tsx`）。
+- GFM React smoke：`createGfmPreset()` + paragraph（含 `dispatch` minimal edit）、strong、unordered list fixtures（`src/gfm-react-smoke.test.tsx`）；与 M4.5 headless integration 区分。
 - `@aether-md/plugin-prosemirror`：view-bridge unit tests（`createProseMirrorView`、`dispatchInput`、destroy）；additive `readSessionEditorState` 仅供 bridge sync。
 - package export boundary：react 依赖 core + plugin-prosemirror；core 无 react/prosemirror/remark runtime deps；react 无 `prosemirror-view` 直接依赖。
 
@@ -111,8 +131,8 @@ M6 baseline 覆盖：
 
 - `@aether-md/example-headless-gfm`：Node `start` 可运行 headless GFM 集成（`createEditor` + `createGfmPreset()` + adapter wiring）；`typecheck`（`tsc --noEmit`）纳入根 `pnpm check`（G6）。
 - G11 `manifest-doc-consistency.test.ts`：`SUPPORTED_MANIFEST_VERSIONS` ↔ `docs/sdk/manifest.md`；官方 plugin / preset / react 包 `manifestVersion` 扫描。
-- `createEditor` 启动中止集成回归：duplicate `metadata.name`（`startup-abort.integration.test.ts`）；unsupported `manifestVersion`（`editor-orchestration.test.ts`）。
-- `createDefaultConflictResolver` schema abort 单元测试（`conflict-resolver.test.ts`）；**无** compile-layer schema merge 集成要求。
+- `createEditor` 启动中止集成回归：duplicate `metadata.name`（`src/editor/startup-abort.test.ts`）；unsupported `manifestVersion`（`src/editor/editor-orchestration.test.ts`）。
+- `createDefaultConflictResolver` schema abort 单元测试（`src/editor/conflict-resolver.test.ts`）；**无** compile-layer schema merge 集成要求。
 - 五包 publish 预备元数据与 Changesets `linked` 配置；根 `changeset:publish` 脚本预留；**无** npm publish。
 
 M6 **不**覆盖：compile-layer schema merge、`EditorConfig.conflictResolver` 新 API、`CORE_SERVICE_REGISTRY` 自动比对、Playwright、npm publish。

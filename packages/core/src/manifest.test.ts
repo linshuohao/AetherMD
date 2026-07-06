@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { describe, it } from "node:test";
+import { describe, it } from "vitest";
 
 import { CoreError } from "./errors.js";
 import { loadPluginManifests } from "./manifest.js";

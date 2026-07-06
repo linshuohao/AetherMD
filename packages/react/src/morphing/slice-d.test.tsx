@@ -1,13 +1,11 @@
-import "./test-setup.js";
-
 import assert from "node:assert/strict";
-import { afterEach, describe, it } from "node:test";
+import { afterEach, describe, it } from "vitest";
 import { act, cleanup, fireEvent, render, waitFor } from "@testing-library/react";
 import React from "react";
 
-import { AetherEditorRoot, AetherMorphingDocument } from "./index.js";
-import { SLICE_D_FIXTURE, queryBlock } from "./block-morphing-test-helpers.js";
-import { createGfmEditorPlugins } from "./test-helpers.js";
+import { AetherEditorRoot, AetherMorphingDocument } from "../index.js";
+import { SLICE_D_FIXTURE, queryBlock } from "../testing/morphing-fixtures.js";
+import { createGfmEditorPlugins } from "../testing/gfm-plugins.js";
 
 describe("Slice D list block morphing (block-morphing-slice-d)", () => {
   afterEach(() => {

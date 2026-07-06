@@ -1,14 +1,16 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { describe, it } from "node:test";
+import { describe, it } from "vitest";
 
 import { createGfmPreset } from "../../../preset-gfm/dist/index.js";
 import type { ExtensionPlugin } from "../manifest.js";
-import { toExtensionPluginFromPreset } from "./adapter-wiring.js";
-import { createEditor } from "./create-editor.js";
-import { ENGINE_MOVE_BLOCK_COMMAND, ENGINE_REPLACE_TEXT_COMMAND } from "./engine-dispatch.js";
+import { toExtensionPluginFromPreset } from "../editor/adapter-wiring.js";
+import { createEditor } from "../editor/create-editor.js";
+import {
+  ENGINE_MOVE_BLOCK_COMMAND,
+  ENGINE_REPLACE_TEXT_COMMAND,
+} from "../editor/engine-dispatch.js";
 
 function createBootstrapStubPlugin(): ExtensionPlugin {
   return {
@@ -113,14 +115,7 @@ describe("createEditor GFM headless integration", () => {
   });
 
   it("does not import React or DOM bindings", () => {
-    const sourcePath = join(
-      dirname(fileURLToPath(import.meta.url)),
-      "..",
-      "..",
-      "src",
-      "editor",
-      "create-editor-gfm.integration.test.ts",
-    );
+    const sourcePath = fileURLToPath(import.meta.url);
     const source = readFileSync(sourcePath, "utf8");
     const importLines = source.split("\n").filter((line) => line.trimStart().startsWith("import "));
 

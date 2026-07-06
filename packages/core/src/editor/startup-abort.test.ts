@@ -1,11 +1,11 @@
 import assert from "node:assert/strict";
-import { describe, it } from "node:test";
+import { describe, it } from "vitest";
 
 import { CoreError } from "../errors.js";
 import type { AetherDoc } from "../document-model.js";
-import type { ExtensionPluginWithAdapters } from "./adapter-wiring.js";
-import { toExtensionPluginFromPreset, type PresetBundle } from "./adapter-wiring.js";
-import { createEditor } from "./create-editor.js";
+import type { ExtensionPluginWithAdapters } from "../editor/adapter-wiring.js";
+import { toExtensionPluginFromPreset, type PresetBundle } from "../editor/adapter-wiring.js";
+import { createEditor } from "../editor/create-editor.js";
 
 function createMockDoc(text = "hello"): AetherDoc {
   return {

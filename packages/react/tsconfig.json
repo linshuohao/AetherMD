@@ -10,11 +10,5 @@
     "rootDir": "src"
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],
-  "exclude": [
-    "src/**/*.test.ts",
-    "src/**/*.test.tsx",
-    "src/test-setup.ts",
-    "src/test-helpers.ts",
-    "src/block-morphing-test-helpers.ts"
-  ]
+  "exclude": ["**/*.test.ts", "**/*.test.tsx", "src/testing/**", "src/test-setup.ts"]
 }

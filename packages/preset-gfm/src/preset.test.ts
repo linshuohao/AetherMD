@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { describe, it } from "node:test";
+import { describe, it } from "vitest";
 
 import { createGfmPreset, gfmManifest } from "./index.js";
 
@@ -22,7 +22,7 @@ describe("@aether-md/preset-gfm Manifest and factory", () => {
   });
 
   it("does not require createEditor or bootstrapCore in factory imports", () => {
-    const sourcePath = join(dirname(fileURLToPath(import.meta.url)), "..", "src", "index.ts");
+    const sourcePath = join(dirname(fileURLToPath(import.meta.url)), "index.ts");
     const source = readFileSync(sourcePath, "utf8");
     const importLines = source.split("\n").filter((line) => line.trimStart().startsWith("import "));
 

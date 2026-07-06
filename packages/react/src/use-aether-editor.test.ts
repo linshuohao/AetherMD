@@ -1,6 +1,5 @@
 import assert from "node:assert/strict";
-import { describe, it } from "node:test";
-import { GlobalRegistrator } from "@happy-dom/global-registrator";
+import { describe, it } from "vitest";
 import { renderHook, waitFor } from "@testing-library/react";
 import React from "react";
 
@@ -9,8 +8,6 @@ import { createMorphingStrategyRegistry } from "@aether-md/core";
 
 import { AetherEditorContext } from "./context.js";
 import { useAetherEditor } from "./use-aether-editor.js";
-
-GlobalRegistrator.register();
 
 function createMockEditor(options: {
   markdown?: string;

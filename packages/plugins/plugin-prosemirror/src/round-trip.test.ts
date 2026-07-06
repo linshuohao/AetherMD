@@ -1,8 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { describe, it } from "node:test";
+import { describe, it } from "vitest";
 
 import { createRemarkParserAdapter, createRemarkSerializerAdapter } from "@aether-md/plugin-remark";
 
@@ -52,12 +51,7 @@ describe("cross-package markdown round-trip", () => {
   });
 
   it("does not import createEditor, bootstrapCore adapter wiring, or react", () => {
-    const sourcePath = join(
-      dirname(fileURLToPath(import.meta.url)),
-      "..",
-      "src",
-      "round-trip.test.ts",
-    );
+    const sourcePath = fileURLToPath(import.meta.url);
     const source = readFileSync(sourcePath, "utf8");
     const importLines = source.split("\n").filter((line) => line.trimStart().startsWith("import "));
 

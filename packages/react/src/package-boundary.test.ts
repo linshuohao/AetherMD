@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { describe, it } from "node:test";
+import { describe, it } from "vitest";
 
 import * as reactShell from "./index.js";
 
@@ -21,17 +21,14 @@ function collectProductionSourceFiles(srcDir: string): string[] {
     for (const entry of readdirSync(currentDir, { withFileTypes: true })) {
       const fullPath = join(currentDir, entry.name);
       if (entry.isDirectory()) {
+        if (entry.name === "testing") {
+          continue;
+        }
         walk(fullPath);
         continue;
       }
 
-      if (!/\.(ts|tsx)$/.test(entry.name)) {
-        continue;
-      }
-      if (/\.test\.(ts|tsx)$/.test(entry.name)) {
-        continue;
-      }
-      if (entry.name === "test-setup.ts" || entry.name === "test-helpers.ts") {
+      if (!/\.(ts|tsx)$/.test(entry.name) || /\.test\.(ts|tsx)$/.test(entry.name)) {
         continue;
       }
 

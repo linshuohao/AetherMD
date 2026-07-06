@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { describe, it } from "node:test";
+import { describe, it } from "vitest";
 
 import type {
   AetherDoc,
@@ -10,7 +10,7 @@ import type {
   TextInline,
 } from "@aether-md/core";
 
-import { gfmFixtureDoc } from "./fixtures/gfm-doc.js";
+import { gfmFixtureDoc } from "./testing/fixtures/gfm-doc.js";
 import { aetherDocToPm, pmToAetherDoc } from "./conversion.js";
 
 describe("ProseMirror GFM conversion round-trip", () => {

@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { describe, it } from "node:test";
+import { describe, it } from "vitest";
 
 import { CoreError, AdapterError } from "../errors.js";
 import type { AdapterCommandRequest } from "../adapter-types.js";
@@ -7,11 +7,11 @@ import type { AetherDoc } from "../document-model.js";
 import type { EventEnvelope } from "../command-event-types.js";
 import type { MorphingBlockStrategy } from "../morphing-types.js";
 import { PARSE_BLOCK_MARKDOWN_COMMAND } from "../morphing-types.js";
-import type { ExtensionPluginWithAdapters } from "./adapter-wiring.js";
-import { toExtensionPluginFromPreset, type PresetBundle } from "./adapter-wiring.js";
-import { createEditor } from "./create-editor.js";
-import { ENGINE_REPLACE_TEXT_COMMAND } from "./engine-dispatch.js";
-import type { EditorContext } from "./context.js";
+import type { ExtensionPluginWithAdapters } from "../editor/adapter-wiring.js";
+import { toExtensionPluginFromPreset, type PresetBundle } from "../editor/adapter-wiring.js";
+import { createEditor } from "../editor/create-editor.js";
+import { ENGINE_REPLACE_TEXT_COMMAND } from "../editor/engine-dispatch.js";
+import type { EditorContext } from "../editor/context.js";
 
 function createMockDoc(text = "hello"): AetherDoc {
   return {
