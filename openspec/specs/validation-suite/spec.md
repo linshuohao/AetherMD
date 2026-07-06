@@ -282,7 +282,7 @@ References:
 
 ### Requirement: Block morphing example is part of the validation suite
 
-The workspace SHALL include `examples/block-morphing` as a private workspace package (`@aether-md/example-block-morphing`) that demonstrates L2 Slice A single-paragraph Instant Morphing. The example SHALL use `@aether-md/react` morphing surfaces with GFM preset wiring. The example `typecheck` task SHALL participate in root `pnpm check` through the workspace turbo pipeline.
+The workspace SHALL include `examples/block-morphing` as a private workspace package (`@aether-md/example-block-morphing`) that demonstrates L2 Block Morphing including multi-paragraph Block Focus (Slice C). The example SHALL use `@aether-md/react` morphing surfaces with GFM preset wiring. The example `typecheck` task SHALL participate in root `pnpm check` through the workspace turbo pipeline.
 
 References:
 
@@ -292,9 +292,10 @@ References:
 
 #### Scenario: Block morphing example typechecks in CI
 
-- **GIVEN** `block-morphing-slice-1` implementation is complete
+- **GIVEN** Slice C block morphing example is complete
 - **WHEN** `pnpm check` runs at the repository root
 - **THEN** `examples/block-morphing` `typecheck` (`tsc --noEmit`) succeeds
+- **AND** the example documents multi-block Block Focus operation
 
 #### Scenario: Maintainer can start block morphing browser demo
 
