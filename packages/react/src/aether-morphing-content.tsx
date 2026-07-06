@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-import type { ParagraphBlock } from "@aether-md/core";
+import type { AetherBlock } from "@aether-md/core";
+import { getGfmMorphingStrategy } from "@aether-md/preset-gfm";
 
 import { useAetherEditor } from "./use-aether-editor.js";
 import { MorphingBlockSurface } from "./morphing/morphing-block-surface.js";
@@ -25,7 +26,9 @@ export function AetherMorphingContent({
   }
 
   const block = doc.children[blockIndex];
-  if (!block || block.type !== "paragraph") {
+  const strategy = block ? getGfmMorphingStrategy(block.type) : undefined;
+
+  if (!block || !strategy) {
     return (
       <div data-testid="aether-morphing-content" data-ready="true">
         <p>Unsupported block at index {blockIndex}</p>
@@ -41,7 +44,8 @@ export function AetherMorphingContent({
     >
       <MorphingBlockSurface
         blockIndex={blockIndex}
-        block={block as ParagraphBlock}
+        block={block as AetherBlock}
+        strategy={strategy}
         localFocus={focused}
         onLocalFocusChange={setFocused}
       />

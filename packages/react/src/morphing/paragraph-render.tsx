@@ -1,11 +1,9 @@
 import { createElement, type ReactNode } from "react";
 
 import type { AetherInline, ParagraphBlock } from "@aether-md/core";
-import { serializeParagraphInlines } from "@aether-md/preset-gfm";
+import { paragraphSourceFromBlock } from "@aether-md/preset-gfm";
 
-export function paragraphSourceFromBlock(block: ParagraphBlock): string {
-  return serializeParagraphInlines(block);
-}
+export { paragraphSourceFromBlock };
 
 /** @deprecated Use paragraphSourceFromBlock with doc block for multi-block docs. */
 export function paragraphSourceFromMarkdown(markdown: string): string {
@@ -48,6 +46,7 @@ function renderInline(inline: AetherInline, key: number): ReactNode {
   return null;
 }
 
+/** @deprecated Slice D uses preset interactiveRenderers via RenderedBlockHost. */
 export function renderParagraphFromBlock(block: ParagraphBlock): ReactNode {
   const parts = block.children.map((inline, index) =>
     renderInline(inline, index),
@@ -62,7 +61,7 @@ export function renderParagraphFromBlock(block: ParagraphBlock): ReactNode {
 
 /**
  * Minimal Slice A inline renderer: **strong** → <strong>.
- * @deprecated Morphing MUST use renderParagraphFromBlock. Slice D may move to preset interactiveRenderers.
+ * @deprecated Morphing MUST use preset interactiveRenderers.
  */
 export function renderParagraphInline(markdown: string): ReactNode {
   const text = markdown.replace(/\n+$/, "");

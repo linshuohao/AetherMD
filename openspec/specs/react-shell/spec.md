@@ -360,3 +360,26 @@ References:
 - **WHEN** `pnpm --filter @aether-md/react test` runs
 - **THEN** Slice B inline mark scenarios pass
 - **AND** Slice A and Slice C scenarios continue to pass
+
+### Requirement: React Shell morphing document consumes preset block strategies for Slice D
+
+`@aether-md/react` SHALL orchestrate Block Focus across supported GFM block types from `@aether-md/preset-gfm` morphing strategies. Shell SHALL NOT embed GFM list/paragraph syntax rules; it SHALL use preset `serializeSource`, `parseSource`, and `interactiveRenderers` for rendered surfaces.
+
+References:
+
+- `docs/architecture/architecture-optimization-principles.md`
+- `packages/preset-gfm`
+
+#### Scenario: Morphing document renders list blocks
+
+- **GIVEN** `AetherMorphingDocument` with a multi-block fixture including a list block
+- **WHEN** the document is ready
+- **THEN** each supported top-level block has a morphing surface
+- **AND** list blocks use preset-provided render and source strategies
+
+#### Scenario: Slice D list morphing integration tests pass in CI
+
+- **GIVEN** Slice D implementation is complete
+- **WHEN** `pnpm --filter @aether-md/react test` runs
+- **THEN** Slice D list block scenarios pass
+- **AND** Slice A, B, and C scenarios continue to pass

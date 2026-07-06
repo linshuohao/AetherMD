@@ -68,6 +68,13 @@ function replaceTextInDoc(
   blockIndex: number,
   request: Extract<AdapterCommandRequest, { type: "replaceText" }>,
 ): AetherDoc {
+  if (request.replacement !== undefined) {
+    const children = doc.children.map((current, index) =>
+      index === blockIndex ? request.replacement! : current,
+    );
+    return { type: "doc", children };
+  }
+
   const block = doc.children[blockIndex];
   if (!block) {
     return doc;
@@ -116,6 +123,10 @@ function canReplaceTextInBlock(
   blockIndex: number,
   request: Extract<AdapterCommandRequest, { type: "replaceText" }>,
 ): boolean {
+  if (request.replacement !== undefined) {
+    return blockIndex >= 0 && blockIndex < doc.children.length;
+  }
+
   const block = doc.children[blockIndex];
   if (!block) {
     return false;

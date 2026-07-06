@@ -143,6 +143,44 @@ describe("ProseMirror EngineAdapter", () => {
     assert.deepEqual(engine.getDocument(session), before);
   });
 
+  it("replaces entire list block when replacement is provided", async () => {
+    const initial = gfmFixtureDoc();
+    const session = await engine.create(initial);
+
+    const replacement: ListBlock = {
+      type: "list",
+      ordered: false,
+      items: [
+        [
+          {
+            type: "paragraph",
+            children: [{ type: "text", text: "alpha" }],
+          },
+        ],
+        [
+          {
+            type: "paragraph",
+            children: [{ type: "text", text: "beta" }],
+          },
+        ],
+      ],
+    };
+
+    const result = await engine.apply(session, {
+      type: "replaceText",
+      blockIndex: 2,
+      replacement,
+    });
+
+    assert.equal(result.ok, true);
+    const list = result.doc!.children[2] as ListBlock;
+    assert.equal(list.items.length, 2);
+    assert.equal(
+      ((list.items[1]![0] as ParagraphBlock).children[0] as TextInline).text,
+      "beta",
+    );
+  });
+
   it("converts internal throws to AdapterError without leaking to harness", async () => {
     const session = await engine.create(paragraphDoc("Hello"));
     const result = await engine.apply(session, {

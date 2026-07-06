@@ -33,3 +33,15 @@ export {
   serializeInlineToMarkdown,
   serializeParagraphInlines,
 } from "./gfm-inline-morphing.js";
+export {
+  createGfmInteractiveRenderers,
+  getGfmMorphingStrategy,
+  getSupportedGfmMorphingBlockTypes,
+  listMorphingStrategy,
+  paragraphMorphingStrategy,
+} from "./morphing/registry.js";
+export { paragraphSourceFromBlock } from "./morphing/paragraph-strategy.js";
+export type {
+  CustomBlockRenderer,
+  GfmMorphingBlockStrategy,
+} from "./morphing/types.js";

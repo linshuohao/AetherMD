@@ -1,4 +1,5 @@
-import type { ParagraphBlock } from "@aether-md/core";
+import type { AetherBlock } from "@aether-md/core";
+import { getGfmMorphingStrategy } from "@aether-md/preset-gfm";
 
 import { useAetherEditor } from "./use-aether-editor.js";
 import { MorphingBlockSurface } from "./morphing/morphing-block-surface.js";
@@ -15,12 +16,11 @@ export function AetherMorphingDocument() {
     );
   }
 
-  const paragraphBlocks = doc.children
+  const morphingBlocks = doc.children
     .map((block, index) => ({ block, index }))
-    .filter(
-      (entry): entry is { block: ParagraphBlock; index: number } =>
-        entry.block.type === "paragraph",
-    );
+    .filter((entry): entry is { block: AetherBlock; index: number } => {
+      return getGfmMorphingStrategy(entry.block.type) !== undefined;
+    });
 
   return (
     <MorphingFocusProvider>
@@ -29,13 +29,17 @@ export function AetherMorphingDocument() {
         data-ready="true"
         className="aether-morphing-document"
       >
-        {paragraphBlocks.map(({ block, index }) => (
-          <MorphingBlockSurface
-            key={index}
-            blockIndex={index}
-            block={block}
-          />
-        ))}
+        {morphingBlocks.map(({ block, index }) => {
+          const strategy = getGfmMorphingStrategy(block.type)!;
+          return (
+            <MorphingBlockSurface
+              key={index}
+              blockIndex={index}
+              block={block}
+              strategy={strategy}
+            />
+          );
+        })}
       </div>
     </MorphingFocusProvider>
   );

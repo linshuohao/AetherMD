@@ -1,9 +1,10 @@
-import type { ExtensionManifest } from "@aether-md/core";
+import type { ExtensionManifest, RuntimeManifest } from "@aether-md/core";
+
+import { createGfmInteractiveRenderers } from "./morphing/registry.js";
 
 /**
- * GFM preset manifest. `interactiveRenderers` (see `docs/sdk/manifest.md`) is
- * reserved for Slice D block-level DOM morphing render registration; inline
- * morphing serialize lives in `gfm-inline-morphing.ts` (headless, no React).
+ * GFM preset manifest with Slice D `interactiveRenderers` for paragraph and list blocks.
+ * Inline morphing serialize lives in `@aether-md/plugin-remark` helpers.
  */
 export const gfmManifest: ExtensionManifest = {
   metadata: {
@@ -14,4 +15,7 @@ export const gfmManifest: ExtensionManifest = {
     requires: ["core:bootstrap"],
     dependsOn: ["remark", "prosemirror"],
   },
+  runtime: {
+    interactiveRenderers: createGfmInteractiveRenderers(),
+  } as RuntimeManifest,
 };

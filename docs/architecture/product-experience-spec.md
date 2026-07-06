@@ -90,7 +90,7 @@
 | 层级 | 载体 | 证明什么 | 是否等于本规范 |
 | --- | --- | --- | --- |
 | **L1 架构管线 demo** | `examples/react-basic` | React Shell + GFM + GateLock + 连续编辑 + preview 同步 | **否** — Phase 0 集成壳 |
-| **L2 产品 north star** | `examples/block-morphing` | Instant Morphing + Block Focus（Slice A–C） | **是** |
+| **L2 产品 north star** | `examples/block-morphing` | Instant Morphing + Block Focus（Slice A–D） | **是** |
 
 L1 有价值，**不得**在 README 或对外叙事中冒充 L2。
 
@@ -113,7 +113,7 @@ M5 `@aether-md/react` + 常驻 ProseMirror `EditorView` + 下方 Markdown previe
 | Slice C | 多块 + Block Focus 切换 |
 | Slice D | 列表 / 链接等块插件化 |
 
-实现 change：`block-morphing-slice-1`（已归档）、`block-morphing-slice-b`（已归档）、`block-morphing-slice-c`（已归档）。
+实现 change：`block-morphing-slice-1`（已归档）、`block-morphing-slice-b`（已归档）、`block-morphing-slice-c`（已归档）、`block-morphing-slice-d`（已归档）。
 
 ## 相关文档
 

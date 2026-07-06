@@ -1,4 +1,4 @@
-import type { AetherDoc, AetherInline, AetherSchema } from "./document-model.js";
+import type { AetherBlock, AetherDoc, AetherInline, AetherSchema } from "./document-model.js";
 import type { AdapterError, SerializationError } from "./errors.js";
 
 export interface EngineSession {
@@ -10,6 +10,8 @@ export interface ReplaceTextCommand {
   blockIndex: number;
   text?: string;
   children?: AetherInline[];
+  /** When set, replaces the entire block at `blockIndex` (Slice D whole-block edits). */
+  replacement?: AetherBlock;
 }
 
 export type AdapterCommandRequest = ReplaceTextCommand;
