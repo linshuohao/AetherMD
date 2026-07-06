@@ -134,6 +134,8 @@ Conventional Commits 规定 `feat` 表示新功能，`fix` 表示修复，并通
 - `pnpm-workspace.yaml`：声明未来 monorepo 包边界。
 - GitHub Rulesets 或 Branch protection：约束分支名、必需检查和合并要求。
 
+当前 commitlint 严格门禁仍覆盖 `type`、`scope`、`header`、`subject-case`；`body-max-line-length` 仅作为 warning 提示，不再阻塞 CI。
+
 本地可手动运行：
 
 ```bash
