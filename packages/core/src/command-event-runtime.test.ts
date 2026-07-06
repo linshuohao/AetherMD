@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { describe, it } from "node:test";
+import { describe, it } from "vitest";
 
 import { createCommandEventRuntime } from "./index.js";
 import type { EventEnvelope } from "./command-event-types.js";

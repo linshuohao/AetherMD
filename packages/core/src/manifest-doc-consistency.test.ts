@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { describe, it } from "node:test";
+import { describe, it } from "vitest";
 
 import { SUPPORTED_MANIFEST_VERSIONS } from "./manifest.js";
 

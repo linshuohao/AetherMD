@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { describe, it } from "node:test";
+import { describe, it } from "vitest";
 
 import * as core from "./index.js";
 import { M1_CORE_CAPABILITIES } from "./capabilities.js";

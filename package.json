@@ -6,7 +6,7 @@
   "scripts": {
     "build": "turbo run build",
     "typecheck": "turbo run typecheck",
-    "test": "turbo run test",
+    "test": "vitest run",
     "check": "pnpm skills:check && pnpm workflow:pr-check && pnpm lint && pnpm format:check && pnpm docs:check-links && turbo run check && turbo run types:check",
     "bench:morphing": "pnpm --filter @aether-md/preset-gfm... build && node packages/core/scripts/bench-morphing.mjs",
     "types:check": "turbo run types:check",
@@ -26,7 +26,7 @@
     "ruleset:apply": "node scripts/apply-github-ruleset.mjs",
     "core:build": "pnpm --filter @aether-md/core build",
     "core:typecheck": "pnpm --filter @aether-md/core exec tsc --noEmit",
-    "core:test": "pnpm --filter @aether-md/core test -- --run"
+    "core:test": "pnpm --filter @aether-md/core test"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.7",
@@ -40,6 +40,7 @@
     "turbo": "^2.8.0",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.54.0",
-    "tsd": "^0.31.2"
+    "tsd": "^0.31.2",
+    "vitest": "^3.2.4"
   }
 }

@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { describe, it } from "node:test";
+import { describe, it } from "vitest";
 
 import type { AdapterCommandRequest } from "../adapter-types.js";
 import type { AetherDoc } from "../document-model.js";
@@ -8,7 +8,7 @@ import {
   resolveWiredAdapters,
   toExtensionPluginFromPreset,
   type PresetBundle,
-} from "./adapter-wiring.js";
+} from "../editor/adapter-wiring.js";
 
 function createMockDoc(text = "hello"): AetherDoc {
   return {

@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { describe, it } from "node:test";
+import { describe, it } from "vitest";
 
 import type { AetherDoc } from "../document-model.js";
 import {
@@ -7,7 +7,7 @@ import {
   toAdapterCommand,
   ENGINE_MOVE_BLOCK_COMMAND,
   ENGINE_REPLACE_TEXT_COMMAND,
-} from "./engine-dispatch.js";
+} from "../editor/engine-dispatch.js";
 
 const DOC: AetherDoc = {
   type: "doc",

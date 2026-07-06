@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
-import { describe, it } from "node:test";
+import { describe, it } from "vitest";
 
-import type { EditorStateSnapshot } from "./types.js";
+import type { EditorStateSnapshot } from "../editor/types.js";
 
 describe("Editor public types", () => {
   it("EditorStateSnapshot exposes doc and readOnly without store API", () => {

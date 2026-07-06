@@ -1,14 +1,12 @@
-import "./test-setup.js";
-
 import assert from "node:assert/strict";
-import { afterEach, describe, it } from "node:test";
+import { afterEach, describe, it } from "vitest";
 import { act, cleanup, render, waitFor } from "@testing-library/react";
 import React from "react";
 
 import type { AetherEditor } from "@aether-md/core";
 
 import { AetherEditorContent, AetherEditorRoot, useAetherEditor } from "./index.js";
-import { createGfmEditorPlugins } from "./test-helpers.js";
+import { createGfmEditorPlugins } from "./testing/gfm-plugins.js";
 
 function EditorProbe({ onReady }: { onReady: (editor: AetherEditor) => void }) {
   const { editor, ready } = useAetherEditor();
