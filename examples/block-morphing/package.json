@@ -8,7 +8,8 @@
     "build": "tsc --noEmit",
     "build:app": "vite build",
     "typecheck": "tsc --noEmit",
-    "check": "pnpm typecheck"
+    "test": "tsc -p tsconfig.test.json && node --test dist-test/**/*.test.js",
+    "check": "pnpm typecheck && pnpm test"
   },
   "dependencies": {
     "@aether-md/core": "workspace:*",
@@ -20,9 +21,13 @@
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
+    "@happy-dom/global-registrator": "^17.4.7",
+    "@testing-library/react": "^16.3.0",
+    "@types/node": "^26.1.0",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.7.0",
+    "happy-dom": "^17.4.7",
     "typescript": "^6.0.3",
     "vite": "^6.3.5"
   }

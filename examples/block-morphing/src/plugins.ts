@@ -12,6 +12,7 @@ interface ExtensionPluginWithAdapters extends ExtensionPlugin {
     serializer: SerializerAdapter;
     engine: EngineAdapter;
   };
+  morphingStrategies?: ReturnType<typeof createGfmPreset>["morphingStrategies"];
 }
 
 function createBootstrapStubPlugin(): ExtensionPlugin {
@@ -61,6 +62,7 @@ export function createGfmEditorPlugins(): ExtensionPluginWithAdapters[] {
         serializer: preset.serializer,
         engine: preset.engine,
       },
+      morphingStrategies: preset.morphingStrategies,
     },
   ];
 }

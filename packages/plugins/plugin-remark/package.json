@@ -25,7 +25,8 @@
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc --noEmit",
     "test": "tsc -p tsconfig.test.json && node --test dist/**/*.test.js",
-    "check": "pnpm typecheck && pnpm test"
+    "check": "pnpm typecheck && pnpm test",
+    "types:check": "tsd --typings dist/index.d.ts"
   },
   "dependencies": {
     "@aether-md/core": "workspace:*",
