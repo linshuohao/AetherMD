@@ -186,7 +186,7 @@ flowchart LR
 | --- | --- |
 | M7 npm publish、O1/O2、Release CI | PR B 之后；且需 **demo + 维护者 sign-off**（见 [ADR 009](../adr/009-release-governance.md)） |
 | History / Selection / Clipboard | PR B 之后独立 Slice |
-| **真实打字同步**（`view-bridge` + `engine`；列表/块级 PM 输入 → markdown） | **`demo-slice-typing-sync`** Spec Change；浏览器编辑未达 PR0 意图 |
+| **真实打字同步**（`view-bridge` + `engine`；列表/块级 PM 输入 → markdown） | **已完成**（`demo-slice-typing-sync`，2026-07-06 归档）；CI `insertText` 路径已覆盖；**浏览器 sign-off** 仍为合并前/M7 前维护者责任 |
 | compile-layer、完整 Guard 链 | demo 驱动；非本程序 |
 | workflow 全面重写 | 禁止；仅 PR B 增量沉淀 |
 
@@ -222,13 +222,16 @@ flowchart LR
 | 2026-07-06 | — | 采纳 PR0→PR A→PR B 方案；本页创建 |
 | 2026-07-06 | PR0 | Spec Change `demo-slice-react-basic-pr0` 创建；baseline-record；PR A 边界冻结 |
 | 2026-07-06 | PR B | `demo-slice-workflow-retention`：Discover 降档、Superpowers retention、归档 PR0/PR A |
+| 2026-07-06 | follow-up | `demo-slice-typing-sync`：PM `insertText` → markdown CI 覆盖（paragraph/heading/list）；浏览器 sign-off 清单写入 `examples/react-basic/README.md` |
+| 2026-07-06 | follow-up | `demo-slice-typing-sync` **归档**；typing-sync 完成；下一项：**History slice** 或 **维护者 `pnpm dev` demo sign-off**（M7 前） |
 
 ---
 
-**程序已闭合（2026-07-06）。** 后续 backlog 见上文 [明确后置](#明确后置本程序期间不做) 与 [项目状态](../project-status.md)。
+**程序已闭合（2026-07-06）。** Demo slice 程序 PR0→PR B 已闭合；**typing-sync follow-up 已归档（2026-07-06）**。下一 backlog：**History / Selection / Clipboard** 独立 slice，或先完成 **`examples/react-basic` 浏览器 sign-off**（M7 前）。详见 [项目状态](../project-status.md)。
 
 归档索引：
 
 - PR0：`openspec/changes/archive/2026-07-06-demo-slice-react-basic-pr0/`
 - PR A：`openspec/changes/archive/2026-07-06-demo-slice-react-basic/`
 - PR B：`openspec/changes/archive/2026-07-06-demo-slice-workflow-retention/`
+- typing-sync：`openspec/changes/archive/2026-07-06-demo-slice-typing-sync/`

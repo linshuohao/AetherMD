@@ -55,14 +55,21 @@ Validation:
 Intuitive Verification:
 - `pnpm --filter @aether-md/example-react-basic dev` — continuous typing in paragraph, heading, list item; preview tracks edits.
 Review Checklist:
-- [ ] No forbidden files
-- [ ] Dispatch path tests still pass
-- [ ] No new CommandId
-- [ ] List sync does not break round-trip tests in plugin-prosemirror
+- [x] No forbidden files
+- [x] Dispatch path tests still pass
+- [x] No new CommandId
+- [x] List sync does not break round-trip tests in plugin-prosemirror
 Rollback Notes:
 Revert typing test file, view-bridge/engine changes, adapter-types optional field if added, spec sync.
 Version Impact:
 none
 Commit Scope:
 fix(plugin-prosemirror): sync PM typing to markdown for demo slice
-Status: pending
+Status: completed
+Run Log:
+- 2026-07-06: RED — `demo-slice-typing-sync.integration.test.tsx` added; list + mark cases failed before engine/view-bridge list sync.
+- 2026-07-06: GREEN — `view-bridge` list item resolution, `engine` list-item replace via numeric `text` index + `children`, `aether-editor-content` dual-field payload; unit + integration tests pass; `pnpm check` green.
+- 2026-07-06: VALIDATE — `pnpm --filter @aether-md/plugin-prosemirror test` (25/25 pass), `pnpm --filter @aether-md/react test` (23/23 pass), `pnpm check` (21/21 tasks pass); record `.superpowers/runs/demo-slice-typing-sync/validation.md`; browser `pnpm dev` smoke **未做** (non-blocking).
+Deviation:
+- List sync encodes `listItemIndex` in `ReplaceTextCommand.text` (numeric string) alongside `children` to avoid `adapter-types` / `engine-dispatch` changes; documented here per change-brief optional-field guidance.
+- Mark regression test asserts structural stability (`**bold**` + link URL preserved) rather than exact markdown placement at non-inclusive mark boundaries.
