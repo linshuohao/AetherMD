@@ -1,11 +1,12 @@
 import { createElement, type ReactNode } from "react";
 
 import type { AetherInline, ParagraphBlock } from "@aether-md/core";
-import { paragraphSourceFromBlock } from "@aether-md/preset-gfm";
 
-export { paragraphSourceFromBlock };
+/** @deprecated Use editor.getMorphingStrategy(block.type).serializeSource(block). */
+export function paragraphSourceFromBlock(block: ParagraphBlock): string {
+  return block.children.map((inline) => (inline.type === "text" ? inline.text : "")).join("");
+}
 
-/** @deprecated Use paragraphSourceFromBlock with doc block for multi-block docs. */
 export function paragraphSourceFromMarkdown(markdown: string): string {
   return markdown.replace(/\n+$/, "");
 }

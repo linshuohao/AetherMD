@@ -9,10 +9,15 @@ import type {
   EventName,
   Unsubscribe,
 } from "../command-event-types.js";
-import type { AetherDoc } from "../document-model.js";
+import type { AetherBlock, AetherDoc } from "../document-model.js";
 import { CoreError } from "../errors.js";
 import type { EngineSession } from "../adapter-types.js";
 import type { CoreBootstrapRuntime } from "../bootstrap.js";
+import {
+  PARSE_BLOCK_MARKDOWN_COMMAND,
+  type MorphingStrategyRegistry,
+  type ParseBlockMarkdownPayload,
+} from "../morphing-types.js";
 import type { EditorContext } from "./context.js";
 import { createDefaultConflictResolver } from "./conflict-resolver.js";
 import { dispatchEngineCommand, isEngineBoundCommand } from "./engine-dispatch.js";
@@ -26,6 +31,7 @@ function cloneDoc(doc: AetherDoc): AetherDoc {
 
 export class AetherEditorImpl implements AetherEditor {
   readonly context: EditorContext;
+  readonly morphing: MorphingStrategyRegistry;
   private readonly runtime: CommandEventRuntime;
   private readonly bootstrapRuntime: CoreBootstrapRuntime;
   private readonly session: EngineSession;
@@ -40,8 +46,10 @@ export class AetherEditorImpl implements AetherEditor {
     session: EngineSession;
     initialDoc: AetherDoc;
     readOnly: boolean;
+    morphing: MorphingStrategyRegistry;
   }) {
     this.context = options.context;
+    this.morphing = options.morphing;
     this.runtime = options.runtime;
     this.bootstrapRuntime = options.bootstrapRuntime;
     this.session = options.session;
@@ -79,6 +87,27 @@ export class AetherEditorImpl implements AetherEditor {
       };
     }
 
+    if (command.id === PARSE_BLOCK_MARKDOWN_COMMAND) {
+      const payload = command.payload as ParseBlockMarkdownPayload | undefined;
+      if (!payload || typeof payload.markdown !== "string") {
+        return {
+          ok: false,
+          error: new CoreError({
+            code: "COMMAND_UNKNOWN",
+            message: "Invalid parseBlockMarkdown payload",
+            severity: "recoverable",
+          }),
+        };
+      }
+
+      const parsed = await this.context.services.parser.adapter.parse(
+        payload.markdown,
+        DEFAULT_SCHEMA,
+      );
+      const block = parsed.children[0] as AetherBlock | undefined;
+      return { ok: true, value: block };
+    }
+
     if (isEngineBoundCommand(command.id)) {
       const result = await dispatchEngineCommand(
         {
@@ -105,6 +134,10 @@ export class AetherEditorImpl implements AetherEditor {
 
   getDocument(): AetherDoc {
     return cloneDoc(this.docSnapshot);
+  }
+
+  getMorphingStrategy(blockType: AetherBlock["type"]) {
+    return this.morphing.get(blockType);
   }
 
   async getMarkdown(): Promise<string> {

@@ -5,9 +5,10 @@ import type {
   EventName,
   Unsubscribe,
 } from "../command-event-types.js";
-import type { AetherDoc } from "../document-model.js";
+import type { AetherBlock, AetherDoc } from "../document-model.js";
 import type { ExtensionPlugin } from "../manifest.js";
 import type { PermissionId } from "../types.js";
+import type { MorphingStrategyRegistry } from "../morphing-types.js";
 import type { EditorContext } from "./context.js";
 
 export interface EditorSecurityConfig {
@@ -30,10 +31,12 @@ export interface EditorStateSnapshot {
 export interface AetherEditor {
   readonly context: EditorContext;
   readonly state: EditorStateSnapshot;
+  readonly morphing: MorphingStrategyRegistry;
 
   dispatch(command: CommandRequest): Promise<CommandResult>;
   on(eventName: EventName, listener: EventListener): Unsubscribe;
   getMarkdown(): Promise<string>;
   getDocument(): AetherDoc;
+  getMorphingStrategy(blockType: AetherBlock["type"]): ReturnType<MorphingStrategyRegistry["get"]>;
   dispose(): Promise<void>;
 }

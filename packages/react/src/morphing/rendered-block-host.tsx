@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
 
-import type { AetherBlock } from "@aether-md/core";
-import type { CustomBlockRenderer } from "@aether-md/preset-gfm";
+import type { AetherBlock, CustomBlockRenderer } from "@aether-md/core";
 
 export interface RenderedBlockHostProps {
   block: AetherBlock;

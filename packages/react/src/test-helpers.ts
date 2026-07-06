@@ -48,6 +48,7 @@ export function createGfmEditorPlugins(): ExtensionPlugin[] {
         serializer: preset.serializer,
         engine: preset.engine,
       },
+      morphingStrategies: preset.morphingStrategies,
     } as ExtensionPlugin,
   ];
 }

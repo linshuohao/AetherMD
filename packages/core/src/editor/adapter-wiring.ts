@@ -1,4 +1,6 @@
 import type { EngineAdapter, ParserAdapter, SerializerAdapter } from "../adapter-types.js";
+import type { MorphingBlockStrategy } from "../morphing-types.js";
+import { createMorphingStrategyRegistry } from "../morphing-types.js";
 import { CoreError } from "../errors.js";
 import type { ExtensionManifest, ExtensionPlugin } from "../manifest.js";
 
@@ -10,6 +12,7 @@ export interface PluginAdapters {
 
 export interface ExtensionPluginWithAdapters extends ExtensionPlugin {
   adapters?: PluginAdapters;
+  morphingStrategies?: readonly MorphingBlockStrategy[];
 }
 
 export interface PresetBundle {
@@ -17,6 +20,7 @@ export interface PresetBundle {
   parser: ParserAdapter;
   serializer: SerializerAdapter;
   engine: EngineAdapter;
+  morphingStrategies?: readonly MorphingBlockStrategy[];
 }
 
 export interface WiredAdapters {
@@ -33,6 +37,9 @@ export function toExtensionPluginFromPreset(preset: PresetBundle): ExtensionPlug
       serializer: preset.serializer,
       engine: preset.engine,
     },
+    ...(preset.morphingStrategies !== undefined
+      ? { morphingStrategies: preset.morphingStrategies }
+      : {}),
   };
 }
 
@@ -67,4 +74,14 @@ export function resolveWiredAdapters(
   }
 
   return { parser, serializer, engine };
+}
+
+export function resolveMorphingRegistry(plugins: readonly ExtensionPluginWithAdapters[]) {
+  const strategies: MorphingBlockStrategy[] = [];
+  for (const plugin of plugins) {
+    if (plugin.morphingStrategies) {
+      strategies.push(...plugin.morphingStrategies);
+    }
+  }
+  return createMorphingStrategyRegistry(strategies);
 }

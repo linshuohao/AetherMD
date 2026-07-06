@@ -5,6 +5,7 @@ import { renderHook, waitFor } from "@testing-library/react";
 import React from "react";
 
 import type { AetherDoc, AetherEditor, EventListener, Unsubscribe } from "@aether-md/core";
+import { createMorphingStrategyRegistry } from "@aether-md/core";
 
 import { AetherEditorContext } from "./context.js";
 import { useAetherEditor } from "./use-aether-editor.js";
@@ -22,8 +23,14 @@ function createMockEditor(options: {
     children: [{ type: "paragraph", children: [{ type: "text", text: "" }] }],
   };
 
+  const morphing = createMorphingStrategyRegistry([]);
+
   return {
     context: {} as AetherEditor["context"],
+    morphing,
+    getMorphingStrategy(blockType) {
+      return morphing.get(blockType);
+    },
     state: { doc, readOnly: false },
     dispatch: async () => ({ ok: true }),
     on(eventName, listener) {

@@ -8,7 +8,11 @@ import {
 } from "../manifest.js";
 import { validateServiceCapabilities } from "../capabilities.js";
 import { resolvePluginDependencyOrder } from "../dependencies.js";
-import { resolveWiredAdapters, type ExtensionPluginWithAdapters } from "./adapter-wiring.js";
+import {
+  resolveMorphingRegistry,
+  resolveWiredAdapters,
+  type ExtensionPluginWithAdapters,
+} from "./adapter-wiring.js";
 import { createEditorContext } from "./context.js";
 import { AetherEditorImpl, createEditorRuntime } from "./aether-editor.js";
 import type { EditorConfig, AetherEditor } from "./types.js";
@@ -38,6 +42,7 @@ export async function createEditor(config: EditorConfig): Promise<AetherEditor> 
   resolvePluginDependencyOrder(loadedPlugins);
 
   const wired = resolveWiredAdapters(config.plugins as ExtensionPluginWithAdapters[]);
+  const morphing = resolveMorphingRegistry(config.plugins as ExtensionPluginWithAdapters[]);
   const runtime = createEditorRuntime();
 
   let initialDoc: AetherDoc;
@@ -78,5 +83,6 @@ export async function createEditor(config: EditorConfig): Promise<AetherEditor> 
     session,
     initialDoc,
     readOnly: config.readOnly ?? false,
+    morphing,
   });
 }
