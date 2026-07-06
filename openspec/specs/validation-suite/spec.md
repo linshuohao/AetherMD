@@ -209,3 +209,27 @@ References:
 - **WHEN** a reader opens `docs/community/release-process.md`
 - **THEN** the M6 preparation stage is marked complete or in progress with concrete artifacts listed
 - **AND** M7 publish steps remain marked as not started
+
+### Requirement: React basic demo slice north star acceptance is frozen and verified
+
+The repository SHALL treat `examples/react-basic` as the north star browser demo per `docs/engineering/demo-slice-delivery-program.md`. Maintainers SHALL be able to run `pnpm --filter @aether-md/example-react-basic dev` and continuously edit a frozen GFM subset (heading, strong emphasis, list, link) without GateLock document reset when the controlled `value` is unchanged. `@aether-md/react` SHALL include an integration test mirroring the controlled Shell layout that verifies consecutive edits update markdown preview and GateLock preserves edits across parent rerender.
+
+References:
+
+- `docs/engineering/demo-slice-delivery-program.md`
+- `examples/react-basic/README.md`
+- `openspec/changes/archive/2026-07-05-add-react-basic-example/` (M6 baseline)
+
+#### Scenario: Maintainer can start the browser demo from workspace
+
+- **GIVEN** the workspace is installed and built per `examples/react-basic/README.md`
+- **WHEN** a maintainer runs `pnpm --filter @aether-md/example-react-basic dev`
+- **THEN** a browser-rendered editor loads without startup error
+- **AND** initial content showcases heading, strong emphasis, list, and link GFM structures
+
+#### Scenario: Demo slice acceptance is enforced in CI
+
+- **GIVEN** `demo-slice-react-basic` implementation is complete
+- **WHEN** `pnpm --filter @aether-md/react test` runs
+- **THEN** `demo-slice-pr0-acceptance.integration.test.tsx` passes
+- **AND** existing React Shell and GateLock integration tests continue to pass

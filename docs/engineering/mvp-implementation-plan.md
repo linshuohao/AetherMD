@@ -120,5 +120,18 @@ M3/M4 仍排除：
 - [测试策略](test-strategy.md)
 - [ADR 009：发布与治理策略](../adr/009-release-governance.md)
 - [发布流程](../community/release-process.md)（M6 预备已完成；M7 publish 未开始）
+- [**Demo Slice 交付计划**](demo-slice-delivery-program.md)（M6 之后活跃执行计划：PR0 → PR A → PR B）
+
+## M6 之后：纵向 Demo Slice（活跃）
+
+M1–M6 横向里程碑已闭合。当前主叙事切换为 [Demo Slice 交付计划](demo-slice-delivery-program.md)：
+
+| 阶段 | 内容 |
+| --- | --- |
+| PR0 | Spec Change — 冻结 `react-basic` demo 目标与验收 |
+| PR A | 实现可连续编辑 GFM 的可感知 demo |
+| PR B | Full Change — 沉淀 roadmap / workflow / retention |
+
+M7 publish 触发条件见该计划与 [ADR 009](../adr/009-release-governance.md)。History / Selection / Clipboard 不在本程序范围内。
 
 ---

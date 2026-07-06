@@ -13,6 +13,7 @@ Use this reference before archiving a completed change.
 - Changed files map to tasks or documented finalization work.
 - **Full Change:** plan file exists.
 - **Spec Change:** exactly one task exists; plan file must not exist.
+- **Retention (after archive):** completed change task/plan/review files are relocated under `.superpowers/archive/<date>-<change>/` or removed when `final-report.md` preserves the task summary; active directories contain only in-progress changes.
 
 ## Do Not Archive When
 

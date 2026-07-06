@@ -7,6 +7,7 @@
 | 页面 | 作用 |
 | --- | --- |
 | [MVP 实施计划](mvp-implementation-plan.md) | 将 v1.0 路线图拆成可执行里程碑和验收标准 |
+| [**Demo Slice 交付计划**](demo-slice-delivery-program.md) | **当前活跃**：PR0 → PR A → PR B 三阶段执行计划与防跑偏边界 |
 | [数据流](data-flow.md) | 确定性双向数据流 |
 | [Adapter 协议](adapter-protocol.md) | Core 与编辑、解析、序列化引擎之间的协议边界 |
 | [错误模型](error-model.md) | 类型化错误、恢复矩阵、Error Boundary 层级 |
