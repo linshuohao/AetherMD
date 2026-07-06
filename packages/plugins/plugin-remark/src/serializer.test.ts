@@ -3,22 +3,13 @@ import { describe, it } from "node:test";
 
 import type { AetherDoc } from "@aether-md/core";
 import { SerializationError } from "@aether-md/core";
+import { runSerializerAdapterContractTests } from "@aether-md/adapter-contract-tests";
 
 import { createRemarkSerializerAdapter } from "./serializer.js";
 
 const schema = { version: 1 as const };
 
-function paragraphDoc(text: string): AetherDoc {
-  return {
-    type: "doc",
-    children: [
-      {
-        type: "paragraph",
-        children: [{ type: "text", text }],
-      },
-    ],
-  };
-}
+runSerializerAdapterContractTests("Remark", createRemarkSerializerAdapter);
 
 function headingParagraphDoc(level: 1 | 2 | 3 | 4 | 5 | 6, title: string, body: string): AetherDoc {
   return {
@@ -107,11 +98,6 @@ function gfmFixtureDoc(): AetherDoc {
 
 describe("Remark SerializerAdapter", () => {
   const serializer = createRemarkSerializerAdapter();
-
-  it("serializes a paragraph AetherDoc to deterministic Markdown", async () => {
-    const markdown = await serializer.serialize(paragraphDoc("Hello world"), schema);
-    assert.equal(markdown, "Hello world\n");
-  });
 
   it("serializes heading and paragraph AetherDoc to deterministic Markdown", async () => {
     const markdown = await serializer.serialize(headingParagraphDoc(2, "Title", "Body"), schema);

@@ -144,6 +144,19 @@ importers:
         specifier: ^6.3.5
         version: 6.4.3(@types/node@26.1.0)(jiti@2.6.1)
 
+  packages/adapter-contract-tests:
+    dependencies:
+      '@aether-md/core':
+        specifier: workspace:*
+        version: link:../core
+    devDependencies:
+      '@types/node':
+        specifier: ^26.1.0
+        version: 26.1.0
+      typescript:
+        specifier: ^6.0.3
+        version: 6.0.3
+
   packages/core:
     devDependencies:
       '@types/node':
@@ -168,6 +181,9 @@ importers:
         specifier: ^1.38.1
         version: 1.42.0
     devDependencies:
+      '@aether-md/adapter-contract-tests':
+        specifier: workspace:*
+        version: link:../../adapter-contract-tests
       '@aether-md/plugin-remark':
         specifier: workspace:*
         version: link:../plugin-remark
@@ -202,6 +218,9 @@ importers:
         specifier: ^11.0.5
         version: 11.0.5
     devDependencies:
+      '@aether-md/adapter-contract-tests':
+        specifier: workspace:*
+        version: link:../../adapter-contract-tests
       '@types/mdast':
         specifier: ^4.0.4
         version: 4.0.4

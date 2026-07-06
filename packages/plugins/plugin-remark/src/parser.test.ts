@@ -10,24 +10,16 @@ import type {
   ParagraphBlock,
   TextInline,
 } from "@aether-md/core";
+import { runParserAdapterContractTests } from "@aether-md/adapter-contract-tests";
 
 import { createRemarkParserAdapter } from "./parser.js";
 
 const schema = { version: 1 as const };
 
+runParserAdapterContractTests("Remark", createRemarkParserAdapter);
+
 describe("Remark ParserAdapter", () => {
   const parser = createRemarkParserAdapter();
-
-  it("parses a paragraph markdown sample into AetherDoc", async () => {
-    const doc = await parser.parse("Hello world\n", schema);
-
-    assert.equal(doc.type, "doc");
-    assert.equal(doc.children.length, 1);
-    const block = doc.children[0] as ParagraphBlock;
-    assert.equal(block.type, "paragraph");
-    assert.equal(block.children[0]?.type, "text");
-    assert.equal((block.children[0] as TextInline).text, "Hello world");
-  });
 
   it("parses heading and paragraph markdown into AetherDoc", async () => {
     const doc = await parser.parse("## Title\n\nBody\n", schema);

@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, it } from "node:test";
@@ -13,6 +13,35 @@ const FORBIDDEN_CORE_REEXPORTS = [
   "createEditor",
   "SUPPORTED_MANIFEST_VERSIONS",
 ] as const;
+
+function collectProductionSourceFiles(srcDir: string): string[] {
+  const files: string[] = [];
+
+  function walk(currentDir: string): void {
+    for (const entry of readdirSync(currentDir, { withFileTypes: true })) {
+      const fullPath = join(currentDir, entry.name);
+      if (entry.isDirectory()) {
+        walk(fullPath);
+        continue;
+      }
+
+      if (!/\.(ts|tsx)$/.test(entry.name)) {
+        continue;
+      }
+      if (/\.test\.(ts|tsx)$/.test(entry.name)) {
+        continue;
+      }
+      if (entry.name === "test-setup.ts" || entry.name === "test-helpers.ts") {
+        continue;
+      }
+
+      files.push(fullPath);
+    }
+  }
+
+  walk(srcDir);
+  return files.sort();
+}
 
 describe("@aether-md/react package boundary", () => {
   it("exports AetherEditorRoot, AetherEditorContent, AetherMorphingContent, AetherMorphingDocument, and useAetherEditor", () => {
@@ -36,21 +65,17 @@ describe("@aether-md/react package boundary", () => {
   it("does not import prosemirror-view in production source files", () => {
     const packageRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
     const srcDir = join(packageRoot, "src");
-    const productionFiles = [
-      "index.ts",
-      "types.ts",
-      "aether-editor-root.tsx",
-      "aether-editor-content.tsx",
-      "aether-morphing-content.tsx",
-      "morphing/paragraph-render.tsx",
-      "gate-lock.ts",
-      "context.tsx",
-      "use-aether-editor.ts",
-    ].map((file) => join(srcDir, file));
+    const productionFiles = collectProductionSourceFiles(srcDir);
+
+    assert.ok(productionFiles.length > 0, "expected production source files");
 
     for (const filePath of productionFiles) {
       const source = readFileSync(filePath, "utf8");
-      assert.doesNotMatch(source, /from ['"]prosemirror-view['"]/);
+      assert.doesNotMatch(
+        source,
+        /from ['"]prosemirror-view['"]/,
+        `unexpected prosemirror-view import in ${filePath}`,
+      );
     }
   });
 });

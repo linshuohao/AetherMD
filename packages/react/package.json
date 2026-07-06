@@ -24,7 +24,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc --noEmit",
-    "test": "pnpm --filter @aether-md/core build && pnpm --filter @aether-md/plugin-prosemirror build && pnpm --filter @aether-md/preset-gfm build && tsc -p tsconfig.test.json && node --test dist/**/*.test.js",
+    "test": "tsc -p tsconfig.test.json && node --test dist/**/*.test.js",
     "check": "pnpm typecheck && pnpm test"
   },
   "peerDependencies": {
