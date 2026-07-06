@@ -32,7 +32,7 @@ export function AetherMorphingDocument() {
           const strategy = editor.getMorphingStrategy(block.type)!;
           return (
             <MorphingBlockSurface
-              key={index}
+              key={block.id ?? index}
               blockIndex={index}
               block={block}
               strategy={strategy}

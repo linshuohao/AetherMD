@@ -1,4 +1,5 @@
 import { bootstrapCore } from "../bootstrap.js";
+import { ensureDocumentBlockIds } from "../block-ids.js";
 import type { AetherDoc } from "../document-model.js";
 import { CoreError } from "../errors.js";
 import {
@@ -53,6 +54,8 @@ export async function createEditor(config: EditorConfig): Promise<AetherEditor> 
   } else {
     initialDoc = EMPTY_DOC;
   }
+
+  initialDoc = ensureDocumentBlockIds(initialDoc);
 
   const session = await wired.engine.create(initialDoc);
 

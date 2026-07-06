@@ -70,6 +70,13 @@ export type {
   ParseBlockMarkdownPayload,
 } from "./morphing-types.js";
 export { PARSE_BLOCK_MARKDOWN_COMMAND, createMorphingStrategyRegistry } from "./morphing-types.js";
+export {
+  createBlockId,
+  ensureBlockId,
+  ensureDocumentBlockIds,
+  findBlockIndexById,
+  withPreservedBlockId,
+} from "./block-ids.js";
 export type {
   AdapterCommandRequest,
   AdapterEvent,

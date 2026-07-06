@@ -26,8 +26,9 @@ export function MorphingBlockSurface({
   const { editor } = useAetherEditor();
   const focusContext = useMorphingFocus();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const blockId = block.id ?? String(blockIndex);
 
-  const documentFocused = focusContext !== null && focusContext.focusedBlockIndex === blockIndex;
+  const documentFocused = focusContext !== null && focusContext.focusedBlockId === blockId;
   const focused = focusContext !== null ? documentFocused : localFocus;
 
   const sourceText = strategy.serializeSource(block);
@@ -40,22 +41,22 @@ export function MorphingBlockSurface({
 
   const handleFocus = useCallback(() => {
     if (focusContext) {
-      focusContext.setFocusedBlockIndex(blockIndex);
+      focusContext.setFocusedBlockId(blockId);
     } else {
       onLocalFocusChange?.(true);
     }
     focusTextarea();
-  }, [blockIndex, focusContext, focusTextarea, onLocalFocusChange]);
+  }, [blockId, focusContext, focusTextarea, onLocalFocusChange]);
 
   const handleBlur = useCallback(() => {
     if (focusContext) {
-      if (focusContext.focusedBlockIndex === blockIndex) {
-        focusContext.setFocusedBlockIndex(null);
+      if (focusContext.focusedBlockId === blockId) {
+        focusContext.setFocusedBlockId(null);
       }
     } else {
       onLocalFocusChange?.(false);
     }
-  }, [blockIndex, focusContext, onLocalFocusChange]);
+  }, [blockId, focusContext, onLocalFocusChange]);
 
   useEffect(() => {
     if (focused) {
@@ -84,16 +85,17 @@ export function MorphingBlockSurface({
 
         await editor.dispatch({
           id: "core:replaceText",
-          payload: { blockIndex, replacement },
+          payload: { blockId, replacement },
         });
       })();
     },
-    [editor, blockIndex, strategy],
+    [editor, blockId, strategy],
   );
 
   return (
     <div
       data-testid={`morphing-block-${blockIndex}`}
+      data-block-id={blockId}
       data-block-type={block.type}
       data-focused={focused ? "true" : "false"}
       className="aether-morphing-block"

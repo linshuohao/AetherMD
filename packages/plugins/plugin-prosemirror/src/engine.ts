@@ -7,7 +7,7 @@ import type {
   EngineSession,
   ListBlock,
 } from "@aether-md/core";
-import { AdapterError } from "@aether-md/core";
+import { AdapterError, withPreservedBlockId } from "@aether-md/core";
 import { EditorState } from "prosemirror-state";
 
 import { aetherDocToPm, pmToAetherDoc } from "./conversion.js";
@@ -69,8 +69,10 @@ function replaceTextInDoc(
   request: Extract<AdapterCommandRequest, { type: "replaceText" }>,
 ): AetherDoc {
   if (request.replacement !== undefined) {
+    const target = doc.children[blockIndex];
+    const replacement = withPreservedBlockId(target, request.replacement);
     const children = doc.children.map((current, index) =>
-      index === blockIndex ? request.replacement! : current,
+      index === blockIndex ? replacement : current,
     );
     return { type: "doc", children };
   }

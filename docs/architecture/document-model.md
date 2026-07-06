@@ -95,8 +95,11 @@ export interface CustomBlock {
 
 ## 开放问题
 
-- 是否需要为所有节点引入稳定 `id`。
 - 自定义块的 Markdown fallback 语法是否由插件声明。
 - `meta` 是否允许插件命名空间写入。
+
+## 稳定块身份（ADR 010）
+
+`AetherDoc.children` 中的顶层块在编辑器规范化后 **MUST** 携带稳定 `id`（`blk_<uuid>`）。Id 为会话内坐标，不写入 Markdown 线格式。React Shell Block Focus 与 `core:replaceText` **SHOULD** 优先使用 `blockId` 而非数组 `blockIndex`。详见 [ADR 010](../adr/010-block-stable-identity.md)。
 
 ---

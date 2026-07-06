@@ -21,13 +21,14 @@ export const aetherSchema = new Schema({
     paragraph: {
       group: "block",
       content: "inline*",
+      attrs: { blockId: { default: null } },
       toDOM: () => ["p", 0],
       parseDOM: [{ tag: "p" }],
     },
     heading: {
       group: "block",
       content: "inline*",
-      attrs: { level: { default: 1 } },
+      attrs: { level: { default: 1 }, blockId: { default: null } },
       toDOM: (node) => [`h${node.attrs.level}`, 0],
       parseDOM: [
         { tag: "h1", attrs: { level: 1 } },
@@ -41,13 +42,14 @@ export const aetherSchema = new Schema({
     bullet_list: {
       group: "block",
       content: "list_item+",
+      attrs: { blockId: { default: null } },
       toDOM: () => ["ul", 0],
       parseDOM: [{ tag: "ul" }],
     },
     ordered_list: {
       group: "block",
       content: "list_item+",
-      attrs: { order: { default: 1 } },
+      attrs: { order: { default: 1 }, blockId: { default: null } },
       toDOM: () => ["ol", 0],
       parseDOM: [{ tag: "ol" }],
     },
@@ -128,17 +130,24 @@ function inlineToPm(inline: AetherInline, marks: ProseMirrorMark[] = []): ProseM
   return [];
 }
 
+function blockIdAttrs(block: AetherBlock): { blockId: string | null } {
+  return { blockId: block.id ?? null };
+}
+
 function blockToPm(block: AetherBlock): ProseMirrorNode {
   if (block.type === "paragraph") {
     const paragraph = block as ParagraphBlock;
     const content = paragraph.children.flatMap((inline) => inlineToPm(inline));
-    return aetherSchema.nodes.paragraph.create(null, content);
+    return aetherSchema.nodes.paragraph.create(blockIdAttrs(paragraph), content);
   }
 
   if (block.type === "heading") {
     const heading = block as HeadingBlock;
     const content = heading.children.flatMap((inline) => inlineToPm(inline));
-    return aetherSchema.nodes.heading.create({ level: heading.level }, content);
+    return aetherSchema.nodes.heading.create(
+      { level: heading.level, ...blockIdAttrs(heading) },
+      content,
+    );
   }
 
   if (block.type === "list") {
@@ -149,10 +158,12 @@ function blockToPm(block: AetherBlock): ProseMirrorNode {
     const items = list.items.map((itemBlocks) =>
       aetherSchema.nodes.list_item.create(null, itemBlocks.map(blockToPm)),
     );
-    return listType.create(null, items);
+    return listType.create(blockIdAttrs(list), items);
   }
 
-  return aetherSchema.nodes.paragraph.create(null, [aetherSchema.text(JSON.stringify(block))]);
+  return aetherSchema.nodes.paragraph.create({ blockId: null }, [
+    aetherSchema.text(JSON.stringify(block)),
+  ]);
 }
 
 export function aetherDocToPm(doc: AetherDoc): ProseMirrorNode {
@@ -251,25 +262,34 @@ function pmInlineContentToAether(node: ProseMirrorNode): AetherInline[] {
   return mergeInlineSiblings(node.content.content.map(pmInlineToAether));
 }
 
+function readBlockId(node: ProseMirrorNode): string | undefined {
+  const blockId = node.attrs.blockId;
+  return typeof blockId === "string" && blockId.length > 0 ? blockId : undefined;
+}
+
 export function pmBlockToAether(node: ProseMirrorNode): AetherBlock {
   if (node.type.name === "paragraph") {
     const children = pmInlineContentToAether(node);
-    return { type: "paragraph", children };
+    const id = readBlockId(node);
+    return { type: "paragraph", ...(id ? { id } : {}), children };
   }
 
   if (node.type.name === "heading") {
     const level = node.attrs.level as HeadingBlock["level"];
     const children = pmInlineContentToAether(node);
-    return { type: "heading", level, children };
+    const id = readBlockId(node);
+    return { type: "heading", level, ...(id ? { id } : {}), children };
   }
 
   if (node.type.name === "bullet_list" || node.type.name === "ordered_list") {
     const items = node.content.content.map((itemNode) =>
       itemNode.content.content.map(pmBlockToAether),
     );
+    const id = readBlockId(node);
     return {
       type: "list",
       ordered: node.type.name === "ordered_list",
+      ...(id ? { id } : {}),
       items,
     };
   }

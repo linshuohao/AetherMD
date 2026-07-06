@@ -1,17 +1,17 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
 
 export interface MorphingFocusContextValue {
-  focusedBlockIndex: number | null;
-  setFocusedBlockIndex: (index: number | null) => void;
+  focusedBlockId: string | null;
+  setFocusedBlockId: (blockId: string | null) => void;
 }
 
 const MorphingFocusContext = createContext<MorphingFocusContextValue | null>(null);
 
 export function MorphingFocusProvider({ children }: { children: ReactNode }) {
-  const [focusedBlockIndex, setFocusedBlockIndex] = useState<number | null>(null);
+  const [focusedBlockId, setFocusedBlockId] = useState<string | null>(null);
 
   return (
-    <MorphingFocusContext.Provider value={{ focusedBlockIndex, setFocusedBlockIndex }}>
+    <MorphingFocusContext.Provider value={{ focusedBlockId, setFocusedBlockId }}>
       {children}
     </MorphingFocusContext.Provider>
   );
