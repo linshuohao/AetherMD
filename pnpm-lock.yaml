@@ -218,13 +218,13 @@ importers:
       '@aether-md/plugin-prosemirror':
         specifier: workspace:*
         version: link:../plugins/plugin-prosemirror
+      '@aether-md/preset-gfm':
+        specifier: workspace:*
+        version: link:../preset-gfm
     devDependencies:
       '@aether-md/plugin-remark':
         specifier: workspace:*
         version: link:../plugins/plugin-remark
-      '@aether-md/preset-gfm':
-        specifier: workspace:*
-        version: link:../preset-gfm
       '@happy-dom/global-registrator':
         specifier: ^17.4.7
         version: 17.6.3

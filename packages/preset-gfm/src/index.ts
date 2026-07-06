@@ -29,3 +29,7 @@ export function createGfmPreset(): GfmPreset {
 }
 
 export { gfmManifest } from "./manifest.js";
+export {
+  serializeInlineToMarkdown,
+  serializeParagraphInlines,
+} from "./gfm-inline-morphing.js";

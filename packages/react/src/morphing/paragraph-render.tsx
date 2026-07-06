@@ -1,33 +1,10 @@
 import { createElement, type ReactNode } from "react";
 
 import type { AetherInline, ParagraphBlock } from "@aether-md/core";
-
-function serializeInlineToMarkdown(inline: AetherInline): string {
-  if (inline.type === "text") {
-    return inline.text;
-  }
-
-  if (inline.type === "mark") {
-    const text = inline.children.map(serializeInlineToMarkdown).join("");
-    if (inline.mark === "strong") {
-      return `**${text}**`;
-    }
-    if (inline.mark === "emphasis") {
-      return `*${text}*`;
-    }
-    return text;
-  }
-
-  if (inline.type === "link") {
-    const text = inline.children.map(serializeInlineToMarkdown).join("");
-    return `[${text}](${inline.href})`;
-  }
-
-  return "";
-}
+import { serializeParagraphInlines } from "@aether-md/preset-gfm";
 
 export function paragraphSourceFromBlock(block: ParagraphBlock): string {
-  return block.children.map(serializeInlineToMarkdown).join("");
+  return serializeParagraphInlines(block);
 }
 
 /** @deprecated Use paragraphSourceFromBlock with doc block for multi-block docs. */
@@ -43,6 +20,14 @@ function renderInline(inline: AetherInline, key: number): ReactNode {
   if (inline.type === "mark" && inline.mark === "strong") {
     return createElement(
       "strong",
+      { key },
+      inline.children.map((child, index) => renderInline(child, index)),
+    );
+  }
+
+  if (inline.type === "mark" && inline.mark === "emphasis") {
+    return createElement(
+      "em",
       { key },
       inline.children.map((child, index) => renderInline(child, index)),
     );
@@ -77,8 +62,7 @@ export function renderParagraphFromBlock(block: ParagraphBlock): ReactNode {
 
 /**
  * Minimal Slice A inline renderer: **strong** → <strong>.
- * Slice B+ should move to preset interactiveRenderers.
- * @deprecated Prefer renderParagraphFromBlock for multi-block docs.
+ * @deprecated Morphing MUST use renderParagraphFromBlock. Slice D may move to preset interactiveRenderers.
  */
 export function renderParagraphInline(markdown: string): ReactNode {
   const text = markdown.replace(/\n+$/, "");

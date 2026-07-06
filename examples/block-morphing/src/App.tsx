@@ -7,9 +7,9 @@ import {
 
 import { createGfmEditorPlugins } from "./plugins.js";
 
-/** Slice C: three paragraphs for multi-block Block Focus. */
+/** Slice B: inline marks (strong, emphasis, link) across multiple paragraphs. */
 const INITIAL_MARKDOWN =
-  "First **one**\n\nSecond **two**\n\nThird plain\n";
+  "First **one** with *emphasis*\n\nSecond [link](https://example.com) here\n\nThird plain\n";
 
 export function App() {
   const [markdown, setMarkdown] = useState(INITIAL_MARKDOWN);
@@ -17,11 +17,13 @@ export function App() {
 
   return (
     <main className="app">
-      <h1>AetherMD Block Morphing — Slice C</h1>
+      <h1>AetherMD Block Morphing — Slice B</h1>
       <p className="lede">
-        L2 product north star demo: click any paragraph to edit its Markdown
-        source with <code>**</code> sigils; click another paragraph to switch
-        Block Focus. Only one block is in source state at a time.
+        L2 product north star demo: GFM inline marks morph between rendered
+        typography (<code>&lt;strong&gt;</code>, <code>&lt;em&gt;</code>,{" "}
+        <code>&lt;a&gt;</code>) and Markdown source. Click any paragraph to
+        edit; only one block is in source state at a time (Block Focus from
+        Slice C).
       </p>
       <button
         type="button"
@@ -38,9 +40,9 @@ export function App() {
         <AetherMorphingDocument />
       </AetherEditorRoot>
       <p className="hint">
-        Slice C scope: paragraph blocks only. See{" "}
-        <code>docs/architecture/product-experience-spec.md</code> for full north
-        star.
+        Slice B scope: GFM inline mark fidelity (strong / emphasis / link).
+        Slice D (list/link blocks) is follow-up. See{" "}
+        <code>docs/architecture/product-experience-spec.md</code>.
       </p>
     </main>
   );
