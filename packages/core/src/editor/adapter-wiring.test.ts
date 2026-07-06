@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import { describe, it } from "vitest";
 
-import type { AdapterCommandRequest } from "../adapter-types.js";
-import type { AetherDoc } from "../document-model.js";
+import type { AdapterCommandRequest } from "../document/adapter-types.js";
+import type { AetherDoc } from "../document/model.js";
 import { CoreError } from "../errors.js";
 import {
   resolveWiredAdapters,

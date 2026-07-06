@@ -1,5 +1,5 @@
-import type { CommandEventRuntime } from "../command-event-runtime.js";
-import { createCommandEventRuntime } from "../command-event-runtime.js";
+import type { CommandEventRuntime } from "../command-event/runtime.js";
+import { createCommandEventRuntime } from "../command-event/runtime.js";
 import type {
   CommandHandler,
   CommandId,
@@ -8,16 +8,16 @@ import type {
   EventListener,
   EventName,
   Unsubscribe,
-} from "../command-event-types.js";
-import type { AetherBlock, AetherDoc } from "../document-model.js";
+} from "../command-event/types.js";
+import type { AetherBlock, AetherDoc } from "../document/model.js";
 import { CoreError } from "../errors.js";
-import type { EngineSession } from "../adapter-types.js";
-import type { CoreBootstrapRuntime } from "../bootstrap.js";
+import type { EngineSession } from "../document/adapter-types.js";
+import type { CoreBootstrapRuntime } from "../bootstrap/bootstrap.js";
 import {
   PARSE_BLOCK_MARKDOWN_COMMAND,
   type MorphingStrategyRegistry,
   type ParseBlockMarkdownPayload,
-} from "../morphing-types.js";
+} from "../morphing/types.js";
 import type { EditorContext } from "./context.js";
 import { createDefaultConflictResolver } from "./conflict-resolver.js";
 import { dispatchEngineCommand, isEngineBoundCommand } from "./engine-dispatch.js";

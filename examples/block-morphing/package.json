@@ -12,10 +12,8 @@
     "check": "pnpm typecheck && pnpm test"
   },
   "dependencies": {
+    "@aether-md/example-shared": "workspace:*",
     "@aether-md/core": "workspace:*",
-    "@aether-md/preset-gfm": "workspace:*",
-    "@aether-md/plugin-prosemirror": "workspace:*",
-    "@aether-md/plugin-remark": "workspace:*",
     "@aether-md/react": "workspace:*",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"

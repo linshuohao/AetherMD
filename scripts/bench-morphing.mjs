@@ -7,9 +7,9 @@ import { performance } from "node:perf_hooks";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
-const packageRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
-const { createEditor } = await import(join(packageRoot, "dist/index.js"));
-const { createGfmPreset } = await import(join(packageRoot, "../preset-gfm/dist/index.js"));
+const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
+const { createEditor } = await import(join(repoRoot, "packages/core/dist/index.js"));
+const { createGfmPreset } = await import(join(repoRoot, "packages/preset-gfm/dist/index.js"));
 
 const ITERATIONS = 1000;
 const ENGINE_REPLACE_TEXT_COMMAND = "core:replaceText";

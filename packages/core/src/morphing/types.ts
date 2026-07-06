@@ -1,4 +1,4 @@
-import type { AetherBlock } from "./document-model.js";
+import type { AetherBlock } from "../document/model.js";
 
 /** DOM morphing renderer contract (see `docs/sdk/custom-block-renderer.md`). */
 export interface CustomBlockRenderer {

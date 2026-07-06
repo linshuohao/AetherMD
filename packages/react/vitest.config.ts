@@ -4,7 +4,7 @@ export default defineProject({
   test: {
     name: "@aether-md/react",
     environment: "happy-dom",
-    setupFiles: ["./src/test-setup.ts"],
+    setupFiles: ["./vitest.setup.ts"],
     include: ["src/**/*.test.ts", "src/**/*.test.tsx"],
     exclude: ["src/testing/**"],
   },

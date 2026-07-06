@@ -1,5 +1,5 @@
-import type { AetherBlock, AetherDoc, AetherInline, AetherSchema } from "./document-model.js";
-import type { AdapterError, SerializationError } from "./errors.js";
+import type { AetherBlock, AetherDoc, AetherInline, AetherSchema } from "./model.js";
+import type { AdapterError, SerializationError } from "../errors.js";
 
 export interface EngineSession {
   readonly id: string;

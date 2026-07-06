@@ -1,6 +1,6 @@
-import { CoreError } from "./errors.js";
+import { CoreError } from "../errors.js";
 import type { LoadedPlugin } from "./manifest.js";
-import type { PluginName } from "./types.js";
+import type { PluginName } from "../types.js";
 
 export function resolvePluginDependencyOrder(
   loadedPlugins: readonly LoadedPlugin[],

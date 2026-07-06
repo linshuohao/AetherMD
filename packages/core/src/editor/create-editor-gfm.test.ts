@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 import { describe, it } from "vitest";
 
 import { createGfmPreset } from "../../../preset-gfm/dist/index.js";
-import type { ExtensionPlugin } from "../manifest.js";
+import type { ExtensionPlugin } from "../manifest/manifest.js";
 import { toExtensionPluginFromPreset } from "../editor/adapter-wiring.js";
 import { createEditor } from "../editor/create-editor.js";
 import {

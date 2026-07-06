@@ -4,7 +4,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, it } from "vitest";
 
-import { SUPPORTED_MANIFEST_VERSIONS } from "./manifest.js";
+import { SUPPORTED_MANIFEST_VERSIONS } from "./manifest/manifest.js";
 
 const OFFICIAL_PACKAGE_SRC_DIRS = [
   "packages/plugins/plugin-remark/src",

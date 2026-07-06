@@ -10,10 +10,8 @@
     "start": "node dist/run.js"
   },
   "dependencies": {
-    "@aether-md/core": "workspace:*",
-    "@aether-md/preset-gfm": "workspace:*",
-    "@aether-md/plugin-prosemirror": "workspace:*",
-    "@aether-md/plugin-remark": "workspace:*"
+    "@aether-md/example-shared": "workspace:*",
+    "@aether-md/core": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^26.1.0",

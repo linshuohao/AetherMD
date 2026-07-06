@@ -4,11 +4,11 @@ import type {
   EventListener,
   EventName,
   Unsubscribe,
-} from "../command-event-types.js";
-import type { AetherBlock, AetherDoc } from "../document-model.js";
-import type { ExtensionPlugin } from "../manifest.js";
+} from "../command-event/types.js";
+import type { AetherBlock, AetherDoc } from "../document/model.js";
+import type { ExtensionPlugin } from "../manifest/manifest.js";
 import type { PermissionId } from "../types.js";
-import type { MorphingStrategyRegistry } from "../morphing-types.js";
+import type { MorphingStrategyRegistry } from "../morphing/types.js";
 import type { EditorContext } from "./context.js";
 
 export interface EditorSecurityConfig {

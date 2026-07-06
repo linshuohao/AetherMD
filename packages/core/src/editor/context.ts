@@ -1,10 +1,10 @@
-import type { CommandEventRuntime } from "../command-event-runtime.js";
+import type { CommandEventRuntime } from "../command-event/runtime.js";
 import type {
   EngineAdapter,
   EngineSession,
   ParserAdapter,
   SerializerAdapter,
-} from "../adapter-types.js";
+} from "../document/adapter-types.js";
 import type { PermissionId } from "../types.js";
 
 /** M4.5 stub — full History semantics deferred to a later milestone. */

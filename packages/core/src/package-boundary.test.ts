@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 import { describe, it } from "vitest";
 
 import * as core from "./index.js";
-import { M1_CORE_CAPABILITIES } from "./capabilities.js";
+import { M1_CORE_CAPABILITIES } from "./manifest/capabilities.js";
 
 describe("@aether-md/core package boundary", () => {
   it("exposes the M1 bootstrap runtime surface", () => {

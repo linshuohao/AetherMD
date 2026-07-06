@@ -8,7 +8,7 @@
     "typecheck": "turbo run typecheck",
     "test": "vitest run",
     "check": "pnpm skills:check && pnpm workflow:pr-check && pnpm lint && pnpm format:check && pnpm docs:check-links && turbo run check && turbo run types:check",
-    "bench:morphing": "pnpm --filter @aether-md/preset-gfm... build && node packages/core/scripts/bench-morphing.mjs",
+    "bench:morphing": "pnpm --filter @aether-md/preset-gfm... build && node scripts/bench-morphing.mjs",
     "types:check": "turbo run types:check",
     "docs:check-links": "node scripts/check-markdown-links.mjs",
     "lint": "eslint .",

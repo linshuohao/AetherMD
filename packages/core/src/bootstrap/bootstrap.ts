@@ -1,12 +1,12 @@
-import { validateServiceCapabilities } from "./capabilities.js";
-import { resolvePluginDependencyOrder } from "./dependencies.js";
+import { validateServiceCapabilities } from "../manifest/capabilities.js";
+import { resolvePluginDependencyOrder } from "../manifest/dependencies.js";
 import { runDestroyLifecycle, runStartupLifecycle } from "./lifecycle.js";
 import {
   type ExtensionPlugin,
   type LoadedPlugin,
   loadPluginManifests,
   validateUniquePluginNames,
-} from "./manifest.js";
+} from "../manifest/manifest.js";
 
 export interface BootstrapCoreOptions {
   context?: unknown;

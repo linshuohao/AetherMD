@@ -1,5 +1,5 @@
-import type { CapabilityId, PermissionId, PluginName } from "./types.js";
-import { CoreError } from "./errors.js";
+import type { CapabilityId, PermissionId, PluginName } from "../types.js";
+import { CoreError } from "../errors.js";
 
 export const SUPPORTED_MANIFEST_VERSIONS = [1] as const;
 

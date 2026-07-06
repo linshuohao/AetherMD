@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "vitest";
 
-import { bootstrapCore } from "./bootstrap.js";
+import { bootstrapCore } from "./bootstrap/bootstrap.js";
 import { CoreError } from "./errors.js";
 
 describe("bootstrapCore startup lifecycle", () => {

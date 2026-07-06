@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import { describe, it } from "vitest";
 
-import { resolvePluginDependencyOrder } from "./dependencies.js";
+import { resolvePluginDependencyOrder } from "./manifest/dependencies.js";
 import { CoreError } from "./errors.js";
-import { loadPluginManifests } from "./manifest.js";
+import { loadPluginManifests } from "./manifest/manifest.js";
 
 describe("resolvePluginDependencyOrder", () => {
   it("orders dependencies before dependent plugins", () => {

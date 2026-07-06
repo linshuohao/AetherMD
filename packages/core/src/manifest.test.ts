@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { describe, it } from "vitest";
 
 import { CoreError } from "./errors.js";
-import { loadPluginManifests } from "./manifest.js";
+import { loadPluginManifests } from "./manifest/manifest.js";
 
 describe("loadPluginManifests", () => {
   it("accepts supported manifest version 1", () => {
