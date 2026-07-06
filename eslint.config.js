@@ -26,6 +26,7 @@ export default tseslint.config(
   {
     files: [
       "scripts/**/*.{js,mjs,cjs}",
+      "packages/core/scripts/**/*.{js,mjs,cjs}",
       ".commitlintrc.cjs",
       "prettier.config.js",
       "eslint.config.js",

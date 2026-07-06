@@ -7,6 +7,14 @@ import { useEffect, useRef } from "react";
 
 import { useAetherEditor } from "./use-aether-editor.js";
 
+/**
+ * Phase 0 ProseMirror integration surface (M5 interim shell).
+ *
+ * @deprecated Prefer {@link AetherMorphingDocument} or {@link AetherMorphingContent} for the L2
+ *   Instant Morphing product north star. `AetherEditorContent` remains available for
+ *   `examples/react-basic` and legacy ProseMirror view-bridge integrations until M7 publish.
+ *   See `docs/sdk/react-shell.md` for migration guidance.
+ */
 export function AetherEditorContent() {
   const { editor, ready } = useAetherEditor();
   const containerRef = useRef<HTMLDivElement>(null);

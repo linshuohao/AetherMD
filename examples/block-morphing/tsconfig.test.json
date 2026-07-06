@@ -5,11 +5,15 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "jsx": "react-jsx",
-    "noEmit": true,
+    "declaration": false,
+    "declarationMap": false,
+    "outDir": "dist-test",
+    "rootDir": "src",
+    "noEmit": false,
     "skipLibCheck": true,
     "isolatedModules": true,
-    "types": ["vite/client"]
+    "types": ["node"]
   },
-  "include": ["src/**/*", "src/vite-env.d.ts"],
-  "exclude": ["src/**/*.test.ts", "src/**/*.test.tsx", "src/test-setup.ts"]
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": []
 }

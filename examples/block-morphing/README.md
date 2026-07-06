@@ -38,6 +38,10 @@ Open the URL Vite prints (typically `http://localhost:5173`).
 - GFM `list` block morphing via `@aether-md/preset-gfm` strategies + `interactiveRenderers`.
 - Shell (`@aether-md/react`) orchestrates focus; preset owns syntax-specific source/render.
 
+## Automated smoke
+
+`pnpm --filter @aether-md/example-block-morphing test` runs happy-dom coverage for Block Focus morphing (focus → `**` sigils, blur → `<strong>`). This is included in root `pnpm check`.
+
 ## Related docs
 
 - [Product Experience Specification](../../docs/architecture/product-experience-spec.md)

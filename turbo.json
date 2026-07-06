@@ -16,6 +16,10 @@
     "check": {
       "dependsOn": ["typecheck", "test"],
       "outputs": []
+    },
+    "types:check": {
+      "dependsOn": ["build"],
+      "outputs": []
     }
   }
 }
