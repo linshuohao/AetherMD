@@ -1,6 +1,6 @@
 # v1.0 CI 校验计划
 
-> 状态：设计草案 + M1–M6 基线 CI 门禁已部分启用（`pnpm check` 覆盖 6 个 workspace package，含 `examples/headless-gfm`）。本页作为对应主题的维护入口。
+> 状态：设计草案 + M1–M6 基线 CI 门禁已部分启用（`pnpm check` 覆盖 6 个 workspace package，含 `examples/headless-gfm` 与 `examples/react-basic`）。本页作为对应主题的维护入口。
 
 ## CI 校验计划
 
@@ -14,7 +14,7 @@ M6 验证套件已自动化以下门禁（G11、G6、部分行为回归）。**c
 
 - [x] 最小 CI 在 PR 和 push 到 `main` 时运行 `pnpm install --frozen-lockfile`、`pnpm check` 和 `pnpm build`，且不包含 npm publish、canary、release token 或 release 自动化（publish 时间表见 [ADR 009](../adr/009-release-governance.md)）
 - [x] **G11** `SUPPORTED_MANIFEST_VERSIONS` 与 [Manifest 版本](../sdk/manifest.md) Stable 版本表一致（`packages/core/src/manifest-doc-consistency.test.ts`；code truth = `manifest.ts`）
-- [x] **G6** `examples/headless-gfm` 通过 `tsc --noEmit`，并纳入根 `pnpm check` turbo pipeline（主路径；非 `docs/sdk/examples.md` 次路径）
+- [x] **G6** `examples/headless-gfm` 与 `examples/react-basic` 通过 `tsc --noEmit`，并纳入根 `pnpm check` turbo pipeline（主路径；非 `docs/sdk/examples.md` 次路径）
 - [ ] `packages/core/src/types/` 导出与 [Manifest](../sdk/manifest.md)、[能力与权限](../sdk/capabilities-and-permissions.md) 中的类型定义自动比对（`tsd` 或快照测试）
 - [ ] `CORE_SERVICE_REGISTRY` 与 [内置 Service Capability 注册表](../sdk/capabilities-and-permissions.md) 一致
 - [ ] [插件示例](../sdk/examples.md) 可对 `@aether-md/core` 通过 `tsc --noEmit`（G6 次路径；M6 主路径为 headless example）

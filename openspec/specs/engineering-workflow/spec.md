@@ -473,3 +473,9 @@ References:
 - **GIVEN** `examples/headless-gfm` has a TypeScript error
 - **WHEN** `pnpm check` runs at the repository root
 - **THEN** the check pipeline fails before merge
+
+#### Scenario: React basic example typecheck gate fails check pipeline
+
+- **GIVEN** `examples/react-basic` has a TypeScript error
+- **WHEN** `pnpm check` runs at the repository root
+- **THEN** the check pipeline fails before merge

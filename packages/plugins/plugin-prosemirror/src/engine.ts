@@ -2,6 +2,7 @@ import type {
   AdapterCommandRequest,
   AdapterTransactionResult,
   AetherDoc,
+  AetherInline,
   EngineAdapter,
   EngineSession,
 } from "@aether-md/core";
@@ -33,7 +34,7 @@ export function readSessionEditorState(session: EngineSession): EditorState {
 function replaceTextInDoc(
   doc: AetherDoc,
   blockIndex: number,
-  text: string,
+  inlineChildren: AetherInline[],
 ): AetherDoc {
   const children = doc.children.map((block, index) => {
     if (index !== blockIndex) {
@@ -43,7 +44,7 @@ function replaceTextInDoc(
     if (block.type === "paragraph" || block.type === "heading") {
       return {
         ...block,
-        children: [{ type: "text" as const, text }],
+        children: inlineChildren,
       };
     }
 
@@ -51,6 +52,14 @@ function replaceTextInDoc(
   });
 
   return { type: "doc", children };
+}
+
+function resolveInlineChildren(request: Extract<AdapterCommandRequest, { type: "replaceText" }>): AetherInline[] {
+  if (request.children !== undefined) {
+    return request.children;
+  }
+
+  return [{ type: "text", text: request.text ?? "" }];
 }
 
 function canReplaceTextInBlock(doc: AetherDoc, blockIndex: number): boolean {
@@ -131,7 +140,7 @@ export function createProseMirrorEngineAdapter(): EngineAdapter {
           const updatedDoc = replaceTextInDoc(
             beforeDoc,
             request.blockIndex,
-            request.text,
+            resolveInlineChildren(request),
           );
           const pmDoc = aetherDocToPm(updatedDoc);
           record.state = EditorState.create({ doc: pmDoc });

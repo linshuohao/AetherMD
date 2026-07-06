@@ -1,0 +1,118 @@
+:root {
+  color-scheme: light dark;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  line-height: 1.5;
+}
+
+body {
+  margin: 0;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  color: #1a1a1a;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #1a1a1a;
+    color: #f0f0f0;
+  }
+}
+
+main {
+  max-width: 42rem;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 1.5rem;
+  margin: 0 0 0.75rem;
+}
+
+p {
+  margin: 0 0 1rem;
+  color: #555;
+}
+
+@media (prefers-color-scheme: dark) {
+  p {
+    color: #aaa;
+  }
+}
+
+button {
+  margin-bottom: 1rem;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+}
+
+@media (prefers-color-scheme: dark) {
+  button {
+    background: #2a2a2a;
+    border-color: #555;
+    color: #f0f0f0;
+  }
+}
+
+[data-testid="aether-editor-content"] {
+  margin-bottom: 1.5rem;
+}
+
+.ProseMirror {
+  min-height: 6rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+  outline: none;
+}
+
+.ProseMirror:focus {
+  border-color: #4a90d9;
+  box-shadow: 0 0 0 2px rgba(74, 144, 217, 0.25);
+}
+
+@media (prefers-color-scheme: dark) {
+  .ProseMirror {
+    background: #2a2a2a;
+    border-color: #555;
+  }
+
+  .ProseMirror:focus {
+    border-color: #6ab0ff;
+    box-shadow: 0 0 0 2px rgba(106, 176, 255, 0.2);
+  }
+}
+
+section h2 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #888;
+  margin: 0 0 0.5rem;
+}
+
+pre[data-testid="markdown-preview"] {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #f0f0f0;
+  font-family: ui-monospace, monospace;
+  font-size: 0.875rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+@media (prefers-color-scheme: dark) {
+  pre[data-testid="markdown-preview"] {
+    background: #111;
+    border-color: #444;
+  }
+}

@@ -8,7 +8,7 @@ AetherMD 当前是设计到最小实现过渡阶段的开源项目。
 | --- | --- |
 | 阶段 | 设计草案 + M1 Core Bootstrap + M2 Command/Event Runtime + M3 Adapter 基座 + M4 GFM Preset + M4.5 Editor Orchestration + M5 React Shell + **M6 验证套件** |
 | 实现 | `@aether-md/core` 已提供 M1 bootstrap、M2 Command/Event、M3 document/adapter 类型与 M4.5 `createEditor` / `AetherEditor` headless 编排；`@aether-md/plugin-remark` 与 `@aether-md/plugin-prosemirror` 提供 Adapter 实现；`@aether-md/preset-gfm` 提供 GFM preset 与 round-trip 集成测试；`@aether-md/react` 提供 M5 React Shell（Root / Content / hook、GateLock、happy-dom 集成测试）；**M6** 交付 `examples/headless-gfm` headless GFM 集成证明、G11 manifest 文档一致性、G6 example `typecheck` 门禁、`createEditor` 启动中止行为回归、五包 publish 预备元数据与 Changesets `linked` 配置 |
-| 主要产物 | 文档、OpenSpec 规格、`packages/core`、两个 Adapter plugin packages、`packages/preset-gfm`、`packages/react`、`examples/headless-gfm` |
+| 主要产物 | 文档、OpenSpec 规格、`packages/core`、两个 Adapter plugin packages、`packages/preset-gfm`、`packages/react`、`examples/headless-gfm`、`examples/react-basic` |
 | 当前目标 | M6 验证套件已闭合；规划 M7 首次 canary 发布（见 [ADR 009](adr/009-release-governance.md)） |
 
 ## 已有内容
@@ -40,7 +40,7 @@ AetherMD 当前是设计到最小实现过渡阶段的开源项目。
 - `openspec/specs/react-shell/spec.md` 作为已同步的 React Shell main spec
 - `openspec/specs/engineering-workflow/spec.md` 作为已同步的工程工作流 main spec
 - `openspec/specs/validation-suite/spec.md` 作为已同步的 M6 验证套件 main spec
-- **M6 验证套件基线**：`examples/headless-gfm`（`@aether-md/example-headless-gfm`，`private: true`）Node 可运行 headless GFM 集成演示（`createEditor` + `createGfmPreset()` + 显式 adapter wiring）；G11 `manifest-doc-consistency.test.ts`（`SUPPORTED_MANIFEST_VERSIONS` ↔ `docs/sdk/manifest.md`、官方包 `manifestVersion` 扫描）；G6 `examples/headless-gfm` `typecheck` 纳入根 `pnpm check`；`createEditor` 启动中止集成测试（duplicate `metadata.name`、`manifestVersion` unsupported）；五包 MIT `license` / `repository` / `files` / `publishConfig`；Changesets `linked` 五包；根 `changeset:publish` 脚本（**未执行 publish**）
+- **M6 验证套件基线**：`examples/headless-gfm`（`@aether-md/example-headless-gfm`，`private: true`）Node 可运行 headless GFM 集成演示（`createEditor` + `createGfmPreset()` + 显式 adapter wiring）；`examples/react-basic`（`@aether-md/example-react-basic`，`private: true`）Vite + React 最小 demo（`AetherEditorRoot` / `AetherEditorContent` / `useAetherEditor`、GFM wiring、GateLock 受控演示）；G11 `manifest-doc-consistency.test.ts`（`SUPPORTED_MANIFEST_VERSIONS` ↔ `docs/sdk/manifest.md`、官方包 `manifestVersion` 扫描）；G6 `examples/headless-gfm` 与 `examples/react-basic` `typecheck` 纳入根 `pnpm check`；`createEditor` 启动中止集成测试（duplicate `metadata.name`、`manifestVersion` unsupported）；五包 MIT `license` / `repository` / `files` / `publishConfig`；Changesets `linked` 五包；根 `changeset:publish` 脚本（**未执行 publish**）
 
 ## v1.0 差距
 
@@ -58,14 +58,13 @@ AetherMD 当前是设计到最小实现过渡阶段的开源项目。
 | **分层 Manifest 合并** | 部分 | `metadata` 层校验已有；`compile` / `runtime` / `security` 分层合并未完整 |
 | **npm publish** | 未执行 | M6 仅 publish **预备**（元数据 + Changesets `linked` + `changeset:publish` 脚本）；实际发布 deferred 至 **M7**（[发布流程](community/release-process.md)） |
 
-**M6 已闭合、不计入差距：** headless GFM 集成路径（`examples/headless-gfm`）、GFM preset 六语法 round-trip、React Shell 基线、G11/G6 CI 门禁、manifest 启动中止回归、五包 publish 预备元数据。
+**M6 已闭合、不计入差距：** headless GFM 集成路径（`examples/headless-gfm`）、React Shell 集成 demo（`examples/react-basic`）、GFM preset 六语法 round-trip、React Shell 基线、G11/G6 CI 门禁、manifest 启动中止回归、五包 publish 预备元数据。
 
 ## 尚未开始
 
 - 已发布包（npm；M6 预备已完成，见 [发布流程](community/release-process.md)）
 - npm publish、canary release、release token（**M7**，ADR 009）
 - Vue Shell、`packages/vue`
-- `examples/react-basic`（M6 末或 M7 初，ADR 009）
 - examples matrix（M7 后）
 - 发布流程 CI workflow（**M7**，ADR 009）
 - `createEditor` / `AetherEditor` 完整 Guard 链与 Permission enforce
@@ -79,13 +78,13 @@ AetherMD 当前是设计到最小实现过渡阶段的开源项目。
 - **Plugin SDK**：不独立 npm 包；类型入口为 `@aether-md/core`（非 `@aether-md/sdk`）
 - **首发版本号（O1 ⏸）**、**Canary dist-tag（O2 ⏸）**：延后至 demo 完善且维护者满意后再议；延后期间不 publish、不配置 `NPM_TOKEN`
 - **Canary 工程**：M6 publish 预备已完成；M7 启用 Changesets prerelease + CI（待 O1/O2 闭合后执行）
-- **Examples 形态**：headless-gfm（M6 ✅）+ react-basic（M6 末或 M7 初），不发布 npm
+- **Examples 形态**：headless-gfm（M6 ✅）+ react-basic（M6 ✅），不发布 npm
 
 ## 近期重点
 
 1. 稳定文档体系并与 M6 验证套件实现对齐。
 2. 持续审查 SDK 契约与已实现 Core / Adapter / GFM preset / editor orchestration / React Shell 边界（M1–M6）。
-3. 完善 demo（含 `examples/react-basic`）；O1/O2 闭合后再按 [ADR 009](adr/009-release-governance.md) 启动 M7 首发发布（Changesets prerelease、Release CI、`NPM_TOKEN`）。
+3. O1/O2 闭合后再按 [ADR 009](adr/009-release-governance.md) 启动 M7 首发发布（Changesets prerelease、Release CI、`NPM_TOKEN`）。
 4. 跟踪 [v1.0 差距](#v10-差距) 项，按路线图优先级推进 compile-layer merge、内置底座与 Guard 链。
 5. 审查 [MVP 实施计划](engineering/mvp-implementation-plan.md)、[Core API](architecture/core-api.md)、[文档模型](architecture/document-model.md)、[Adapter 协议](engineering/adapter-protocol.md) 和 [测试策略](engineering/test-strategy.md)。
 6. 继续保持 OpenSpec、Docs 和实现同步；M7 前不执行 npm publish。

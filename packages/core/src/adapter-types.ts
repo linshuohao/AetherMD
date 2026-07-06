@@ -1,4 +1,4 @@
-import type { AetherDoc, AetherSchema } from "./document-model.js";
+import type { AetherDoc, AetherInline, AetherSchema } from "./document-model.js";
 import type { AdapterError, SerializationError } from "./errors.js";
 
 export interface EngineSession {
@@ -8,7 +8,8 @@ export interface EngineSession {
 export interface ReplaceTextCommand {
   type: "replaceText";
   blockIndex: number;
-  text: string;
+  text?: string;
+  children?: AetherInline[];
 }
 
 export type AdapterCommandRequest = ReplaceTextCommand;

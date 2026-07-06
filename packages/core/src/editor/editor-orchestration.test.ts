@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
 import { CoreError, AdapterError } from "../errors.js";
+import type { AdapterCommandRequest } from "../adapter-types.js";
 import type { AetherDoc } from "../document-model.js";
 import type { EventEnvelope } from "../command-event-types.js";
 import type { ExtensionPluginWithAdapters } from "./adapter-wiring.js";
@@ -52,12 +53,16 @@ function createMockPreset(overrides?: {
       },
       async apply(
         _session: { id: string },
-        request: { type: string; blockIndex: number; text: string },
+        request: AdapterCommandRequest,
       ) {
         if (request.type !== "replaceText") {
           return { ok: false };
         }
-        return { ok: true, doc: createMockDoc(request.text) };
+        const text =
+          request.text ??
+          request.children?.map((inline) => (inline.type === "text" ? inline.text : "")).join("") ??
+          "";
+        return { ok: true, doc: createMockDoc(text) };
       },
       getDocument() {
         return doc;

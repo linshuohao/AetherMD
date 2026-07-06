@@ -115,7 +115,7 @@ M6 baseline 覆盖：
 - `createDefaultConflictResolver` schema abort 单元测试（`conflict-resolver.test.ts`）；**无** compile-layer schema merge 集成要求。
 - 五包 publish 预备元数据与 Changesets `linked` 配置；根 `changeset:publish` 脚本预留；**无** npm publish。
 
-M6 **不**覆盖：compile-layer schema merge、`EditorConfig.conflictResolver` 新 API、`tsd` 类型快照、`CORE_SERVICE_REGISTRY` 自动比对、`examples/react-basic`、Playwright、npm publish。
+M6 **不**覆盖：compile-layer schema merge、`EditorConfig.conflictResolver` 新 API、`tsd` 类型快照、`CORE_SERVICE_REGISTRY` 自动比对、Playwright、npm publish。
 
 ## 契约测试要求
 
