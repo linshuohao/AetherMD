@@ -43,12 +43,12 @@ none — 无 public export 或 SemVer 契约变更；仅行为修复与测试。
 
 ## Escalation Triggers Checked
 
-| 触发器 | 结果 |
-| --- | --- |
-| workflow semantics | 否 |
-| 多 task / 多 capability | 否 — 单 task，validation-suite 延续 PR0 |
-| Core public export 变更 | 否 |
-| 超出 PR0 allowed files | 否 — 限于 react / plugin-prosemirror / react-basic |
+| 触发器                  | 结果                                               |
+| ----------------------- | -------------------------------------------------- |
+| workflow semantics      | 否                                                 |
+| 多 task / 多 capability | 否 — 单 task，validation-suite 延续 PR0            |
+| Core public export 变更 | 否                                                 |
+| 超出 PR0 allowed files  | 否 — 限于 react / plugin-prosemirror / react-basic |
 
 ## Workflow Path
 

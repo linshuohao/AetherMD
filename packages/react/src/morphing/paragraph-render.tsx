@@ -48,9 +48,7 @@ function renderInline(inline: AetherInline, key: number): ReactNode {
 
 /** @deprecated Slice D uses preset interactiveRenderers via RenderedBlockHost. */
 export function renderParagraphFromBlock(block: ParagraphBlock): ReactNode {
-  const parts = block.children.map((inline, index) =>
-    renderInline(inline, index),
-  );
+  const parts = block.children.map((inline, index) => renderInline(inline, index));
 
   if (parts.length === 0) {
     return "";

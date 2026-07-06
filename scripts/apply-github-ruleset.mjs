@@ -50,7 +50,7 @@ if (current) {
 }
 
 console.log("Required status checks:");
-for (const check of ruleset.rules.find((rule) => rule.type === "required_status_checks")
-  .parameters.required_status_checks) {
+for (const check of ruleset.rules.find((rule) => rule.type === "required_status_checks").parameters
+  .required_status_checks) {
   console.log(`- ${check.context}`);
 }

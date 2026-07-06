@@ -93,8 +93,7 @@ describe("validateServiceCapabilities", () => {
 
     assert.throws(
       () => validateServiceCapabilities(loaded),
-      (error: unknown) =>
-        error instanceof CoreError && error.code === "CAPABILITY_MISSING",
+      (error: unknown) => error instanceof CoreError && error.code === "CAPABILITY_MISSING",
     );
   });
 });

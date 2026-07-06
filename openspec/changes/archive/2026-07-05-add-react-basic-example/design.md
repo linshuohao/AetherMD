@@ -68,11 +68,11 @@ examples/react-basic/
 
 **选择：**
 
-| 依赖 | 范围 | 说明 |
-| --- | --- | --- |
-| `vite`, `@vitejs/plugin-react` | example devDependencies | 仅 example 包 |
-| `react`, `react-dom` | example dependencies 或 peer + dev | 与 `@aether-md/react` peer 对齐 |
-| workspace `*` | dependencies | `@aether-md/react`, `@aether-md/core`, `@aether-md/preset-gfm`, plugin packages |
+| 依赖                           | 范围                               | 说明                                                                            |
+| ------------------------------ | ---------------------------------- | ------------------------------------------------------------------------------- |
+| `vite`, `@vitejs/plugin-react` | example devDependencies            | 仅 example 包                                                                   |
+| `react`, `react-dom`           | example dependencies 或 peer + dev | 与 `@aether-md/react` peer 对齐                                                 |
+| workspace `*`                  | dependencies                       | `@aether-md/react`, `@aether-md/core`, `@aether-md/preset-gfm`, plugin packages |
 
 - `vite.config.ts` **SHOULD** 配置 `resolve.dedupe` 或 `optimizeDeps` 以避免 monorepo 双 React 实例（implementation 以可运行 + typecheck 绿为准）。
 - CI **仅** 跑 `typecheck`，**不**将 `vite build` 纳入 `pnpm check`（降低 CI 复杂度；ADR 009 明确不做 Playwright/浏览器 CI）。
@@ -106,24 +106,24 @@ examples/react-basic/
 
 **选择：**
 
-| 文档 | 更新 |
-| --- | --- |
-| `docs/project-status.md` | `react-basic` 从「尚未开始」移至「已有内容」；更新主要产物列表 |
-| `docs/community/release-process.md` | M6 预备表增加 `examples/react-basic` 行（`private: true`） |
-| `docs/architecture/ci-checklist.md` | G6 注释扩展至 `examples/react-basic` |
+| 文档                                | 更新                                                                 |
+| ----------------------------------- | -------------------------------------------------------------------- |
+| `docs/project-status.md`            | `react-basic` 从「尚未开始」移至「已有内容」；更新主要产物列表       |
+| `docs/community/release-process.md` | M6 预备表增加 `examples/react-basic` 行（`private: true`）           |
+| `docs/architecture/ci-checklist.md` | G6 注释扩展至 `examples/react-basic`                                 |
 | `docs/engineering/test-strategy.md` | 注明 M6 后 react-basic 由本 change 覆盖（若仍写「M6 不覆盖」则修正） |
 
 **理由：** 单一事实来源，避免 `package-layout.md` 与 `project-status` 漂移。
 
 ## Risks / Trade-offs
 
-| 风险 | 缓解 |
-| --- | --- |
-| example 与 `@aether-md/react` 测试重复 | 示例侧重 Vite 宿主叙事与手动探索；测试侧重断言与 CI |
-| monorepo 双 React 实例导致 subtle bugs | Vite dedupe；本地 `pnpm dev` 验证 |
-| Vite devDeps 增加 lockfile 体积 | 限制在 example 包；五包不引入 |
-| 将 `vite build` 纳入 CI 范围膨胀 | design 冻结 CI 仅 `typecheck` |
-| plugin wiring 复制 drift | 抽取 `src/plugins.ts` 单一模块；注释引用 headless-gfm 模式 |
+| 风险                                   | 缓解                                                       |
+| -------------------------------------- | ---------------------------------------------------------- |
+| example 与 `@aether-md/react` 测试重复 | 示例侧重 Vite 宿主叙事与手动探索；测试侧重断言与 CI        |
+| monorepo 双 React 实例导致 subtle bugs | Vite dedupe；本地 `pnpm dev` 验证                          |
+| Vite devDeps 增加 lockfile 体积        | 限制在 example 包；五包不引入                              |
+| 将 `vite build` 纳入 CI 范围膨胀       | design 冻结 CI 仅 `typecheck`                              |
+| plugin wiring 复制 drift               | 抽取 `src/plugins.ts` 单一模块；注释引用 headless-gfm 模式 |
 
 ## Migration Plan
 
@@ -139,12 +139,12 @@ examples/react-basic/
 
 以下问题在本 design **已冻结**（implementation 不得偏离，除非新 OpenSpec deviation 记录）：
 
-| # | 问题 | 冻结决策 |
-| --- | --- | --- |
-| 1 | CI 是否跑 `vite build` | **否**；CI 仅 `typecheck` |
-| 2 | G6 范围 | `headless-gfm` + `react-basic` 均 `tsc --noEmit` |
-| 3 | GateLock 演示方式 | 受控 `value` + force parent rerender 按钮 |
-| 4 | plugin wiring 来源 | 复制 headless-gfm / react test-helpers 模式，不依赖 react 内部 test 模块 |
+| #   | 问题                   | 冻结决策                                                                 |
+| --- | ---------------------- | ------------------------------------------------------------------------ |
+| 1   | CI 是否跑 `vite build` | **否**；CI 仅 `typecheck`                                                |
+| 2   | G6 范围                | `headless-gfm` + `react-basic` 均 `tsc --noEmit`                         |
+| 3   | GateLock 演示方式      | 受控 `value` + force parent rerender 按钮                                |
+| 4   | plugin wiring 来源     | 复制 headless-gfm / react test-helpers 模式，不依赖 react 内部 test 模块 |
 
 **Implementation 阶段待定形（不阻塞 OpenSpec）：**
 

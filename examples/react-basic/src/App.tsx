@@ -1,10 +1,6 @@
 import { useState } from "react";
 
-import {
-  AetherEditorContent,
-  AetherEditorRoot,
-  useAetherEditor,
-} from "@aether-md/react";
+import { AetherEditorContent, AetherEditorRoot, useAetherEditor } from "@aether-md/react";
 
 import { createGfmEditorPlugins } from "./plugins.js";
 
@@ -35,20 +31,13 @@ export function App() {
     <main>
       <h1>AetherMD React Basic Example</h1>
       <p>
-        GateLock demo: edit below, then force a parent rerender without changing{" "}
-        <code>value</code>. The document should not reset.
+        GateLock demo: edit below, then force a parent rerender without changing <code>value</code>.
+        The document should not reset.
       </p>
-      <button
-        type="button"
-        onClick={() => setRenderCount((count) => count + 1)}
-      >
+      <button type="button" onClick={() => setRenderCount((count) => count + 1)}>
         Force parent rerender ({renderCount})
       </button>
-      <AetherEditorRoot
-        plugins={createGfmEditorPlugins()}
-        value={markdown}
-        onChange={setMarkdown}
-      >
+      <AetherEditorRoot plugins={createGfmEditorPlugins()} value={markdown} onChange={setMarkdown}>
         <AetherEditorContent />
         <MarkdownPreview />
       </AetherEditorRoot>

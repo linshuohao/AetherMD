@@ -2,13 +2,13 @@
 
 ## Host Capability Probe
 
-| Capability | Available | Fallback |
-| --- | --- | --- |
-| Task/subagent dispatch | yes | sequential single-session |
-| `subagent-driven-development` | yes | `executing-plans` |
-| `dispatching-parallel-agents` | yes | sequential loop |
-| `executing-plans` | yes | pause and report |
-| Superpowers CLI / skill fallback | yes | Aether skills direct |
+| Capability                       | Available | Fallback                  |
+| -------------------------------- | --------- | ------------------------- |
+| Task/subagent dispatch           | yes       | sequential single-session |
+| `subagent-driven-development`    | yes       | `executing-plans`         |
+| `dispatching-parallel-agents`    | yes       | sequential loop           |
+| `executing-plans`                | yes       | pause and report          |
+| Superpowers CLI / skill fallback | yes       | Aether skills direct      |
 
 **Selected driver:** wave-parallel loop via `dispatching-parallel-agents` + per-task `aether-workflow-implement-task` / `aether-workflow-validate-task`
 
@@ -20,52 +20,52 @@
 
 ## Wave Plan & Execution
 
-| Wave | Tasks | Status | Wave validation |
-| --- | --- | --- | --- |
-| 1 | 01 | completed | workspace scaffold + private assertion PASS |
-| 2 | 02, 03, 04 | completed | example start PASS; metadata PASS; linked group PASS |
-| 3 | 05, 06, 07 | completed | core 85 tests; pnpm check includes example; startup-abort 2 tests |
-| 4 | 08 | completed | openspec validate PASS; rg doc hits |
-| 5 (Barrier) | 09 | completed | `pnpm check` PASS; `openspec validate --strict` PASS |
+| Wave        | Tasks      | Status    | Wave validation                                                   |
+| ----------- | ---------- | --------- | ----------------------------------------------------------------- |
+| 1           | 01         | completed | workspace scaffold + private assertion PASS                       |
+| 2           | 02, 03, 04 | completed | example start PASS; metadata PASS; linked group PASS              |
+| 3           | 05, 06, 07 | completed | core 85 tests; pnpm check includes example; startup-abort 2 tests |
+| 4           | 08         | completed | openspec validate PASS; rg doc hits                               |
+| 5 (Barrier) | 09         | completed | `pnpm check` PASS; `openspec validate --strict` PASS              |
 
 ## Barrier Validation (Task 09)
 
 ### Commands
 
-| Command | Purpose | Result | Notes |
-| --- | --- | --- | --- |
-| `pnpm check` | Full workspace gate (skills + turbo check) | **PASS** | 18 turbo tasks; 6 packages incl. `@aether-md/example-headless-gfm` |
-| `openspec validate add-validation-suite --strict` | OpenSpec change gate | **PASS** | |
-| `pnpm build && pnpm --filter @aether-md/example-headless-gfm start` | Headless GFM smoke | **PASS** | stdout: `**bold**` + `**bold** edited` |
-| `pnpm --filter @aether-md/core test` | G11 + startup-abort + M1–M5 | **PASS** | 85 tests, 0 fail |
-| `pnpm changeset:status` | Linked Changesets config | **FAIL (accepted deviation)** | `--since main` reports no changesets for package.json metadata edits; linked group node assertion PASS |
-| `node -e` linked group assertion | Five-package linked group | **PASS** | |
+| Command                                                             | Purpose                                    | Result                        | Notes                                                                                                  |
+| ------------------------------------------------------------------- | ------------------------------------------ | ----------------------------- | ------------------------------------------------------------------------------------------------------ |
+| `pnpm check`                                                        | Full workspace gate (skills + turbo check) | **PASS**                      | 18 turbo tasks; 6 packages incl. `@aether-md/example-headless-gfm`                                     |
+| `openspec validate add-validation-suite --strict`                   | OpenSpec change gate                       | **PASS**                      |                                                                                                        |
+| `pnpm build && pnpm --filter @aether-md/example-headless-gfm start` | Headless GFM smoke                         | **PASS**                      | stdout: `**bold**` + `**bold** edited`                                                                 |
+| `pnpm --filter @aether-md/core test`                                | G11 + startup-abort + M1–M5                | **PASS**                      | 85 tests, 0 fail                                                                                       |
+| `pnpm changeset:status`                                             | Linked Changesets config                   | **FAIL (accepted deviation)** | `--since main` reports no changesets for package.json metadata edits; linked group node assertion PASS |
+| `node -e` linked group assertion                                    | Five-package linked group                  | **PASS**                      |                                                                                                        |
 
 ### Non-goals Checklist
 
-| Item | Verified |
-| --- | --- |
-| No npm publish | yes |
-| No `NPM_TOKEN` / Release workflow | yes |
+| Item                                      | Verified                    |
+| ----------------------------------------- | --------------------------- |
+| No npm publish                            | yes                         |
+| No `NPM_TOKEN` / Release workflow         | yes                         |
 | No Core/React production semantic changes | yes (tests + metadata only) |
-| No compile-layer schema merge | yes |
-| Five packages remain `private: true` | yes |
-| `SUPPORTED_MANIFEST_VERSIONS` still `[1]` | yes |
-| Semver unchanged (`0.0.0`) | yes |
+| No compile-layer schema merge             | yes                         |
+| Five packages remain `private: true`      | yes                         |
+| `SUPPORTED_MANIFEST_VERSIONS` still `[1]` | yes                         |
+| Semver unchanged (`0.0.0`)                | yes                         |
 
 ## Per-Task Summary
 
-| Task | Status | Key validation |
-| --- | --- | --- |
-| 01 | completed | `pnpm install` PASS; typecheck FAIL expected (no src); private assertion PASS |
-| 02 | completed | build/start/typecheck PASS |
-| 03 | completed | five-package metadata node assertion PASS |
-| 04 | completed | linked group + `changeset:publish` PASS; `changeset:status --since main` deviation |
-| 05 | completed | manifest consistency tests PASS (85 core tests) |
-| 06 | completed | `pnpm check` includes example typecheck; intentional TS error fails check |
-| 07 | completed | startup-abort integration 2 tests; orchestration + conflict-resolver green |
-| 08 | completed | docs updated; `openspec validate --strict` PASS |
-| 09 | completed | barrier commands above |
+| Task | Status    | Key validation                                                                     |
+| ---- | --------- | ---------------------------------------------------------------------------------- |
+| 01   | completed | `pnpm install` PASS; typecheck FAIL expected (no src); private assertion PASS      |
+| 02   | completed | build/start/typecheck PASS                                                         |
+| 03   | completed | five-package metadata node assertion PASS                                          |
+| 04   | completed | linked group + `changeset:publish` PASS; `changeset:status --since main` deviation |
+| 05   | completed | manifest consistency tests PASS (85 core tests)                                    |
+| 06   | completed | `pnpm check` includes example typecheck; intentional TS error fails check          |
+| 07   | completed | startup-abort integration 2 tests; orchestration + conflict-resolver green         |
+| 08   | completed | docs updated; `openspec validate --strict` PASS                                    |
+| 09   | completed | barrier commands above                                                             |
 
 ## TDD Integrity
 
@@ -83,17 +83,17 @@
 
 ## Changed Files By Task
 
-| Task | Files |
-| --- | --- |
-| 01 | `pnpm-workspace.yaml`, `examples/headless-gfm/package.json`, `examples/headless-gfm/tsconfig.json`, `pnpm-lock.yaml` |
-| 02 | `examples/headless-gfm/src/run.ts`, `examples/headless-gfm/package.json`, `examples/headless-gfm/tsconfig.json` |
-| 03 | five `packages/**/package.json` |
-| 04 | `.changeset/config.json`, root `package.json` |
-| 05 | `packages/core/src/manifest-doc-consistency.test.ts`, `packages/core/package.json` |
-| 06 | `examples/headless-gfm/package.json` |
-| 07 | `packages/core/src/editor/startup-abort.integration.test.ts` |
-| 08 | `docs/project-status.md`, `docs/architecture/roadmap.md`, `docs/architecture/ci-checklist.md`, `docs/community/release-process.md`, `docs/engineering/test-strategy.md` |
-| 09 | `.superpowers/runs/add-validation-suite/validation.md` (this file) |
+| Task | Files                                                                                                                                                                   |
+| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 01   | `pnpm-workspace.yaml`, `examples/headless-gfm/package.json`, `examples/headless-gfm/tsconfig.json`, `pnpm-lock.yaml`                                                    |
+| 02   | `examples/headless-gfm/src/run.ts`, `examples/headless-gfm/package.json`, `examples/headless-gfm/tsconfig.json`                                                         |
+| 03   | five `packages/**/package.json`                                                                                                                                         |
+| 04   | `.changeset/config.json`, root `package.json`                                                                                                                           |
+| 05   | `packages/core/src/manifest-doc-consistency.test.ts`, `packages/core/package.json`                                                                                      |
+| 06   | `examples/headless-gfm/package.json`                                                                                                                                    |
+| 07   | `packages/core/src/editor/startup-abort.integration.test.ts`                                                                                                            |
+| 08   | `docs/project-status.md`, `docs/architecture/roadmap.md`, `docs/architecture/ci-checklist.md`, `docs/community/release-process.md`, `docs/engineering/test-strategy.md` |
+| 09   | `.superpowers/runs/add-validation-suite/validation.md` (this file)                                                                                                      |
 
 ## Ready For Review
 

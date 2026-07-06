@@ -15,10 +15,7 @@ import type { EngineSession } from "../adapter-types.js";
 import type { CoreBootstrapRuntime } from "../bootstrap.js";
 import type { EditorContext } from "./context.js";
 import { createDefaultConflictResolver } from "./conflict-resolver.js";
-import {
-  dispatchEngineCommand,
-  isEngineBoundCommand,
-} from "./engine-dispatch.js";
+import { dispatchEngineCommand, isEngineBoundCommand } from "./engine-dispatch.js";
 import type { EditorStateSnapshot, AetherEditor } from "./types.js";
 
 const DEFAULT_SCHEMA = { version: 1 as const };
@@ -111,10 +108,7 @@ export class AetherEditorImpl implements AetherEditor {
   }
 
   async getMarkdown(): Promise<string> {
-    return this.context.services.parser.serializer.serialize(
-      this.docSnapshot,
-      DEFAULT_SCHEMA,
-    );
+    return this.context.services.parser.serializer.serialize(this.docSnapshot, DEFAULT_SCHEMA);
   }
 
   async dispose(): Promise<void> {

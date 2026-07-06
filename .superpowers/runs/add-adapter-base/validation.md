@@ -9,25 +9,25 @@
 
 ## Commands
 
-| Command | Purpose | Result | Notes |
-| --- | --- | --- | --- |
-| `pnpm --filter @aether-md/core test` | core contract + boundary | PASS | 49 tests |
-| `pnpm --filter @aether-md/plugin-remark test` | remark parser/serializer | PASS | 7 tests |
-| `pnpm --filter @aether-md/plugin-prosemirror test` | engine + round-trip | PASS | 8 tests |
-| `pnpm check` | workspace build/typecheck/test | PASS | 3 packages, turbo 9 tasks |
-| `openspec validate add-adapter-base --strict` | OpenSpec change validity | PASS | |
-| Core rg guard | no remark/prosemirror/react in core prod | PASS | test assertion strings excluded |
-| Repo scope rg guard | no createEditor/Shell/GFM in packages | PASS | test strings excluded |
-| `rg transactionFailed command-event-runtime.ts` | no Bus rollback integration | PASS | no matches |
+| Command                                            | Purpose                                  | Result | Notes                           |
+| -------------------------------------------------- | ---------------------------------------- | ------ | ------------------------------- |
+| `pnpm --filter @aether-md/core test`               | core contract + boundary                 | PASS   | 49 tests                        |
+| `pnpm --filter @aether-md/plugin-remark test`      | remark parser/serializer                 | PASS   | 7 tests                         |
+| `pnpm --filter @aether-md/plugin-prosemirror test` | engine + round-trip                      | PASS   | 8 tests                         |
+| `pnpm check`                                       | workspace build/typecheck/test           | PASS   | 3 packages, turbo 9 tasks       |
+| `openspec validate add-adapter-base --strict`      | OpenSpec change validity                 | PASS   |                                 |
+| Core rg guard                                      | no remark/prosemirror/react in core prod | PASS   | test assertion strings excluded |
+| Repo scope rg guard                                | no createEditor/Shell/GFM in packages    | PASS   | test strings excluded           |
+| `rg transactionFailed command-event-runtime.ts`    | no Bus rollback integration              | PASS   | no matches                      |
 
 ## Test Summary
 
-| Package | Tests | Pass | Fail |
-| --- | --- | --- | --- |
-| @aether-md/core | 49 | 49 | 0 |
-| @aether-md/plugin-remark | 7 | 7 | 0 |
-| @aether-md/plugin-prosemirror | 8 | 8 | 0 |
-| **Total** | **64** | **64** | **0** |
+| Package                       | Tests  | Pass   | Fail  |
+| ----------------------------- | ------ | ------ | ----- |
+| @aether-md/core               | 49     | 49     | 0     |
+| @aether-md/plugin-remark      | 7      | 7      | 0     |
+| @aether-md/plugin-prosemirror | 8      | 8      | 0     |
+| **Total**                     | **64** | **64** | **0** |
 
 ## Non-goals Checklist (§8)
 
@@ -45,16 +45,16 @@
 
 ## TDD Integrity (per task)
 
-| Task | Red signal | Green result |
-| --- | --- | --- |
-| 01 | missing AetherDoc/AetherSchema exports | document-model.ts + shape tests |
-| 02 | missing adapter types/errors/boundary | adapter-types.ts, errors, boundary |
-| 03 | parser contract failures | plugin-remark ParserAdapter |
-| 04 | serializer contract failures | SerializerAdapter deterministic output |
-| 05 | engine contract failures | EngineAdapter create/apply/dispose |
-| 06 | round-trip pipeline failures | cross-package integration tests |
-| 07 | boundary gap assertions | M1 adapter capability + deps guards |
-| 08 | pnpm check / openspec validate | all green |
+| Task | Red signal                             | Green result                           |
+| ---- | -------------------------------------- | -------------------------------------- |
+| 01   | missing AetherDoc/AetherSchema exports | document-model.ts + shape tests        |
+| 02   | missing adapter types/errors/boundary  | adapter-types.ts, errors, boundary     |
+| 03   | parser contract failures               | plugin-remark ParserAdapter            |
+| 04   | serializer contract failures           | SerializerAdapter deterministic output |
+| 05   | engine contract failures               | EngineAdapter create/apply/dispose     |
+| 06   | round-trip pipeline failures           | cross-package integration tests        |
+| 07   | boundary gap assertions                | M1 adapter capability + deps guards    |
+| 08   | pnpm check / openspec validate         | all green                              |
 
 ## Deviations
 

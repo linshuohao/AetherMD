@@ -23,20 +23,20 @@
 
 ## Task Breakdown
 
-| Task | Outcome | Depends On | Parallel Group |
-| --- | --- | --- | --- |
-| 01 | discover-context 四 path | — | A |
-| 02 | quick-change skill | — | A |
-| 03 | create/execute-spec-change skills | — | A |
-| 04 | review + archive Spec Change 模式 | 03 | B |
-| 05 | 长期文档 + main spec | 01–04 | C |
-| 06 | CI script + skills sync | 02 | B |
-| 07 | validation + archive | 05–06 | D |
+| Task | Outcome                           | Depends On | Parallel Group |
+| ---- | --------------------------------- | ---------- | -------------- |
+| 01   | discover-context 四 path          | —          | A              |
+| 02   | quick-change skill                | —          | A              |
+| 03   | create/execute-spec-change skills | —          | A              |
+| 04   | review + archive Spec Change 模式 | 03         | B              |
+| 05   | 长期文档 + main spec              | 01–04      | C              |
+| 06   | CI script + skills sync           | 02         | B              |
+| 07   | validation + archive              | 05–06      | D              |
 
 ## Validation Matrix
 
-| Phase | Validation | Notes |
-| --- | --- | --- |
-| Skills | `pnpm skills:check` | mirror drift |
-| Repo | `pnpm check` | full pipeline |
-| Routing | Discover 样例 | 四 path + escalation |
+| Phase   | Validation          | Notes                |
+| ------- | ------------------- | -------------------- |
+| Skills  | `pnpm skills:check` | mirror drift         |
+| Repo    | `pnpm check`        | full pipeline        |
+| Routing | Discover 样例       | 四 path + escalation |

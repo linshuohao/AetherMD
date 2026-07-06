@@ -9,11 +9,11 @@
 
 ## Commands
 
-| Command | Purpose | Result | Notes |
-| --- | --- | --- | --- |
-| `openspec validate "improve-aether-workflow"` | Validate OpenSpec artifacts | passed | Change is valid |
-| `pnpm skills:check` | Check generated skill mirrors | passed | Mirrors are in sync for 10 skills |
-| `pnpm check` | Run repository quality gates | passed | Includes `pnpm skills:check`, Turborepo build, typecheck, and tests |
+| Command                                       | Purpose                       | Result | Notes                                                               |
+| --------------------------------------------- | ----------------------------- | ------ | ------------------------------------------------------------------- |
+| `openspec validate "improve-aether-workflow"` | Validate OpenSpec artifacts   | passed | Change is valid                                                     |
+| `pnpm skills:check`                           | Check generated skill mirrors | passed | Mirrors are in sync for 10 skills                                   |
+| `pnpm check`                                  | Run repository quality gates  | passed | Includes `pnpm skills:check`, Turborepo build, typecheck, and tests |
 
 ## TDD Integrity
 

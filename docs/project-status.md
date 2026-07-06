@@ -4,18 +4,18 @@ AetherMD 当前是设计到最小实现过渡阶段的开源项目。
 
 ## 当前阶段
 
-| 字段 | 值 |
-| --- | --- |
-| 阶段 | 设计草案 + M1 Core Bootstrap + M2 Command/Event Runtime + M3 Adapter 基座 + M4 GFM Preset + M4.5 Editor Orchestration + M5 React Shell + **M6 验证套件** |
-| 实现 | `@aether-md/core` 已提供 M1 bootstrap、M2 Command/Event、M3 document/adapter 类型与 M4.5 `createEditor` / `AetherEditor` headless 编排；`@aether-md/plugin-remark` 与 `@aether-md/plugin-prosemirror` 提供 Adapter 实现；`@aether-md/preset-gfm` 提供 GFM preset 与 round-trip 集成测试；`@aether-md/react` 提供 M5 React Shell（Root / Content / hook、GateLock、happy-dom 集成测试）；**M6** 交付 `examples/headless-gfm` headless GFM 集成证明、G11 manifest 文档一致性、G6 example `typecheck` 门禁、`createEditor` 启动中止行为回归、五包 publish 预备元数据与 Changesets `linked` 配置 |
-| 主要产物 | 文档、OpenSpec 规格、`packages/core`、两个 Adapter plugin packages、`packages/preset-gfm`、`packages/react`、`examples/headless-gfm`、`examples/react-basic`、`examples/block-morphing` |
-| 当前目标 | **L1 已闭合**；**L2 Slice A + B + C + D 已交付**（`block-morphing-slice-1` … `block-morphing-slice-d`）。**M7** 前置：L1 + L2 可演示 + 维护者 sign-off（见 [ADR 009](adr/009-release-governance.md)） |
+| 字段     | 值                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 阶段     | 设计草案 + M1 Core Bootstrap + M2 Command/Event Runtime + M3 Adapter 基座 + M4 GFM Preset + M4.5 Editor Orchestration + M5 React Shell + **M6 验证套件**                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| 实现     | `@aether-md/core` 已提供 M1 bootstrap、M2 Command/Event、M3 document/adapter 类型与 M4.5 `createEditor` / `AetherEditor` headless 编排；`@aether-md/plugin-remark` 与 `@aether-md/plugin-prosemirror` 提供 Adapter 实现；`@aether-md/preset-gfm` 提供 GFM preset 与 round-trip 集成测试；`@aether-md/react` 提供 M5 React Shell（Root / Content / hook、GateLock、happy-dom 集成测试）；**M6** 交付 `examples/headless-gfm` headless GFM 集成证明、G11 manifest 文档一致性、G6 example `typecheck` 门禁、`createEditor` 启动中止行为回归、五包 publish 预备元数据与 Changesets `linked` 配置 |
+| 主要产物 | 文档、OpenSpec 规格、`packages/core`、两个 Adapter plugin packages、`packages/preset-gfm`、`packages/react`、`examples/headless-gfm`、`examples/react-basic`、`examples/block-morphing`                                                                                                                                                                                                                                                                                                                                                                                                      |
+| 当前目标 | **L1 已闭合**；**L2 Slice A + B + C + D 已交付**（`block-morphing-slice-1` … `block-morphing-slice-d`）。**M7** 前置：L1 + L2 可演示 + 维护者 sign-off（见 [ADR 009](adr/009-release-governance.md)）                                                                                                                                                                                                                                                                                                                                                                                        |
 
 ## North star 分层
 
-| 层级 | 载体 | 状态 | 证明 |
-| --- | --- | --- | --- |
-| **L1 架构管线 demo** | `examples/react-basic` | ✅ Demo Slice 已闭合 | React Shell + GFM + GateLock + 连续编辑 + preview 同步 |
+| 层级                       | 载体                      | 状态                          | 证明                                                                                |
+| -------------------------- | ------------------------- | ----------------------------- | ----------------------------------------------------------------------------------- |
+| **L1 架构管线 demo**       | `examples/react-basic`    | ✅ Demo Slice 已闭合          | React Shell + GFM + GateLock + 连续编辑 + preview 同步                              |
 | **L2 产品交互 north star** | `examples/block-morphing` | ✅ Slice A + B + C + D 已交付 | Instant Morphing + GFM inline marks + multi-block Block Focus + list block morphing |
 
 L1 通过 **不得** 解释为 L2 已满足。
@@ -55,17 +55,17 @@ L1 通过 **不得** 解释为 L2 已满足。
 
 对照 [v1.0 路线图](architecture/roadmap.md)「必须实现」与当前 M6 基线，以下能力**尚未落地**或仅部分实现。完整路线图见 `docs/architecture/roadmap.md`；本小节为 G12 差距主锚点。
 
-| 差距项 | 当前状态 | 备注 |
-| --- | --- | --- |
-| **compile-layer schema merge** | 未实现 | M6 以 `createDefaultConflictResolver` schema abort **单元测试**与 `createEditor` fatal startup 回归替代；完整 compile-layer 合并 deferred |
-| **ConflictResolver 完整集成** | 部分 | 默认策略单元可测；`createEditor` 编排层未接入完整 command / keymap / capability 冲突解析 |
-| **History / Selection / Clipboard** | 未实现 | v1.0 路线图「内置底座」；无对应 Service Capability 与 runtime |
-| **PermissionGuard 沙盒** | 未实现 | 未授权 Runtime Permission 拦截未 enforce |
-| **Worker Thread** | 未实现 | Parser / Serializer Worker 化 deferred（见 [线程模型](engineering/thread-model.md)） |
-| **Command Bus 完整 Pipeline** | 部分 | 无 ReadOnlyGuard、CapabilityGuard 等完整 Guard 链 |
-| **`bootstrapCore` Adapter 加载** | 未实现 | 无 `core:engine` / `core:parser` silent provide |
-| **分层 Manifest 合并** | 部分 | `metadata` 层校验已有；`compile` / `runtime` / `security` 分层合并未完整 |
-| **npm publish** | 未执行 | M6 仅 publish **预备**（元数据 + Changesets `linked` + `changeset:publish` 脚本）；实际发布 deferred 至 **M7**（[发布流程](community/release-process.md)） |
+| 差距项                              | 当前状态 | 备注                                                                                                                                                       |
+| ----------------------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **compile-layer schema merge**      | 未实现   | M6 以 `createDefaultConflictResolver` schema abort **单元测试**与 `createEditor` fatal startup 回归替代；完整 compile-layer 合并 deferred                  |
+| **ConflictResolver 完整集成**       | 部分     | 默认策略单元可测；`createEditor` 编排层未接入完整 command / keymap / capability 冲突解析                                                                   |
+| **History / Selection / Clipboard** | 未实现   | v1.0 路线图「内置底座」；无对应 Service Capability 与 runtime                                                                                              |
+| **PermissionGuard 沙盒**            | 未实现   | 未授权 Runtime Permission 拦截未 enforce                                                                                                                   |
+| **Worker Thread**                   | 未实现   | Parser / Serializer Worker 化 deferred（见 [线程模型](engineering/thread-model.md)）                                                                       |
+| **Command Bus 完整 Pipeline**       | 部分     | 无 ReadOnlyGuard、CapabilityGuard 等完整 Guard 链                                                                                                          |
+| **`bootstrapCore` Adapter 加载**    | 未实现   | 无 `core:engine` / `core:parser` silent provide                                                                                                            |
+| **分层 Manifest 合并**              | 部分     | `metadata` 层校验已有；`compile` / `runtime` / `security` 分层合并未完整                                                                                   |
+| **npm publish**                     | 未执行   | M6 仅 publish **预备**（元数据 + Changesets `linked` + `changeset:publish` 脚本）；实际发布 deferred 至 **M7**（[发布流程](community/release-process.md)） |
 
 **M6 已闭合、不计入差距：** headless GFM 集成路径（`examples/headless-gfm`）、React Shell 集成 demo（`examples/react-basic`）、GFM preset 六语法 round-trip、React Shell 基线、G11/G6 CI 门禁、manifest 启动中止回归、五包 publish 预备元数据。
 

@@ -48,13 +48,13 @@ none — 无 package SemVer、`manifestVersion`、public export 或 lockfile 变
 
 ## Escalation Triggers Checked
 
-| 触发器 | 结果 |
-| --- | --- |
-| workflow semantics 变更 | **否** — 未改 `AI_NATIVE_ENGINEERING_WORKFLOW.md` 或 skills |
-| `openspec/specs/**` main spec 大改 | **否** — 仅 active change delta |
-| 多 capability / 多 task | **否** — 单 capability delta，单 task |
-| Core public contract 变更 | **否** |
-| 需要 Full Change proposal/design/tasks | **否** — Spec Change 足够 |
+| 触发器                                 | 结果                                                        |
+| -------------------------------------- | ----------------------------------------------------------- |
+| workflow semantics 变更                | **否** — 未改 `AI_NATIVE_ENGINEERING_WORKFLOW.md` 或 skills |
+| `openspec/specs/**` main spec 大改     | **否** — 仅 active change delta                             |
+| 多 capability / 多 task                | **否** — 单 capability delta，单 task                       |
+| Core public contract 变更              | **否**                                                      |
+| 需要 Full Change proposal/design/tasks | **否** — Spec Change 足够                                   |
 
 **结论：** 保持 Spec Change；PR A 若触发升级条件则另开 change 并升级路径。
 

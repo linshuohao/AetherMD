@@ -84,11 +84,11 @@ M1 Core Bootstrap 已验证 Manifest、Service Capability、依赖顺序与 life
 
 本 change 实现长期 Docs 的 **M2 可执行子集**，不是完整 v1.0 目标面：
 
-| Docs | M2 采用 | M2 明确延后 |
-| --- | --- | --- |
-| `docs/sdk/command-event-protocol.md` | 类型形状、`false`→`ok: false`、内置事件名、`EventEnvelope`、payload JSON 可序列化 | 自动 `change` 文档快照、`transactionFailed` 事务语义 |
-| `docs/architecture/core-api.md` | `dispatch` / `on` / dispose 后拒绝 `dispatch` 的语义 | `createEditor`、`Promise<CommandResult>`、完整 Middleware Guard 链、`getMarkdown` / `getDocument` |
-| `docs/engineering/test-strategy.md` | Command/Event 契约测试、handler 抛错隔离与 `PluginError` | 事务回滚、Adapter 快照保留、Markdown round-trip、Permission 拒绝路径 |
+| Docs                                 | M2 采用                                                                           | M2 明确延后                                                                                       |
+| ------------------------------------ | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `docs/sdk/command-event-protocol.md` | 类型形状、`false`→`ok: false`、内置事件名、`EventEnvelope`、payload JSON 可序列化 | 自动 `change` 文档快照、`transactionFailed` 事务语义                                              |
+| `docs/architecture/core-api.md`      | `dispatch` / `on` / dispose 后拒绝 `dispatch` 的语义                              | `createEditor`、`Promise<CommandResult>`、完整 Middleware Guard 链、`getMarkdown` / `getDocument` |
+| `docs/engineering/test-strategy.md`  | Command/Event 契约测试、handler 抛错隔离与 `PluginError`                          | 事务回滚、Adapter 快照保留、Markdown round-trip、Permission 拒绝路径                              |
 
 ## 风险
 

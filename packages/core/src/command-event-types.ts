@@ -36,12 +36,7 @@ export interface CommandResult<TValue = unknown> {
 }
 
 export type EventName =
-  | "ready"
-  | "change"
-  | "transactionFailed"
-  | "pluginError"
-  | "disposed"
-  | `${string}:${string}`;
+  "ready" | "change" | "transactionFailed" | "pluginError" | "disposed" | `${string}:${string}`;
 
 export type EventSource = "core" | "plugin" | "adapter" | "shell";
 
@@ -57,6 +52,4 @@ export type Unsubscribe = () => void;
 
 export type EventListener = (event: EventEnvelope) => void;
 
-export type CommandHandler = (
-  command: CommandRequest,
-) => void | boolean | { value?: unknown };
+export type CommandHandler = (command: CommandRequest) => void | boolean | { value?: unknown };

@@ -12,15 +12,15 @@
 
 ## Change
 
-| 字段 | 值 |
-| --- | --- |
-| OpenSpec change | `add-react-shell` |
-| Branch | `feat/add-react-shell` |
-| OpenSpec status | **complete**（4/4 artifacts）；`openspec validate add-react-shell --strict` **pass**（plan 创建时） |
-| Apply readiness | `isComplete: true`；OpenSpec high-level tasks 0/7 sections complete |
-| Version impact | **`@aether-md/react`** 新 package（初始 `0.0.0` private / Changeset `0.1.0`）；**`@aether-md/core`** **无** API 或 runtime deps 变更；**`@aether-md/plugin-prosemirror`** 可能 **minor additive**（`createProseMirrorView` + `prosemirror-view` dependency）；`@aether-md/preset-gfm` export **不变**；`manifestVersion` / `SUPPORTED_MANIFEST_VERSIONS` **不变**（`[1]`）；`pnpm-lock.yaml` **预期变更**（react package、happy-dom、prosemirror-view） |
-| Expected commit scope | `feat(react)`、`test(react)`、`feat(plugin-prosemirror)`（view-bridge only）；OpenSpec 产物 `docs(openspec)` |
-| Commit strategy | 每个 Superpowers task 可单独 commit；PR body 须追踪 OpenSpec change id 与 task id |
+| 字段                  | 值                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| OpenSpec change       | `add-react-shell`                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| Branch                | `feat/add-react-shell`                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| OpenSpec status       | **complete**（4/4 artifacts）；`openspec validate add-react-shell --strict` **pass**（plan 创建时）                                                                                                                                                                                                                                                                                                                                                     |
+| Apply readiness       | `isComplete: true`；OpenSpec high-level tasks 0/7 sections complete                                                                                                                                                                                                                                                                                                                                                                                     |
+| Version impact        | **`@aether-md/react`** 新 package（初始 `0.0.0` private / Changeset `0.1.0`）；**`@aether-md/core`** **无** API 或 runtime deps 变更；**`@aether-md/plugin-prosemirror`** 可能 **minor additive**（`createProseMirrorView` + `prosemirror-view` dependency）；`@aether-md/preset-gfm` export **不变**；`manifestVersion` / `SUPPORTED_MANIFEST_VERSIONS` **不变**（`[1]`）；`pnpm-lock.yaml` **预期变更**（react package、happy-dom、prosemirror-view） |
+| Expected commit scope | `feat(react)`、`test(react)`、`feat(plugin-prosemirror)`（view-bridge only）；OpenSpec 产物 `docs(openspec)`                                                                                                                                                                                                                                                                                                                                            |
+| Commit strategy       | 每个 Superpowers task 可单独 commit；PR body 须追踪 OpenSpec change id 与 task id                                                                                                                                                                                                                                                                                                                                                                       |
 
 范围边界：
 
@@ -72,30 +72,30 @@ OpenSpec artifacts：
 
 ## File Map
 
-| 路径 | 职责 |
-| --- | --- |
-| `packages/react/package.json` | `@aether-md/react`：`peerDependencies.react`；`dependencies.@aether-md/core` + `@aether-md/plugin-prosemirror`；devDeps preset-gfm/plugin-remark/happy-dom/testing-library |
-| `packages/react/tsconfig.json` | 生产编译（JSX `react-jsx`） |
-| `packages/react/tsconfig.test.json` | 测试编译含 `*.test.ts(x)` |
-| `packages/react/src/types.ts` | 公开 props 类型：`AetherEditorRootProps`、`UseAetherEditorResult` 等 |
-| `packages/react/src/index.ts` | public exports：`AetherEditorRoot`、`AetherEditorContent`、`useAetherEditor`、types |
-| `packages/react/src/package-boundary.test.ts` | boundary：export 存在；**无** `prosemirror-view` 直接 import；**无** ShellAdapter |
-| `packages/react/src/gate-lock.ts` | `shouldApplyControlledValue(prev, next)` — Markdown string GateLock 纯函数 |
-| `packages/react/src/gate-lock.test.ts` | GateLock 单元测试：`prevValue === nextValue` → skip |
-| `packages/react/src/context.tsx` | `AetherEditorContext` + Provider 类型（hook 消费面） |
-| `packages/react/src/use-aether-editor.ts` | `useAetherEditor()`：`editor`/`markdown`/`doc`/`ready`/`error`；订阅 `change`；missing Provider **throw** |
-| `packages/react/src/use-aether-editor.test.ts` | hook 单元测试（可用 `@testing-library/react` renderHook 或轻量 wrapper） |
-| `packages/react/src/aether-editor-root.tsx` | `createEditor` 生命周期、受控 `value`/`markdown` + GateLock、`onChange`、dispose on unmount |
-| `packages/react/src/aether-editor-content.tsx` | DOM ref + `createProseMirrorView` mount/destroy + `dispatchInput`→`dispatch` |
-| `packages/react/src/test-setup.ts` | happy-dom 全局注册（`GlobalRegistrator` 或等价） |
-| `packages/react/src/react-shell.integration.test.tsx` | mount → type → `onChange` → dispose（Task 07 独占） |
-| `packages/react/src/gate-lock.integration.test.tsx` | 受控 `value` 相同 re-render 不重设文档（Task 08 独占；ci-checklist #41） |
-| `packages/react/src/gfm-react-smoke.test.tsx` | GFM paragraph / strong / list fixtures（Task 09） |
-| `packages/plugins/plugin-prosemirror/src/view-bridge.ts` | `createProseMirrorView({ session, dom, dispatchInput })` → `{ view, destroy }` |
-| `packages/plugins/plugin-prosemirror/src/view-bridge.test.ts` | view 与 `getDocument()` / session 快照一致；destroy 无泄漏 |
-| `packages/plugins/plugin-prosemirror/src/index.ts` | additive export `createProseMirrorView` |
-| `packages/plugins/plugin-prosemirror/package.json` | additive `prosemirror-view` dependency（**不**新增到 core） |
-| `.changeset/add-react-shell.md` | 新 package + 可能 plugin-prosemirror minor |
+| 路径                                                          | 职责                                                                                                                                                                       |
+| ------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `packages/react/package.json`                                 | `@aether-md/react`：`peerDependencies.react`；`dependencies.@aether-md/core` + `@aether-md/plugin-prosemirror`；devDeps preset-gfm/plugin-remark/happy-dom/testing-library |
+| `packages/react/tsconfig.json`                                | 生产编译（JSX `react-jsx`）                                                                                                                                                |
+| `packages/react/tsconfig.test.json`                           | 测试编译含 `*.test.ts(x)`                                                                                                                                                  |
+| `packages/react/src/types.ts`                                 | 公开 props 类型：`AetherEditorRootProps`、`UseAetherEditorResult` 等                                                                                                       |
+| `packages/react/src/index.ts`                                 | public exports：`AetherEditorRoot`、`AetherEditorContent`、`useAetherEditor`、types                                                                                        |
+| `packages/react/src/package-boundary.test.ts`                 | boundary：export 存在；**无** `prosemirror-view` 直接 import；**无** ShellAdapter                                                                                          |
+| `packages/react/src/gate-lock.ts`                             | `shouldApplyControlledValue(prev, next)` — Markdown string GateLock 纯函数                                                                                                 |
+| `packages/react/src/gate-lock.test.ts`                        | GateLock 单元测试：`prevValue === nextValue` → skip                                                                                                                        |
+| `packages/react/src/context.tsx`                              | `AetherEditorContext` + Provider 类型（hook 消费面）                                                                                                                       |
+| `packages/react/src/use-aether-editor.ts`                     | `useAetherEditor()`：`editor`/`markdown`/`doc`/`ready`/`error`；订阅 `change`；missing Provider **throw**                                                                  |
+| `packages/react/src/use-aether-editor.test.ts`                | hook 单元测试（可用 `@testing-library/react` renderHook 或轻量 wrapper）                                                                                                   |
+| `packages/react/src/aether-editor-root.tsx`                   | `createEditor` 生命周期、受控 `value`/`markdown` + GateLock、`onChange`、dispose on unmount                                                                                |
+| `packages/react/src/aether-editor-content.tsx`                | DOM ref + `createProseMirrorView` mount/destroy + `dispatchInput`→`dispatch`                                                                                               |
+| `packages/react/src/test-setup.ts`                            | happy-dom 全局注册（`GlobalRegistrator` 或等价）                                                                                                                           |
+| `packages/react/src/react-shell.integration.test.tsx`         | mount → type → `onChange` → dispose（Task 07 独占）                                                                                                                        |
+| `packages/react/src/gate-lock.integration.test.tsx`           | 受控 `value` 相同 re-render 不重设文档（Task 08 独占；ci-checklist #41）                                                                                                   |
+| `packages/react/src/gfm-react-smoke.test.tsx`                 | GFM paragraph / strong / list fixtures（Task 09）                                                                                                                          |
+| `packages/plugins/plugin-prosemirror/src/view-bridge.ts`      | `createProseMirrorView({ session, dom, dispatchInput })` → `{ view, destroy }`                                                                                             |
+| `packages/plugins/plugin-prosemirror/src/view-bridge.test.ts` | view 与 `getDocument()` / session 快照一致；destroy 无泄漏                                                                                                                 |
+| `packages/plugins/plugin-prosemirror/src/index.ts`            | additive export `createProseMirrorView`                                                                                                                                    |
+| `packages/plugins/plugin-prosemirror/package.json`            | additive `prosemirror-view` dependency（**不**新增到 core）                                                                                                                |
+| `.changeset/add-react-shell.md`                               | 新 package + 可能 plugin-prosemirror minor                                                                                                                                 |
 
 **不修改（除非 regression）：** `packages/core/src/**` 生产代码、`packages/core/package.json` dependencies、M4.5 headless integration tests 语义。
 
@@ -109,16 +109,16 @@ OpenSpec artifacts：
 
 每个 Phase / Task 结束前，实现者 **MUST** 确认：
 
-| 禁止项 | Guard |
-| --- | --- |
-| Core → React / ProseMirror / Remark（runtime） | `packages/core/package.json` `dependencies` 与生产 `src/**` 无相关 import |
-| React → prosemirror-view 直接 | `@aether-md/react` 生产代码 **MUST** 经 `@aether-md/plugin-prosemirror` bridge |
-| React → engine sessions 内部 | 无 `sessions` Map import；仅公开 `EngineSession` + bridge API |
-| Shell Adapter | 无 `ShellAdapter` export 或第二宿主边界协议 |
-| Core store | React hook 本地 state only；Core 无 `subscribe` export |
-| Command Bus 绕过 | 无 Shell 直写 PM `EditorState` / `tr` |
-| bootstrap silent provide | 不修改 `bootstrap.ts` / `capabilities.ts` |
-| Playwright / 浏览器 CI | 测试仅 happy-dom + Node `pnpm test` |
+| 禁止项                                         | Guard                                                                          |
+| ---------------------------------------------- | ------------------------------------------------------------------------------ |
+| Core → React / ProseMirror / Remark（runtime） | `packages/core/package.json` `dependencies` 与生产 `src/**` 无相关 import      |
+| React → prosemirror-view 直接                  | `@aether-md/react` 生产代码 **MUST** 经 `@aether-md/plugin-prosemirror` bridge |
+| React → engine sessions 内部                   | 无 `sessions` Map import；仅公开 `EngineSession` + bridge API                  |
+| Shell Adapter                                  | 无 `ShellAdapter` export 或第二宿主边界协议                                    |
+| Core store                                     | React hook 本地 state only；Core 无 `subscribe` export                         |
+| Command Bus 绕过                               | 无 Shell 直写 PM `EditorState` / `tr`                                          |
+| bootstrap silent provide                       | 不修改 `bootstrap.ts` / `capabilities.ts`                                      |
+| Playwright / 浏览器 CI                         | 测试仅 happy-dom + Node `pnpm test`                                            |
 
 **Core package guard（Task 09 / 10 必跑）：**
 
@@ -315,18 +315,18 @@ openspec validate add-react-shell --strict
 
 ## Task Breakdown
 
-| Task | Outcome | Allowed Area | Validation | Version Impact | Depends On | Parallel Group | Barrier |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| **01** `define-react-public-api-boundary-tests` | 公开类型 + boundary 测试定义 M5 export | `packages/react/src/types.ts`、`index.ts`（stub）、`package-boundary.test.ts` | `pnpm --filter @aether-md/react exec tsc --noEmit`（若 02 未完成则仅 types 语法检查） | react types additive | — | **wave-1** | no |
-| **02** `scaffold-react-package-workspace` | workspace / turbo / changeset 脚手架 | `packages/react/package.json`、`tsconfig*.json`、`.changeset/*`；**不**改 03–06 实现文件 | `pnpm --filter @aether-md/react build`；`typecheck` | 新 package lockfile | 01 | **wave-1** | no |
-| **03** `implement-gate-lock-utility` | Markdown GateLock 纯函数 + 单测 | **仅** `gate-lock.ts`、`gate-lock.test.ts` | `pnpm --filter @aether-md/react test` | none | 02 | **wave-2** | no |
-| **04** `implement-use-aether-editor-hook` | context + hook；`change`→state；无 Provider throw | **仅** `context.tsx`、`use-aether-editor.ts`、`use-aether-editor.test.ts` | `pnpm --filter @aether-md/react test` | none | 02 | **wave-2** | no |
-| **05** `implement-plugin-prosemirror-view-bridge` | `createProseMirrorView` additive + contract tests | `plugin-prosemirror/src/view-bridge.ts`、`*test.ts`、`index.ts`、`package.json` | `pnpm --filter @aether-md/plugin-prosemirror test` | plugin-prosemirror minor additive | 02 | **wave-3** | no |
-| **06** `implement-aether-editor-root-and-content` | Root 生命周期 + GateLock 接线 + Content view 挂载 + dispatch 桥接 | `aether-editor-root.tsx`、`aether-editor-content.tsx`、`index.ts`（实装导出） | `pnpm --filter @aether-md/react test` | react public API | 03, 04, 05 | **wave-3** | no |
-| **07** `add-react-shell-integration-tests` | happy-dom setup；mount→type→onChange→dispose | **仅** `test-setup.ts`、`react-shell.integration.test.tsx`、`test-helpers.ts`（若新建） | `pnpm --filter @aether-md/react test` | none | 06 | **wave-4** | no |
-| **08** `add-gate-lock-integration-tests` | ci-checklist #41；相同受控 value 不重设文档 | **仅** `gate-lock.integration.test.tsx` | `pnpm --filter @aether-md/react test` | none | 06, 07 | **wave-4**（串行于 07） | no |
-| **09** `add-gfm-react-smoke-and-boundary-reinforcement` | GFM smoke + package boundary 强化 + guard scripts | `gfm-react-smoke.test.tsx`、`package-boundary.test.ts`；**不**改 07/08 测试文件 | `pnpm --filter @aether-md/react test` + `rg` guards | none | 06, 07（若共享 test-helpers） | **wave-4** | no |
-| **10** `run-full-validation` | 全 workspace 绿 + openspec strict | 全 change scope | `pnpm check`；`openspec validate add-react-shell --strict` | 确认 lockfile | 07, 08, 09 | **barrier** | **yes** |
+| Task                                                    | Outcome                                                           | Allowed Area                                                                             | Validation                                                                            | Version Impact                    | Depends On                    | Parallel Group          | Barrier |
+| ------------------------------------------------------- | ----------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | --------------------------------- | ----------------------------- | ----------------------- | ------- |
+| **01** `define-react-public-api-boundary-tests`         | 公开类型 + boundary 测试定义 M5 export                            | `packages/react/src/types.ts`、`index.ts`（stub）、`package-boundary.test.ts`            | `pnpm --filter @aether-md/react exec tsc --noEmit`（若 02 未完成则仅 types 语法检查） | react types additive              | —                             | **wave-1**              | no      |
+| **02** `scaffold-react-package-workspace`               | workspace / turbo / changeset 脚手架                              | `packages/react/package.json`、`tsconfig*.json`、`.changeset/*`；**不**改 03–06 实现文件 | `pnpm --filter @aether-md/react build`；`typecheck`                                   | 新 package lockfile               | 01                            | **wave-1**              | no      |
+| **03** `implement-gate-lock-utility`                    | Markdown GateLock 纯函数 + 单测                                   | **仅** `gate-lock.ts`、`gate-lock.test.ts`                                               | `pnpm --filter @aether-md/react test`                                                 | none                              | 02                            | **wave-2**              | no      |
+| **04** `implement-use-aether-editor-hook`               | context + hook；`change`→state；无 Provider throw                 | **仅** `context.tsx`、`use-aether-editor.ts`、`use-aether-editor.test.ts`                | `pnpm --filter @aether-md/react test`                                                 | none                              | 02                            | **wave-2**              | no      |
+| **05** `implement-plugin-prosemirror-view-bridge`       | `createProseMirrorView` additive + contract tests                 | `plugin-prosemirror/src/view-bridge.ts`、`*test.ts`、`index.ts`、`package.json`          | `pnpm --filter @aether-md/plugin-prosemirror test`                                    | plugin-prosemirror minor additive | 02                            | **wave-3**              | no      |
+| **06** `implement-aether-editor-root-and-content`       | Root 生命周期 + GateLock 接线 + Content view 挂载 + dispatch 桥接 | `aether-editor-root.tsx`、`aether-editor-content.tsx`、`index.ts`（实装导出）            | `pnpm --filter @aether-md/react test`                                                 | react public API                  | 03, 04, 05                    | **wave-3**              | no      |
+| **07** `add-react-shell-integration-tests`              | happy-dom setup；mount→type→onChange→dispose                      | **仅** `test-setup.ts`、`react-shell.integration.test.tsx`、`test-helpers.ts`（若新建）  | `pnpm --filter @aether-md/react test`                                                 | none                              | 06                            | **wave-4**              | no      |
+| **08** `add-gate-lock-integration-tests`                | ci-checklist #41；相同受控 value 不重设文档                       | **仅** `gate-lock.integration.test.tsx`                                                  | `pnpm --filter @aether-md/react test`                                                 | none                              | 06, 07                        | **wave-4**（串行于 07） | no      |
+| **09** `add-gfm-react-smoke-and-boundary-reinforcement` | GFM smoke + package boundary 强化 + guard scripts                 | `gfm-react-smoke.test.tsx`、`package-boundary.test.ts`；**不**改 07/08 测试文件          | `pnpm --filter @aether-md/react test` + `rg` guards                                   | none                              | 06, 07（若共享 test-helpers） | **wave-4**              | no      |
+| **10** `run-full-validation`                            | 全 workspace 绿 + openspec strict                                 | 全 change scope                                                                          | `pnpm check`；`openspec validate add-react-shell --strict`                            | 确认 lockfile                     | 07, 08, 09                    | **barrier**             | **yes** |
 
 **Parallel execution notes：**
 
@@ -338,37 +338,37 @@ openspec validate add-react-shell --strict
 
 ## Validation Matrix
 
-| Phase / Task | OpenSpec Requirement（引用 capability） | Validation 入口 | Intuitive Verification | Notes |
-| --- | --- | --- | --- | --- |
-| 01 | `react-shell` public adapter exports | tsc / boundary test | exports 存在 | types + stub OK |
-| 02 | `react-shell` check pipeline participation | `pnpm --filter @aether-md/react build` | workspace 可编译 | turbo 接入 |
-| 03 | `react-shell` GateLock prevents redundant resets | `pnpm --filter @aether-md/react test` | 纯函数 equal→skip | 单元级 |
-| 04 | `useAetherEditor` bridged markdown/doc | 同上 | mock change 更新 state | 无 Core store |
-| 04 | `editor-orchestration` MODIFIED React bridge | 同上 | hook 不调用 subscribe API | Core 无变更 |
-| 05 | `react-shell` plugin-prosemirror view bridge | `pnpm --filter @aether-md/plugin-prosemirror test` | 无 prosemirror-view 在 react | bridge 在 plugin |
-| 05 | view destroy on unmount | plugin view-bridge test | destroy 可重复 | |
-| 06 | Root create/dispose `AetherEditor` | `pnpm --filter @aether-md/react test` | createEditor + dispose | |
-| 06 | Content editable view + dispatch path | 同上 | dispatchInput→dispatch | 非 PM 直写 |
-| 06 | no Shell Adapter | boundary + code review | 无第二协议 | |
-| 07 | happy-dom integration mount/type/change/dispose | `pnpm --filter @aether-md/react test` | 无 Playwright | |
-| 07 | onChange receives markdown | integration test | callback assert | |
-| 08 | equal controlled value no reset | `gate-lock.integration.test.tsx` | createEditor 调用计数 | ci-checklist #41 |
-| 08 | GateLock integration in CI | `pnpm check` | 随全量 test 跑 | |
-| 09 | GFM paragraph/strong/list smoke | `gfm-react-smoke.test.tsx` | 与 M4.5 headless 区分 | React 路径 |
-| 09 | Core no react/pm/remark runtime | `rg` guard | core deps 不变 | |
-| 09 | React no direct prosemirror-view | `rg` guard | react 生产无直 import | |
-| 10 | 全 change 验收 | `pnpm check` | workspace 绿 | barrier |
-| 10 | OpenSpec strict | `openspec validate add-react-shell --strict` | pass | barrier |
+| Phase / Task | OpenSpec Requirement（引用 capability）          | Validation 入口                                    | Intuitive Verification       | Notes            |
+| ------------ | ------------------------------------------------ | -------------------------------------------------- | ---------------------------- | ---------------- |
+| 01           | `react-shell` public adapter exports             | tsc / boundary test                                | exports 存在                 | types + stub OK  |
+| 02           | `react-shell` check pipeline participation       | `pnpm --filter @aether-md/react build`             | workspace 可编译             | turbo 接入       |
+| 03           | `react-shell` GateLock prevents redundant resets | `pnpm --filter @aether-md/react test`              | 纯函数 equal→skip            | 单元级           |
+| 04           | `useAetherEditor` bridged markdown/doc           | 同上                                               | mock change 更新 state       | 无 Core store    |
+| 04           | `editor-orchestration` MODIFIED React bridge     | 同上                                               | hook 不调用 subscribe API    | Core 无变更      |
+| 05           | `react-shell` plugin-prosemirror view bridge     | `pnpm --filter @aether-md/plugin-prosemirror test` | 无 prosemirror-view 在 react | bridge 在 plugin |
+| 05           | view destroy on unmount                          | plugin view-bridge test                            | destroy 可重复               |                  |
+| 06           | Root create/dispose `AetherEditor`               | `pnpm --filter @aether-md/react test`              | createEditor + dispose       |                  |
+| 06           | Content editable view + dispatch path            | 同上                                               | dispatchInput→dispatch       | 非 PM 直写       |
+| 06           | no Shell Adapter                                 | boundary + code review                             | 无第二协议                   |                  |
+| 07           | happy-dom integration mount/type/change/dispose  | `pnpm --filter @aether-md/react test`              | 无 Playwright                |                  |
+| 07           | onChange receives markdown                       | integration test                                   | callback assert              |                  |
+| 08           | equal controlled value no reset                  | `gate-lock.integration.test.tsx`                   | createEditor 调用计数        | ci-checklist #41 |
+| 08           | GateLock integration in CI                       | `pnpm check`                                       | 随全量 test 跑               |                  |
+| 09           | GFM paragraph/strong/list smoke                  | `gfm-react-smoke.test.tsx`                         | 与 M4.5 headless 区分        | React 路径       |
+| 09           | Core no react/pm/remark runtime                  | `rg` guard                                         | core deps 不变               |                  |
+| 09           | React no direct prosemirror-view                 | `rg` guard                                         | react 生产无直 import        |                  |
+| 10           | 全 change 验收                                   | `pnpm check`                                       | workspace 绿                 | barrier          |
+| 10           | OpenSpec strict                                  | `openspec validate add-react-shell --strict`       | pass                         | barrier          |
 
 **汇总命令映射：**
 
-| 命令 | 覆盖 |
-| --- | --- |
-| `pnpm --filter @aether-md/react test` | Tasks 03–09；React contract + integration |
-| `pnpm --filter @aether-md/plugin-prosemirror test` | Task 05 view-bridge |
-| `pnpm --filter @aether-md/react build` | Task 02+ |
-| `pnpm check` | Task 10 全 workspace gate（build + typecheck + test + skills check） |
-| `openspec validate add-react-shell --strict` | Task 10 OpenSpec barrier |
+| 命令                                               | 覆盖                                                                 |
+| -------------------------------------------------- | -------------------------------------------------------------------- |
+| `pnpm --filter @aether-md/react test`              | Tasks 03–09；React contract + integration                            |
+| `pnpm --filter @aether-md/plugin-prosemirror test` | Task 05 view-bridge                                                  |
+| `pnpm --filter @aether-md/react build`             | Task 02+                                                             |
+| `pnpm check`                                       | Task 10 全 workspace gate（build + typecheck + test + skills check） |
+| `openspec validate add-react-shell --strict`       | Task 10 OpenSpec barrier                                             |
 
 **Integration test 聚焦命令（Task 07 本地迭代）：**
 
@@ -380,19 +380,19 @@ pnpm --filter @aether-md/react build && pnpm --filter @aether-md/react exec node
 
 ## Boundary Risks
 
-| 风险 | 触发点 | 处理方式 |
-| --- | --- | --- |
-| React 直接依赖 prosemirror-view | Content 实现省事 | 强制经 plugin bridge；Task 09 `rg` guard |
-| Shell 直写 PM state | 输入桥接 | `dispatchInput`→`AetherEditor.dispatch` only；integration assert |
-| Core runtime 污染 | 误改 core | 本 change 禁止 core 生产 edits；Task 09 guard |
-| GateLock 反馈环 | 受控 `onChange` 回传 | `prevValue === nextValue` string 比较；Task 08 集成 |
-| happy-dom 输入事件差异 | PM key handling | Task 07 主路径；失败记 OpenSpec deviation，不引入 Playwright |
-| view-bridge / session 双轨 | apply 后 view 不同步 | Task 05 contract test；apply 后 refresh view |
-| React Strict Mode 双 mount | dev 双 invoke effect | dispose 幂等；Task 08 断言相同 value 不二次 parse |
-| wave-2 文件冲突 | 03/04 同文件 | 严格执行 disjoint allowed files |
-| wave-4 文件冲突 | 07/09 同 integration 文件；08/07 共享 test-setup | 拆分文件；08 **Depends On 07**；09 串行于 07 |
-| plugin-prosemirror 扩大 surface | export sessions | 仅 export factory；boundary test |
-| 无关文件 commit | openspec only dirty | Code-Management 区 |
+| 风险                            | 触发点                                           | 处理方式                                                         |
+| ------------------------------- | ------------------------------------------------ | ---------------------------------------------------------------- |
+| React 直接依赖 prosemirror-view | Content 实现省事                                 | 强制经 plugin bridge；Task 09 `rg` guard                         |
+| Shell 直写 PM state             | 输入桥接                                         | `dispatchInput`→`AetherEditor.dispatch` only；integration assert |
+| Core runtime 污染               | 误改 core                                        | 本 change 禁止 core 生产 edits；Task 09 guard                    |
+| GateLock 反馈环                 | 受控 `onChange` 回传                             | `prevValue === nextValue` string 比较；Task 08 集成              |
+| happy-dom 输入事件差异          | PM key handling                                  | Task 07 主路径；失败记 OpenSpec deviation，不引入 Playwright     |
+| view-bridge / session 双轨      | apply 后 view 不同步                             | Task 05 contract test；apply 后 refresh view                     |
+| React Strict Mode 双 mount      | dev 双 invoke effect                             | dispose 幂等；Task 08 断言相同 value 不二次 parse                |
+| wave-2 文件冲突                 | 03/04 同文件                                     | 严格执行 disjoint allowed files                                  |
+| wave-4 文件冲突                 | 07/09 同 integration 文件；08/07 共享 test-setup | 拆分文件；08 **Depends On 07**；09 串行于 07                     |
+| plugin-prosemirror 扩大 surface | export sessions                                  | 仅 export factory；boundary test                                 |
+| 无关文件 commit                 | openspec only dirty                              | Code-Management 区                                               |
 
 ## Review Focus
 
@@ -411,14 +411,14 @@ pnpm --filter @aether-md/react build && pnpm --filter @aether-md/react exec node
 
 ## Open Questions
 
-| 问题 | Plan 阶段处理 | 阻塞？ |
-| --- | --- | --- |
-| `useAetherEditor` missing Provider throw vs null | design 冻结 **throw**；Task 04 单测 assert | 否 |
-| M5 输入桥接仅 `core:replaceText` vs 更细 command | Task 06 最小 `replaceText` 可测即可；扩展留 M6 | 否 |
-| happy-dom vs jsdom fallback | design 默认 **happy-dom**；阻塞时记录 deviation | 否 |
-| 受控 prop 不等时 remount vs dispatch 增量 | Task 06 优先避免 remount；GateLock 仅管 equal case | 否 |
-| `toExtensionPlugin(createGfmPreset())` helper 位置 | Task 07 `test-helpers.ts`；09 复用 | 否 |
-| `createProseMirrorView` 命名 | Task 05 采用 design 示例名；别名须更新 spec 引用 | 否 |
+| 问题                                               | Plan 阶段处理                                      | 阻塞？ |
+| -------------------------------------------------- | -------------------------------------------------- | ------ |
+| `useAetherEditor` missing Provider throw vs null   | design 冻结 **throw**；Task 04 单测 assert         | 否     |
+| M5 输入桥接仅 `core:replaceText` vs 更细 command   | Task 06 最小 `replaceText` 可测即可；扩展留 M6     | 否     |
+| happy-dom vs jsdom fallback                        | design 默认 **happy-dom**；阻塞时记录 deviation    | 否     |
+| 受控 prop 不等时 remount vs dispatch 增量          | Task 06 优先避免 remount；GateLock 仅管 equal case | 否     |
+| `toExtensionPlugin(createGfmPreset())` helper 位置 | Task 07 `test-helpers.ts`；09 复用                 | 否     |
+| `createProseMirrorView` 命名                       | Task 05 采用 design 示例名；别名须更新 spec 引用   | 否     |
 
 实现中若需偏离 OpenSpec `design.md` 或 Phase 0，**MUST** 先更新 OpenSpec change 记录 deviation，再改代码。
 
@@ -437,13 +437,13 @@ pnpm --filter @aether-md/react build && pnpm --filter @aether-md/react exec node
 
 **Commit 策略：**
 
-| 类型 | scope 示例 | Task |
-| --- | --- | --- |
-| `docs(openspec)` | OpenSpec artifacts | 已完成 |
-| `feat(react)` | components、hook、gate-lock | 03, 04, 06 |
-| `feat(plugin-prosemirror)` | view-bridge | 05 |
-| `test(react)` | boundary、integration、smoke | 01, 07, 08, 09 |
-| `chore(react)` | package scaffold、changeset | 02 |
+| 类型                       | scope 示例                   | Task           |
+| -------------------------- | ---------------------------- | -------------- |
+| `docs(openspec)`           | OpenSpec artifacts           | 已完成         |
+| `feat(react)`              | components、hook、gate-lock  | 03, 04, 06     |
+| `feat(plugin-prosemirror)` | view-bridge                  | 05             |
+| `test(react)`              | boundary、integration、smoke | 01, 07, 08, 09 |
+| `chore(react)`             | package scaffold、changeset  | 02             |
 
 - 推荐 **一 Superpowers task 一 commit**。
 - Archive 前 `aether-workflow-update-docs-spec` sync `react-shell` main spec、`editor-orchestration` delta、`docs/engineering/test-strategy.md` M5 基线、`docs/architecture/ci-checklist.md` GateLock 勾选。

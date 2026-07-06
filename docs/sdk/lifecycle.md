@@ -23,13 +23,13 @@ flowchart TB
 
 **阶段约束：**
 
-| 阶段 | 允许 | 应避免 |
-| --- | --- | --- |
-| `loadManifest` ~ `validate` | 纯数据操作 | 副作用、DOM |
-| `onInit` | DOM 绑定、事件订阅 | 注册 Command |
-| `onReady` | 读取初始状态 | 修改已合并 Schema |
-| `running` | Command Bus | 直接调用 Adapter 内部 API |
-| `onDestroy` | 资源清理 | 派发新 Command |
+| 阶段                        | 允许               | 应避免                    |
+| --------------------------- | ------------------ | ------------------------- |
+| `loadManifest` ~ `validate` | 纯数据操作         | 副作用、DOM               |
+| `onInit`                    | DOM 绑定、事件订阅 | 注册 Command              |
+| `onReady`                   | 读取初始状态       | 修改已合并 Schema         |
+| `running`                   | Command Bus        | 直接调用 Adapter 内部 API |
+| `onDestroy`                 | 资源清理           | 派发新 Command            |
 
 ## M1 Core Bootstrap subset
 

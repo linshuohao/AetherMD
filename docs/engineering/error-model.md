@@ -7,35 +7,35 @@
 ### 类型定义
 
 ```typescript
-type ErrorSeverity = 'recoverable' | 'degraded' | 'fatal';
+type ErrorSeverity = "recoverable" | "degraded" | "fatal";
 
 interface AetherError {
   code: string;
   severity: ErrorSeverity;
-  source: 'core' | 'plugin' | 'adapter' | 'render' | 'serialization';
+  source: "core" | "plugin" | "adapter" | "render" | "serialization";
   message: string;
   cause?: unknown;
   pluginName?: string;
 }
 
-type CoreError          = AetherError & { source: 'core' };
-type PluginError        = AetherError & { source: 'plugin' };
-type AdapterError       = AetherError & { source: 'adapter' };
-type RenderError        = AetherError & { source: 'render' };
-type SerializationError = AetherError & { source: 'serialization' };
+type CoreError = AetherError & { source: "core" };
+type PluginError = AetherError & { source: "plugin" };
+type AdapterError = AetherError & { source: "adapter" };
+type RenderError = AetherError & { source: "render" };
+type SerializationError = AetherError & { source: "serialization" };
 ```
 
 `@aether-md/core` 当前导出可实例化的 `CoreError`、`PluginError`、`AdapterError` 与 `SerializationError` 类，均实现 `AetherError`。`RenderError` 仍属后续里程碑。
 
 ### 恢复策略矩阵
 
-| 错误类型 | 典型场景 | severity | 恢复策略 |
-| --- | --- | --- | --- |
-| `CoreError` | Manifest 校验失败、Schema 冲突、未知命令、runtime 已 dispose | `fatal` 或 `recoverable` | 启动中止（fatal）；命令路径返回失败结果（recoverable） |
-| `PluginError` | Command handler 未捕获异常 | `recoverable` | 沙盒隔离；返回失败结果并发出 `pluginError`（M2 不要求事务回滚） |
-| `AdapterError` | PM Transaction 失败 | `recoverable` | M3：Adapter 层返回失败结果并保持 apply 前快照；`transactionFailed` 事件仍 deferred |
-| `RenderError` | NodeView 崩溃 | `degraded` | Fallback Error View Block（尚未实现） |
-| `SerializationError` | 节点无法序列化 | `degraded` | M4：支持 GFM 节点确定性输出；`CustomBlock` 占位符 `[unsupported:block:<name>]`；不支持节点 Promise reject |
+| 错误类型             | 典型场景                                                     | severity                 | 恢复策略                                                                                                  |
+| -------------------- | ------------------------------------------------------------ | ------------------------ | --------------------------------------------------------------------------------------------------------- |
+| `CoreError`          | Manifest 校验失败、Schema 冲突、未知命令、runtime 已 dispose | `fatal` 或 `recoverable` | 启动中止（fatal）；命令路径返回失败结果（recoverable）                                                    |
+| `PluginError`        | Command handler 未捕获异常                                   | `recoverable`            | 沙盒隔离；返回失败结果并发出 `pluginError`（M2 不要求事务回滚）                                           |
+| `AdapterError`       | PM Transaction 失败                                          | `recoverable`            | M3：Adapter 层返回失败结果并保持 apply 前快照；`transactionFailed` 事件仍 deferred                        |
+| `RenderError`        | NodeView 崩溃                                                | `degraded`               | Fallback Error View Block（尚未实现）                                                                     |
+| `SerializationError` | 节点无法序列化                                               | `degraded`               | M4：支持 GFM 节点确定性输出；`CustomBlock` 占位符 `[unsupported:block:<name>]`；不支持节点 Promise reject |
 
 ### Error Boundary 层级
 

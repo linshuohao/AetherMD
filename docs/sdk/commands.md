@@ -11,13 +11,13 @@ dispatch → enqueue → validate → middleware → handler
 
 **默认 Middleware 链（RECOMMENDED）：**
 
-| 顺序 | Middleware | 职责 |
-| --- | --- | --- |
-| 1 | `ReadOnlyGuard` | 只读模式拦截 |
-| 2 | `CapabilityGuard` | 校验 `metadata.requires`（Service Capability） |
-| 3 | `PermissionGuard` | 校验 `ctx.grantedPermissions`（Runtime Permission） |
-| 4 | `HistoryCapture` | 可撤销命令打标 |
-| 5 | `TelemetrySpan` | 耗时记录 |
+| 顺序 | Middleware        | 职责                                                |
+| ---- | ----------------- | --------------------------------------------------- |
+| 1    | `ReadOnlyGuard`   | 只读模式拦截                                        |
+| 2    | `CapabilityGuard` | 校验 `metadata.requires`（Service Capability）      |
+| 3    | `PermissionGuard` | 校验 `ctx.grantedPermissions`（Runtime Permission） |
+| 4    | `HistoryCapture`  | 可撤销命令打标                                      |
+| 5    | `TelemetrySpan`   | 耗时记录                                            |
 
 并发策略与队列详见 [并发策略](../engineering/concurrency.md)。
 
@@ -25,14 +25,13 @@ dispatch → enqueue → validate → middleware → handler
 
 ---
 
-
 ## Schema 与 Command 声明
 
 ### SchemaDeclaration
 
 ```typescript
 export interface SchemaDeclaration {
-  type: 'node' | 'mark';
+  type: "node" | "mark";
   name: string;
   matchMarkdownTag: string;
   serializeToMarkdown: string | { open: string; close: string };
@@ -44,7 +43,7 @@ export interface SchemaDeclaration {
 ```typescript
 export type CommandHandler = (
   ctx: EditorContext,
-  payload?: unknown
+  payload?: unknown,
 ) => void | boolean | Promise<void | boolean>;
 ```
 

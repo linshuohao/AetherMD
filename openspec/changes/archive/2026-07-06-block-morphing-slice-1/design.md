@@ -54,12 +54,12 @@ M5 `@aether-md/react` 提供 Phase 0 interim shell（`AetherEditorContent` + Pro
 
 **选择：**
 
-| 步骤 | 行为 |
-| --- | --- |
+| 步骤                | 行为                                                                         |
+| ------------------- | ---------------------------------------------------------------------------- |
 | textarea `onChange` | `editor.dispatch({ id: 'core:replaceText', payload: { blockIndex, text } })` |
-| `change` 事件 | Root/hook 更新 `markdown`；MorphingContent 读 `markdown` 作 source |
-| focus | `setFocused(true)`；下一帧 focus textarea |
-| blur | `setFocused(false)`；显示 rendered |
+| `change` 事件       | Root/hook 更新 `markdown`；MorphingContent 读 `markdown` 作 source           |
+| focus               | `setFocused(true)`；下一帧 focus textarea                                    |
+| blur                | `setFocused(false)`；显示 rendered                                           |
 
 GateLock 语义不变：`prevValue === nextValue` 不重设 editor。
 
@@ -73,11 +73,11 @@ GateLock 语义不变：`prevValue === nextValue` 不重设 editor。
 
 ## Risks / Mitigations
 
-| 风险 | 缓解 |
-| --- | --- |
+| 风险                            | 缓解                                                    |
+| ------------------------------- | ------------------------------------------------------- |
 | textarea 与 `markdown` 受控竞态 | 以 editor `change` 为 source of truth；本地不 fork 文档 |
-| happy-dom focus/blur | 使用 `fireEvent.focus` / `blur` + `waitFor` |
-| 单段落假设与多段 fixture | Slice A 测试 fixture 仅单段；文档注明限制 |
+| happy-dom focus/blur            | 使用 `fireEvent.focus` / `blur` + `waitFor`             |
+| 单段落假设与多段 fixture        | Slice A 测试 fixture 仅单段；文档注明限制               |
 
 ## Open Questions
 

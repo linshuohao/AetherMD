@@ -84,13 +84,13 @@ M1 `@aether-md/core` 已通过 `add-core-bootstrap` 建立最小 bootstrap runti
 
 ## Public Contract 影响
 
-| 表面 | 变化 |
-| --- | --- |
-| `bootstrapCore` validation | duplicate name → fatal（新行为，tightening） |
-| `bootstrapCore` startup failure | reverse cleanup before throw（新可观察行为） |
+| 表面                             | 变化                                         |
+| -------------------------------- | -------------------------------------------- |
+| `bootstrapCore` validation       | duplicate name → fatal（新行为，tightening） |
+| `bootstrapCore` startup failure  | reverse cleanup before throw（新可观察行为） |
 | `CoreBootstrapRuntime.dispose()` | 幂等 MUST 写入公开契约（文档化 + spec 对齐） |
-| `SUPPORTED_MANIFEST_VERSIONS` | 不变 |
-| public exports | 形状不变；可能新增 `CoreErrorCode` 枚举值 |
+| `SUPPORTED_MANIFEST_VERSIONS`    | 不变                                         |
+| public exports                   | 形状不变；可能新增 `CoreErrorCode` 枚举值    |
 
 **Version impact：** `@aether-md/core` patch-level；无 lockfile 结构性变更预期。
 
@@ -110,12 +110,12 @@ M1 `@aether-md/core` 已通过 `add-core-bootstrap` 建立最小 bootstrap runti
 
 ## Risks / Trade-offs
 
-| Risk | Mitigation |
-| --- | --- |
-| duplicate name fatal 暴露宿主配置问题 | intentional tightening；错误信息含 duplicate name |
-| cleanup 增加 startup failure 路径复杂度 | 复用 `runDestroyLifecycle`；独立 contract tests |
+| Risk                                    | Mitigation                                                               |
+| --------------------------------------- | ------------------------------------------------------------------------ |
+| duplicate name fatal 暴露宿主配置问题   | intentional tightening；错误信息含 duplicate name                        |
+| cleanup 增加 startup failure 路径复杂度 | 复用 `runDestroyLifecycle`；独立 contract tests                          |
 | cleanup 与 primary error 双重失败难断言 | 测试 focus primary `LIFECYCLE_HOOK_FAILED`；cleanup failure 可选 `cause` |
-| Docs/spec 再次 drift | Step 8 同步 `core-api.md` 移除 bootstrap dispose 排除表述 |
+| Docs/spec 再次 drift                    | Step 8 同步 `core-api.md` 移除 bootstrap dispose 排除表述                |
 
 ## Migration Plan
 

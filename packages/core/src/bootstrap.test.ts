@@ -74,12 +74,7 @@ describe("bootstrapCore startup lifecycle", () => {
       },
     ]);
 
-    assert.deepEqual(calls, [
-      "heading:init",
-      "table:init",
-      "heading:ready",
-      "table:ready",
-    ]);
+    assert.deepEqual(calls, ["heading:init", "table:init", "heading:ready", "table:ready"]);
   });
 
   it("awaits async onInit before running onReady", async () => {

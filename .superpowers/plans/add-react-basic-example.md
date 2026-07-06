@@ -12,15 +12,15 @@
 
 ## Change
 
-| 字段 | 值 |
-| --- | --- |
-| OpenSpec change | `add-react-basic-example` |
-| Branch | `feature/add-react-basic-example`（自 `main`；plan 时工作树仅含 OpenSpec artifacts） |
-| OpenSpec status | **complete**（4/4 artifacts：`proposal` / `design` / `specs` / `tasks`）；`openspec validate add-react-basic-example --strict` 待 implementation 后确认 |
-| Apply readiness | `isComplete: true`；OpenSpec high-level tasks 0/7 sections complete |
-| Version impact | **无 SemVer 变更** — 五包 public API / runtime 语义 **不变**；`manifestVersion` / `SUPPORTED_MANIFEST_VERSIONS` **不变**（`[1]`）；新 `@aether-md/example-react-basic` workspace **private** package；`pnpm-lock.yaml` **预期变更**（Vite/React devDeps）；**不**发布 npm；**无** Changeset publish 影响 |
-| Expected commit scope | `feat(examples)`、`docs(status)`、`docs(community)`、`docs(architecture)`；OpenSpec 产物 `spec(examples)` / `docs(openspec)` |
-| Commit strategy | **每 task 可独立 commit**（Conventional Commits）；PR body 须追踪 OpenSpec change id 与 task id；whole-change squash 留 PR merge 时决定 |
+| 字段                  | 值                                                                                                                                                                                                                                                                                                       |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| OpenSpec change       | `add-react-basic-example`                                                                                                                                                                                                                                                                                |
+| Branch                | `feature/add-react-basic-example`（自 `main`；plan 时工作树仅含 OpenSpec artifacts）                                                                                                                                                                                                                     |
+| OpenSpec status       | **complete**（4/4 artifacts：`proposal` / `design` / `specs` / `tasks`）；`openspec validate add-react-basic-example --strict` 待 implementation 后确认                                                                                                                                                  |
+| Apply readiness       | `isComplete: true`；OpenSpec high-level tasks 0/7 sections complete                                                                                                                                                                                                                                      |
+| Version impact        | **无 SemVer 变更** — 五包 public API / runtime 语义 **不变**；`manifestVersion` / `SUPPORTED_MANIFEST_VERSIONS` **不变**（`[1]`）；新 `@aether-md/example-react-basic` workspace **private** package；`pnpm-lock.yaml` **预期变更**（Vite/React devDeps）；**不**发布 npm；**无** Changeset publish 影响 |
+| Expected commit scope | `feat(examples)`、`docs(status)`、`docs(community)`、`docs(architecture)`；OpenSpec 产物 `spec(examples)` / `docs(openspec)`                                                                                                                                                                             |
+| Commit strategy       | **每 task 可独立 commit**（Conventional Commits）；PR body 须追踪 OpenSpec change id 与 task id；whole-change squash 留 PR merge 时决定                                                                                                                                                                  |
 
 范围边界：
 
@@ -69,25 +69,25 @@ OpenSpec artifacts：
 
 ## File Map
 
-| 路径 | 职责 |
-| --- | --- |
-| `examples/react-basic/package.json` | `@aether-md/example-react-basic`，`private: true`；`dev` / `build` / `typecheck` / `check` scripts |
-| `examples/react-basic/tsconfig.json` | Vite app + `tsc --noEmit`；`jsx: react-jsx`；含 `vite/client` types |
-| `examples/react-basic/vite.config.ts` | Vite + React plugin；`resolve.dedupe: ['react','react-dom']` 防 monorepo 双实例 |
-| `examples/react-basic/index.html` | Vite 入口 HTML，`#root` mount point |
-| `examples/react-basic/src/main.tsx` | `ReactDOM.createRoot` 挂载 `App` |
-| `examples/react-basic/src/App.tsx` | 受控编辑器 + GateLock 演示 UI + 只读 markdown 预览 |
-| `examples/react-basic/src/plugins.ts` | `createGfmEditorPlugins()` — 对齐 headless-gfm / react test-helpers 模式 |
-| `examples/react-basic/src/vite-env.d.ts` | `/// <reference types="vite/client" />` |
+| 路径                                     | 职责                                                                                               |
+| ---------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `examples/react-basic/package.json`      | `@aether-md/example-react-basic`，`private: true`；`dev` / `build` / `typecheck` / `check` scripts |
+| `examples/react-basic/tsconfig.json`     | Vite app + `tsc --noEmit`；`jsx: react-jsx`；含 `vite/client` types                                |
+| `examples/react-basic/vite.config.ts`    | Vite + React plugin；`resolve.dedupe: ['react','react-dom']` 防 monorepo 双实例                    |
+| `examples/react-basic/index.html`        | Vite 入口 HTML，`#root` mount point                                                                |
+| `examples/react-basic/src/main.tsx`      | `ReactDOM.createRoot` 挂载 `App`                                                                   |
+| `examples/react-basic/src/App.tsx`       | 受控编辑器 + GateLock 演示 UI + 只读 markdown 预览                                                 |
+| `examples/react-basic/src/plugins.ts`    | `createGfmEditorPlugins()` — 对齐 headless-gfm / react test-helpers 模式                           |
+| `examples/react-basic/src/vite-env.d.ts` | `/// <reference types="vite/client" />`                                                            |
 
 **不修改（除非 regression / turbo 调度缺口）：** `packages/core/**`、`packages/react/**` 生产代码、`examples/headless-gfm/**`（保持 M6 基线绿）。
 
 **职责分离：**
 
-| 层 | 职责 |
-| --- | --- |
+| 层                                | 职责                                                      |
+| --------------------------------- | --------------------------------------------------------- |
 | `@aether-md/react` happy-dom 测试 | Shell 契约断言、CI 回归、`gate-lock.integration.test.tsx` |
-| `examples/react-basic` | Vite 宿主集成故事、文档可引用、`pnpm dev` 手动探索 |
+| `examples/react-basic`            | Vite 宿主集成故事、文档可引用、`pnpm dev` 手动探索        |
 
 ## Implementation Phases
 
@@ -169,56 +169,56 @@ Barrier: Task 07 ◄── 01–06 全部完成
 
 ## Boundary Risks
 
-| 风险 | 触发点 | 处理方式 |
-| --- | --- | --- |
-| example 与 `@aether-md/react` happy-dom 测试职责重叠 | 复制 GateLock 断言到 example | 示例侧重 Vite 宿主叙事与 `pnpm dev` 手动探索；包内测试侧重断言与 CI |
-| `prosemirror-view` 边界泄漏 | example 直接 import PM | **仅**经 `@aether-md/react` → `@aether-md/plugin-prosemirror` view-bridge；example **不**直接依赖 `prosemirror-view` |
-| happy-dom vs 真实浏览器行为差 | GateLock 在 dev 与 CI 表现不一致 | 本 change **不**引入 Playwright；以 happy-dom 集成测试为契约 truth，example 为叙事 demo；本地 `pnpm dev` 作 smoke |
-| monorepo 双 React 实例 | Vite 解析多份 `react` | `vite.config.ts` `resolve.dedupe: ['react','react-dom']`；`pnpm dev` 验证编辑无 subtle bug |
-| Vite devDeps 泄漏到五包 | 误加 workspace 根或 package deps | Vite/React **仅** `examples/react-basic` devDependencies |
-| plugin wiring 复制 drift | headless-gfm / test-helpers 演进 | 单一 `src/plugins.ts`；注释引用 headless-gfm 模式；不 import react test 模块 |
-| G6 扩展破坏 `pnpm check` | turbo 未调度新 package | Task 05 确认 example 有 `check` script；故意 TS 错误应使 `pnpm check` 红 |
-| 范围膨胀至 M7 publish | 顺带改 Release CI | 严格 non-goals；publish 留 M7 change |
+| 风险                                                 | 触发点                           | 处理方式                                                                                                             |
+| ---------------------------------------------------- | -------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| example 与 `@aether-md/react` happy-dom 测试职责重叠 | 复制 GateLock 断言到 example     | 示例侧重 Vite 宿主叙事与 `pnpm dev` 手动探索；包内测试侧重断言与 CI                                                  |
+| `prosemirror-view` 边界泄漏                          | example 直接 import PM           | **仅**经 `@aether-md/react` → `@aether-md/plugin-prosemirror` view-bridge；example **不**直接依赖 `prosemirror-view` |
+| happy-dom vs 真实浏览器行为差                        | GateLock 在 dev 与 CI 表现不一致 | 本 change **不**引入 Playwright；以 happy-dom 集成测试为契约 truth，example 为叙事 demo；本地 `pnpm dev` 作 smoke    |
+| monorepo 双 React 实例                               | Vite 解析多份 `react`            | `vite.config.ts` `resolve.dedupe: ['react','react-dom']`；`pnpm dev` 验证编辑无 subtle bug                           |
+| Vite devDeps 泄漏到五包                              | 误加 workspace 根或 package deps | Vite/React **仅** `examples/react-basic` devDependencies                                                             |
+| plugin wiring 复制 drift                             | headless-gfm / test-helpers 演进 | 单一 `src/plugins.ts`；注释引用 headless-gfm 模式；不 import react test 模块                                         |
+| G6 扩展破坏 `pnpm check`                             | turbo 未调度新 package           | Task 05 确认 example 有 `check` script；故意 TS 错误应使 `pnpm check` 红                                             |
+| 范围膨胀至 M7 publish                                | 顺带改 Release CI                | 严格 non-goals；publish 留 M7 change                                                                                 |
 
 ## Validation Matrix
 
-| Phase | OpenSpec Requirement | Validation 入口 | Intuitive Verification | Notes |
-| --- | --- | --- | --- | --- |
-| 1 | React example is private and not published | review `examples/react-basic/package.json` | `private: true`；`@aether-md/example-react-basic` | 排除 publish 矩阵 |
-| 2 | React example runs locally from workspace | `pnpm --filter @aether-md/example-react-basic dev` | 浏览器加载空白/占位 UI | 需先 `pnpm build`（workspace 包） |
-| 3 | React example runs locally from workspace | 同上 + 编辑 GFM | 编辑器挂载；可输入 `**bold**` 等 | `createGfmPreset()` wiring |
-| 3 | Shell integration path | review `App.tsx` + `plugins.ts` | 使用 `AetherEditorRoot`/`Content`/`useAetherEditor` | 不依赖 react test-helpers |
-| 4 | React example demonstrates controlled value and GateLock | `pnpm dev` + 手动：编辑 → Force rerender → 内容保留 | 与 `gate-lock.integration.test.tsx` 行为一致 | ci-checklist #41 intent |
-| 5 | React basic example typechecks in check pipeline | `pnpm --filter @aether-md/example-react-basic typecheck` | `tsc --noEmit` PASS | G6 |
-| 5 | Headless example typechecks in check pipeline | `pnpm check` | `headless-gfm` 仍 PASS | M6 回归 |
-| 5 | Existing M1 through M6 tests remain green | `pnpm check` | 全 workspace 绿 | G5 |
-| 5 | React basic example typecheck gate fails check pipeline | 故意引入 TS 错误 → `pnpm check` | check 红 | engineering-workflow delta |
-| 6 | React example is private and not published | review `docs/community/release-process.md` | example 行 `private: true` | |
-| 6 | 文档与 ADR 009 对齐 | review `docs/project-status.md`、`ci-checklist.md` | `react-basic` 标为已交付 | G6 注释含 react-basic |
-| 7 | 全量 gate | `pnpm check && openspec validate add-react-basic-example --strict` | 全绿 | Task 07 Barrier |
+| Phase | OpenSpec Requirement                                     | Validation 入口                                                    | Intuitive Verification                              | Notes                             |
+| ----- | -------------------------------------------------------- | ------------------------------------------------------------------ | --------------------------------------------------- | --------------------------------- |
+| 1     | React example is private and not published               | review `examples/react-basic/package.json`                         | `private: true`；`@aether-md/example-react-basic`   | 排除 publish 矩阵                 |
+| 2     | React example runs locally from workspace                | `pnpm --filter @aether-md/example-react-basic dev`                 | 浏览器加载空白/占位 UI                              | 需先 `pnpm build`（workspace 包） |
+| 3     | React example runs locally from workspace                | 同上 + 编辑 GFM                                                    | 编辑器挂载；可输入 `**bold**` 等                    | `createGfmPreset()` wiring        |
+| 3     | Shell integration path                                   | review `App.tsx` + `plugins.ts`                                    | 使用 `AetherEditorRoot`/`Content`/`useAetherEditor` | 不依赖 react test-helpers         |
+| 4     | React example demonstrates controlled value and GateLock | `pnpm dev` + 手动：编辑 → Force rerender → 内容保留                | 与 `gate-lock.integration.test.tsx` 行为一致        | ci-checklist #41 intent           |
+| 5     | React basic example typechecks in check pipeline         | `pnpm --filter @aether-md/example-react-basic typecheck`           | `tsc --noEmit` PASS                                 | G6                                |
+| 5     | Headless example typechecks in check pipeline            | `pnpm check`                                                       | `headless-gfm` 仍 PASS                              | M6 回归                           |
+| 5     | Existing M1 through M6 tests remain green                | `pnpm check`                                                       | 全 workspace 绿                                     | G5                                |
+| 5     | React basic example typecheck gate fails check pipeline  | 故意引入 TS 错误 → `pnpm check`                                    | check 红                                            | engineering-workflow delta        |
+| 6     | React example is private and not published               | review `docs/community/release-process.md`                         | example 行 `private: true`                          |                                   |
+| 6     | 文档与 ADR 009 对齐                                      | review `docs/project-status.md`、`ci-checklist.md`                 | `react-basic` 标为已交付                            | G6 注释含 react-basic             |
+| 7     | 全量 gate                                                | `pnpm check && openspec validate add-react-basic-example --strict` | 全绿                                                | Task 07 Barrier                   |
 
 **汇总命令映射：**
 
-| 命令 | 覆盖 |
-| --- | --- |
-| `pnpm install` | Task 01 lockfile |
-| `pnpm build` | Task 02–04 前构建 workspace 包（react 测试脚本亦依赖） |
-| `pnpm --filter @aether-md/example-react-basic dev` | Task 02–04 本地 smoke |
-| `pnpm --filter @aether-md/example-react-basic typecheck` | Task 05 local；Task 07 CI |
-| `pnpm check` | Task 05–07 全 workspace gate |
-| `openspec validate add-react-basic-example --strict` | Task 07 OpenSpec gate |
+| 命令                                                     | 覆盖                                                   |
+| -------------------------------------------------------- | ------------------------------------------------------ |
+| `pnpm install`                                           | Task 01 lockfile                                       |
+| `pnpm build`                                             | Task 02–04 前构建 workspace 包（react 测试脚本亦依赖） |
+| `pnpm --filter @aether-md/example-react-basic dev`       | Task 02–04 本地 smoke                                  |
+| `pnpm --filter @aether-md/example-react-basic typecheck` | Task 05 local；Task 07 CI                              |
+| `pnpm check`                                             | Task 05–07 全 workspace gate                           |
+| `openspec validate add-react-basic-example --strict`     | Task 07 OpenSpec gate                                  |
 
 ## Task Breakdown
 
-| ID | 任务 | Outcome | Allowed Area | Validation | Version Impact | Depends On | Parallel Group | Barrier |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| **01** | scaffold `examples/react-basic`（`package.json`、`tsconfig.json`） | workspace private package 可被 pnpm 解析 | `examples/react-basic/package.json`、`examples/react-basic/tsconfig.json`、`pnpm-lock.yaml` | `pnpm install`；`pnpm --filter @aether-md/example-react-basic typecheck` 预期 FAIL（无 `src/`） | 无 SemVer；新 private example | — | wave-a | false |
-| **02** | Vite + React 入口与最小 UI | `pnpm dev` 可启动并渲染占位 UI | `examples/react-basic/vite.config.ts`、`index.html`、`src/main.tsx`、`src/vite-env.d.ts`、`src/App.tsx`（占位）、`package.json`（devDeps） | `pnpm build && pnpm --filter @aether-md/example-react-basic dev` | 无 | 01 | wave-a | false |
-| **03** | 集成 `AetherEditorRoot` + `createGfmPreset` wiring | 浏览器可编辑 GFM Markdown | `examples/react-basic/src/plugins.ts`、`src/App.tsx` | `pnpm dev`；编辑 `**bold**` smoke | 无 | 02 | wave-a | false |
-| **04** | GateLock 受控示例 UI | force rerender 且 `value` 不变时不重设文档 | `examples/react-basic/src/App.tsx` | `pnpm dev` 手动 GateLock smoke；对照 `gate-lock.integration.test.tsx` | 无 | 03 | wave-a | false |
-| **05** | 纳入 `pnpm check` typecheck（G6 扩展） | `examples/react-basic` `tsc --noEmit` 经 turbo 纳入根 check | `examples/react-basic/package.json`（`typecheck`/`check`）、`turbo.json`（仅当调度缺口） | `pnpm --filter @aether-md/example-react-basic typecheck`；`pnpm check` | 无 | 01, 04 | wave-b | false |
-| **06** | 文档更新（README / docs 引用） | `react-basic` 标为已交付；G6 / publish 矩阵更新 | `docs/project-status.md`、`docs/community/release-process.md`、`docs/architecture/ci-checklist.md`、可选 `docs/engineering/test-strategy.md` | 人工 review + `rg "react-basic" docs/` | 无 | 04 | wave-c | false |
-| **07** | full validation barrier | 全 change 验收通过 | 全 change 允许区（只读验证为主） | `pnpm check && openspec validate add-react-basic-example --strict` | 无 | 01–06 | — | **true** |
+| ID     | 任务                                                               | Outcome                                                     | Allowed Area                                                                                                                                 | Validation                                                                                      | Version Impact                | Depends On | Parallel Group | Barrier  |
+| ------ | ------------------------------------------------------------------ | ----------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------- | ---------- | -------------- | -------- |
+| **01** | scaffold `examples/react-basic`（`package.json`、`tsconfig.json`） | workspace private package 可被 pnpm 解析                    | `examples/react-basic/package.json`、`examples/react-basic/tsconfig.json`、`pnpm-lock.yaml`                                                  | `pnpm install`；`pnpm --filter @aether-md/example-react-basic typecheck` 预期 FAIL（无 `src/`） | 无 SemVer；新 private example | —          | wave-a         | false    |
+| **02** | Vite + React 入口与最小 UI                                         | `pnpm dev` 可启动并渲染占位 UI                              | `examples/react-basic/vite.config.ts`、`index.html`、`src/main.tsx`、`src/vite-env.d.ts`、`src/App.tsx`（占位）、`package.json`（devDeps）   | `pnpm build && pnpm --filter @aether-md/example-react-basic dev`                                | 无                            | 01         | wave-a         | false    |
+| **03** | 集成 `AetherEditorRoot` + `createGfmPreset` wiring                 | 浏览器可编辑 GFM Markdown                                   | `examples/react-basic/src/plugins.ts`、`src/App.tsx`                                                                                         | `pnpm dev`；编辑 `**bold**` smoke                                                               | 无                            | 02         | wave-a         | false    |
+| **04** | GateLock 受控示例 UI                                               | force rerender 且 `value` 不变时不重设文档                  | `examples/react-basic/src/App.tsx`                                                                                                           | `pnpm dev` 手动 GateLock smoke；对照 `gate-lock.integration.test.tsx`                           | 无                            | 03         | wave-a         | false    |
+| **05** | 纳入 `pnpm check` typecheck（G6 扩展）                             | `examples/react-basic` `tsc --noEmit` 经 turbo 纳入根 check | `examples/react-basic/package.json`（`typecheck`/`check`）、`turbo.json`（仅当调度缺口）                                                     | `pnpm --filter @aether-md/example-react-basic typecheck`；`pnpm check`                          | 无                            | 01, 04     | wave-b         | false    |
+| **06** | 文档更新（README / docs 引用）                                     | `react-basic` 标为已交付；G6 / publish 矩阵更新             | `docs/project-status.md`、`docs/community/release-process.md`、`docs/architecture/ci-checklist.md`、可选 `docs/engineering/test-strategy.md` | 人工 review + `rg "react-basic" docs/`                                                          | 无                            | 04         | wave-c         | false    |
+| **07** | full validation barrier                                            | 全 change 验收通过                                          | 全 change 允许区（只读验证为主）                                                                                                             | `pnpm check && openspec validate add-react-basic-example --strict`                              | 无                            | 01–06      | —              | **true** |
 
 ### Task 01 详细步骤（scaffold）
 
@@ -429,11 +429,7 @@ export function createGfmEditorPlugins(): ExtensionPluginWithAdapters[] {
 ```tsx
 import { useState } from "react";
 
-import {
-  AetherEditorContent,
-  AetherEditorRoot,
-  useAetherEditor,
-} from "@aether-md/react";
+import { AetherEditorContent, AetherEditorRoot, useAetherEditor } from "@aether-md/react";
 
 import { createGfmEditorPlugins } from "./plugins.js";
 
@@ -455,11 +451,7 @@ export function App() {
   return (
     <main>
       <h1>AetherMD React Basic Example</h1>
-      <AetherEditorRoot
-        plugins={createGfmEditorPlugins()}
-        value={markdown}
-        onChange={setMarkdown}
-      >
+      <AetherEditorRoot plugins={createGfmEditorPlugins()} value={markdown} onChange={setMarkdown}>
         <AetherEditorContent />
         <MarkdownPreview />
       </AetherEditorRoot>
@@ -478,11 +470,7 @@ export function App() {
 ```tsx
 import { useState } from "react";
 
-import {
-  AetherEditorContent,
-  AetherEditorRoot,
-  useAetherEditor,
-} from "@aether-md/react";
+import { AetherEditorContent, AetherEditorRoot, useAetherEditor } from "@aether-md/react";
 
 import { createGfmEditorPlugins } from "./plugins.js";
 
@@ -506,20 +494,13 @@ export function App() {
     <main>
       <h1>AetherMD React Basic Example</h1>
       <p>
-        GateLock demo: edit below, then force a parent rerender without changing{" "}
-        <code>value</code>. The document should not reset.
+        GateLock demo: edit below, then force a parent rerender without changing <code>value</code>.
+        The document should not reset.
       </p>
-      <button
-        type="button"
-        onClick={() => setRenderCount((count) => count + 1)}
-      >
+      <button type="button" onClick={() => setRenderCount((count) => count + 1)}>
         Force parent rerender ({renderCount})
       </button>
-      <AetherEditorRoot
-        plugins={createGfmEditorPlugins()}
-        value={markdown}
-        onChange={setMarkdown}
-      >
+      <AetherEditorRoot plugins={createGfmEditorPlugins()} value={markdown} onChange={setMarkdown}>
         <AetherEditorContent />
         <MarkdownPreview />
       </AetherEditorRoot>
@@ -581,15 +562,15 @@ export function App() {
 
 ## Open Questions
 
-| 问题 | Plan 阶段处理 | 阻塞？ |
-| --- | --- | --- |
-| CI 是否跑 `vite build` | design 冻结：**否**；CI 仅 `typecheck` | 否 |
-| G6 范围 | `headless-gfm` + `react-basic` 均 `tsc --noEmit` | 否 |
-| GateLock 演示方式 | 受控 `value` + force parent rerender 按钮 | 否 |
-| plugin wiring 来源 | example 本地 `plugins.ts`；不依赖 react test 模块 | 否 |
-| `App.tsx` UI 文案与 fixture Markdown | implementation 可调整；须保留 GateLock 可观测性 | 否 |
-| Vite port / base | 以可 `pnpm dev` 为准；无 ADR 约束 | 否 |
-| 是否新增 example README | 非 OpenSpec 硬性要求；可选简短 `examples/react-basic/README.md`（若加则 Task 06） | 否 |
+| 问题                                 | Plan 阶段处理                                                                     | 阻塞？ |
+| ------------------------------------ | --------------------------------------------------------------------------------- | ------ |
+| CI 是否跑 `vite build`               | design 冻结：**否**；CI 仅 `typecheck`                                            | 否     |
+| G6 范围                              | `headless-gfm` + `react-basic` 均 `tsc --noEmit`                                  | 否     |
+| GateLock 演示方式                    | 受控 `value` + force parent rerender 按钮                                         | 否     |
+| plugin wiring 来源                   | example 本地 `plugins.ts`；不依赖 react test 模块                                 | 否     |
+| `App.tsx` UI 文案与 fixture Markdown | implementation 可调整；须保留 GateLock 可观测性                                   | 否     |
+| Vite port / base                     | 以可 `pnpm dev` 为准；无 ADR 约束                                                 | 否     |
+| 是否新增 example README              | 非 OpenSpec 硬性要求；可选简短 `examples/react-basic/README.md`（若加则 Task 06） | 否     |
 
 实现中若需偏离 OpenSpec design 决定，**MUST** 先更新 OpenSpec change，再改代码。
 
@@ -609,15 +590,15 @@ export function App() {
 
 **Commit 策略：**
 
-| Task | 推荐 commit message |
-| --- | --- |
-| 01 | `feat(examples): scaffold react-basic workspace package` |
-| 02 | `feat(examples): add vite react entry for react-basic` |
-| 03 | `feat(examples): wire react shell and gfm preset in react-basic` |
-| 04 | `feat(examples): add gate-lock controlled demo to react-basic` |
-| 05 | `chore(examples): wire react-basic typecheck into check pipeline` |
-| 06 | `docs(status): document react-basic example delivery` |
-| 07 | validation record only（若有）：`docs(superpowers): add react-basic validation evidence` |
+| Task | 推荐 commit message                                                                      |
+| ---- | ---------------------------------------------------------------------------------------- |
+| 01   | `feat(examples): scaffold react-basic workspace package`                                 |
+| 02   | `feat(examples): add vite react entry for react-basic`                                   |
+| 03   | `feat(examples): wire react shell and gfm preset in react-basic`                         |
+| 04   | `feat(examples): add gate-lock controlled demo to react-basic`                           |
+| 05   | `chore(examples): wire react-basic typecheck into check pipeline`                        |
+| 06   | `docs(status): document react-basic example delivery`                                    |
+| 07   | validation record only（若有）：`docs(superpowers): add react-basic validation evidence` |
 
 - 推荐 **一 task 一 commit**；PR 描述链接 OpenSpec change id 与各 task id。
 - Archive 前使用 `aether-workflow-update-docs-spec` sync main specs（`validation-suite`、`engineering-workflow`）。

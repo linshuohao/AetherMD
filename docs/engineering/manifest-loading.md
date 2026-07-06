@@ -21,8 +21,8 @@ M1 Core Bootstrap 已实现 `ExtensionPlugin.manifest` 的最小 shape validatio
 /** 将能力声明规范化为命名空间 ID */
 function normalizeCapabilityIds(ids?: string[]): CapabilityId[] | undefined {
   return ids?.map((id) => {
-    if (id.includes(':')) return id as CapabilityId;
-    if (CORE_ALIASES[id]) return CORE_ALIASES[id];  // 'selection' → 'core:selection'
+    if (id.includes(":")) return id as CapabilityId;
+    if (CORE_ALIASES[id]) return CORE_ALIASES[id]; // 'selection' → 'core:selection'
     return `plugin:${id}` as PluginCapabilityId;
   });
 }

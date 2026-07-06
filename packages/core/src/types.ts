@@ -11,10 +11,7 @@ export type CoreCapabilityId =
 export type PluginCapabilityId = `plugin:${string}`;
 export type VendorCapabilityId = `${string}:${string}`;
 
-export type CapabilityId =
-  | CoreCapabilityId
-  | PluginCapabilityId
-  | VendorCapabilityId;
+export type CapabilityId = CoreCapabilityId | PluginCapabilityId | VendorCapabilityId;
 
 export type PermissionId =
   | "perm:dom"

@@ -15,11 +15,11 @@
 
 ### Commands
 
-| Command | Purpose | Result | Notes |
-| --- | --- | --- | --- |
-| `pnpm core:test` | Core unit tests | PASS | 61/61 pass (3 new GFM/CustomBlock tests) |
-| `pnpm --filter @aether-md/core exec tsc --noEmit` | TypeScript check | PASS | exit 0 |
-| `rg -i "remark\|prosemirror\|react\|vue\|gfm" packages/core/package.json packages/core/src` | Boundary check | PASS | Only test comments/fixtures mention gfm |
+| Command                                                                                     | Purpose          | Result | Notes                                    |
+| ------------------------------------------------------------------------------------------- | ---------------- | ------ | ---------------------------------------- |
+| `pnpm core:test`                                                                            | Core unit tests  | PASS   | 61/61 pass (3 new GFM/CustomBlock tests) |
+| `pnpm --filter @aether-md/core exec tsc --noEmit`                                           | TypeScript check | PASS   | exit 0                                   |
+| `rg -i "remark\|prosemirror\|react\|vue\|gfm" packages/core/package.json packages/core/src` | Boundary check   | PASS   | Only test comments/fixtures mention gfm  |
 
 ### TDD Integrity
 
@@ -42,11 +42,11 @@
 
 ### Commands
 
-| Command | Result | Notes |
-| --- | --- | --- |
-| `pnpm core:test` | PASS | 61/61 |
-| `tsc --noEmit` | PASS | |
-| boundary rg | PASS | |
+| Command          | Result | Notes |
+| ---------------- | ------ | ----- |
+| `pnpm core:test` | PASS   | 61/61 |
+| `tsc --noEmit`   | PASS   |       |
+| boundary rg      | PASS   |       |
 
 ### TDD Integrity
 
@@ -65,10 +65,10 @@
 
 ### Commands
 
-| Command | Result | Notes |
-| --- | --- | --- |
+| Command                                       | Result        | Notes                  |
+| --------------------------------------------- | ------------- | ---------------------- |
 | `pnpm --filter @aether-md/plugin-remark test` | EXPECTED FAIL | 11 GFM fail, 7 M3 pass |
-| `tsc --noEmit` | PASS | |
+| `tsc --noEmit`                                | PASS          |                        |
 
 ### TDD Integrity
 
@@ -87,11 +87,11 @@
 
 ### Commands
 
-| Command | Result | Notes |
-| --- | --- | --- |
-| `pnpm --filter @aether-md/plugin-remark test` | PASS | 18/18 |
-| `tsc --noEmit` | PASS | |
-| core boundary rg | PASS | |
+| Command                                       | Result | Notes |
+| --------------------------------------------- | ------ | ----- |
+| `pnpm --filter @aether-md/plugin-remark test` | PASS   | 18/18 |
+| `tsc --noEmit`                                | PASS   |       |
+| core boundary rg                              | PASS   |       |
 
 ### Changed-file Check
 
@@ -106,8 +106,8 @@
 
 ### Commands
 
-| Command | Result | Notes |
-| --- | --- | --- |
+| Command                                            | Result        | Notes              |
+| -------------------------------------------------- | ------------- | ------------------ |
 | `pnpm --filter @aether-md/plugin-prosemirror test` | EXPECTED FAIL | 5 GFM fail, 8 pass |
 
 ### Changed-file Check
@@ -123,9 +123,9 @@
 
 ### Commands
 
-| Command | Result | Notes |
-| --- | --- | --- |
-| `pnpm --filter @aether-md/plugin-prosemirror test` | PASS | 13/13 |
+| Command                                            | Result | Notes |
+| -------------------------------------------------- | ------ | ----- |
+| `pnpm --filter @aether-md/plugin-prosemirror test` | PASS   | 13/13 |
 
 ### Changed-file Check
 
@@ -140,10 +140,10 @@
 
 ### Commands
 
-| Command | Result | Notes |
-| --- | --- | --- |
-| `pnpm --filter @aether-md/preset-gfm test` | PASS | 4/4 |
-| `pnpm --filter @aether-md/preset-gfm run build` | PASS | |
+| Command                                         | Result | Notes |
+| ----------------------------------------------- | ------ | ----- |
+| `pnpm --filter @aether-md/preset-gfm test`      | PASS   | 4/4   |
+| `pnpm --filter @aether-md/preset-gfm run build` | PASS   |       |
 
 ### Changed-file Check
 
@@ -158,10 +158,10 @@
 
 ### Commands
 
-| Command | Result | Notes |
-| --- | --- | --- |
-| `pnpm --filter @aether-md/preset-gfm test` | PASS | 12/12 (7 matrix + guards) |
-| `pnpm --filter @aether-md/plugin-prosemirror test` | PASS | M3 round-trip regression |
+| Command                                            | Result | Notes                     |
+| -------------------------------------------------- | ------ | ------------------------- |
+| `pnpm --filter @aether-md/preset-gfm test`         | PASS   | 12/12 (7 matrix + guards) |
+| `pnpm --filter @aether-md/plugin-prosemirror test` | PASS   | M3 round-trip regression  |
 
 ### Deviation
 
@@ -180,10 +180,10 @@
 
 ### Commands
 
-| Command | Result | Notes |
-| --- | --- | --- |
-| `pnpm --filter @aether-md/plugin-remark test` | PASS | 21/21 |
-| `pnpm --filter @aether-md/preset-gfm test` | PASS | 12/12 |
+| Command                                       | Result | Notes |
+| --------------------------------------------- | ------ | ----- |
+| `pnpm --filter @aether-md/plugin-remark test` | PASS   | 21/21 |
+| `pnpm --filter @aether-md/preset-gfm test`    | PASS   | 12/12 |
 
 ### Changed-file Check
 
@@ -198,12 +198,12 @@
 
 ### Commands
 
-| Command | Result | Notes |
-| --- | --- | --- |
-| `pnpm core:test` | PASS | 61/61 |
-| boundary rg guards | PASS | No production violations |
-| `rg transactionFailed command-event-runtime` | PASS | No matches (no auto rollback) |
-| `rg core:engine\|core:parser bootstrap/capabilities` | PASS | Not in M1 core set |
+| Command                                              | Result | Notes                         |
+| ---------------------------------------------------- | ------ | ----------------------------- |
+| `pnpm core:test`                                     | PASS   | 61/61                         |
+| boundary rg guards                                   | PASS   | No production violations      |
+| `rg transactionFailed command-event-runtime`         | PASS   | No matches (no auto rollback) |
+| `rg core:engine\|core:parser bootstrap/capabilities` | PASS   | Not in M1 core set            |
 
 ### Changed-file Check
 
@@ -215,24 +215,24 @@
 
 ### Commands
 
-| Command | Purpose | Result | Notes |
-| --- | --- | --- | --- |
-| `pnpm check` | Full workspace pipeline | PASS | 4 packages, 12 turbo tasks |
-| `openspec validate add-gfm-preset --strict` | OpenSpec validation | PASS | |
-| `pnpm core:test` | Core tests | PASS | 61/61 |
-| `pnpm --filter @aether-md/plugin-remark test` | Remark tests | PASS | 21/21 |
-| `pnpm --filter @aether-md/plugin-prosemirror test` | Prosemirror tests | PASS | 13/13 |
-| `pnpm --filter @aether-md/preset-gfm test` | Preset tests | PASS | 12/12 |
+| Command                                            | Purpose                 | Result | Notes                      |
+| -------------------------------------------------- | ----------------------- | ------ | -------------------------- |
+| `pnpm check`                                       | Full workspace pipeline | PASS   | 4 packages, 12 turbo tasks |
+| `openspec validate add-gfm-preset --strict`        | OpenSpec validation     | PASS   |                            |
+| `pnpm core:test`                                   | Core tests              | PASS   | 61/61                      |
+| `pnpm --filter @aether-md/plugin-remark test`      | Remark tests            | PASS   | 21/21                      |
+| `pnpm --filter @aether-md/plugin-prosemirror test` | Prosemirror tests       | PASS   | 13/13                      |
+| `pnpm --filter @aether-md/preset-gfm test`         | Preset tests            | PASS   | 12/12                      |
 
 ### Test Count Summary
 
-| Package | Tests | Status |
-| --- | --- | --- |
-| `@aether-md/core` | 61 | PASS |
-| `@aether-md/plugin-remark` | 21 | PASS |
-| `@aether-md/plugin-prosemirror` | 13 | PASS |
-| `@aether-md/preset-gfm` | 12 | PASS |
-| **Total** | **107** | **PASS** |
+| Package                         | Tests   | Status   |
+| ------------------------------- | ------- | -------- |
+| `@aether-md/core`               | 61      | PASS     |
+| `@aether-md/plugin-remark`      | 21      | PASS     |
+| `@aether-md/plugin-prosemirror` | 13      | PASS     |
+| `@aether-md/preset-gfm`         | 12      | PASS     |
+| **Total**                       | **107** | **PASS** |
 
 ### Non-goals Checklist
 
@@ -256,12 +256,12 @@
 
 ### Failures And Deviations (Summary)
 
-| Task | Deviation |
-| --- | --- |
-| 01 | TDD immediate-pass (M3 types pre-exported) |
-| 02 | Zero production diff |
-| 08 | Integration tests green on first run (prerequisites complete) |
-| All others | none |
+| Task       | Deviation                                                     |
+| ---------- | ------------------------------------------------------------- |
+| 01         | TDD immediate-pass (M3 types pre-exported)                    |
+| 02         | Zero production diff                                          |
+| 08         | Integration tests green on first run (prerequisites complete) |
+| All others | none                                                          |
 
 ### Ready for Review
 

@@ -71,15 +71,15 @@ export interface AdapterTransactionResult {
 
 ## M3 已实现子集
 
-| 能力 | M3 状态 | 说明 |
-| --- | --- | --- |
-| 协议类型 export | 已实现 | `@aether-md/core` 导出三类 Adapter 接口与 supporting types |
-| `@aether-md/plugin-remark` | 已实现 | M3 paragraph/heading；M4 GFM 六语法 parse/serialize（`**`、`*`、`-`/`1.`、`[text](href)`）；`CustomBlock` 占位符 |
-| `@aether-md/plugin-prosemirror` | 已实现 | M3 create/apply/getDocument/dispose；M4 GFM schema/conversion，edit leg 保留 list/link/mark |
-| 跨包 round-trip | 已实现 | M3 integration tests；M4 `@aether-md/preset-gfm` 六语法 matrix |
-| `@aether-md/preset-gfm` | 已实现 | `createGfmPreset()` 工厂；GFM round-trip integration tests；不依赖 `createEditor` / React |
-| Command Bus rollback | 未实现 | M3/M4 通过 Adapter contract tests 验证快照；Bus 仍独立 |
-| Adapter 能力矩阵 / SelectionAdapter | 未实现 | 开放问题 |
+| 能力                                | M3 状态 | 说明                                                                                                             |
+| ----------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------- |
+| 协议类型 export                     | 已实现  | `@aether-md/core` 导出三类 Adapter 接口与 supporting types                                                       |
+| `@aether-md/plugin-remark`          | 已实现  | M3 paragraph/heading；M4 GFM 六语法 parse/serialize（`**`、`*`、`-`/`1.`、`[text](href)`）；`CustomBlock` 占位符 |
+| `@aether-md/plugin-prosemirror`     | 已实现  | M3 create/apply/getDocument/dispose；M4 GFM schema/conversion，edit leg 保留 list/link/mark                      |
+| 跨包 round-trip                     | 已实现  | M3 integration tests；M4 `@aether-md/preset-gfm` 六语法 matrix                                                   |
+| `@aether-md/preset-gfm`             | 已实现  | `createGfmPreset()` 工厂；GFM round-trip integration tests；不依赖 `createEditor` / React                        |
+| Command Bus rollback                | 未实现  | M3/M4 通过 Adapter contract tests 验证快照；Bus 仍独立                                                           |
+| Adapter 能力矩阵 / SelectionAdapter | 未实现  | 开放问题                                                                                                         |
 
 ## 回滚语义
 

@@ -37,10 +37,7 @@ function createMockAdapters() {
       async create(_initialDoc: AetherDoc) {
         return { id: "session-1" };
       },
-      async apply(
-        _session: { id: string },
-        request: AdapterCommandRequest,
-      ) {
+      async apply(_session: { id: string }, request: AdapterCommandRequest) {
         if (request.type !== "replaceText") {
           return { ok: false };
         }
@@ -94,8 +91,7 @@ describe("adapter wiring", () => {
             },
           },
         ]),
-      (error: unknown) =>
-        error instanceof CoreError && error.code === "EDITOR_ADAPTER_MISSING",
+      (error: unknown) => error instanceof CoreError && error.code === "EDITOR_ADAPTER_MISSING",
     );
   });
 });

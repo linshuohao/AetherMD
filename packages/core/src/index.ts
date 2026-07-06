@@ -17,12 +17,7 @@ export type {
   SerializationErrorCode,
   SerializationErrorOptions,
 } from "./errors.js";
-export {
-  CoreError,
-  PluginError,
-  AdapterError,
-  SerializationError,
-} from "./errors.js";
+export { CoreError, PluginError, AdapterError, SerializationError } from "./errors.js";
 export {
   bootstrapCore,
   type BootstrapCoreOptions,
@@ -54,10 +49,7 @@ export type {
   EventSource,
   Unsubscribe,
 } from "./command-event-types.js";
-export {
-  createCommandEventRuntime,
-  type CommandEventRuntime,
-} from "./command-event-runtime.js";
+export { createCommandEventRuntime, type CommandEventRuntime } from "./command-event-runtime.js";
 export type {
   AetherBlock,
   AetherDoc,
@@ -88,4 +80,3 @@ export type {
   EditorSecurityConfig,
   EditorStateSnapshot,
 } from "./editor/types.js";
-

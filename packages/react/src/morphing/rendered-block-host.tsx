@@ -9,11 +9,7 @@ export interface RenderedBlockHostProps {
   onFocus: () => void;
 }
 
-export function RenderedBlockHost({
-  block,
-  renderer,
-  onFocus,
-}: RenderedBlockHostProps) {
+export function RenderedBlockHost({ block, renderer, onFocus }: RenderedBlockHostProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

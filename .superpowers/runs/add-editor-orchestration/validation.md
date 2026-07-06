@@ -2,13 +2,13 @@
 
 ## Host Capability Probe
 
-| Capability | Available | Fallback | Selected |
-| --- | --- | --- | --- |
-| Task/subagent dispatch | yes (Task tool) | sequential single-session | sequential implement in coordinator session |
-| `subagent-driven-development` | yes | `executing-plans` | not used — coordinator executes tasks serially per wave |
-| `dispatching-parallel-agents` | yes | sequential loop | sequential for G2–G5 traceability |
-| `executing-plans` | yes | pause | active loop driver |
-| Superpowers CLI / skill fallback | yes (skills loaded via file read) | Aether skills direct | Aether workflow skills direct |
+| Capability                       | Available                         | Fallback                  | Selected                                                |
+| -------------------------------- | --------------------------------- | ------------------------- | ------------------------------------------------------- |
+| Task/subagent dispatch           | yes (Task tool)                   | sequential single-session | sequential implement in coordinator session             |
+| `subagent-driven-development`    | yes                               | `executing-plans`         | not used — coordinator executes tasks serially per wave |
+| `dispatching-parallel-agents`    | yes                               | sequential loop           | sequential for G2–G5 traceability                       |
+| `executing-plans`                | yes                               | pause                     | active loop driver                                      |
+| Superpowers CLI / skill fallback | yes (skills loaded via file read) | Aether skills direct      | Aether workflow skills direct                           |
 
 **Loop driver:** Wave-aware sequential execution (`executing-plans`). Waves: G0 → G1 (02→03→04) → G2 → G3 (06→07) → G4 → G5 → G6 (Barrier).
 
@@ -16,18 +16,18 @@
 
 ## Task Validation Log
 
-| Task | Command | Result | Notes |
-| --- | --- | --- | --- |
-| 01 | `pnpm core:test` | PASS | boundary flip + types export |
-| 02 | `pnpm core:test` | PASS | conflict-resolver unit tests |
-| 03 | `pnpm core:test` | PASS | adapter-wiring + EDITOR_ADAPTER_MISSING |
-| 04 | `pnpm core:test` | PASS | EditorContext stub services |
-| 05 | `pnpm core:test` | PASS | createEditor orchestration startup |
-| 06 | `pnpm core:test` | PASS | getDocument + lazy getMarkdown |
-| 07 | `pnpm core:test` | PASS | dispatch rollback + dispose fail-closed |
-| 08 | `pnpm --filter @aether-md/core test` | PASS | 3 GFM fixtures via createEditor |
-| 09 | `pnpm core:test` + rg guards | PASS | M4.5 boundary asserts |
-| 10 | `pnpm check` + `openspec validate --strict` | PASS | Barrier green |
+| Task | Command                                     | Result | Notes                                   |
+| ---- | ------------------------------------------- | ------ | --------------------------------------- |
+| 01   | `pnpm core:test`                            | PASS   | boundary flip + types export            |
+| 02   | `pnpm core:test`                            | PASS   | conflict-resolver unit tests            |
+| 03   | `pnpm core:test`                            | PASS   | adapter-wiring + EDITOR_ADAPTER_MISSING |
+| 04   | `pnpm core:test`                            | PASS   | EditorContext stub services             |
+| 05   | `pnpm core:test`                            | PASS   | createEditor orchestration startup      |
+| 06   | `pnpm core:test`                            | PASS   | getDocument + lazy getMarkdown          |
+| 07   | `pnpm core:test`                            | PASS   | dispatch rollback + dispose fail-closed |
+| 08   | `pnpm --filter @aether-md/core test`        | PASS   | 3 GFM fixtures via createEditor         |
+| 09   | `pnpm core:test` + rg guards                | PASS   | M4.5 boundary asserts                   |
+| 10   | `pnpm check` + `openspec validate --strict` | PASS   | Barrier green                           |
 
 ## Barrier Evidence (Task 10)
 
@@ -39,12 +39,12 @@ pnpm core:test                      # PASS (20 tests)
 
 **Per-package test counts (barrier run):**
 
-| Package | Tests |
-| --- | --- |
-| @aether-md/core | 20 |
-| @aether-md/plugin-remark | 21 |
-| @aether-md/plugin-prosemirror | 16 |
-| @aether-md/preset-gfm | 12 |
+| Package                       | Tests |
+| ----------------------------- | ----- |
+| @aether-md/core               | 20    |
+| @aether-md/plugin-remark      | 21    |
+| @aether-md/plugin-prosemirror | 16    |
+| @aether-md/preset-gfm         | 12    |
 
 ## TDD Integrity
 

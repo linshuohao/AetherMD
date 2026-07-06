@@ -10,41 +10,41 @@
 
 ## Artifact Coverage
 
-| Artifact | Present | Notes |
-| --- | --- | --- |
-| Proposal | yes | `openspec/changes/improve-task-loop-parallel-scheduling/proposal.md` |
-| Design | yes | `openspec/changes/improve-task-loop-parallel-scheduling/design.md` |
-| Delta specs | yes | `openspec/changes/improve-task-loop-parallel-scheduling/specs/engineering-workflow/spec.md` |
-| Plan | yes | `.superpowers/plans/improve-task-loop-parallel-scheduling.md` |
-| Tasks | yes | `.superpowers/tasks/improve-task-loop-parallel-scheduling/` |
-| Validation | yes | `.superpowers/runs/improve-task-loop-parallel-scheduling/validation.md` |
+| Artifact    | Present | Notes                                                                                       |
+| ----------- | ------- | ------------------------------------------------------------------------------------------- |
+| Proposal    | yes     | `openspec/changes/improve-task-loop-parallel-scheduling/proposal.md`                        |
+| Design      | yes     | `openspec/changes/improve-task-loop-parallel-scheduling/design.md`                          |
+| Delta specs | yes     | `openspec/changes/improve-task-loop-parallel-scheduling/specs/engineering-workflow/spec.md` |
+| Plan        | yes     | `.superpowers/plans/improve-task-loop-parallel-scheduling.md`                               |
+| Tasks       | yes     | `.superpowers/tasks/improve-task-loop-parallel-scheduling/`                                 |
+| Validation  | yes     | `.superpowers/runs/improve-task-loop-parallel-scheduling/validation.md`                     |
 
 ## Changed-file Mapping
 
-| File | Task | Requirement / Source Doc | Status |
-| --- | --- | --- | --- |
-| `.skills/aether-workflow/aether-workflow-create-plan/**` | 01 | Task artifacts carry scheduling metadata | pass |
-| `.skills/aether-workflow/aether-workflow-create-task/**` | 01 | Task artifacts carry scheduling metadata | pass |
-| `.skills/aether-workflow/aether-workflow-execute-task-loop/**` | 02, 03 | Host capability probe; sequential/wave-parallel drivers; coordinator guardrail | pass |
-| `.skills/aether-workflow/aether-workflow-implement-task/SKILL.md` | 03 | Single-task guardrail wording | pass |
-| `.codex/skills/aether-workflow-*`, `.cursor/skills/aether-workflow-*` | 04 | Generated mirrors from `.skills/aether-workflow/` | pass; `pnpm skills:check` confirms sync |
-| `AI_NATIVE_ENGINEERING_WORKFLOW.md` | 04 | Long-lived workflow docs | pass |
-| `openspec/specs/engineering-workflow/spec.md` | 04 | Main engineering workflow spec | pass |
-| `openspec/changes/improve-task-loop-parallel-scheduling/**` | OpenSpec artifacts | Active change proposal/design/spec/tasks | pass |
-| `.superpowers/plans/improve-task-loop-parallel-scheduling.md` | Plan | Implementation plan and task DAG source | pass |
-| `.superpowers/tasks/improve-task-loop-parallel-scheduling/**` | Tasks | Per-task execution records | pass |
-| `.superpowers/runs/improve-task-loop-parallel-scheduling/validation.md` | Validation | Command results and deviation record | pass |
+| File                                                                    | Task               | Requirement / Source Doc                                                       | Status                                  |
+| ----------------------------------------------------------------------- | ------------------ | ------------------------------------------------------------------------------ | --------------------------------------- |
+| `.skills/aether-workflow/aether-workflow-create-plan/**`                | 01                 | Task artifacts carry scheduling metadata                                       | pass                                    |
+| `.skills/aether-workflow/aether-workflow-create-task/**`                | 01                 | Task artifacts carry scheduling metadata                                       | pass                                    |
+| `.skills/aether-workflow/aether-workflow-execute-task-loop/**`          | 02, 03             | Host capability probe; sequential/wave-parallel drivers; coordinator guardrail | pass                                    |
+| `.skills/aether-workflow/aether-workflow-implement-task/SKILL.md`       | 03                 | Single-task guardrail wording                                                  | pass                                    |
+| `.codex/skills/aether-workflow-*`, `.cursor/skills/aether-workflow-*`   | 04                 | Generated mirrors from `.skills/aether-workflow/`                              | pass; `pnpm skills:check` confirms sync |
+| `AI_NATIVE_ENGINEERING_WORKFLOW.md`                                     | 04                 | Long-lived workflow docs                                                       | pass                                    |
+| `openspec/specs/engineering-workflow/spec.md`                           | 04                 | Main engineering workflow spec                                                 | pass                                    |
+| `openspec/changes/improve-task-loop-parallel-scheduling/**`             | OpenSpec artifacts | Active change proposal/design/spec/tasks                                       | pass                                    |
+| `.superpowers/plans/improve-task-loop-parallel-scheduling.md`           | Plan               | Implementation plan and task DAG source                                        | pass                                    |
+| `.superpowers/tasks/improve-task-loop-parallel-scheduling/**`           | Tasks              | Per-task execution records                                                     | pass                                    |
+| `.superpowers/runs/improve-task-loop-parallel-scheduling/validation.md` | Validation         | Command results and deviation record                                           | pass                                    |
 
 ## Requirement Compliance
 
-| Requirement | Evidence | Result | Notes |
-| --- | --- | --- | --- |
-| Task artifacts carry scheduling metadata | Plan template and task template include `Depends On`, `Parallel Group`, `Barrier`; create-plan/create-task instructions require propagation | pass | Same-wave disjoint allowed files rule added. |
-| Task loop probes host capabilities before execution | execute-task-loop requires Host Capability Probe and records fallback matrix | pass | Operational sandbox fallback recorded in validation. |
-| Task loop supports sequential and wave-parallel drivers | execute-task-loop driver selection rules and `parallel-wave-protocol.md` added | pass | Barrier and wave validation covered. |
-| Single-task guardrails distinguish implementer scope from coordinator scheduling | implement-task says one task per single agent session; execute-loop allows coordinator dispatch only for independent single-task sessions | pass | No guardrail weakening found. |
-| Workflow skills use a single authoritative source | `.skills/` changed first; mirrors generated by `pnpm skills:sync`; `pnpm skills:check` passed | pass | Generated mirror edits are expected output. |
-| Workflow documents are written in Chinese | OpenSpec and Superpowers explanatory prose are Chinese with English identifiers preserved | pass | Existing skill files remain English host-agnostic instructions. |
+| Requirement                                                                      | Evidence                                                                                                                                    | Result | Notes                                                           |
+| -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ------ | --------------------------------------------------------------- |
+| Task artifacts carry scheduling metadata                                         | Plan template and task template include `Depends On`, `Parallel Group`, `Barrier`; create-plan/create-task instructions require propagation | pass   | Same-wave disjoint allowed files rule added.                    |
+| Task loop probes host capabilities before execution                              | execute-task-loop requires Host Capability Probe and records fallback matrix                                                                | pass   | Operational sandbox fallback recorded in validation.            |
+| Task loop supports sequential and wave-parallel drivers                          | execute-task-loop driver selection rules and `parallel-wave-protocol.md` added                                                              | pass   | Barrier and wave validation covered.                            |
+| Single-task guardrails distinguish implementer scope from coordinator scheduling | implement-task says one task per single agent session; execute-loop allows coordinator dispatch only for independent single-task sessions   | pass   | No guardrail weakening found.                                   |
+| Workflow skills use a single authoritative source                                | `.skills/` changed first; mirrors generated by `pnpm skills:sync`; `pnpm skills:check` passed                                               | pass   | Generated mirror edits are expected output.                     |
+| Workflow documents are written in Chinese                                        | OpenSpec and Superpowers explanatory prose are Chinese with English identifiers preserved                                                   | pass   | Existing skill files remain English host-agnostic instructions. |
 
 ## Boundary Review
 

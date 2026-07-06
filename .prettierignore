@@ -1,0 +1,10 @@
+dist
+dist-test
+node_modules
+.turbo
+pnpm-lock.yaml
+coverage
+*.min.js
+.codex
+.cursor
+.skills

@@ -12,40 +12,40 @@
 
 ## Artifact Coverage
 
-| Artifact | Present | Notes |
-| --- | --- | --- |
-| Proposal | yes | `openspec/changes/add-react-basic-example/proposal.md` |
-| Design | yes | `openspec/changes/add-react-basic-example/design.md` |
-| Delta specs | yes | `validation-suite` ADDED + MODIFIED; `engineering-workflow` MODIFIED |
-| OpenSpec tasks | yes | `openspec/changes/add-react-basic-example/tasks.md` — **all `[ ]` unchecked** (artifact drift; see Required Updates) |
-| Plan | yes | `.superpowers/plans/add-react-basic-example.md` |
-| Superpowers tasks | yes | `.superpowers/tasks/add-react-basic-example/01`–`07` — all **completed** |
-| Validation | yes | `.superpowers/runs/add-react-basic-example/validation.md` — Barrier green |
-| Review | yes | this file |
+| Artifact          | Present | Notes                                                                                                                |
+| ----------------- | ------- | -------------------------------------------------------------------------------------------------------------------- |
+| Proposal          | yes     | `openspec/changes/add-react-basic-example/proposal.md`                                                               |
+| Design            | yes     | `openspec/changes/add-react-basic-example/design.md`                                                                 |
+| Delta specs       | yes     | `validation-suite` ADDED + MODIFIED; `engineering-workflow` MODIFIED                                                 |
+| OpenSpec tasks    | yes     | `openspec/changes/add-react-basic-example/tasks.md` — **all `[ ]` unchecked** (artifact drift; see Required Updates) |
+| Plan              | yes     | `.superpowers/plans/add-react-basic-example.md`                                                                      |
+| Superpowers tasks | yes     | `.superpowers/tasks/add-react-basic-example/01`–`07` — all **completed**                                             |
+| Validation        | yes     | `.superpowers/runs/add-react-basic-example/validation.md` — Barrier green                                            |
+| Review            | yes     | this file                                                                                                            |
 
 ## Changed-file Mapping
 
-| File | Task | Requirement / Source Doc | Status |
-| --- | --- | --- | --- |
-| `examples/react-basic/package.json` | 01, 05 | private package; typecheck/check scripts; G6 wiring | mapped |
-| `examples/react-basic/tsconfig.json` | 01 | G6 `tsc --noEmit` scaffold | mapped |
-| `examples/react-basic/index.html` | 02 | Vite entry | mapped |
-| `examples/react-basic/vite.config.ts` | 02 | Vite + React dedupe | mapped |
-| `examples/react-basic/src/vite-env.d.ts` | 02 | Vite types | mapped |
-| `examples/react-basic/src/main.tsx` | 02 | ReactDOM.createRoot | mapped |
-| `examples/react-basic/src/App.tsx` | 03, 04 | Shell + GateLock demo UI | mapped |
-| `examples/react-basic/src/plugins.ts` | 03 | GFM preset + adapter wiring | mapped |
-| `examples/react-basic/README.md` | 06 | optional delivery note | mapped |
-| `pnpm-lock.yaml` | 01, 02 | workspace install lockfile | mapped |
-| `pnpm-workspace.yaml` | 05 | `allowBuilds.esbuild: true` fix | mapped |
-| `docs/project-status.md` | 06 | react-basic delivered | mapped |
-| `docs/community/release-process.md` | 06 | examples publish matrix | mapped |
-| `docs/architecture/ci-checklist.md` | 06 | G6 extension | mapped |
-| `docs/engineering/test-strategy.md` | 06 | M6 coverage wording | mapped |
-| `openspec/changes/add-react-basic-example/**` | workflow | OpenSpec traceability | mapped |
-| `.superpowers/plans/add-react-basic-example.md` | workflow | implementation plan | mapped |
-| `.superpowers/tasks/add-react-basic-example/**` | 01–07 | scoped task records | mapped |
-| `.superpowers/runs/add-react-basic-example/validation.md` | 07 | barrier validation record | mapped |
+| File                                                      | Task     | Requirement / Source Doc                            | Status |
+| --------------------------------------------------------- | -------- | --------------------------------------------------- | ------ |
+| `examples/react-basic/package.json`                       | 01, 05   | private package; typecheck/check scripts; G6 wiring | mapped |
+| `examples/react-basic/tsconfig.json`                      | 01       | G6 `tsc --noEmit` scaffold                          | mapped |
+| `examples/react-basic/index.html`                         | 02       | Vite entry                                          | mapped |
+| `examples/react-basic/vite.config.ts`                     | 02       | Vite + React dedupe                                 | mapped |
+| `examples/react-basic/src/vite-env.d.ts`                  | 02       | Vite types                                          | mapped |
+| `examples/react-basic/src/main.tsx`                       | 02       | ReactDOM.createRoot                                 | mapped |
+| `examples/react-basic/src/App.tsx`                        | 03, 04   | Shell + GateLock demo UI                            | mapped |
+| `examples/react-basic/src/plugins.ts`                     | 03       | GFM preset + adapter wiring                         | mapped |
+| `examples/react-basic/README.md`                          | 06       | optional delivery note                              | mapped |
+| `pnpm-lock.yaml`                                          | 01, 02   | workspace install lockfile                          | mapped |
+| `pnpm-workspace.yaml`                                     | 05       | `allowBuilds.esbuild: true` fix                     | mapped |
+| `docs/project-status.md`                                  | 06       | react-basic delivered                               | mapped |
+| `docs/community/release-process.md`                       | 06       | examples publish matrix                             | mapped |
+| `docs/architecture/ci-checklist.md`                       | 06       | G6 extension                                        | mapped |
+| `docs/engineering/test-strategy.md`                       | 06       | M6 coverage wording                                 | mapped |
+| `openspec/changes/add-react-basic-example/**`             | workflow | OpenSpec traceability                               | mapped |
+| `.superpowers/plans/add-react-basic-example.md`           | workflow | implementation plan                                 | mapped |
+| `.superpowers/tasks/add-react-basic-example/**`           | 01–07    | scoped task records                                 | mapped |
+| `.superpowers/runs/add-react-basic-example/validation.md` | 07       | barrier validation record                           | mapped |
 
 **Not modified (correct per non-goals):** `packages/**` (zero production/runtime diffs); `turbo.json` (no semantic change needed); `.github/workflows/**`; five-package `private: true`; `NPM_TOKEN` / Release workflow; Playwright / browser CI.
 
@@ -53,86 +53,86 @@
 
 ## Requirement Compliance
 
-| Requirement | Evidence | Result | Notes |
-| --- | --- | --- | --- |
-| `examples/react-basic` private Vite + React demo | `examples/react-basic/`; `private: true` in `package.json` | pass | `@aether-md/example-react-basic` |
-| `AetherEditorRoot` / `AetherEditorContent` / `useAetherEditor` | `src/App.tsx` | pass | controlled `value` + `onChange`; markdown preview via hook |
-| `createGfmPreset()` + explicit adapter wiring | `src/plugins.ts` | pass | bootstrap/remark/prosemirror stubs + preset adapters; no react test-helpers import |
-| GateLock: force parent rerender without value change | `App.tsx` force-rerender button + `renderCount` state | pass | manual dev smoke deferred; package `gate-lock.integration.test.tsx` remains CI contract truth |
-| Example **not** published to npm | `private: true`; `release-process.md` matrix row | pass | ADR 009 examples form |
-| G6: `examples/react-basic` `tsc --noEmit` in `pnpm check` | turbo `check` pipeline; validation Task 05/07 | pass | negative TS probe fails check → revert verified |
-| G6: `examples/headless-gfm` regression | validation barrier | pass | headless typecheck still green |
-| M1–M6 workspace tests remain green | validation `pnpm check` (7 packages) | pass | |
-| No five-package public API change | no `packages/**` diffs | pass | |
-| No Playwright / browser CI | validation non-goals | pass | |
-| No `vite build` in `pnpm check` | `build` = `tsc --noEmit`; `build:app` = vite build | pass | design Decision 3 honored |
-| Docs mark react-basic delivered | `project-status.md`, `ci-checklist.md`, `release-process.md`, `test-strategy.md` | pass | minor count typo — see Required Updates |
+| Requirement                                                    | Evidence                                                                         | Result | Notes                                                                                         |
+| -------------------------------------------------------------- | -------------------------------------------------------------------------------- | ------ | --------------------------------------------------------------------------------------------- |
+| `examples/react-basic` private Vite + React demo               | `examples/react-basic/`; `private: true` in `package.json`                       | pass   | `@aether-md/example-react-basic`                                                              |
+| `AetherEditorRoot` / `AetherEditorContent` / `useAetherEditor` | `src/App.tsx`                                                                    | pass   | controlled `value` + `onChange`; markdown preview via hook                                    |
+| `createGfmPreset()` + explicit adapter wiring                  | `src/plugins.ts`                                                                 | pass   | bootstrap/remark/prosemirror stubs + preset adapters; no react test-helpers import            |
+| GateLock: force parent rerender without value change           | `App.tsx` force-rerender button + `renderCount` state                            | pass   | manual dev smoke deferred; package `gate-lock.integration.test.tsx` remains CI contract truth |
+| Example **not** published to npm                               | `private: true`; `release-process.md` matrix row                                 | pass   | ADR 009 examples form                                                                         |
+| G6: `examples/react-basic` `tsc --noEmit` in `pnpm check`      | turbo `check` pipeline; validation Task 05/07                                    | pass   | negative TS probe fails check → revert verified                                               |
+| G6: `examples/headless-gfm` regression                         | validation barrier                                                               | pass   | headless typecheck still green                                                                |
+| M1–M6 workspace tests remain green                             | validation `pnpm check` (7 packages)                                             | pass   |                                                                                               |
+| No five-package public API change                              | no `packages/**` diffs                                                           | pass   |                                                                                               |
+| No Playwright / browser CI                                     | validation non-goals                                                             | pass   |                                                                                               |
+| No `vite build` in `pnpm check`                                | `build` = `tsc --noEmit`; `build:app` = vite build                               | pass   | design Decision 3 honored                                                                     |
+| Docs mark react-basic delivered                                | `project-status.md`, `ci-checklist.md`, `release-process.md`, `test-strategy.md` | pass   | minor count typo — see Required Updates                                                       |
 
 ## Focus Checks (User Requested)
 
 ### ADR 009 examples 形态（private、不 npm 发布）
 
-| Check | Result | Evidence |
-| --- | --- | --- |
-| `private: true` on example package | **pass** | `examples/react-basic/package.json` |
-| Excluded from npm publish matrix | **pass** | `docs/community/release-process.md` table row |
-| No Changeset / publish wiring | **pass** | validation non-goals; no `.changeset` entry |
+| Check                                     | Result   | Evidence                                                                  |
+| ----------------------------------------- | -------- | ------------------------------------------------------------------------- |
+| `private: true` on example package        | **pass** | `examples/react-basic/package.json`                                       |
+| Excluded from npm publish matrix          | **pass** | `docs/community/release-process.md` table row                             |
+| No Changeset / publish wiring             | **pass** | validation non-goals; no `.changeset` entry                               |
 | Vite/React devDeps scoped to example only | **pass** | `pnpm-lock.yaml` importer `examples/react-basic`; five packages unchanged |
 
 ### React Shell 边界：无 `prosemirror-view` 直接依赖
 
-| Check | Result | Evidence |
-| --- | --- | --- |
-| No direct `prosemirror-view` import in example | **pass** | `rg prosemirror-view examples/react-basic` — no matches |
-| No `@aether-md/react` test-only imports | **pass** | `rg test-helpers examples/react-basic` — no matches |
-| Plugin wiring via workspace packages only | **pass** | `plugins.ts` uses `@aether-md/core`, `@aether-md/preset-gfm` types/adapters |
-| No `packages/**` runtime changes | **pass** | zero package production diffs |
+| Check                                          | Result   | Evidence                                                                    |
+| ---------------------------------------------- | -------- | --------------------------------------------------------------------------- |
+| No direct `prosemirror-view` import in example | **pass** | `rg prosemirror-view examples/react-basic` — no matches                     |
+| No `@aether-md/react` test-only imports        | **pass** | `rg test-helpers examples/react-basic` — no matches                         |
+| Plugin wiring via workspace packages only      | **pass** | `plugins.ts` uses `@aether-md/core`, `@aether-md/preset-gfm` types/adapters |
+| No `packages/**` runtime changes               | **pass** | zero package production diffs                                               |
 
 ### G6 typecheck 纳入 check pipeline
 
-| Check | Result | Evidence |
-| --- | --- | --- |
-| `typecheck` script (`tsc --noEmit`) | **pass** | `examples/react-basic/package.json` |
-| `check` script delegates to typecheck | **pass** | `"check": "pnpm typecheck"` |
-| Turbo `check` schedules example | **pass** | validation Task 05 turbo output; barrier `pnpm check` PASS |
-| Intentional TS error fails pipeline | **pass** | Task 05 negative probe recorded |
-| `vite build` **not** in check path | **pass** | turbo `build` uses `tsc --noEmit` |
+| Check                                 | Result   | Evidence                                                   |
+| ------------------------------------- | -------- | ---------------------------------------------------------- |
+| `typecheck` script (`tsc --noEmit`)   | **pass** | `examples/react-basic/package.json`                        |
+| `check` script delegates to typecheck | **pass** | `"check": "pnpm typecheck"`                                |
+| Turbo `check` schedules example       | **pass** | validation Task 05 turbo output; barrier `pnpm check` PASS |
+| Intentional TS error fails pipeline   | **pass** | Task 05 negative probe recorded                            |
+| `vite build` **not** in check path    | **pass** | turbo `build` uses `tsc --noEmit`                          |
 
 ### 实现与 delta spec 一致性
 
-| Delta requirement | Implementation alignment | Result |
-| --- | --- | --- |
-| ADDED: React basic example package | Full scaffold + UI + wiring delivered | pass |
-| MODIFIED: Examples typecheck (both examples) | G6 extended to react-basic; headless retained | pass |
-| MODIFIED: M6 gates in check pipeline (react-basic fail path) | negative probe verified | pass |
-| design Decision 3: CI only typecheck | `build` ≠ vite build in check | pass |
-| design Decision 4: GateLock force-rerender UI | `App.tsx` button + narrative | pass |
-| design Decision 2: no react test module dependency | local `plugins.ts` only | pass |
+| Delta requirement                                            | Implementation alignment                      | Result |
+| ------------------------------------------------------------ | --------------------------------------------- | ------ |
+| ADDED: React basic example package                           | Full scaffold + UI + wiring delivered         | pass   |
+| MODIFIED: Examples typecheck (both examples)                 | G6 extended to react-basic; headless retained | pass   |
+| MODIFIED: M6 gates in check pipeline (react-basic fail path) | negative probe verified                       | pass   |
+| design Decision 3: CI only typecheck                         | `build` ≠ vite build in check                 | pass   |
+| design Decision 4: GateLock force-rerender UI                | `App.tsx` button + narrative                  | pass   |
+| design Decision 2: no react test module dependency           | local `plugins.ts` only                       | pass   |
 
 ### Unrecorded deviation 审查
 
-| Item | Recorded? | Assessment |
-| --- | --- | --- |
-| `pnpm-workspace.yaml` `allowBuilds.esbuild: true` | yes — Task 05 Deviation + validation.md | accepted |
-| `build` script = `tsc --noEmit`; `build:app` for Vite | yes — Task 05 Deviation + design Decision 3 | accepted |
-| Manual `pnpm dev` GateLock smoke deferred | yes — validation.md Intuitive Verification | accepted |
-| `ci-checklist.md` still says「6 个 workspace package」| **no** — should be **7** after react-basic | **minor doc drift** — fix in `update-docs-spec`; not implementation blocker |
-| `openspec/.../tasks.md` checkboxes unchecked | **no** — OpenSpec task tracking drift | hygiene item for archive/update-docs-spec |
-| `docs/adr/009-release-governance.md` §4 still「M6 末或 M7 初」| **no** — ADR not yet synced | expected pre-archive; listed in validation Archive Sync Checklist |
-| `AGENTS.md` omits `examples/react-basic` | **no** | optional maintainer doc; out of Task 06 allowed files |
+| Item                                                           | Recorded?                                   | Assessment                                                                  |
+| -------------------------------------------------------------- | ------------------------------------------- | --------------------------------------------------------------------------- |
+| `pnpm-workspace.yaml` `allowBuilds.esbuild: true`              | yes — Task 05 Deviation + validation.md     | accepted                                                                    |
+| `build` script = `tsc --noEmit`; `build:app` for Vite          | yes — Task 05 Deviation + design Decision 3 | accepted                                                                    |
+| Manual `pnpm dev` GateLock smoke deferred                      | yes — validation.md Intuitive Verification  | accepted                                                                    |
+| `ci-checklist.md` still says「6 个 workspace package」         | **no** — should be **7** after react-basic  | **minor doc drift** — fix in `update-docs-spec`; not implementation blocker |
+| `openspec/.../tasks.md` checkboxes unchecked                   | **no** — OpenSpec task tracking drift       | hygiene item for archive/update-docs-spec                                   |
+| `docs/adr/009-release-governance.md` §4 still「M6 末或 M7 初」 | **no** — ADR not yet synced                 | expected pre-archive; listed in validation Archive Sync Checklist           |
+| `AGENTS.md` omits `examples/react-basic`                       | **no**                                      | optional maintainer doc; out of Task 06 allowed files                       |
 
 **No unrecorded implementation deviations** affecting architecture boundaries or spec requirements.
 
 ## ADR 009 §4 Demo 形态 Coverage
 
-| ADR 009 deliverable | Status | Evidence |
-| --- | --- | --- |
-| `examples/react-basic` minimal Vite + React | ✅ | `examples/react-basic/` |
-| Demonstrates `@aether-md/react` + GateLock | ✅ | `App.tsx` controlled props + force rerender |
-| Examples **not** npm published | ✅ | `private: true`; release-process matrix |
-| G6 `examples/*` typecheck | ✅ | headless + react-basic in `pnpm check` |
-| **Excluded:** Playwright, examples matrix, Vue | ✅ | validation non-goals |
-| ADR body text「M6 末或 M7 初」| ⏳ | sync in `update-docs-spec` (validation Archive Sync Checklist) |
+| ADR 009 deliverable                            | Status | Evidence                                                       |
+| ---------------------------------------------- | ------ | -------------------------------------------------------------- |
+| `examples/react-basic` minimal Vite + React    | ✅     | `examples/react-basic/`                                        |
+| Demonstrates `@aether-md/react` + GateLock     | ✅     | `App.tsx` controlled props + force rerender                    |
+| Examples **not** npm published                 | ✅     | `private: true`; release-process matrix                        |
+| G6 `examples/*` typecheck                      | ✅     | headless + react-basic in `pnpm check`                         |
+| **Excluded:** Playwright, examples matrix, Vue | ✅     | validation non-goals                                           |
+| ADR body text「M6 末或 M7 初」                 | ⏳     | sync in `update-docs-spec` (validation Archive Sync Checklist) |
 
 ## Boundary Review
 
@@ -153,14 +153,14 @@
 
 ## Version Review
 
-| Area | Change | Spec coverage | Result |
-| --- | --- | --- | --- |
-| Five linked packages semver | unchanged `0.0.0` private | proposal Version Impact | pass |
-| `manifestVersion` / `SUPPORTED_MANIFEST_VERSIONS` | unchanged `[1]` | validation non-goals | pass |
-| New example package | `@aether-md/example-react-basic` private | validation-suite ADDED | pass |
-| Public exports / SDK docs | none | non-goals | pass |
-| Lockfile | Vite/React devDeps for example | expected | pass |
-| npm publish / Changesets | none | non-goals | pass |
+| Area                                              | Change                                   | Spec coverage           | Result |
+| ------------------------------------------------- | ---------------------------------------- | ----------------------- | ------ |
+| Five linked packages semver                       | unchanged `0.0.0` private                | proposal Version Impact | pass   |
+| `manifestVersion` / `SUPPORTED_MANIFEST_VERSIONS` | unchanged `[1]`                          | validation non-goals    | pass   |
+| New example package                               | `@aether-md/example-react-basic` private | validation-suite ADDED  | pass   |
+| Public exports / SDK docs                         | none                                     | non-goals               | pass   |
+| Lockfile                                          | Vite/React devDeps for example           | expected                | pass   |
+| npm publish / Changesets                          | none                                     | non-goals               | pass   |
 
 ## Code-Management Review
 

@@ -1,4 +1,4 @@
-import type { AetherBlock, ParagraphBlock } from "@aether-md/core";
+import type { ParagraphBlock } from "@aether-md/core";
 import { serializeParagraphInlines } from "@aether-md/plugin-remark";
 
 import { appendInlineToDom } from "./dom-inlines.js";
@@ -40,8 +40,6 @@ export function paragraphSourceFromBlock(block: ParagraphBlock): string {
   return paragraphMorphingStrategy.serializeSource(block);
 }
 
-export function renderParagraphFromBlock(block: ParagraphBlock): void {
-  throw new Error(
-    "renderParagraphFromBlock is DOM-only; use interactiveRenderer.mount in Shell",
-  );
+export function renderParagraphFromBlock(_block: ParagraphBlock): void {
+  throw new Error("renderParagraphFromBlock is DOM-only; use interactiveRenderer.mount in Shell");
 }

@@ -1,11 +1,11 @@
 # ADR 009: 发布与治理策略（M6 预备 / M7 首次发布）
 
-| Field | Value |
-| --- | --- |
-| **Status** | Accepted |
-| **Date** | 2026-07-05 |
-| **Supersedes** | — |
-| **Related** | [ADR 008](008-repo-toolchain-baseline.md)（工具底座；publish 推迟至本 ADR 定义的 M7） |
+| Field          | Value                                                                                 |
+| -------------- | ------------------------------------------------------------------------------------- |
+| **Status**     | Accepted                                                                              |
+| **Date**       | 2026-07-05                                                                            |
+| **Supersedes** | —                                                                                     |
+| **Related**    | [ADR 008](008-repo-toolchain-baseline.md)（工具底座；publish 推迟至本 ADR 定义的 M7） |
 
 **Context**
 
@@ -21,10 +21,10 @@ M5 React Shell 已落地，项目即将进入 M6 验证套件。`docs/project-st
 
 **术语**
 
-| 术语 | 含义 |
-| --- | --- |
+| 术语   | 含义                                                                                                      |
+| ------ | --------------------------------------------------------------------------------------------------------- |
 | **M6** | 验证套件：契约测试、示例插件、关键路径 CI（见 [MVP 实施计划](../engineering/mvp-implementation-plan.md)） |
-| **M7** | 首次公开发布与生态：npm 发布、canary 通道、`examples/`、许可证文件落地、Release workflow |
+| **M7** | 首次公开发布与生态：npm 发布、canary 通道、`examples/`、许可证文件落地、Release workflow                  |
 
 **Decision**
 
@@ -55,9 +55,9 @@ M5 React Shell 已落地，项目即将进入 M6 验证套件。`docs/project-st
 
 **Trade-offs**
 
-* *优点*：M6 聚焦契约验证不被 publish 分心；延续 Changesets 与 ADR 008 工具链；避免过早拆 SDK 包；headless + react-basic 覆盖主要集成路径且 CI 成本低；MIT 降低插件生态采用摩擦。
-* *代价*：插件作者须安装 `@aether-md/core` 获取类型；canary 前外部无法 npm 安装；LICENSE 与 examples 仍待 M6 工程落地；路线图与 npm tag 语义需额外沟通。
-* *放弃的方案*：M5 后立即 canary publish；v1.0 前独立 `@aether-md/sdk`；仅 Playground 无 headless 示例；Apache-2.0（专利条款更强但维护成本更高）；M6 同步启用 Release workflow。
+- _优点_：M6 聚焦契约验证不被 publish 分心；延续 Changesets 与 ADR 008 工具链；避免过早拆 SDK 包；headless + react-basic 覆盖主要集成路径且 CI 成本低；MIT 降低插件生态采用摩擦。
+- _代价_：插件作者须安装 `@aether-md/core` 获取类型；canary 前外部无法 npm 安装；LICENSE 与 examples 仍待 M6 工程落地；路线图与 npm tag 语义需额外沟通。
+- _放弃的方案_：M5 后立即 canary publish；v1.0 前独立 `@aether-md/sdk`；仅 Playground 无 headless 示例；Apache-2.0（专利条款更强但维护成本更高）；M6 同步启用 Release workflow。
 
 **Consequences**
 
@@ -76,29 +76,29 @@ M5 React Shell 已落地，项目即将进入 M6 验证套件。`docs/project-st
 
 **必须在 v1.0 / 首次 `latest` 前完成的门禁**
 
-| # | 门禁 | 阶段 |
-| --- | --- | --- |
-| G1 | `LICENSE` 与 package `license` 字段 | M6→M7 |
-| G2 | 去除 `private: true`；`exports` + `types` 可消费 | M7 |
-| G3 | Changesets `linked`/`fixed`；public API 变更有 changeset | M6 预备 / M7 |
-| G4 | CI：`pnpm check` + `pnpm build` 绿 | ✅ 已启用 |
-| G5 | 契约测试关键路径 | M6 |
-| G6 | `examples/*` 或 SDK examples 可 `tsc --noEmit` | M6 |
-| G7 | 包导出边界测试 | ✅ 持续 |
-| G8 | Consumer smoke（`pnpm pack`） | M7 |
-| G9 | README + docs 安装说明与 public API 一致 | M7 |
-| G10 | Release workflow 仅 CI 可 publish | M7 |
-| G11 | `SUPPORTED_MANIFEST_VERSIONS` 与 SDK 文档一致 | M6 |
-| G12 | 路线图 v1.0 差距在文档中显式标注 | M6 审查 |
+| #   | 门禁                                                     | 阶段         |
+| --- | -------------------------------------------------------- | ------------ |
+| G1  | `LICENSE` 与 package `license` 字段                      | M6→M7        |
+| G2  | 去除 `private: true`；`exports` + `types` 可消费         | M7           |
+| G3  | Changesets `linked`/`fixed`；public API 变更有 changeset | M6 预备 / M7 |
+| G4  | CI：`pnpm check` + `pnpm build` 绿                       | ✅ 已启用    |
+| G5  | 契约测试关键路径                                         | M6           |
+| G6  | `examples/*` 或 SDK examples 可 `tsc --noEmit`           | M6           |
+| G7  | 包导出边界测试                                           | ✅ 持续      |
+| G8  | Consumer smoke（`pnpm pack`）                            | M7           |
+| G9  | README + docs 安装说明与 public API 一致                 | M7           |
+| G10 | Release workflow 仅 CI 可 publish                        | M7           |
+| G11 | `SUPPORTED_MANIFEST_VERSIONS` 与 SDK 文档一致            | M6           |
+| G12 | 路线图 v1.0 差距在文档中显式标注                         | M6 审查      |
 
 **开放问题（M7 预备阶段维护者确认）**
 
-| ID | 问题 | 选项 | 状态 |
-| --- | --- | --- | --- |
-| O1 | 首次 npm 版本号 | `0.x` 预稳定 vs `1.0.0` + 能力子集说明 | **延后**（L1 + L2 Slice A demo sign-off 后再议） |
-| O2 | Canary dist-tag | `canary` vs `next` | **延后**（与 O1 同批） |
-| O3 | Changelog | 延续 `changelog: false` vs `@changesets/changelog-github` | **已闭合**（M7 前 `changelog: false`；首次 `latest` 前再定工具） |
-| O4 | MIT 复核 | 若有专利顾虑，单独 ADR 改评 Apache-2.0 | **已闭合**（维持 MIT） |
+| ID  | 问题            | 选项                                                      | 状态                                                             |
+| --- | --------------- | --------------------------------------------------------- | ---------------------------------------------------------------- |
+| O1  | 首次 npm 版本号 | `0.x` 预稳定 vs `1.0.0` + 能力子集说明                    | **延后**（L1 + L2 Slice A demo sign-off 后再议）                 |
+| O2  | Canary dist-tag | `canary` vs `next`                                        | **延后**（与 O1 同批）                                           |
+| O3  | Changelog       | 延续 `changelog: false` vs `@changesets/changelog-github` | **已闭合**（M7 前 `changelog: false`；首次 `latest` 前再定工具） |
+| O4  | MIT 复核        | 若有专利顾虑，单独 ADR 改评 Apache-2.0                    | **已闭合**（维持 MIT）                                           |
 
 决议详情见 [发布流程 — 开放问题决议](../community/release-process.md#开放问题决议adr-009-o1o4)。
 

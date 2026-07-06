@@ -27,53 +27,53 @@
 
 ## Specs Updated
 
-| Main spec | Action |
-| --- | --- |
-| `openspec/specs/document-model/spec.md` | Created (3 requirements) |
-| `openspec/specs/adapter-base/spec.md` | Created (8 requirements) |
+| Main spec                               | Action                                   |
+| --------------------------------------- | ---------------------------------------- |
+| `openspec/specs/document-model/spec.md` | Created (3 requirements)                 |
+| `openspec/specs/adapter-base/spec.md`   | Created (8 requirements)                 |
 | `openspec/specs/core-bootstrap/spec.md` | Modified (M3 package boundary scenarios) |
 
 Synced during Step 8 (`aether-workflow-update-docs-spec`); archive uses `--skip-specs` (already synced).
 
 ## Tasks Completed
 
-| Task | Status | Validation | Deviation |
-| --- | --- | --- | --- |
-| 01 define-aetherdoc-types-and-shape-tests | complete | core 49 tests (incl. 3 new shape) | none |
-| 02 define-adapter-protocol-exports-and-boundary-tests | complete | adapter-types + boundary tests | none |
-| 03 scaffold-plugin-remark-and-minimal-parser | complete | plugin-remark 4 parser tests | unknown syntax → paragraph via mdast JSON |
-| 04 implement-plugin-remark-minimal-serializer | complete | plugin-remark 7 total tests | SerializationError not thrown on serializer failure yet |
-| 05 scaffold-plugin-prosemirror-and-engine-adapter | complete | 5 engine contract tests | session state in adapter-private Map |
-| 06 add-cross-package-round-trip-integration-tests | complete | 3 integration tests | import guard checks import lines only |
-| 07 reinforce-package-boundary-and-rg-guards | complete | M1 capability + deps guards | overlapped Task 02 boundary |
-| 08 run-full-verification-and-non-goals-guard | complete | `pnpm check` 64/64; openspec validate | validation-only |
+| Task                                                  | Status   | Validation                            | Deviation                                               |
+| ----------------------------------------------------- | -------- | ------------------------------------- | ------------------------------------------------------- |
+| 01 define-aetherdoc-types-and-shape-tests             | complete | core 49 tests (incl. 3 new shape)     | none                                                    |
+| 02 define-adapter-protocol-exports-and-boundary-tests | complete | adapter-types + boundary tests        | none                                                    |
+| 03 scaffold-plugin-remark-and-minimal-parser          | complete | plugin-remark 4 parser tests          | unknown syntax → paragraph via mdast JSON               |
+| 04 implement-plugin-remark-minimal-serializer         | complete | plugin-remark 7 total tests           | SerializationError not thrown on serializer failure yet |
+| 05 scaffold-plugin-prosemirror-and-engine-adapter     | complete | 5 engine contract tests               | session state in adapter-private Map                    |
+| 06 add-cross-package-round-trip-integration-tests     | complete | 3 integration tests                   | import guard checks import lines only                   |
+| 07 reinforce-package-boundary-and-rg-guards           | complete | M1 capability + deps guards           | overlapped Task 02 boundary                             |
+| 08 run-full-verification-and-non-goals-guard          | complete | `pnpm check` 64/64; openspec validate | validation-only                                         |
 
 **Note:** OpenSpec `tasks.md` checkboxes remain `[ ]` in the change artifact; Superpowers task files record `complete` and implementation evidence in validation/review.
 
 ## Files Changed
 
-| Area | Files | Task |
-| --- | --- | --- |
-| Core document-model | `packages/core/src/document-model.ts`, `document-model.test.ts`, `index.ts` | 01 |
-| Core adapter protocol | `packages/core/src/adapter-types.ts`, `adapter-types.test.ts`, `errors.ts`, `index.ts` | 02 |
-| Core boundary | `packages/core/src/package-boundary.test.ts` | 02, 07 |
-| plugin-remark | `packages/plugins/plugin-remark/**` | 03, 04 |
-| plugin-prosemirror | `packages/plugins/plugin-prosemirror/**` | 05, 06 |
-| Lockfile | `pnpm-lock.yaml` | 03–06 |
-| Main specs | `openspec/specs/document-model/`, `adapter-base/`, `core-bootstrap/spec.md` | Step 8 |
-| Long-lived docs | `docs/project-status.md`, `mvp-implementation-plan.md`, `core-api.md`, `document-model.md`, `adapter-protocol.md`, `error-model.md`, `test-strategy.md`, `package-layout.md`, `compatibility.md`, `glossary.md` | Step 8 |
-| Superpowers | `.superpowers/plans/`, `tasks/`, `runs/`, `reviews/` | workflow |
+| Area                  | Files                                                                                                                                                                                                           | Task     |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| Core document-model   | `packages/core/src/document-model.ts`, `document-model.test.ts`, `index.ts`                                                                                                                                     | 01       |
+| Core adapter protocol | `packages/core/src/adapter-types.ts`, `adapter-types.test.ts`, `errors.ts`, `index.ts`                                                                                                                          | 02       |
+| Core boundary         | `packages/core/src/package-boundary.test.ts`                                                                                                                                                                    | 02, 07   |
+| plugin-remark         | `packages/plugins/plugin-remark/**`                                                                                                                                                                             | 03, 04   |
+| plugin-prosemirror    | `packages/plugins/plugin-prosemirror/**`                                                                                                                                                                        | 05, 06   |
+| Lockfile              | `pnpm-lock.yaml`                                                                                                                                                                                                | 03–06    |
+| Main specs            | `openspec/specs/document-model/`, `adapter-base/`, `core-bootstrap/spec.md`                                                                                                                                     | Step 8   |
+| Long-lived docs       | `docs/project-status.md`, `mvp-implementation-plan.md`, `core-api.md`, `document-model.md`, `adapter-protocol.md`, `error-model.md`, `test-strategy.md`, `package-layout.md`, `compatibility.md`, `glossary.md` | Step 8   |
+| Superpowers           | `.superpowers/plans/`, `tasks/`, `runs/`, `reviews/`                                                                                                                                                            | workflow |
 
 **Uncommitted:** all changes remain on `feat/add-adapter-base` (no commit per user instruction).
 
 ## Validation Results
 
-| Command | Result | Notes |
-| --- | --- | --- |
-| Final `pnpm check` (archive) | **PASS** | 64 tests, turbo 9/9 cached |
-| `openspec validate add-adapter-base --strict` | **PASS** | pre-archive |
-| Compliance review | **PASS** | no blockers |
-| Non-goals guard | **PASS** | see validation.md §8 |
+| Command                                       | Result   | Notes                      |
+| --------------------------------------------- | -------- | -------------------------- |
+| Final `pnpm check` (archive)                  | **PASS** | 64 tests, turbo 9/9 cached |
+| `openspec validate add-adapter-base --strict` | **PASS** | pre-archive                |
+| Compliance review                             | **PASS** | no blockers                |
+| Non-goals guard                               | **PASS** | see validation.md §8       |
 
 ## Deviations (accepted)
 
@@ -91,13 +91,13 @@ Synced during Step 8 (`aether-workflow-update-docs-spec`); archive uses `--skip-
 
 ## Remaining Follow-ups
 
-| Follow-up change | Scope |
-| --- | --- |
-| `add-editor-bootstrap` | `bootstrapCore` + Adapter plugin loading + `core:engine` / `core:parser` provides |
-| `add-command-adapter-integration` | Command Bus ↔ EngineAdapter + `transactionFailed` |
-| `add-gfm-preset` | M4 GFM syntax round-trip |
-| M1 follow-up | duplicate plugin name, partial startup cleanup, dispose public contract |
-| Branch integration | commit + PR on `feat/add-adapter-base` (deferred per user) |
+| Follow-up change                  | Scope                                                                             |
+| --------------------------------- | --------------------------------------------------------------------------------- |
+| `add-editor-bootstrap`            | `bootstrapCore` + Adapter plugin loading + `core:engine` / `core:parser` provides |
+| `add-command-adapter-integration` | Command Bus ↔ EngineAdapter + `transactionFailed`                                 |
+| `add-gfm-preset`                  | M4 GFM syntax round-trip                                                          |
+| M1 follow-up                      | duplicate plugin name, partial startup cleanup, dispose public contract           |
+| Branch integration                | commit + PR on `feat/add-adapter-base` (deferred per user)                        |
 
 ## Archive Readiness Checklist
 

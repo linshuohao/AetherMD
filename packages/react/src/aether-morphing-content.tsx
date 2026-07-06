@@ -11,9 +11,7 @@ export interface AetherMorphingContentProps {
   blockIndex?: number;
 }
 
-export function AetherMorphingContent({
-  blockIndex = 0,
-}: AetherMorphingContentProps) {
+export function AetherMorphingContent({ blockIndex = 0 }: AetherMorphingContentProps) {
   const { ready, doc } = useAetherEditor();
   const [focused, setFocused] = useState(false);
 

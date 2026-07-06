@@ -3,8 +3,7 @@ import { CoreError } from "./errors.js";
 
 export const SUPPORTED_MANIFEST_VERSIONS = [1] as const;
 
-export type SupportedManifestVersion =
-  (typeof SUPPORTED_MANIFEST_VERSIONS)[number];
+export type SupportedManifestVersion = (typeof SUPPORTED_MANIFEST_VERSIONS)[number];
 
 export interface ManifestMetadata {
   manifestVersion: SupportedManifestVersion;
@@ -43,9 +42,7 @@ export interface LoadedPlugin {
   manifest: ExtensionManifest;
 }
 
-export function loadPluginManifests(
-  plugins: readonly unknown[],
-): LoadedPlugin[] {
+export function loadPluginManifests(plugins: readonly unknown[]): LoadedPlugin[] {
   return plugins.map((plugin, index) => {
     const manifest = readManifest(plugin, index);
     validateSupportedManifestVersion(manifest.metadata.manifestVersion, {
@@ -59,9 +56,7 @@ export function loadPluginManifests(
   });
 }
 
-export function validateUniquePluginNames(
-  loadedPlugins: readonly LoadedPlugin[],
-): void {
+export function validateUniquePluginNames(loadedPlugins: readonly LoadedPlugin[]): void {
   const seen = new Map<PluginName, number>();
 
   for (const loadedPlugin of loadedPlugins) {
@@ -140,10 +135,7 @@ function readManifest(plugin: unknown, index: number): ExtensionManifest {
     throw invalidManifest("manifest.security must be an object", index);
   }
 
-  if (
-    isRecord(manifest.security) &&
-    !isOptionalStringArray(manifest.security.requests)
-  ) {
+  if (isRecord(manifest.security) && !isOptionalStringArray(manifest.security.requests)) {
     throw invalidManifest("manifest.security.requests must be a string array", index);
   }
 

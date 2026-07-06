@@ -20,11 +20,7 @@ function paragraphDoc(text: string): AetherDoc {
   };
 }
 
-function headingParagraphDoc(
-  level: 1 | 2 | 3 | 4 | 5 | 6,
-  title: string,
-  body: string,
-): AetherDoc {
+function headingParagraphDoc(level: 1 | 2 | 3 | 4 | 5 | 6, title: string, body: string): AetherDoc {
   return {
     type: "doc",
     children: [
@@ -118,10 +114,7 @@ describe("Remark SerializerAdapter", () => {
   });
 
   it("serializes heading and paragraph AetherDoc to deterministic Markdown", async () => {
-    const markdown = await serializer.serialize(
-      headingParagraphDoc(2, "Title", "Body"),
-      schema,
-    );
+    const markdown = await serializer.serialize(headingParagraphDoc(2, "Title", "Body"), schema);
     assert.equal(markdown, "## Title\n\nBody\n");
   });
 
@@ -319,10 +312,7 @@ describe("Remark SerializerAdapter error and placeholder strategy", () => {
       "**bold**\n\n*italic*\n\n- item\n\n1. first\n2. second\n\n[label](https://example.com)\n",
     );
 
-    const m3Markdown = await serializer.serialize(
-      headingParagraphDoc(2, "Title", "Body"),
-      schema,
-    );
+    const m3Markdown = await serializer.serialize(headingParagraphDoc(2, "Title", "Body"), schema);
     assert.equal(m3Markdown, "## Title\n\nBody\n");
   });
 });

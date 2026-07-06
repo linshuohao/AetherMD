@@ -12,59 +12,59 @@
 
 ## User Checklist
 
-| Check | Result | Evidence |
-| --- | --- | --- |
-| 无 Playwright / CI gate 变更 | **pass** | No Playwright references in diff; no `.github/`, `turbo.json`, or workflow YAML changes |
-| 无新 CommandId | **pass** | Only existing `core:replaceText` in `aether-editor-content.tsx`; no `command-event-types` edits |
-| dispatch 路径测试仍绿 | **pass** | `demo-slice-pr0-acceptance` (3/3) + GateLock (2/2) green in validation run |
-| insertText 路径覆盖 paragraph / heading / list item | **pass** | `demo-slice-typing-sync.integration.test.tsx` — 4 cases including all three surfaces + mark regression |
-| 无 workflow / AGENTS / skills 改动 | **pass** | No changes under `.skills/`, `AGENTS.md`, or `AI_NATIVE_ENGINEERING_WORKFLOW.md` |
-| adapter-types 扩展向后兼容 | **N/A (not used)** | `packages/core/**` untouched; list sync uses documented adapter-layer encoding (see Deviations) |
+| Check                                               | Result             | Evidence                                                                                               |
+| --------------------------------------------------- | ------------------ | ------------------------------------------------------------------------------------------------------ |
+| 无 Playwright / CI gate 变更                        | **pass**           | No Playwright references in diff; no `.github/`, `turbo.json`, or workflow YAML changes                |
+| 无新 CommandId                                      | **pass**           | Only existing `core:replaceText` in `aether-editor-content.tsx`; no `command-event-types` edits        |
+| dispatch 路径测试仍绿                               | **pass**           | `demo-slice-pr0-acceptance` (3/3) + GateLock (2/2) green in validation run                             |
+| insertText 路径覆盖 paragraph / heading / list item | **pass**           | `demo-slice-typing-sync.integration.test.tsx` — 4 cases including all three surfaces + mark regression |
+| 无 workflow / AGENTS / skills 改动                  | **pass**           | No changes under `.skills/`, `AGENTS.md`, or `AI_NATIVE_ENGINEERING_WORKFLOW.md`                       |
+| adapter-types 扩展向后兼容                          | **N/A (not used)** | `packages/core/**` untouched; list sync uses documented adapter-layer encoding (see Deviations)        |
 
 ## Artifact Coverage
 
-| Artifact | Present | Notes |
-| --- | --- | --- |
-| change-brief.md | yes | Frozen boundary + Non-Goals aligned with implementation |
-| Delta specs | yes | `specs/validation-suite/spec.md` |
-| Single task | yes | `01-implement-pm-typing-sync.md` only |
-| Validation | yes | `validation.md` — all required commands pass |
-| Plan | absent | Correct for Spec Change |
-| Task loop | absent | Correct for Spec Change |
+| Artifact        | Present | Notes                                                   |
+| --------------- | ------- | ------------------------------------------------------- |
+| change-brief.md | yes     | Frozen boundary + Non-Goals aligned with implementation |
+| Delta specs     | yes     | `specs/validation-suite/spec.md`                        |
+| Single task     | yes     | `01-implement-pm-typing-sync.md` only                   |
+| Validation      | yes     | `validation.md` — all required commands pass            |
+| Plan            | absent  | Correct for Spec Change                                 |
+| Task loop       | absent  | Correct for Spec Change                                 |
 
 ## Changed-file Mapping
 
-| File | Task | Requirement / Source | Status |
-| --- | --- | --- | --- |
-| `packages/react/src/demo-slice-typing-sync.integration.test.tsx` | 01 | Frozen boundary CI — insertText path | allowed |
-| `packages/react/src/aether-editor-content.tsx` | 01 | Dual-field payload for list sync | allowed |
-| `packages/plugins/plugin-prosemirror/src/view-bridge.ts` | 01 | view-bridge list_item resolution | allowed |
-| `packages/plugins/plugin-prosemirror/src/view-bridge.test.ts` | 01 | Unit coverage list dispatch | allowed |
-| `packages/plugins/plugin-prosemirror/src/engine.ts` | 01 | engine list-item replace | allowed |
-| `packages/plugins/plugin-prosemirror/src/engine.test.ts` | 01 | Unit coverage list apply | allowed |
-| `packages/plugins/plugin-prosemirror/src/index.ts` | 01 | Export test helpers | allowed |
-| `openspec/specs/validation-suite/spec.md` | 01 | Delta sync (task step 7) | allowed |
-| `openspec/changes/archive/.../baseline-record.md` | 01 | Typing scenario status (task step 8) | allowed |
-| `docs/engineering/demo-slice-delivery-program.md` | 01 | Progress log (task step 8) | allowed |
-| `examples/react-basic/README.md` | 01 | Browser sign-off checklist (task step 9) | allowed |
-| `.superpowers/tasks/.../01-implement-pm-typing-sync.md` | 01 | Execution record | allowed |
-| `.superpowers/runs/demo-slice-typing-sync/validation.md` | validate | Validation record | allowed |
+| File                                                             | Task     | Requirement / Source                     | Status  |
+| ---------------------------------------------------------------- | -------- | ---------------------------------------- | ------- |
+| `packages/react/src/demo-slice-typing-sync.integration.test.tsx` | 01       | Frozen boundary CI — insertText path     | allowed |
+| `packages/react/src/aether-editor-content.tsx`                   | 01       | Dual-field payload for list sync         | allowed |
+| `packages/plugins/plugin-prosemirror/src/view-bridge.ts`         | 01       | view-bridge list_item resolution         | allowed |
+| `packages/plugins/plugin-prosemirror/src/view-bridge.test.ts`    | 01       | Unit coverage list dispatch              | allowed |
+| `packages/plugins/plugin-prosemirror/src/engine.ts`              | 01       | engine list-item replace                 | allowed |
+| `packages/plugins/plugin-prosemirror/src/engine.test.ts`         | 01       | Unit coverage list apply                 | allowed |
+| `packages/plugins/plugin-prosemirror/src/index.ts`               | 01       | Export test helpers                      | allowed |
+| `openspec/specs/validation-suite/spec.md`                        | 01       | Delta sync (task step 7)                 | allowed |
+| `openspec/changes/archive/.../baseline-record.md`                | 01       | Typing scenario status (task step 8)     | allowed |
+| `docs/engineering/demo-slice-delivery-program.md`                | 01       | Progress log (task step 8)               | allowed |
+| `examples/react-basic/README.md`                                 | 01       | Browser sign-off checklist (task step 9) | allowed |
+| `.superpowers/tasks/.../01-implement-pm-typing-sync.md`          | 01       | Execution record                         | allowed |
+| `.superpowers/runs/demo-slice-typing-sync/validation.md`         | validate | Validation record                        | allowed |
 
 **Forbidden-file violations:** none
 
 ## Requirement Compliance
 
-| Requirement (delta / frozen boundary) | Evidence | Result |
-| --- | --- | --- |
-| ProseMirror user input → preview sync (paragraph) | Integration test consecutive `insertText` | **pass** |
-| Heading block edit | Integration test `Demo Title!` | **pass** |
-| List item paragraph edit | Integration test `item one updated` | **pass** |
-| strong / link mark stability | Integration test structural assertions | **pass** (see deviation) |
-| Dispatch path preserved | PR0 acceptance + GateLock green | **pass** |
-| `validation-suite` main spec synced | `openspec/specs/validation-suite/spec.md` updated | **pass** |
-| baseline-record typing gaps closed (CI) | Scenario rows updated; browser sign-off honest | **pass** |
-| Browser sign-off documented | `examples/react-basic/README.md` | **pass** |
-| No Core / CommandId / workflow semantics change | Diff scope | **pass** |
+| Requirement (delta / frozen boundary)             | Evidence                                          | Result                   |
+| ------------------------------------------------- | ------------------------------------------------- | ------------------------ |
+| ProseMirror user input → preview sync (paragraph) | Integration test consecutive `insertText`         | **pass**                 |
+| Heading block edit                                | Integration test `Demo Title!`                    | **pass**                 |
+| List item paragraph edit                          | Integration test `item one updated`               | **pass**                 |
+| strong / link mark stability                      | Integration test structural assertions            | **pass** (see deviation) |
+| Dispatch path preserved                           | PR0 acceptance + GateLock green                   | **pass**                 |
+| `validation-suite` main spec synced               | `openspec/specs/validation-suite/spec.md` updated | **pass**                 |
+| baseline-record typing gaps closed (CI)           | Scenario rows updated; browser sign-off honest    | **pass**                 |
+| Browser sign-off documented                       | `examples/react-basic/README.md`                  | **pass**                 |
+| No Core / CommandId / workflow semantics change   | Diff scope                                        | **pass**                 |
 
 ## Spec Change Checks
 
@@ -76,13 +76,13 @@
 
 ## Architecture & Anticorruption
 
-| Boundary | Result | Notes |
-| --- | --- | --- |
-| Core business-blind | pass | No `packages/core/**` changes |
-| Command Bus routing | pass | PM input still dispatches `core:replaceText` only |
-| Adapter encapsulation | pass | PM/schema logic in `plugin-prosemirror`; React wires `dispatchInput` |
-| Session non-mutation in view-bridge | pass | Existing invariant test still green |
-| Tests not weakened | pass | New tests added; PR0/GateLock/round-trip suites green |
+| Boundary                            | Result | Notes                                                                |
+| ----------------------------------- | ------ | -------------------------------------------------------------------- |
+| Core business-blind                 | pass   | No `packages/core/**` changes                                        |
+| Command Bus routing                 | pass   | PM input still dispatches `core:replaceText` only                    |
+| Adapter encapsulation               | pass   | PM/schema logic in `plugin-prosemirror`; React wires `dispatchInput` |
+| Session non-mutation in view-bridge | pass   | Existing invariant test still green                                  |
+| Tests not weakened                  | pass   | New tests added; PR0/GateLock/round-trip suites green                |
 
 ## Deviations (accepted)
 
@@ -96,11 +96,11 @@
 
 ## Follow-ups (non-blocking)
 
-| Item | Owner | When |
-| --- | --- | --- |
-| `pnpm --filter @aether-md/example-react-basic dev` continuous typing smoke | Maintainer | Before merge or before M7 demo sign-off (per change-brief) |
-| Update `baseline-record.md` maintainer sign-off checkbox after browser walk | Maintainer | After dev smoke |
-| Consider formal `listItemIndex` optional field on `ReplaceTextCommand` in a future Full Change if encoding becomes ambiguous | Backlog | Only if multi-item / nested list sync expands |
+| Item                                                                                                                         | Owner      | When                                                       |
+| ---------------------------------------------------------------------------------------------------------------------------- | ---------- | ---------------------------------------------------------- |
+| `pnpm --filter @aether-md/example-react-basic dev` continuous typing smoke                                                   | Maintainer | Before merge or before M7 demo sign-off (per change-brief) |
+| Update `baseline-record.md` maintainer sign-off checkbox after browser walk                                                  | Maintainer | After dev smoke                                            |
+| Consider formal `listItemIndex` optional field on `ReplaceTextCommand` in a future Full Change if encoding becomes ambiguous | Backlog    | Only if multi-item / nested list sync expands              |
 
 ## Recommendation
 

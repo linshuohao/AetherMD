@@ -23,73 +23,73 @@
 
 ## Specs Updated
 
-| Spec | Action | Path |
-| --- | --- | --- |
-| `validation-suite` | ADDED | `openspec/specs/validation-suite/spec.md` |
+| Spec                   | Action   | Path                                                                                |
+| ---------------------- | -------- | ----------------------------------------------------------------------------------- |
+| `validation-suite`     | ADDED    | `openspec/specs/validation-suite/spec.md`                                           |
 | `engineering-workflow` | MODIFIED | `openspec/specs/engineering-workflow/spec.md` (M6 validation gates in `pnpm check`) |
 
 Delta specs synced to main specs via `aether-workflow-update-docs-spec` before archive. Post-archive: `openspec validate --specs --strict` — pass.
 
 ## Tasks Completed
 
-| Task | Status | Validation | Deviation |
-| --- | --- | --- | --- |
-| 01 — scaffold headless-gfm workspace package | completed | install + private assertion PASS | typecheck FAIL expected pre-src |
-| 02 — headless GFM runnable demo script | completed | build/start/typecheck PASS | inlined wiring in example host layer |
-| 03 — publish prep metadata (five packages) | completed | node assertion PASS | — |
-| 04 — Changesets linked group + publish script | completed | linked group PASS | `changeset:status --since main` FAIL accepted |
-| 05 — G11 manifest ↔ docs consistency | completed | 85 core tests PASS | core `test` script `find` fix |
-| 06 — wire headless-gfm typecheck into check | completed | turbo check includes example | — |
-| 07 — createEditor startup-abort integration tests | completed | 2 integration tests PASS | unsupported manifestVersion via existing test |
-| 08 — document M6 + v1.0 gaps | completed | `openspec validate --strict` PASS | — |
-| 09 — full validation barrier | completed | `pnpm check` + barrier PASS | changeset:status deviation |
+| Task                                              | Status    | Validation                        | Deviation                                     |
+| ------------------------------------------------- | --------- | --------------------------------- | --------------------------------------------- |
+| 01 — scaffold headless-gfm workspace package      | completed | install + private assertion PASS  | typecheck FAIL expected pre-src               |
+| 02 — headless GFM runnable demo script            | completed | build/start/typecheck PASS        | inlined wiring in example host layer          |
+| 03 — publish prep metadata (five packages)        | completed | node assertion PASS               | —                                             |
+| 04 — Changesets linked group + publish script     | completed | linked group PASS                 | `changeset:status --since main` FAIL accepted |
+| 05 — G11 manifest ↔ docs consistency              | completed | 85 core tests PASS                | core `test` script `find` fix                 |
+| 06 — wire headless-gfm typecheck into check       | completed | turbo check includes example      | —                                             |
+| 07 — createEditor startup-abort integration tests | completed | 2 integration tests PASS          | unsupported manifestVersion via existing test |
+| 08 — document M6 + v1.0 gaps                      | completed | `openspec validate --strict` PASS | —                                             |
+| 09 — full validation barrier                      | completed | `pnpm check` + barrier PASS       | changeset:status deviation                    |
 
 OpenSpec high-level `tasks.md` checkboxes ticked at archive (aligned with Superpowers tasks 01–09).
 
 ## Files Changed
 
-| File | Task / Reason | Notes |
-| --- | --- | --- |
-| `pnpm-workspace.yaml` | 01 | headless example workspace entry |
-| `examples/headless-gfm/package.json` | 01, 02, 06 | private package; typecheck/check/start |
-| `examples/headless-gfm/tsconfig.json` | 01, 02 | G6 `tsc --noEmit` |
-| `examples/headless-gfm/src/run.ts` | 02 | headless GFM integration demo |
-| `pnpm-lock.yaml` | 01 | workspace install lockfile |
-| `packages/core/package.json` | 03, 05 | publish prep; test script `find` fix |
-| `packages/plugins/plugin-remark/package.json` | 03 | M6 publish prep metadata |
-| `packages/plugins/plugin-prosemirror/package.json` | 03 | M6 publish prep metadata |
-| `packages/preset-gfm/package.json` | 03 | M6 publish prep metadata |
-| `packages/react/package.json` | 03 | M6 publish prep metadata |
-| `.changeset/config.json` | 04 | Changesets `linked` five-package group |
-| `package.json` | 04 | `changeset:publish` script |
-| `packages/core/src/manifest-doc-consistency.test.ts` | 05 | G11 gate |
-| `packages/core/src/editor/startup-abort.integration.test.ts` | 07 | duplicate-name abort regression |
-| `docs/project-status.md` | 08 | M6 status + G12 v1.0 gap |
-| `docs/architecture/roadmap.md` | 08 | M6 snapshot |
-| `docs/architecture/ci-checklist.md` | 08 | M6 gates |
-| `docs/community/release-process.md` | 04, 08 | M6 prep; M7 deferred |
-| `docs/engineering/test-strategy.md` | 08 | M6 validation baseline |
-| `openspec/specs/validation-suite/spec.md` | spec sync | ADDED main spec |
-| `openspec/specs/engineering-workflow/spec.md` | spec sync | M6 check pipeline requirement |
-| `openspec/changes/archive/2026-07-05-add-validation-suite/**` | archive | proposal, design, delta specs, tasks |
-| `.superpowers/plans/add-validation-suite.md` | workflow | implementation plan |
-| `.superpowers/tasks/add-validation-suite/01`–`09` | workflow | scoped tasks |
-| `.superpowers/runs/add-validation-suite/validation.md` | 09 | validation record |
-| `.superpowers/reviews/add-validation-suite.md` | workflow | compliance review |
+| File                                                          | Task / Reason | Notes                                  |
+| ------------------------------------------------------------- | ------------- | -------------------------------------- |
+| `pnpm-workspace.yaml`                                         | 01            | headless example workspace entry       |
+| `examples/headless-gfm/package.json`                          | 01, 02, 06    | private package; typecheck/check/start |
+| `examples/headless-gfm/tsconfig.json`                         | 01, 02        | G6 `tsc --noEmit`                      |
+| `examples/headless-gfm/src/run.ts`                            | 02            | headless GFM integration demo          |
+| `pnpm-lock.yaml`                                              | 01            | workspace install lockfile             |
+| `packages/core/package.json`                                  | 03, 05        | publish prep; test script `find` fix   |
+| `packages/plugins/plugin-remark/package.json`                 | 03            | M6 publish prep metadata               |
+| `packages/plugins/plugin-prosemirror/package.json`            | 03            | M6 publish prep metadata               |
+| `packages/preset-gfm/package.json`                            | 03            | M6 publish prep metadata               |
+| `packages/react/package.json`                                 | 03            | M6 publish prep metadata               |
+| `.changeset/config.json`                                      | 04            | Changesets `linked` five-package group |
+| `package.json`                                                | 04            | `changeset:publish` script             |
+| `packages/core/src/manifest-doc-consistency.test.ts`          | 05            | G11 gate                               |
+| `packages/core/src/editor/startup-abort.integration.test.ts`  | 07            | duplicate-name abort regression        |
+| `docs/project-status.md`                                      | 08            | M6 status + G12 v1.0 gap               |
+| `docs/architecture/roadmap.md`                                | 08            | M6 snapshot                            |
+| `docs/architecture/ci-checklist.md`                           | 08            | M6 gates                               |
+| `docs/community/release-process.md`                           | 04, 08        | M6 prep; M7 deferred                   |
+| `docs/engineering/test-strategy.md`                           | 08            | M6 validation baseline                 |
+| `openspec/specs/validation-suite/spec.md`                     | spec sync     | ADDED main spec                        |
+| `openspec/specs/engineering-workflow/spec.md`                 | spec sync     | M6 check pipeline requirement          |
+| `openspec/changes/archive/2026-07-05-add-validation-suite/**` | archive       | proposal, design, delta specs, tasks   |
+| `.superpowers/plans/add-validation-suite.md`                  | workflow      | implementation plan                    |
+| `.superpowers/tasks/add-validation-suite/01`–`09`             | workflow      | scoped tasks                           |
+| `.superpowers/runs/add-validation-suite/validation.md`        | 09            | validation record                      |
+| `.superpowers/reviews/add-validation-suite.md`                | workflow      | compliance review                      |
 
 **Not modified (correct per non-goals):** Core/React production runtime code; adapter plugin runtime logic; `.github/workflows/**` Release job; `private: true` removal; `NPM_TOKEN` / npm publish.
 
 ## Validation Results
 
-| Command | Result |
-| --- | --- |
-| `pnpm check` | PASS (18/18 turbo tasks) |
-| `openspec validate add-validation-suite --strict` | PASS (pre-archive) |
-| `openspec validate --specs --strict` | PASS (post-archive) |
-| `pnpm build && pnpm --filter @aether-md/example-headless-gfm start` | PASS (headless smoke) |
-| `pnpm --filter @aether-md/core test` | PASS (85 tests) |
-| Linked Changesets group node assertion | PASS |
-| `pnpm changeset:status --since main` | FAIL (accepted deviation) |
+| Command                                                             | Result                    |
+| ------------------------------------------------------------------- | ------------------------- |
+| `pnpm check`                                                        | PASS (18/18 turbo tasks)  |
+| `openspec validate add-validation-suite --strict`                   | PASS (pre-archive)        |
+| `openspec validate --specs --strict`                                | PASS (post-archive)       |
+| `pnpm build && pnpm --filter @aether-md/example-headless-gfm start` | PASS (headless smoke)     |
+| `pnpm --filter @aether-md/core test`                                | PASS (85 tests)           |
+| Linked Changesets group node assertion                              | PASS                      |
+| `pnpm changeset:status --since main`                                | FAIL (accepted deviation) |
 
 Compliance review: **PASS WITH DEVIATIONS** — **no blockers** (`.superpowers/reviews/add-validation-suite.md`).
 

@@ -49,10 +49,10 @@ Constraints unchanged from Slice A: Core MUST NOT add morphing branches; Shell o
 
 ## Risks / Mitigations
 
-| 风险 | 缓解 |
-| --- | --- |
+| 风险                        | 缓解                                                                               |
+| --------------------------- | ---------------------------------------------------------------------------------- |
 | Non-paragraph blocks in doc | Slice C fixtures paragraph-only; non-paragraph children skipped in document mapper |
-| Focus race on rapid click | Single `focusedBlockIndex` state; conditional render prevents dual textarea |
+| Focus race on rapid click   | Single `focusedBlockIndex` state; conditional render prevents dual textarea        |
 
 ## Open Questions
 

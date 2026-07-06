@@ -4,14 +4,9 @@ import { listMorphingStrategy } from "./list-strategy.js";
 import { paragraphMorphingStrategy } from "./paragraph-strategy.js";
 import type { CustomBlockRenderer, GfmMorphingBlockStrategy } from "./types.js";
 
-const strategies: GfmMorphingBlockStrategy[] = [
-  paragraphMorphingStrategy,
-  listMorphingStrategy,
-];
+const strategies: GfmMorphingBlockStrategy[] = [paragraphMorphingStrategy, listMorphingStrategy];
 
-const strategyByType = new Map(
-  strategies.map((strategy) => [strategy.blockType, strategy]),
-);
+const strategyByType = new Map(strategies.map((strategy) => [strategy.blockType, strategy]));
 
 export function getGfmMorphingStrategy(
   blockType: AetherBlock["type"],

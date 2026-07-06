@@ -12,15 +12,15 @@
 
 ## Change
 
-| 字段 | 值 |
-| --- | --- |
-| OpenSpec change | `add-adapter-base` |
-| Branch | `feat/add-adapter-base` |
-| OpenSpec status | **complete**（4/4 artifacts：`proposal` / `design` / `specs` / `tasks`）；`openspec validate add-adapter-base --strict` 已通过 |
-| Apply readiness | `state: ready`；implementation tasks 0/31 complete（OpenSpec high-level tasks，非 Superpowers task 文件） |
-| Version impact | `@aether-md/core` **minor-level additive** public exports；新建 `@aether-md/plugin-remark`、`@aether-md/plugin-prosemirror`（`0.0.0`）；`SUPPORTED_MANIFEST_VERSIONS` / `manifestVersion` **不变**；`pnpm-lock.yaml` **预期变更** |
-| Expected commit scope | `feat(core)`、`feat(plugin-remark)`、`feat(plugin-prosemirror)`；OpenSpec 产物 `docs(openspec)` |
-| Commit strategy | 每个 Superpowers task 可单独 commit；PR body 须追踪 OpenSpec change id 与 task id |
+| 字段                  | 值                                                                                                                                                                                                                                |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| OpenSpec change       | `add-adapter-base`                                                                                                                                                                                                                |
+| Branch                | `feat/add-adapter-base`                                                                                                                                                                                                           |
+| OpenSpec status       | **complete**（4/4 artifacts：`proposal` / `design` / `specs` / `tasks`）；`openspec validate add-adapter-base --strict` 已通过                                                                                                    |
+| Apply readiness       | `state: ready`；implementation tasks 0/31 complete（OpenSpec high-level tasks，非 Superpowers task 文件）                                                                                                                         |
+| Version impact        | `@aether-md/core` **minor-level additive** public exports；新建 `@aether-md/plugin-remark`、`@aether-md/plugin-prosemirror`（`0.0.0`）；`SUPPORTED_MANIFEST_VERSIONS` / `manifestVersion` **不变**；`pnpm-lock.yaml` **预期变更** |
+| Expected commit scope | `feat(core)`、`feat(plugin-remark)`、`feat(plugin-prosemirror)`；OpenSpec 产物 `docs(openspec)`                                                                                                                                   |
+| Commit strategy       | 每个 Superpowers task 可单独 commit；PR body 须追踪 OpenSpec change id 与 task id                                                                                                                                                 |
 
 范围边界：
 
@@ -71,21 +71,21 @@ OpenSpec artifacts：
 
 ## File Map
 
-| 路径 | 职责 |
-| --- | --- |
-| `packages/core/src/document-model.ts` | `AetherDoc`、`AetherBlock`、`AetherInline`、`ParagraphBlock`、`HeadingBlock`、`TextInline`、扩展类型（`ListBlock` 等）、`AetherSchema` |
-| `packages/core/src/document-model.test.ts` | JSON 可序列化、M3 最小 shape contract tests |
-| `packages/core/src/adapter-types.ts` | `ParserAdapter`、`SerializerAdapter`、`EngineAdapter`、`EngineSession`、`AdapterCommandRequest`、`AdapterTransactionResult`、`AdapterEvent` |
-| `packages/core/src/errors.ts` | 扩展 `AdapterError`、`SerializationError`（与现有 `CoreError` / `PluginError` 并列） |
-| `packages/core/src/adapter-types.test.ts` | 协议类型与错误 shape smoke tests（无 Remark/PM） |
-| `packages/core/src/index.ts` | 导出 document-model + adapter-base public surface |
-| `packages/core/src/package-boundary.test.ts` | 更新 M3 允许面；继续禁止 M4/M5 |
-| `packages/plugins/plugin-remark/package.json` | workspace package、`exports`、Remark 依赖 |
-| `packages/plugins/plugin-remark/src/*` | `ParserAdapter` / `SerializerAdapter` 实现与 factory |
-| `packages/plugins/plugin-remark/src/*.test.ts` | parse / serialize contract tests |
-| `packages/plugins/plugin-prosemirror/package.json` | workspace package、`exports`、ProseMirror 依赖 |
-| `packages/plugins/plugin-prosemirror/src/*` | `EngineAdapter` 实现与 factory |
-| `packages/plugins/plugin-prosemirror/src/*.test.ts` | create / apply / failure / dispose + round-trip integration tests |
+| 路径                                                | 职责                                                                                                                                        |
+| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `packages/core/src/document-model.ts`               | `AetherDoc`、`AetherBlock`、`AetherInline`、`ParagraphBlock`、`HeadingBlock`、`TextInline`、扩展类型（`ListBlock` 等）、`AetherSchema`      |
+| `packages/core/src/document-model.test.ts`          | JSON 可序列化、M3 最小 shape contract tests                                                                                                 |
+| `packages/core/src/adapter-types.ts`                | `ParserAdapter`、`SerializerAdapter`、`EngineAdapter`、`EngineSession`、`AdapterCommandRequest`、`AdapterTransactionResult`、`AdapterEvent` |
+| `packages/core/src/errors.ts`                       | 扩展 `AdapterError`、`SerializationError`（与现有 `CoreError` / `PluginError` 并列）                                                        |
+| `packages/core/src/adapter-types.test.ts`           | 协议类型与错误 shape smoke tests（无 Remark/PM）                                                                                            |
+| `packages/core/src/index.ts`                        | 导出 document-model + adapter-base public surface                                                                                           |
+| `packages/core/src/package-boundary.test.ts`        | 更新 M3 允许面；继续禁止 M4/M5                                                                                                              |
+| `packages/plugins/plugin-remark/package.json`       | workspace package、`exports`、Remark 依赖                                                                                                   |
+| `packages/plugins/plugin-remark/src/*`              | `ParserAdapter` / `SerializerAdapter` 实现与 factory                                                                                        |
+| `packages/plugins/plugin-remark/src/*.test.ts`      | parse / serialize contract tests                                                                                                            |
+| `packages/plugins/plugin-prosemirror/package.json`  | workspace package、`exports`、ProseMirror 依赖                                                                                              |
+| `packages/plugins/plugin-prosemirror/src/*`         | `EngineAdapter` 实现与 factory                                                                                                              |
+| `packages/plugins/plugin-prosemirror/src/*.test.ts` | create / apply / failure / dispose + round-trip integration tests                                                                           |
 
 不得出现在 `@aether-md/core` 生产代码：`remark`、`prosemirror*`、`createEditor`、`getMarkdown` / `getDocument` 宿主 API、React Shell。
 
@@ -93,16 +93,16 @@ OpenSpec artifacts：
 
 每个 Phase / Task 结束前，实现者 **MUST** 确认：
 
-| 禁止项 | Guard |
-| --- | --- |
-| Core → Remark | `packages/core/package.json` 与 `packages/core/src/**` 无 `remark` import/dependency |
-| Core → ProseMirror | 同上，无 `prosemirror*` import/dependency |
-| Core → React / Vue | 无 UI 框架依赖或 import |
-| Core → GFM preset | 无 `@aether-md/preset-gfm` 或 GFM 实现 |
-| Editor 入口 | `@aether-md/core` exports 不含 `createEditor`、`AetherEditor`、`EditorContext` |
-| 宿主文档 API | exports 不含 `getMarkdown` / `getDocument` 作为 Core 宿主入口（Adapter 协议内 `EngineAdapter.getDocument(session)` 允许） |
-| Command Bus 集成 | `command-event-runtime.ts` 不调用 Adapter、不 emit 自动 `transactionFailed` |
-| bootstrap Adapter 加载 | `bootstrap.ts` / `capabilities.ts` 不 silent provide `core:engine` / `core:parser` |
+| 禁止项                 | Guard                                                                                                                     |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| Core → Remark          | `packages/core/package.json` 与 `packages/core/src/**` 无 `remark` import/dependency                                      |
+| Core → ProseMirror     | 同上，无 `prosemirror*` import/dependency                                                                                 |
+| Core → React / Vue     | 无 UI 框架依赖或 import                                                                                                   |
+| Core → GFM preset      | 无 `@aether-md/preset-gfm` 或 GFM 实现                                                                                    |
+| Editor 入口            | `@aether-md/core` exports 不含 `createEditor`、`AetherEditor`、`EditorContext`                                            |
+| 宿主文档 API           | exports 不含 `getMarkdown` / `getDocument` 作为 Core 宿主入口（Adapter 协议内 `EngineAdapter.getDocument(session)` 允许） |
+| Command Bus 集成       | `command-event-runtime.ts` 不调用 Adapter、不 emit 自动 `transactionFailed`                                               |
+| bootstrap Adapter 加载 | `bootstrap.ts` / `capabilities.ts` 不 silent provide `core:engine` / `core:parser`                                        |
 
 **Core package guard（Phase 6 / Task 06 必跑）：**
 
@@ -276,57 +276,57 @@ rg "from 'remark|from 'prosemirror" packages/core
 
 ## Boundary Risks
 
-| 风险 | 触发点 | 处理方式 |
-| --- | --- | --- |
-| Core 直接依赖 Remark/PM | 在 core 内 parse/serialize 图省事 | 仅 plugin package 引入引擎；Task 02/06 guard |
-| M3 膨胀到 M4 GFM | round-trip 测试覆盖 list/link/mark | 仅 paragraph + heading 样例；design Decision 3/4 |
-| 误实现 `createEditor` | 为 round-trip 加宿主入口 | integration test 显式 wiring；boundary 禁止 export |
-| Command Bus 自动 rollback | 照搬 `data-flow.md` 全链路 | spec 明确 M3 不测 Bus；Task 07 checklist |
-| bootstrap silent provide | 顺便让 M1 测试过 `core:engine` | 不修改 `M1_CORE_CAPABILITIES`；Task 07 §8.3 |
-| `AetherSchema` 过度设计 | 提前做 compile-layer merge | M3 仅 `{ version: 1 }` |
-| lockfile/依赖污染 Core | workspace hoisting 误配 | 检查 `packages/core/package.json` dependencies |
-| plugin 循环依赖 | remark 依赖 prosemirror 或反之 | remark 仅 core；prosemirror 可 devDep remark 仅用于 integration test |
-| M1 follow-up 混入 | 改 bootstrap dispose 合同 | Task 07 §8.4；仅记录 |
-| 无关文件 commit | OpenSpec 与实现混 unrelated dirty | Code-Management 区 |
+| 风险                      | 触发点                             | 处理方式                                                             |
+| ------------------------- | ---------------------------------- | -------------------------------------------------------------------- |
+| Core 直接依赖 Remark/PM   | 在 core 内 parse/serialize 图省事  | 仅 plugin package 引入引擎；Task 02/06 guard                         |
+| M3 膨胀到 M4 GFM          | round-trip 测试覆盖 list/link/mark | 仅 paragraph + heading 样例；design Decision 3/4                     |
+| 误实现 `createEditor`     | 为 round-trip 加宿主入口           | integration test 显式 wiring；boundary 禁止 export                   |
+| Command Bus 自动 rollback | 照搬 `data-flow.md` 全链路         | spec 明确 M3 不测 Bus；Task 07 checklist                             |
+| bootstrap silent provide  | 顺便让 M1 测试过 `core:engine`     | 不修改 `M1_CORE_CAPABILITIES`；Task 07 §8.3                          |
+| `AetherSchema` 过度设计   | 提前做 compile-layer merge         | M3 仅 `{ version: 1 }`                                               |
+| lockfile/依赖污染 Core    | workspace hoisting 误配            | 检查 `packages/core/package.json` dependencies                       |
+| plugin 循环依赖           | remark 依赖 prosemirror 或反之     | remark 仅 core；prosemirror 可 devDep remark 仅用于 integration test |
+| M1 follow-up 混入         | 改 bootstrap dispose 合同          | Task 07 §8.4；仅记录                                                 |
+| 无关文件 commit           | OpenSpec 与实现混 unrelated dirty  | Code-Management 区                                                   |
 
 ## Validation Matrix
 
-| Phase | OpenSpec Requirement | Validation 入口 | 预期 |
-| --- | --- | --- | --- |
-| 1 | AetherDoc public types are exported from core | import + `document-model.test.ts` | types 可导入；JSON 纯净 |
-| 1 | Minimal AetherSchema type is exported | schema `{ version: 1 }` test | 占位 schema 可用 |
-| 1 | Extended document types exported without M3 round-trip | types export smoke；adapter tests 不要求 list/link | 类型可选测 |
-| 2 | Adapter protocol types are exported from core | `adapter-types.test.ts` | 三类 Adapter 接口存在 |
-| 2 | AdapterError and SerializationError are exported | error instance tests | 正确 `source` / `severity` |
-| 3 | Remark plugin provides Parser and Serializer | `plugin-remark` parse/serialize tests | paragraph/heading；不丢语法 |
-| 4 | ProseMirror plugin provides Engine adapter | create/apply/failure/dispose tests | 快照与 `AdapterError` |
-| 5 | M3 minimal Markdown round-trip is verified | cross-package integration tests | 两样例 round-trip 绿 |
-| 5 | Paragraph / heading round-trip scenarios | integration assertions | 可预测 Markdown |
-| 6 | core-bootstrap MODIFIED package surface | `package-boundary.test.ts` | 允许 M3；禁止 M4/M5 |
-| 6 | Core package boundary excludes editor entrypoints | boundary + core `rg` guard | 无 editor/shell exports |
-| 7 | Adapter packages in workspace verification | `pnpm check` | 三 packages 绿 |
-| 7 | M3 does not integrate Command Bus rollback | M2 tests unchanged + review checklist | Bus 独立 |
-| 7 | Non-goals guard | Task 07 checklist §8 | 无 scope creep |
+| Phase | OpenSpec Requirement                                   | Validation 入口                                    | 预期                        |
+| ----- | ------------------------------------------------------ | -------------------------------------------------- | --------------------------- |
+| 1     | AetherDoc public types are exported from core          | import + `document-model.test.ts`                  | types 可导入；JSON 纯净     |
+| 1     | Minimal AetherSchema type is exported                  | schema `{ version: 1 }` test                       | 占位 schema 可用            |
+| 1     | Extended document types exported without M3 round-trip | types export smoke；adapter tests 不要求 list/link | 类型可选测                  |
+| 2     | Adapter protocol types are exported from core          | `adapter-types.test.ts`                            | 三类 Adapter 接口存在       |
+| 2     | AdapterError and SerializationError are exported       | error instance tests                               | 正确 `source` / `severity`  |
+| 3     | Remark plugin provides Parser and Serializer           | `plugin-remark` parse/serialize tests              | paragraph/heading；不丢语法 |
+| 4     | ProseMirror plugin provides Engine adapter             | create/apply/failure/dispose tests                 | 快照与 `AdapterError`       |
+| 5     | M3 minimal Markdown round-trip is verified             | cross-package integration tests                    | 两样例 round-trip 绿        |
+| 5     | Paragraph / heading round-trip scenarios               | integration assertions                             | 可预测 Markdown             |
+| 6     | core-bootstrap MODIFIED package surface                | `package-boundary.test.ts`                         | 允许 M3；禁止 M4/M5         |
+| 6     | Core package boundary excludes editor entrypoints      | boundary + core `rg` guard                         | 无 editor/shell exports     |
+| 7     | Adapter packages in workspace verification             | `pnpm check`                                       | 三 packages 绿              |
+| 7     | M3 does not integrate Command Bus rollback             | M2 tests unchanged + review checklist              | Bus 独立                    |
+| 7     | Non-goals guard                                        | Task 07 checklist §8                               | 无 scope creep              |
 
 ## Task Breakdown
 
 高层 Task（Step 4 将拆为 `.superpowers/tasks/add-adapter-base/*.md`；每 task **MUST** 以失败测试开头）：
 
-| Task | Outcome | Allowed Area | Maps to OpenSpec tasks | Version Impact |
-| --- | --- | --- | --- | --- |
-| **01** Document model types | `AetherDoc` / `AetherSchema` + tests + exports | `packages/core/src/document-model*.ts`, `index.ts` | §1.1–1.3 | core public exports + |
-| **02** Adapter protocol + errors | Adapter interfaces + `AdapterError` / `SerializationError` | `packages/core/src/adapter-types*.ts`, `errors.ts`, `index.ts` | §2.1–2.3 | core public exports + |
-| **03** plugin-remark | workspace package + Parser/Serializer + contract tests | `packages/plugins/plugin-remark/**` | §3.1–3.4 | 新 package + lockfile |
-| **04** plugin-prosemirror engine | workspace package + EngineAdapter + contract tests | `packages/plugins/plugin-prosemirror/**`（不含 round-trip） | §4.1–4.5 | 新 package + lockfile |
-| **05** Cross-package round-trip | integration tests（paragraph + heading） | `plugin-prosemirror` tests（devDep remark） | §5.1–5.3 | 无新 public API |
-| **06** Core package boundary | 更新 boundary tests + core guard | `packages/core/src/package-boundary.test.ts` | §6.1–6.3 | 测试面调整 |
-| **07** Full verification | `pnpm check`、`openspec validate`、non-goals 护栏 | 全 change scope；validation 记录 | §7–§9 | 确认 lockfile；无 manifestVersion 变更 |
+| Task                             | Outcome                                                    | Allowed Area                                                   | Maps to OpenSpec tasks | Version Impact                         |
+| -------------------------------- | ---------------------------------------------------------- | -------------------------------------------------------------- | ---------------------- | -------------------------------------- |
+| **01** Document model types      | `AetherDoc` / `AetherSchema` + tests + exports             | `packages/core/src/document-model*.ts`, `index.ts`             | §1.1–1.3               | core public exports +                  |
+| **02** Adapter protocol + errors | Adapter interfaces + `AdapterError` / `SerializationError` | `packages/core/src/adapter-types*.ts`, `errors.ts`, `index.ts` | §2.1–2.3               | core public exports +                  |
+| **03** plugin-remark             | workspace package + Parser/Serializer + contract tests     | `packages/plugins/plugin-remark/**`                            | §3.1–3.4               | 新 package + lockfile                  |
+| **04** plugin-prosemirror engine | workspace package + EngineAdapter + contract tests         | `packages/plugins/plugin-prosemirror/**`（不含 round-trip）    | §4.1–4.5               | 新 package + lockfile                  |
+| **05** Cross-package round-trip  | integration tests（paragraph + heading）                   | `plugin-prosemirror` tests（devDep remark）                    | §5.1–5.3               | 无新 public API                        |
+| **06** Core package boundary     | 更新 boundary tests + core guard                           | `packages/core/src/package-boundary.test.ts`                   | §6.1–6.3               | 测试面调整                             |
+| **07** Full verification         | `pnpm check`、`openspec validate`、non-goals 护栏          | 全 change scope；validation 记录                               | §7–§9                  | 确认 lockfile；无 manifestVersion 变更 |
 
 **M3 最小 Markdown 测试矩阵（implementation 不得扩大）：**
 
-| 样例 | Markdown | 必测 |
-| --- | --- | --- |
-| Paragraph | `"Hello world\n"` | parse → apply → serialize |
+| 样例                | Markdown               | 必测                      |
+| ------------------- | ---------------------- | ------------------------- |
+| Paragraph           | `"Hello world\n"`      | parse → apply → serialize |
 | Heading + paragraph | `"## Title\n\nBody\n"` | parse → apply → serialize |
 
 **M3 最小编辑命令（implementation task 内固定名称，OpenSpec 不要求具体字段名）：**
@@ -351,14 +351,14 @@ rg "from 'remark|from 'prosemirror" packages/core
 
 无阻塞项。OpenSpec design 已关闭的项：
 
-| 问题 | M3 处理 |
-| --- | --- |
-| 节点稳定 `id` | 不引入 |
-| 自定义块 Markdown fallback | 不测 `CustomBlock` round-trip |
-| `meta` 插件命名空间 | 类型保留；测试不写入 |
-| Adapter 能力矩阵 / `SelectionAdapter` / 调试快照 | 不实现 |
-| `AdapterCommandRequest` 完整 vocabulary | Task 04/05 固定最小编辑命令一种 |
-| Shared contract test package | 默认 plugin 内 integration test |
+| 问题                                             | M3 处理                         |
+| ------------------------------------------------ | ------------------------------- |
+| 节点稳定 `id`                                    | 不引入                          |
+| 自定义块 Markdown fallback                       | 不测 `CustomBlock` round-trip   |
+| `meta` 插件命名空间                              | 类型保留；测试不写入            |
+| Adapter 能力矩阵 / `SelectionAdapter` / 调试快照 | 不实现                          |
+| `AdapterCommandRequest` 完整 vocabulary          | Task 04/05 固定最小编辑命令一种 |
+| Shared contract test package                     | 默认 plugin 内 integration test |
 
 **Follow-up changes（implementation 中若发现必需，应暂停并拆分）：**
 

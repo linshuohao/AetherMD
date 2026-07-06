@@ -21,13 +21,13 @@ L2 Slice B: GFM inline marks (strong / emphasis / link) bidirectional fidelity o
 
 ## Tasks Completed
 
-| Task | Status |
-| --- | --- |
-| Preset headless serialize | ✅ |
-| React render + parser dispatch | ✅ |
-| Integration tests | ✅ |
-| Example + docs | ✅ |
-| Validation barrier | ✅ |
+| Task                           | Status |
+| ------------------------------ | ------ |
+| Preset headless serialize      | ✅     |
+| React render + parser dispatch | ✅     |
+| Integration tests              | ✅     |
+| Example + docs                 | ✅     |
+| Validation barrier             | ✅     |
 
 ## Files Changed
 

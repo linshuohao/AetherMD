@@ -7,40 +7,41 @@ Depends On: 01
 Parallel Group: loop
 Barrier: false
 Allowed Files:
+
 - `.skills/aether-workflow/aether-workflow-execute-task-loop/SKILL.md`
 - `.skills/aether-workflow/aether-workflow-execute-task-loop/references/task-loop-protocol.md`
 - `.skills/aether-workflow/aether-workflow-execute-task-loop/references/parallel-wave-protocol.md`
-Forbidden Files:
+  Forbidden Files:
 - `packages/**`
 - `.codex/skills/**`
 - `.cursor/skills/**`
-Implementation Notes:
+  Implementation Notes:
 - Add host capability probe requirements before driver selection.
 - Add sequential loop and wave-parallel loop selection rules.
 - Add parallel wave protocol reference with DAG, wave, allowed-files, barrier, validation, and worktree fallback guidance.
 - Clarify validation and run-log recording for fallback and wave completion.
-TDD Notes:
+  TDD Notes:
 - Design-stage assertion: `rg "Host Capability Probe|wave-parallel|parallel-wave-protocol" .skills/aether-workflow/aether-workflow-execute-task-loop` should show protocol coverage.
-Validation:
+  Validation:
 - `rg "Host Capability Probe|wave-parallel|parallel-wave-protocol" .skills/aether-workflow/aether-workflow-execute-task-loop`
-Intuitive Verification:
+  Intuitive Verification:
 - Read the protocol top to bottom and confirm no step allows one implementer to handle multiple tasks.
-Review Checklist:
+  Review Checklist:
 - [ ] Capability matrix includes dispatch, subagent, parallel, executing-plans, and Superpowers fallback.
 - [ ] Driver choice is explicit.
 - [ ] Wave protocol blocks overlapping allowed files unless worktree strategy is recorded.
 - [ ] Barrier tasks are serial.
-Rollback Notes:
+      Rollback Notes:
 - Revert execute-task-loop skill and reference changes.
-Version Impact:
+  Version Impact:
 - none; workflow skill/reference only
-Commit Scope:
+  Commit Scope:
 - docs(workflow)
-Status:
+  Status:
 - completed
-Run Log:
+  Run Log:
 - 2026-07-05: Updated execute-task-loop with Host Capability Probe, driver selection, wave-level recording, and per-wave file checks.
 - 2026-07-05: Added `parallel-wave-protocol.md` and updated `task-loop-protocol.md` for scheduling metadata and wave completion.
 - 2026-07-05: Validation passed: `rg "Host Capability Probe|wave-parallel|parallel-wave-protocol|dispatching-parallel-agents|Barrier" .skills/aether-workflow/aether-workflow-execute-task-loop`.
-Deviation:
+  Deviation:
 - none

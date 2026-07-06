@@ -37,15 +37,15 @@ AetherMD 的组件库治理服务于以下目标：
 
 AetherMD Monorepo 中的包应先被归类，再讨论发布、依赖和门禁。当前仓库只建立了 `packages/core`，其他类型是长期演进时的治理分类。
 
-| 包类型 | 是否可发布到 NPM | 是否可被 public package 依赖 | `exports` | `types` | Changeset | 可依赖 Core | 可依赖 UI 框架 | 可依赖 DOM / 宿主运行时 | 典型例子 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Public Runtime Package | 是 | 是 | 必须 | 必须 | 对外可见变更必须 | 视职责而定 | 不允许，除非该包本身是 Adapter | 不允许，除非契约声明 | `@aether-md/core`、未来 `@aether-md/preset-gfm` |
-| Public Adapter Package | 是 | 是 | 必须 | 必须 | 对外可见变更必须 | 允许 | 仅对应框架 Adapter 允许 | 允许，但必须声明边界 | `@aether-md/react`、`@aether-md/vue`、`@aether-md/plugin-prosemirror` |
-| Public Plugin Package | 是 | 是 | 必须 | 必须 | 对外可见变更必须 | 允许依赖公开契约 | 默认不允许 | 默认不允许；需要权限声明 | `@aether-md/plugin-heading` |
-| Internal Workspace Package | 否 | 不允许被 public runtime dependency 依赖 | 推荐 | 推荐 | 通常不需要 | 允许 | 视用途而定 | 视用途而定 | 内部测试工具、构建辅助包 |
-| Source-only Module | 否 | 可通过源码归属被同包使用，不作为 runtime dependency 暴露 | 不适用 | 不适用 | 不需要 | 视所在包而定 | 视所在包而定 | 视所在包而定 | `src/internal/*`、同包内共享模块 |
-| Example / Playground Package | 不发布 | 不允许 | 可选 | 可选 | 不需要 | 允许依赖 public package | 允许 | 允许 | `examples/react-basic`、playground |
-| Config Package | 通常不发布；若发布需单独审查 | 仅用于构建或开发配置 | 若发布则必须 | 若发布则推荐 | 若发布且对外可见则必须 | 不应依赖 Core | 不应依赖 UI 框架 | 不应依赖 DOM | tsconfig、eslint config、测试配置 |
+| 包类型                       | 是否可发布到 NPM             | 是否可被 public package 依赖                             | `exports`    | `types`      | Changeset              | 可依赖 Core             | 可依赖 UI 框架                 | 可依赖 DOM / 宿主运行时  | 典型例子                                                              |
+| ---------------------------- | ---------------------------- | -------------------------------------------------------- | ------------ | ------------ | ---------------------- | ----------------------- | ------------------------------ | ------------------------ | --------------------------------------------------------------------- |
+| Public Runtime Package       | 是                           | 是                                                       | 必须         | 必须         | 对外可见变更必须       | 视职责而定              | 不允许，除非该包本身是 Adapter | 不允许，除非契约声明     | `@aether-md/core`、未来 `@aether-md/preset-gfm`                       |
+| Public Adapter Package       | 是                           | 是                                                       | 必须         | 必须         | 对外可见变更必须       | 允许                    | 仅对应框架 Adapter 允许        | 允许，但必须声明边界     | `@aether-md/react`、`@aether-md/vue`、`@aether-md/plugin-prosemirror` |
+| Public Plugin Package        | 是                           | 是                                                       | 必须         | 必须         | 对外可见变更必须       | 允许依赖公开契约        | 默认不允许                     | 默认不允许；需要权限声明 | `@aether-md/plugin-heading`                                           |
+| Internal Workspace Package   | 否                           | 不允许被 public runtime dependency 依赖                  | 推荐         | 推荐         | 通常不需要             | 允许                    | 视用途而定                     | 视用途而定               | 内部测试工具、构建辅助包                                              |
+| Source-only Module           | 否                           | 可通过源码归属被同包使用，不作为 runtime dependency 暴露 | 不适用       | 不适用       | 不需要                 | 视所在包而定            | 视所在包而定                   | 视所在包而定             | `src/internal/*`、同包内共享模块                                      |
+| Example / Playground Package | 不发布                       | 不允许                                                   | 可选         | 可选         | 不需要                 | 允许依赖 public package | 允许                           | 允许                     | `examples/react-basic`、playground                                    |
+| Config Package               | 通常不发布；若发布需单独审查 | 仅用于构建或开发配置                                     | 若发布则必须 | 若发布则推荐 | 若发布且对外可见则必须 | 不应依赖 Core           | 不应依赖 UI 框架               | 不应依赖 DOM             | tsconfig、eslint config、测试配置                                     |
 
 强约束：
 
@@ -111,13 +111,13 @@ examples / playground
 
 生命周期状态如下：
 
-| 状态 | 进入条件 | 是否允许外部依赖 | 文档要求 | OpenSpec 要求 | 测试要求 | Breaking change | ADR 要求 | 退出条件 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Proposal | 有明确问题、范围和归属判断 | 不允许 | 需要提案或归属文档 | 影响契约时需要 | 可无测试 | 允许调整 | 架构取舍重大时需要 | 进入 Experimental 或关闭 |
-| Experimental | 有最小实现或可验证设计，已标记实验状态 | 允许试用，不承诺稳定 | 必须标记实验 | 影响契约时需要 | 至少有设计验证或最小测试 | 允许，但必须记录 | 重大边界变化需要 | 稳定化、废弃或移除 |
-| Stable | 契约清晰、文档完整、测试覆盖关键路径 | 允许 | 必须有正式入口 | 必须同步主规格或引用 | 必须有自动化或契约验证 | 需要 major 或迁移策略 | 破坏长期边界时需要 | Deprecated |
-| Deprecated | 有替代方案和迁移说明 | 允许继续使用 | 必须标记替代方案 | 公开契约变化时需要 | 兼容窗口内必须覆盖 | 不应再扩大能力 | 通常不需要 | Removed |
-| Removed | 已过兼容窗口或符合例外条件 | 不允许 | 必须记录移除和迁移 | 公开契约移除时需要 | 移除后测试应覆盖新路径 | 属于 breaking change | 不可逆重大移除需要 | 完成移除 |
+| 状态         | 进入条件                               | 是否允许外部依赖     | 文档要求           | OpenSpec 要求        | 测试要求                 | Breaking change       | ADR 要求           | 退出条件                 |
+| ------------ | -------------------------------------- | -------------------- | ------------------ | -------------------- | ------------------------ | --------------------- | ------------------ | ------------------------ |
+| Proposal     | 有明确问题、范围和归属判断             | 不允许               | 需要提案或归属文档 | 影响契约时需要       | 可无测试                 | 允许调整              | 架构取舍重大时需要 | 进入 Experimental 或关闭 |
+| Experimental | 有最小实现或可验证设计，已标记实验状态 | 允许试用，不承诺稳定 | 必须标记实验       | 影响契约时需要       | 至少有设计验证或最小测试 | 允许，但必须记录      | 重大边界变化需要   | 稳定化、废弃或移除       |
+| Stable       | 契约清晰、文档完整、测试覆盖关键路径   | 允许                 | 必须有正式入口     | 必须同步主规格或引用 | 必须有自动化或契约验证   | 需要 major 或迁移策略 | 破坏长期边界时需要 | Deprecated               |
+| Deprecated   | 有替代方案和迁移说明                   | 允许继续使用         | 必须标记替代方案   | 公开契约变化时需要   | 兼容窗口内必须覆盖       | 不应再扩大能力        | 通常不需要         | Removed                  |
+| Removed      | 已过兼容窗口或符合例外条件             | 不允许               | 必须记录移除和迁移 | 公开契约移除时需要   | 移除后测试应覆盖新路径   | 属于 breaking change  | 不可逆重大移除需要 | 完成移除                 |
 
 阶段约束：
 
@@ -176,16 +176,16 @@ AetherMD 的 public API 包括：
 
 ### 判断示例
 
-| 变更 | 建议判断 |
-| --- | --- |
-| 修改内部实现，不影响 `exports` 和行为 | 无需 Changeset；若发布流程要求可记 patch |
-| 新增 command | minor |
-| 修改 error code | major；pre-1.0 下至少需要 explicit breaking note |
-| 修复类型声明 | patch |
-| 修改 plugin manifest schema，兼容新增字段 | minor |
-| 修改 plugin manifest schema，要求旧插件改写 | major |
-| 删除已公开 API | major |
-| 修改 README 入口，不改变契约 | 无需 Changeset |
+| 变更                                        | 建议判断                                         |
+| ------------------------------------------- | ------------------------------------------------ |
+| 修改内部实现，不影响 `exports` 和行为       | 无需 Changeset；若发布流程要求可记 patch         |
+| 新增 command                                | minor                                            |
+| 修改 error code                             | major；pre-1.0 下至少需要 explicit breaking note |
+| 修复类型声明                                | patch                                            |
+| 修改 plugin manifest schema，兼容新增字段   | minor                                            |
+| 修改 plugin manifest schema，要求旧插件改写 | major                                            |
+| 删除已公开 API                              | major                                            |
+| 修改 README 入口，不改变契约                | 无需 Changeset                                   |
 
 ## 8. 组件新增准入规则
 
@@ -223,16 +223,16 @@ Checklist：
 
 当前统一验证入口是根级 `pnpm build`、`pnpm typecheck`、`pnpm test` 和 `pnpm check`。Turborepo 只是这些根命令背后的 task orchestration 实现细节，不改变包边界、public API、依赖方向或发布状态。
 
-| Gate | 内容 | M1 Core Bootstrap | M2 SDK / Plugin Expansion | M3 Adapter / Ecosystem Packages |
-| --- | --- | --- | --- | --- |
-| Gate 1: install | 可重复安装依赖 | 必须 | 必须 | 必须 |
-| Gate 2: lint | 代码与文档基础规则 | 视工具可用性执行 | 应补齐 | 必须 |
-| Gate 3: typecheck | TypeScript 类型检查 | `packages/core` 必须 | 所有 public package 必须 | 必须 |
-| Gate 4: unit test | 小模块行为测试 | `packages/core` 必须 | 必须 | 必须 |
-| Gate 5: build | 产物构建 | public package 应执行 | 必须 | 必须 |
-| Gate 6: package contract check | `exports`、types、package metadata 校验 | M1 应覆盖 core boundary | 必须 | 必须 |
-| Gate 7: docs / OpenSpec sync check | 文档、OpenSpec、代码一致性 | 必须人工检查 | 应自动化部分检查 | 必须 |
-| Gate 8: smoke test / consumer test | 消费侧安装和导入验证 | 可手动或最小化 | 应补齐 | 必须 |
+| Gate                               | 内容                                    | M1 Core Bootstrap       | M2 SDK / Plugin Expansion | M3 Adapter / Ecosystem Packages |
+| ---------------------------------- | --------------------------------------- | ----------------------- | ------------------------- | ------------------------------- |
+| Gate 1: install                    | 可重复安装依赖                          | 必须                    | 必须                      | 必须                            |
+| Gate 2: lint                       | 代码与文档基础规则                      | 视工具可用性执行        | 应补齐                    | 必须                            |
+| Gate 3: typecheck                  | TypeScript 类型检查                     | `packages/core` 必须    | 所有 public package 必须  | 必须                            |
+| Gate 4: unit test                  | 小模块行为测试                          | `packages/core` 必须    | 必须                      | 必须                            |
+| Gate 5: build                      | 产物构建                                | public package 应执行   | 必须                      | 必须                            |
+| Gate 6: package contract check     | `exports`、types、package metadata 校验 | M1 应覆盖 core boundary | 必须                      | 必须                            |
+| Gate 7: docs / OpenSpec sync check | 文档、OpenSpec、代码一致性              | 必须人工检查            | 应自动化部分检查          | 必须                            |
+| Gate 8: smoke test / consumer test | 消费侧安装和导入验证                    | 可手动或最小化          | 应补齐                    | 必须                            |
 
 当前阶段不要求立刻引入完整工具链。M1 的重点是保护 `@aether-md/core` 的最小导出、Manifest bootstrap 行为、capability 校验、生命周期顺序和文档同步。
 
@@ -256,14 +256,14 @@ M1 最小 CI 质量门禁只运行 `pnpm install --frozen-lockfile`、`pnpm chec
 
 同步位置：
 
-| 变更类型 | 文档位置 |
-| --- | --- |
-| 架构边界、Core 职责、路线图 | `docs/architecture/` |
-| Manifest、Capability、Permission、Lifecycle、Command/Event | `docs/sdk/` |
-| 运行时行为、错误、并发、安全、测试、包治理 | `docs/engineering/` |
-| 长期取舍、原则反转、不可逆决策 | `docs/adr/` |
-| 贡献、Review、Git、发布协作 | `docs/community/`、`CONTRIBUTING.md` |
-| 变更规格、验收、归档 | `openspec/` |
+| 变更类型                                                   | 文档位置                             |
+| ---------------------------------------------------------- | ------------------------------------ |
+| 架构边界、Core 职责、路线图                                | `docs/architecture/`                 |
+| Manifest、Capability、Permission、Lifecycle、Command/Event | `docs/sdk/`                          |
+| 运行时行为、错误、并发、安全、测试、包治理                 | `docs/engineering/`                  |
+| 长期取舍、原则反转、不可逆决策                             | `docs/adr/`                          |
+| 贡献、Review、Git、发布协作                                | `docs/community/`、`CONTRIBUTING.md` |
+| 变更规格、验收、归档                                       | `openspec/`                          |
 
 ## 11. ADR / OpenSpec 触发条件
 
@@ -324,14 +324,14 @@ Pre-1.0 阶段：
 
 以下是项目治理角色，不是组织架构。一个维护者可以同时承担多个角色，但 Review 时应明确谁负责哪类判断。
 
-| 角色 | 负责内容 |
-| --- | --- |
-| Core maintainer | Core 边界、framework-independent 约束、runtime primitive、package export surface |
-| SDK contract owner | Manifest、Capability、Permission、Lifecycle、Command/Event、EditorContext |
-| Plugin API owner | 插件扩展点、官方插件能力、插件兼容性和弃用路径 |
-| Adapter package owner | 宿主框架或底层引擎适配、peer dependency、external dependency、防腐边界 |
-| Documentation owner | 文档归属、索引入口、术语一致性、Docs / OpenSpec 同步 |
-| Release owner | Changeset、SemVer、发布通道、CI 发布、migration note |
+| 角色                  | 负责内容                                                                         |
+| --------------------- | -------------------------------------------------------------------------------- |
+| Core maintainer       | Core 边界、framework-independent 约束、runtime primitive、package export surface |
+| SDK contract owner    | Manifest、Capability、Permission、Lifecycle、Command/Event、EditorContext        |
+| Plugin API owner      | 插件扩展点、官方插件能力、插件兼容性和弃用路径                                   |
+| Adapter package owner | 宿主框架或底层引擎适配、peer dependency、external dependency、防腐边界           |
+| Documentation owner   | 文档归属、索引入口、术语一致性、Docs / OpenSpec 同步                             |
+| Release owner         | Changeset、SemVer、发布通道、CI 发布、migration note                             |
 
 ## 14. Anti-corruption Rules
 

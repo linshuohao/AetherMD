@@ -29,8 +29,7 @@ export function MorphingBlockSurface({
   const focusContext = useMorphingFocus();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const documentFocused =
-    focusContext !== null && focusContext.focusedBlockIndex === blockIndex;
+  const documentFocused = focusContext !== null && focusContext.focusedBlockIndex === blockIndex;
   const focused = focusContext !== null ? documentFocused : localFocus;
 
   const sourceText = strategy.serializeSource(block);

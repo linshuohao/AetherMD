@@ -12,15 +12,15 @@
 
 ## Change
 
-| 字段 | 值 |
-| --- | --- |
-| OpenSpec change | `add-editor-orchestration` |
-| Branch | `feat/add-editor-orchestration` |
-| OpenSpec status | **complete**（4/4 artifacts）；`openspec validate add-editor-orchestration --strict` **pass**（plan 创建时） |
-| Apply readiness | `isComplete: true`；OpenSpec high-level tasks 0/20 complete |
-| Version impact | `@aether-md/core` **minor-level additive**（`createEditor`、`AetherEditor`、`EditorConfig`、`EditorContext`、`EditorStateSnapshot` 等）；M1–M4 行为 **无 breaking change**；`@aether-md/preset-gfm` / plugin packages export **不变**；`manifestVersion` / `SUPPORTED_MANIFEST_VERSIONS` **不变**（`[1]`）；`pnpm-lock.yaml` **预期变更**（core **devDependencies** workspace 链接） |
-| Expected commit scope | `feat(core)`、`test(core)`；OpenSpec 产物 `docs(openspec)` |
-| Commit strategy | 每个 Superpowers task 可单独 commit；PR body 须追踪 OpenSpec change id 与 task id |
+| 字段                  | 值                                                                                                                                                                                                                                                                                                                                                                                   |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| OpenSpec change       | `add-editor-orchestration`                                                                                                                                                                                                                                                                                                                                                           |
+| Branch                | `feat/add-editor-orchestration`                                                                                                                                                                                                                                                                                                                                                      |
+| OpenSpec status       | **complete**（4/4 artifacts）；`openspec validate add-editor-orchestration --strict` **pass**（plan 创建时）                                                                                                                                                                                                                                                                         |
+| Apply readiness       | `isComplete: true`；OpenSpec high-level tasks 0/20 complete                                                                                                                                                                                                                                                                                                                          |
+| Version impact        | `@aether-md/core` **minor-level additive**（`createEditor`、`AetherEditor`、`EditorConfig`、`EditorContext`、`EditorStateSnapshot` 等）；M1–M4 行为 **无 breaking change**；`@aether-md/preset-gfm` / plugin packages export **不变**；`manifestVersion` / `SUPPORTED_MANIFEST_VERSIONS` **不变**（`[1]`）；`pnpm-lock.yaml` **预期变更**（core **devDependencies** workspace 链接） |
+| Expected commit scope | `feat(core)`、`test(core)`；OpenSpec 产物 `docs(openspec)`                                                                                                                                                                                                                                                                                                                           |
+| Commit strategy       | 每个 Superpowers task 可单独 commit；PR body 须追踪 OpenSpec change id 与 task id                                                                                                                                                                                                                                                                                                    |
 
 范围边界：
 
@@ -73,21 +73,21 @@ OpenSpec artifacts：
 
 ## File Map
 
-| 路径 | 职责 |
-| --- | --- |
-| `packages/core/src/editor/types.ts` | `EditorConfig`、`AetherEditor` 接口、`EditorStateSnapshot`、`EditorSecurityConfig`；**不**含 store API |
-| `packages/core/src/editor/context.ts` | `EditorContext` 最小实现；`services.engine` / `services.parser` wired；history/selection/clipboard/assets/telemetry **stub** |
-| `packages/core/src/editor/conflict-resolver.ts` | `createDefaultConflictResolver()`、`ConflictResolver` 类型（对齐 `docs/engineering/conflict-resolver.md`）；**仅** runtime command 注册使用 |
-| `packages/core/src/editor/adapter-wiring.ts` | 从 `ExtensionPlugin` + preset-shaped bundle 解析 Parser / Serializer / Engine；Capability 校验辅助 |
-| `packages/core/src/editor/create-editor.ts` | `createEditor()` 编排流水线：validate → resolve → conflict merge → bootstrap → runtime → session → `ready` |
-| `packages/core/src/editor/aether-editor.ts` | `AetherEditor` 实现：`state`、`dispatch`、`on`、`getMarkdown`、`getDocument`、`dispose` |
-| `packages/core/src/editor/engine-dispatch.ts` | engine-bound command 路由、快照 save/restore、`change` / `transactionFailed` emit |
-| `packages/core/src/editor/editor-orchestration.test.ts` | contract tests：startup 失败、dispose fail-closed、rollback、M2 独立性 smoke |
-| `packages/core/src/editor/create-editor-gfm.integration.test.ts` | headless `createEditor` + `createGfmPreset()` GFM round-trip（无 React） |
-| `packages/core/src/package-boundary.test.ts` | **翻转**：允许 `createEditor` export；继续 forbid Shell / GFM preset re-export / engine runtime deps |
-| `packages/core/src/index.ts` | 新增 editor orchestration public exports |
-| `packages/core/package.json` | **devDependencies**：`@aether-md/preset-gfm`、`@aether-md/plugin-remark`、`@aether-md/plugin-prosemirror`（workspace:`*`） |
-| `packages/core/tsconfig.test.json` | 若需引用 devDependency 类型，确认 test 编译包含 integration 文件 |
+| 路径                                                             | 职责                                                                                                                                        |
+| ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `packages/core/src/editor/types.ts`                              | `EditorConfig`、`AetherEditor` 接口、`EditorStateSnapshot`、`EditorSecurityConfig`；**不**含 store API                                      |
+| `packages/core/src/editor/context.ts`                            | `EditorContext` 最小实现；`services.engine` / `services.parser` wired；history/selection/clipboard/assets/telemetry **stub**                |
+| `packages/core/src/editor/conflict-resolver.ts`                  | `createDefaultConflictResolver()`、`ConflictResolver` 类型（对齐 `docs/engineering/conflict-resolver.md`）；**仅** runtime command 注册使用 |
+| `packages/core/src/editor/adapter-wiring.ts`                     | 从 `ExtensionPlugin` + preset-shaped bundle 解析 Parser / Serializer / Engine；Capability 校验辅助                                          |
+| `packages/core/src/editor/create-editor.ts`                      | `createEditor()` 编排流水线：validate → resolve → conflict merge → bootstrap → runtime → session → `ready`                                  |
+| `packages/core/src/editor/aether-editor.ts`                      | `AetherEditor` 实现：`state`、`dispatch`、`on`、`getMarkdown`、`getDocument`、`dispose`                                                     |
+| `packages/core/src/editor/engine-dispatch.ts`                    | engine-bound command 路由、快照 save/restore、`change` / `transactionFailed` emit                                                           |
+| `packages/core/src/editor/editor-orchestration.test.ts`          | contract tests：startup 失败、dispose fail-closed、rollback、M2 独立性 smoke                                                                |
+| `packages/core/src/editor/create-editor-gfm.integration.test.ts` | headless `createEditor` + `createGfmPreset()` GFM round-trip（无 React）                                                                    |
+| `packages/core/src/package-boundary.test.ts`                     | **翻转**：允许 `createEditor` export；继续 forbid Shell / GFM preset re-export / engine runtime deps                                        |
+| `packages/core/src/index.ts`                                     | 新增 editor orchestration public exports                                                                                                    |
+| `packages/core/package.json`                                     | **devDependencies**：`@aether-md/preset-gfm`、`@aether-md/plugin-remark`、`@aether-md/plugin-prosemirror`（workspace:`*`）                  |
+| `packages/core/tsconfig.test.json`                               | 若需引用 devDependency 类型，确认 test 编译包含 integration 文件                                                                            |
 
 **不修改（除非 regression）：** `packages/core/src/bootstrap.ts`、`capabilities.ts`（**不** silent provide adapter）、`command-event-runtime.ts`（M2 语义不变）。
 
@@ -99,17 +99,17 @@ OpenSpec artifacts：
 
 每个 Phase / Task 结束前，实现者 **MUST** 确认：
 
-| 禁止项 | Guard |
-| --- | --- |
-| Core → Remark（runtime） | `packages/core/package.json` `dependencies` 与 `packages/core/src/**` 生产代码无 `remark` import |
-| Core → ProseMirror（runtime） | 同上，无 `prosemirror*` import |
-| Core → React / Vue | 无 UI 框架 runtime 依赖或 import |
-| Core → GFM preset 实现 | 无 `@aether-md/preset-gfm` **re-export**；integration test 仅 devDependency import |
-| Shell / GateLock | 无 `@aether-md/react`、DOM、GateLock 代码 |
-| bootstrap silent provide | `bootstrap.ts` / `capabilities.ts` **不**新增 `core:engine` / `core:parser` silent provide |
-| M2 语义污染 | `createCommandEventRuntime` 测试不 require adapter；raw `dispatch` 不 rollback / 不 emit `transactionFailed` |
-| Core store | 无 `subscribe` / observable store export |
-| sync createEditor | 无 `createEditorSync` export |
+| 禁止项                        | Guard                                                                                                        |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| Core → Remark（runtime）      | `packages/core/package.json` `dependencies` 与 `packages/core/src/**` 生产代码无 `remark` import             |
+| Core → ProseMirror（runtime） | 同上，无 `prosemirror*` import                                                                               |
+| Core → React / Vue            | 无 UI 框架 runtime 依赖或 import                                                                             |
+| Core → GFM preset 实现        | 无 `@aether-md/preset-gfm` **re-export**；integration test 仅 devDependency import                           |
+| Shell / GateLock              | 无 `@aether-md/react`、DOM、GateLock 代码                                                                    |
+| bootstrap silent provide      | `bootstrap.ts` / `capabilities.ts` **不**新增 `core:engine` / `core:parser` silent provide                   |
+| M2 语义污染                   | `createCommandEventRuntime` 测试不 require adapter；raw `dispatch` 不 rollback / 不 emit `transactionFailed` |
+| Core store                    | 无 `subscribe` / observable store export                                                                     |
+| sync createEditor             | 无 `createEditorSync` export                                                                                 |
 
 **Core package guard（Task 09 / 10 必跑）：**
 
@@ -170,7 +170,7 @@ node -e "const p=require('./packages/core/package.json'); const d=Object.keys(p.
 - 失败测试：`EditorContext` 暴露 `commands`、`events`、`services.engine`、`services.parser`；stub services 存在且 documented no-op/throw
 - 文件：`editor/context.ts` + `editor/context.test.ts`
 
-**产出：** 编排流水线可组合的独立模块；**无**完整 `createEditor`  yet。
+**产出：** 编排流水线可组合的独立模块；**无**完整 `createEditor` yet。
 
 ### Phase 3: createEditor orchestration（Task 05）
 
@@ -290,18 +290,18 @@ pnpm --filter @aether-md/core test
 
 ## Task Breakdown
 
-| Task | Outcome | Allowed Area | Validation | Version Impact | Depends On | Parallel Group | Barrier |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| **01** `define-editor-public-api-boundary-tests` | 公开类型 + boundary 测试定义 M4.5 export | `editor/types.ts`、`index.ts`、`package-boundary.test.ts` | `pnpm core:test` | core additive types | — | **G0** | no |
-| **02** `implement-default-conflict-resolver` | `createDefaultConflictResolver()` 仅 command 注册 | `editor/conflict-resolver.ts`、`*test.ts` | `pnpm core:test` | none | 01 | **G1** | no |
-| **03** `implement-adapter-factory-from-preset` | preset-shaped bundle → wired adapters | `editor/adapter-wiring.ts`、`*test.ts` | `pnpm core:test` | none | 01 | **G1** | no |
-| **04** `implement-editor-context-stub-services` | EditorContext 最小面 + stubs | `editor/context.ts`、`*test.ts` | `pnpm core:test` | none | 01 | **G1** | no |
-| **05** `implement-create-editor-orchestration` | `createEditor` 流水线 + `ready` + startup 失败 | `editor/create-editor.ts`、`aether-editor.ts`（skeleton） | `pnpm core:test` | `createEditor` export | 02, 03, 04 | **G2** | no |
-| **06** `implement-get-markdown-and-get-document` | 宿主 `getDocument` / lazy `getMarkdown` | `editor/aether-editor.ts` | `pnpm core:test` | none | 05 | **G3** | no |
-| **07** `implement-editor-dispatch-and-change-events` | `dispatch`、rollback、`change`/`transactionFailed`/`disposed` | `editor/engine-dispatch.ts`、`aether-editor.ts` | `pnpm core:test` | none | 05, 06 | **G3** | no |
-| **08** `add-create-editor-gfm-integration-tests` | headless GFM integration | `create-editor-gfm.integration.test.ts`、`package.json` devDeps | `pnpm --filter @aether-md/core test` | lockfile devDeps | 05, 06, 07 | **G4** | no |
-| **09** `reinforce-package-boundary-and-non-goals` | boundary 翻转确认 + non-goals checklist + M2 regression | `package-boundary.test.ts`、`rg` guard | `pnpm core:test` + guard scripts | none | 08 | **G5** | no |
-| **10** `run-full-validation` | 全 workspace 绿 + openspec strict | 全 change scope | `pnpm check`；`openspec validate add-editor-orchestration --strict` | 确认 lockfile | 09 | **G6** | **yes** |
+| Task                                                 | Outcome                                                       | Allowed Area                                                    | Validation                                                          | Version Impact        | Depends On | Parallel Group | Barrier |
+| ---------------------------------------------------- | ------------------------------------------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------- | --------------------- | ---------- | -------------- | ------- |
+| **01** `define-editor-public-api-boundary-tests`     | 公开类型 + boundary 测试定义 M4.5 export                      | `editor/types.ts`、`index.ts`、`package-boundary.test.ts`       | `pnpm core:test`                                                    | core additive types   | —          | **G0**         | no      |
+| **02** `implement-default-conflict-resolver`         | `createDefaultConflictResolver()` 仅 command 注册             | `editor/conflict-resolver.ts`、`*test.ts`                       | `pnpm core:test`                                                    | none                  | 01         | **G1**         | no      |
+| **03** `implement-adapter-factory-from-preset`       | preset-shaped bundle → wired adapters                         | `editor/adapter-wiring.ts`、`*test.ts`                          | `pnpm core:test`                                                    | none                  | 01         | **G1**         | no      |
+| **04** `implement-editor-context-stub-services`      | EditorContext 最小面 + stubs                                  | `editor/context.ts`、`*test.ts`                                 | `pnpm core:test`                                                    | none                  | 01         | **G1**         | no      |
+| **05** `implement-create-editor-orchestration`       | `createEditor` 流水线 + `ready` + startup 失败                | `editor/create-editor.ts`、`aether-editor.ts`（skeleton）       | `pnpm core:test`                                                    | `createEditor` export | 02, 03, 04 | **G2**         | no      |
+| **06** `implement-get-markdown-and-get-document`     | 宿主 `getDocument` / lazy `getMarkdown`                       | `editor/aether-editor.ts`                                       | `pnpm core:test`                                                    | none                  | 05         | **G3**         | no      |
+| **07** `implement-editor-dispatch-and-change-events` | `dispatch`、rollback、`change`/`transactionFailed`/`disposed` | `editor/engine-dispatch.ts`、`aether-editor.ts`                 | `pnpm core:test`                                                    | none                  | 05, 06     | **G3**         | no      |
+| **08** `add-create-editor-gfm-integration-tests`     | headless GFM integration                                      | `create-editor-gfm.integration.test.ts`、`package.json` devDeps | `pnpm --filter @aether-md/core test`                                | lockfile devDeps      | 05, 06, 07 | **G4**         | no      |
+| **09** `reinforce-package-boundary-and-non-goals`    | boundary 翻转确认 + non-goals checklist + M2 regression       | `package-boundary.test.ts`、`rg` guard                          | `pnpm core:test` + guard scripts                                    | none                  | 08         | **G5**         | no      |
+| **10** `run-full-validation`                         | 全 workspace 绿 + openspec strict                             | 全 change scope                                                 | `pnpm check`；`openspec validate add-editor-orchestration --strict` | 确认 lockfile         | 09         | **G6**         | **yes** |
 
 **Parallel execution notes：**
 
@@ -311,31 +311,31 @@ pnpm --filter @aether-md/core test
 
 ## Validation Matrix
 
-| Phase / Task | OpenSpec Requirement（引用 capability） | Validation 入口 | Intuitive Verification | Notes |
-| --- | --- | --- | --- | --- |
-| 01 | `editor-orchestration` createEditor export；EditorStateSnapshot | `pnpm core:test` | boundary 期望 `createEditor` 存在 | types-only stub OK |
-| 01 | `core-bootstrap` Minimal Core package (MODIFIED) | `pnpm core:test` | 仍 forbid Shell/GFM re-export | |
-| 02 | `editor-orchestration` ConflictResolver only | `pnpm core:test` | command last-wins unit test | 不调用 schema merge |
-| 03 | `editor-orchestration` explicit adapter wiring | `pnpm core:test` | resolve parser/serializer/engine | no silent provide |
-| 04 | `editor-orchestration` EditorContext minimal | `pnpm core:test` | commands/events/engine/parser | stubs documented |
-| 05 | createEditor resolve / CoreError / ready / Markdown init | `pnpm core:test` | orchestration.test startup paths | 无 React |
-| 06 | host getDocument / getMarkdown | `pnpm core:test` | lazy serialize test | |
-| 07 | dispatch rollback / change / transactionFailed / disposed | `pnpm core:test` | engine-dispatch tests | M2 standalone unchanged |
-| 07 | `command-event-runtime` standalone independence (ADDED) | `pnpm core:test` | 既有 `command-event-runtime.test.ts` 绿 | |
-| 08 | headless GFM through createEditor | `pnpm --filter @aether-md/core test` | integration test ≥3 fixtures | devDeps only |
-| 08 | `adapter-base` createEditor round-trip (ADDED) | 同上 | 经 createEditor 非 harness | |
-| 09 | package boundary / non-goals | `pnpm core:test` + `rg` guard | checklist § Package Boundary Guard | |
-| 10 | 全 change 验收 | `pnpm check` | workspace build/typecheck/test 绿 | barrier |
-| 10 | OpenSpec strict | `openspec validate add-editor-orchestration --strict` | pass | barrier |
+| Phase / Task | OpenSpec Requirement（引用 capability）                         | Validation 入口                                       | Intuitive Verification                  | Notes                   |
+| ------------ | --------------------------------------------------------------- | ----------------------------------------------------- | --------------------------------------- | ----------------------- |
+| 01           | `editor-orchestration` createEditor export；EditorStateSnapshot | `pnpm core:test`                                      | boundary 期望 `createEditor` 存在       | types-only stub OK      |
+| 01           | `core-bootstrap` Minimal Core package (MODIFIED)                | `pnpm core:test`                                      | 仍 forbid Shell/GFM re-export           |                         |
+| 02           | `editor-orchestration` ConflictResolver only                    | `pnpm core:test`                                      | command last-wins unit test             | 不调用 schema merge     |
+| 03           | `editor-orchestration` explicit adapter wiring                  | `pnpm core:test`                                      | resolve parser/serializer/engine        | no silent provide       |
+| 04           | `editor-orchestration` EditorContext minimal                    | `pnpm core:test`                                      | commands/events/engine/parser           | stubs documented        |
+| 05           | createEditor resolve / CoreError / ready / Markdown init        | `pnpm core:test`                                      | orchestration.test startup paths        | 无 React                |
+| 06           | host getDocument / getMarkdown                                  | `pnpm core:test`                                      | lazy serialize test                     |                         |
+| 07           | dispatch rollback / change / transactionFailed / disposed       | `pnpm core:test`                                      | engine-dispatch tests                   | M2 standalone unchanged |
+| 07           | `command-event-runtime` standalone independence (ADDED)         | `pnpm core:test`                                      | 既有 `command-event-runtime.test.ts` 绿 |                         |
+| 08           | headless GFM through createEditor                               | `pnpm --filter @aether-md/core test`                  | integration test ≥3 fixtures            | devDeps only            |
+| 08           | `adapter-base` createEditor round-trip (ADDED)                  | 同上                                                  | 经 createEditor 非 harness              |                         |
+| 09           | package boundary / non-goals                                    | `pnpm core:test` + `rg` guard                         | checklist § Package Boundary Guard      |                         |
+| 10           | 全 change 验收                                                  | `pnpm check`                                          | workspace build/typecheck/test 绿       | barrier                 |
+| 10           | OpenSpec strict                                                 | `openspec validate add-editor-orchestration --strict` | pass                                    | barrier                 |
 
 **汇总命令映射：**
 
-| 命令 | 覆盖 |
-| --- | --- |
-| `pnpm core:test` | Tasks 01–09；M1–M4 regression；editor contract + integration |
-| `pnpm --filter @aether-md/core test` | Task 08 integration（同 core:test，可单独跑 editor 目录） |
-| `pnpm check` | Task 10 全 workspace gate（build + typecheck + test + skills check） |
-| `openspec validate add-editor-orchestration --strict` | Task 10 OpenSpec barrier |
+| 命令                                                  | 覆盖                                                                 |
+| ----------------------------------------------------- | -------------------------------------------------------------------- |
+| `pnpm core:test`                                      | Tasks 01–09；M1–M4 regression；editor contract + integration         |
+| `pnpm --filter @aether-md/core test`                  | Task 08 integration（同 core:test，可单独跑 editor 目录）            |
+| `pnpm check`                                          | Task 10 全 workspace gate（build + typecheck + test + skills check） |
+| `openspec validate add-editor-orchestration --strict` | Task 10 OpenSpec barrier                                             |
 
 **Integration test 聚焦命令（Task 08 本地迭代）：**
 
@@ -347,17 +347,17 @@ pnpm --filter @aether-md/core exec node --test dist/editor/create-editor-gfm.int
 
 ## Boundary Risks
 
-| 风险 | 触发点 | 处理方式 |
-| --- | --- | --- |
-| Core runtime 依赖 preset/plugins | 为省事加入 dependencies | 仅 devDependencies；Task 09 guard |
-| bootstrap silent provide | createEditor 内补 engine/parser | 显式 wiring only；capabilities.test 不变 |
-| M2 语义回归 | editor 修改 command-event-runtime.ts | 最小 internal reuse；M2 tests 独立文件 |
-| store API creep | Shell 便利 | Phase 0 禁止；EditorStateSnapshot 仅 doc+readOnly |
-| sync createEditor | 测试简单 | boundary forbid |
-| integration 与 M4 harness 重复 | 复制 round-trip 逻辑 | 断言 import path 经 `createEditor` |
-| ExtensionPlugin shape 与 GfmPreset 不匹配 | Task 03/05 | `toExtensionPlugin(createGfmPreset())` helper |
-| getMarkdown eager serialize 性能 | change 热路径 | lazy on call（design 建议） |
-| 无关文件 commit | core-api + openspec + impl | Code-Management 区 |
+| 风险                                      | 触发点                               | 处理方式                                          |
+| ----------------------------------------- | ------------------------------------ | ------------------------------------------------- |
+| Core runtime 依赖 preset/plugins          | 为省事加入 dependencies              | 仅 devDependencies；Task 09 guard                 |
+| bootstrap silent provide                  | createEditor 内补 engine/parser      | 显式 wiring only；capabilities.test 不变          |
+| M2 语义回归                               | editor 修改 command-event-runtime.ts | 最小 internal reuse；M2 tests 独立文件            |
+| store API creep                           | Shell 便利                           | Phase 0 禁止；EditorStateSnapshot 仅 doc+readOnly |
+| sync createEditor                         | 测试简单                             | boundary forbid                                   |
+| integration 与 M4 harness 重复            | 复制 round-trip 逻辑                 | 断言 import path 经 `createEditor`                |
+| ExtensionPlugin shape 与 GfmPreset 不匹配 | Task 03/05                           | `toExtensionPlugin(createGfmPreset())` helper     |
+| getMarkdown eager serialize 性能          | change 热路径                        | lazy on call（design 建议）                       |
+| 无关文件 commit                           | core-api + openspec + impl           | Code-Management 区                                |
 
 ## Review Focus
 
@@ -374,13 +374,13 @@ pnpm --filter @aether-md/core exec node --test dist/editor/create-editor-gfm.int
 
 ## Open Questions
 
-| 问题 | Plan 阶段处理 | 阻塞？ |
-| --- | --- | --- |
-| `ExtensionPlugin` 是否扩展 `adapters` 字段 vs wrapper helper | Task 03/05 定稿 `toExtensionPlugin(GfmPreset)`；须通过 wiring tests | 否 |
-| Engine-bound command id 命名空间 | Task 07 冻结 `core:replaceText` | 否 |
-| GFM integration 六语法全量 vs 最小子集 | Task 08 最少 paragraph + strong + list；扩展留 task 内 optional | 否 |
-| `getMarkdown()` lazy vs eager | Task 06 lazy on call；integration 显式调用 `getMarkdown()` | 否 |
-| stub History API 行为 throw vs no-op | Task 04 选 no-op + `Symbol`/`undefined` return；document in context.ts | 否 |
+| 问题                                                         | Plan 阶段处理                                                          | 阻塞？ |
+| ------------------------------------------------------------ | ---------------------------------------------------------------------- | ------ |
+| `ExtensionPlugin` 是否扩展 `adapters` 字段 vs wrapper helper | Task 03/05 定稿 `toExtensionPlugin(GfmPreset)`；须通过 wiring tests    | 否     |
+| Engine-bound command id 命名空间                             | Task 07 冻结 `core:replaceText`                                        | 否     |
+| GFM integration 六语法全量 vs 最小子集                       | Task 08 最少 paragraph + strong + list；扩展留 task 内 optional        | 否     |
+| `getMarkdown()` lazy vs eager                                | Task 06 lazy on call；integration 显式调用 `getMarkdown()`             | 否     |
+| stub History API 行为 throw vs no-op                         | Task 04 选 no-op + `Symbol`/`undefined` return；document in context.ts | 否     |
 
 实现中若需偏离 OpenSpec `design.md` 或 Phase 0，**MUST** 先更新 OpenSpec change 记录 deviation，再改代码。
 
@@ -397,12 +397,12 @@ pnpm --filter @aether-md/core exec node --test dist/editor/create-editor-gfm.int
 
 **Commit 策略：**
 
-| 类型 | scope 示例 | Task |
-| --- | --- | --- |
-| `docs(openspec)` | OpenSpec artifacts | 已完成 |
-| `feat(core)` | editor modules | 02–07 |
-| `test(core)` | boundary、integration、contract | 01, 08, 09 |
-| `chore(core)` | devDependencies | 08 |
+| 类型             | scope 示例                      | Task       |
+| ---------------- | ------------------------------- | ---------- |
+| `docs(openspec)` | OpenSpec artifacts              | 已完成     |
+| `feat(core)`     | editor modules                  | 02–07      |
+| `test(core)`     | boundary、integration、contract | 01, 08, 09 |
+| `chore(core)`    | devDependencies                 | 08         |
 
 - 推荐 **一 Superpowers task 一 commit**。
 - Archive 前 `aether-workflow-update-docs-spec` sync main specs + `docs/architecture/compatibility.md`。

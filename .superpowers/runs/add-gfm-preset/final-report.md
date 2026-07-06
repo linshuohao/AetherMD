@@ -10,19 +10,19 @@
 
 ## Implemented Requirements
 
-| Capability | Requirement | Evidence |
-| --- | --- | --- |
-| **gfm-preset** | GFM preset package exists in workspace | `packages/preset-gfm/`; `pnpm check` covers 4 packages |
-| **gfm-preset** | Manifest + public factory entry | `manifest.ts` (`manifestVersion: 1`, `name: gfm`); `createGfmPreset()` in `index.ts` |
-| **gfm-preset** | GFM round-trip integration matrix | `round-trip.test.ts` — 7 scenarios (paragraph, heading, strong, emphasis, ul, ol, link) |
-| **document-model** | GFM built-in types structured round-trip | remark + prosemirror + preset tests; core `document-model.test.ts` GFM matrix |
-| **document-model** | CustomBlock outside M4 GFM matrix | separate CustomBlock describe; serializer placeholder only |
-| **adapter-base** | Remark GFM parse/serialize | `parser.ts` / `serializer.ts`; 21 remark tests |
-| **adapter-base** | ProseMirror preserves GFM structures | `conversion.ts`; `engine.test.ts` + `conversion.test.ts`; 13 PM tests |
-| **adapter-base** | SerializationError placeholder strategy | `CustomBlock` → `[unsupported:block:<name>]`; unsupported nodes reject |
-| **adapter-base** | M3 minimal round-trip preserved | M3 paragraph/heading cases still pass in remark + preset tests |
-| **core-bootstrap** | Workspace preset without core re-export | `package-boundary.test.ts`; no `createGfmPreset` / `presetGfm` in core exports |
-| **Non-goals** | No createEditor / Shell / bootstrapCore wiring | validation Task 11 checklist; import guards in preset tests |
+| Capability         | Requirement                                    | Evidence                                                                                |
+| ------------------ | ---------------------------------------------- | --------------------------------------------------------------------------------------- |
+| **gfm-preset**     | GFM preset package exists in workspace         | `packages/preset-gfm/`; `pnpm check` covers 4 packages                                  |
+| **gfm-preset**     | Manifest + public factory entry                | `manifest.ts` (`manifestVersion: 1`, `name: gfm`); `createGfmPreset()` in `index.ts`    |
+| **gfm-preset**     | GFM round-trip integration matrix              | `round-trip.test.ts` — 7 scenarios (paragraph, heading, strong, emphasis, ul, ol, link) |
+| **document-model** | GFM built-in types structured round-trip       | remark + prosemirror + preset tests; core `document-model.test.ts` GFM matrix           |
+| **document-model** | CustomBlock outside M4 GFM matrix              | separate CustomBlock describe; serializer placeholder only                              |
+| **adapter-base**   | Remark GFM parse/serialize                     | `parser.ts` / `serializer.ts`; 21 remark tests                                          |
+| **adapter-base**   | ProseMirror preserves GFM structures           | `conversion.ts`; `engine.test.ts` + `conversion.test.ts`; 13 PM tests                   |
+| **adapter-base**   | SerializationError placeholder strategy        | `CustomBlock` → `[unsupported:block:<name>]`; unsupported nodes reject                  |
+| **adapter-base**   | M3 minimal round-trip preserved                | M3 paragraph/heading cases still pass in remark + preset tests                          |
+| **core-bootstrap** | Workspace preset without core re-export        | `package-boundary.test.ts`; no `createGfmPreset` / `presetGfm` in core exports          |
+| **Non-goals**      | No createEditor / Shell / bootstrapCore wiring | validation Task 11 checklist; import guards in preset tests                             |
 
 ## Source Docs
 
@@ -39,94 +39,94 @@
 
 ## Specs Updated
 
-| Main spec | Action | Status |
-| --- | --- | --- |
-| `openspec/specs/gfm-preset/spec.md` | ADD (3 requirements) | synced on working tree (uncommitted) |
+| Main spec                               | Action                                         | Status                               |
+| --------------------------------------- | ---------------------------------------------- | ------------------------------------ |
+| `openspec/specs/gfm-preset/spec.md`     | ADD (3 requirements)                           | synced on working tree (uncommitted) |
 | `openspec/specs/document-model/spec.md` | MODIFY (GFM round-trip + CustomBlock deferral) | synced on working tree (uncommitted) |
-| `openspec/specs/adapter-base/spec.md` | MODIFY (GFM + SerializationError) | synced on working tree (uncommitted) |
-| `openspec/specs/core-bootstrap/spec.md` | MODIFY (workspace preset boundary) | synced on working tree (uncommitted) |
+| `openspec/specs/adapter-base/spec.md`   | MODIFY (GFM + SerializationError)              | synced on working tree (uncommitted) |
+| `openspec/specs/core-bootstrap/spec.md` | MODIFY (workspace preset boundary)             | synced on working tree (uncommitted) |
 
 Delta specs archived with change at `openspec/changes/archive/2026-07-05-add-gfm-preset/specs/`.
 
 ## Tasks Completed
 
-| Task | Status | Validation | Deviation |
-| --- | --- | --- | --- |
-| 01 define-gfm-document-model-tests | complete | core 61/61 | TDD immediate-pass (M3 types pre-exported) |
-| 02 implement-gfm-document-model-types | complete | core 61/61 | zero production diff |
-| 03 define-remark-gfm-parser-serializer-tests | complete | 11 GFM fail (red) | none |
-| 04 implement-remark-gfm-parser-serializer | complete | remark 18/18 | none |
-| 05 define-prosemirror-gfm-engine-tests | complete | 5 GFM fail (red) | none |
-| 06 implement-prosemirror-gfm-engine | complete | prosemirror 13/13 | none |
-| 07 scaffold-preset-gfm-package | complete | preset 4/4 + build | none |
-| 08 define-cross-package-gfm-roundtrip-tests | complete | preset 12/12 | integration green on first run |
-| 09 implement-serialization-error-placeholder-strategy | complete | remark 21/21 | none |
-| 10 reinforce-package-boundary-and-non-goals-guards | complete | core 61/61 + rg guards | none |
-| 11 run-full-validation | complete | `pnpm check` PASS; 107 tests | none |
+| Task                                                  | Status   | Validation                   | Deviation                                  |
+| ----------------------------------------------------- | -------- | ---------------------------- | ------------------------------------------ |
+| 01 define-gfm-document-model-tests                    | complete | core 61/61                   | TDD immediate-pass (M3 types pre-exported) |
+| 02 implement-gfm-document-model-types                 | complete | core 61/61                   | zero production diff                       |
+| 03 define-remark-gfm-parser-serializer-tests          | complete | 11 GFM fail (red)            | none                                       |
+| 04 implement-remark-gfm-parser-serializer             | complete | remark 18/18                 | none                                       |
+| 05 define-prosemirror-gfm-engine-tests                | complete | 5 GFM fail (red)             | none                                       |
+| 06 implement-prosemirror-gfm-engine                   | complete | prosemirror 13/13            | none                                       |
+| 07 scaffold-preset-gfm-package                        | complete | preset 4/4 + build           | none                                       |
+| 08 define-cross-package-gfm-roundtrip-tests           | complete | preset 12/12                 | integration green on first run             |
+| 09 implement-serialization-error-placeholder-strategy | complete | remark 21/21                 | none                                       |
+| 10 reinforce-package-boundary-and-non-goals-guards    | complete | core 61/61 + rg guards       | none                                       |
+| 11 run-full-validation                                | complete | `pnpm check` PASS; 107 tests | none                                       |
 
 **Note:** OpenSpec `tasks.md` checkboxes remain `[ ]` in the archived change artifact; Superpowers task files record `complete` and evidence lives in `validation.md` / compliance review.
 
 ## Files Changed
 
-| File / Area | Task | Notes |
-| --- | --- | --- |
-| `packages/core/src/document-model.test.ts` | 01 | GFM matrix + CustomBlock contract tests |
-| `packages/core/src/package-boundary.test.ts` | 10 | preset workspace guard; no core re-export |
-| `packages/plugins/plugin-remark/package.json` | 04 | `remark-gfm` dependency |
-| `packages/plugins/plugin-remark/src/parser.ts` | 04 | GFM structured parse |
-| `packages/plugins/plugin-remark/src/parser.test.ts` | 03, 04 | GFM parse + M3 degradation |
-| `packages/plugins/plugin-remark/src/serializer.ts` | 04, 09 | GFM serialize + placeholder strategy |
-| `packages/plugins/plugin-remark/src/serializer.test.ts` | 03, 04, 09 | golden strings + SerializationError |
-| `packages/plugins/plugin-prosemirror/src/conversion.ts` | 06 | GFM schema/conversion |
-| `packages/plugins/plugin-prosemirror/src/conversion.test.ts` | 05 | GFM conversion contract |
-| `packages/plugins/plugin-prosemirror/src/fixtures/gfm-doc.ts` | 05 | GFM fixture |
-| `packages/plugins/plugin-prosemirror/src/engine.test.ts` | 05, 06 | GFM preserve on apply |
-| `packages/preset-gfm/**` | 07, 08 | new package: manifest, factory, round-trip tests |
-| `pnpm-lock.yaml` | 04, 07 | `remark-gfm` + workspace links |
-| `openspec/specs/**` | Step 8 (partial) | main spec sync |
-| `docs/**` (6 files) | Step 8 (partial) | see Docs / ADR Updates |
-| `.superpowers/plans/`, `tasks/`, `runs/`, `reviews/` | workflow | plan, tasks 01–11, validation, review |
+| File / Area                                                   | Task             | Notes                                            |
+| ------------------------------------------------------------- | ---------------- | ------------------------------------------------ |
+| `packages/core/src/document-model.test.ts`                    | 01               | GFM matrix + CustomBlock contract tests          |
+| `packages/core/src/package-boundary.test.ts`                  | 10               | preset workspace guard; no core re-export        |
+| `packages/plugins/plugin-remark/package.json`                 | 04               | `remark-gfm` dependency                          |
+| `packages/plugins/plugin-remark/src/parser.ts`                | 04               | GFM structured parse                             |
+| `packages/plugins/plugin-remark/src/parser.test.ts`           | 03, 04           | GFM parse + M3 degradation                       |
+| `packages/plugins/plugin-remark/src/serializer.ts`            | 04, 09           | GFM serialize + placeholder strategy             |
+| `packages/plugins/plugin-remark/src/serializer.test.ts`       | 03, 04, 09       | golden strings + SerializationError              |
+| `packages/plugins/plugin-prosemirror/src/conversion.ts`       | 06               | GFM schema/conversion                            |
+| `packages/plugins/plugin-prosemirror/src/conversion.test.ts`  | 05               | GFM conversion contract                          |
+| `packages/plugins/plugin-prosemirror/src/fixtures/gfm-doc.ts` | 05               | GFM fixture                                      |
+| `packages/plugins/plugin-prosemirror/src/engine.test.ts`      | 05, 06           | GFM preserve on apply                            |
+| `packages/preset-gfm/**`                                      | 07, 08           | new package: manifest, factory, round-trip tests |
+| `pnpm-lock.yaml`                                              | 04, 07           | `remark-gfm` + workspace links                   |
+| `openspec/specs/**`                                           | Step 8 (partial) | main spec sync                                   |
+| `docs/**` (6 files)                                           | Step 8 (partial) | see Docs / ADR Updates                           |
+| `.superpowers/plans/`, `tasks/`, `runs/`, `reviews/`          | workflow         | plan, tasks 01–11, validation, review            |
 
 **Uncommitted:** all implementation + workflow artifacts remain on `feat/add-gfm-preset` (no commit per user instruction).
 
 ## Validation Evidence
 
-| Command | Result | Notes |
-| --- | --- | --- |
-| `pnpm check` | **PASS** | 4 packages, 12 turbo tasks (Task 11) |
-| `openspec validate add-gfm-preset --strict` | **PASS** | pre-archive |
-| `@aether-md/core` tests | **PASS** | 61/61 |
-| `@aether-md/plugin-remark` tests | **PASS** | 21/21 |
-| `@aether-md/plugin-prosemirror` tests | **PASS** | 13/13 |
-| `@aether-md/preset-gfm` tests | **PASS** | 12/12 |
-| **Total** | **PASS** | **107 tests** |
-| Compliance review | **PASS** | no blockers (`.superpowers/reviews/add-gfm-preset.md`) |
-| Non-goals guard | **PASS** | validation.md Task 11 checklist |
+| Command                                     | Result   | Notes                                                  |
+| ------------------------------------------- | -------- | ------------------------------------------------------ |
+| `pnpm check`                                | **PASS** | 4 packages, 12 turbo tasks (Task 11)                   |
+| `openspec validate add-gfm-preset --strict` | **PASS** | pre-archive                                            |
+| `@aether-md/core` tests                     | **PASS** | 61/61                                                  |
+| `@aether-md/plugin-remark` tests            | **PASS** | 21/21                                                  |
+| `@aether-md/plugin-prosemirror` tests       | **PASS** | 13/13                                                  |
+| `@aether-md/preset-gfm` tests               | **PASS** | 12/12                                                  |
+| **Total**                                   | **PASS** | **107 tests**                                          |
+| Compliance review                           | **PASS** | no blockers (`.superpowers/reviews/add-gfm-preset.md`) |
+| Non-goals guard                             | **PASS** | validation.md Task 11 checklist                        |
 
 Full per-task evidence: `.superpowers/runs/add-gfm-preset/validation.md`.
 
 ## Deviations (accepted)
 
-| Deviation | Task | Assessment |
-| --- | --- | --- |
-| GFM/CustomBlock document-model tests passed immediately; M3 already exported types | 01 | Accepted — adds M4 contract coverage |
-| Zero production diff for document-model types | 02 | Accepted — design decision 4 |
-| Cross-package integration tests green on first run | 08 | Accepted — prerequisites complete |
-| Round-trip import guard checks `import` lines only | 06, 08 | Accepted — same pattern as M3 |
-| `createGfmPreset()` wires adapters directly (not via `bootstrapCore`) | 07 | Accepted — explicit non-goal |
+| Deviation                                                                          | Task   | Assessment                           |
+| ---------------------------------------------------------------------------------- | ------ | ------------------------------------ |
+| GFM/CustomBlock document-model tests passed immediately; M3 already exported types | 01     | Accepted — adds M4 contract coverage |
+| Zero production diff for document-model types                                      | 02     | Accepted — design decision 4         |
+| Cross-package integration tests green on first run                                 | 08     | Accepted — prerequisites complete    |
+| Round-trip import guard checks `import` lines only                                 | 06, 08 | Accepted — same pattern as M3        |
+| `createGfmPreset()` wires adapters directly (not via `bootstrapCore`)              | 07     | Accepted — explicit non-goal         |
 
 ## Version Impact
 
-| Package / artifact | Impact |
-| --- | --- |
-| `@aether-md/core` | no breaking change; production exports unchanged |
-| `@aether-md/preset-gfm` | **new** workspace package `0.0.0` |
-| `@aether-md/plugin-remark` | minor GFM extension; `remark-gfm` added |
-| `@aether-md/plugin-prosemirror` | minor GFM schema/conversion extension |
-| `manifestVersion` / `SUPPORTED_MANIFEST_VERSIONS` | unchanged `[1]` |
-| `pnpm-lock.yaml` | updated (`remark-gfm`, preset workspace links) |
-| Main OpenSpec specs | additive/modified (see Specs Updated) |
-| Changesets | not yet created (pre-publish) |
+| Package / artifact                                | Impact                                           |
+| ------------------------------------------------- | ------------------------------------------------ |
+| `@aether-md/core`                                 | no breaking change; production exports unchanged |
+| `@aether-md/preset-gfm`                           | **new** workspace package `0.0.0`                |
+| `@aether-md/plugin-remark`                        | minor GFM extension; `remark-gfm` added          |
+| `@aether-md/plugin-prosemirror`                   | minor GFM schema/conversion extension            |
+| `manifestVersion` / `SUPPORTED_MANIFEST_VERSIONS` | unchanged `[1]`                                  |
+| `pnpm-lock.yaml`                                  | updated (`remark-gfm`, preset workspace links)   |
+| Main OpenSpec specs                               | additive/modified (see Specs Updated)            |
+| Changesets                                        | not yet created (pre-publish)                    |
 
 ## Docs / ADR Updates
 
@@ -199,12 +199,12 @@ Recommended multi-commit grouping (from compliance review):
 
 ## Remaining Follow-ups
 
-| Follow-up | Scope |
-| --- | --- |
-| Deferred docs | `package-layout.md`, `compatibility.md`, `README.md`, glossary review |
-| Branch integration | stage, commit, PR on `feat/add-gfm-preset` (deferred per user) |
-| M5+ | `createEditor`, React Shell, `bootstrapCore` Adapter loading |
-| M4+ syntax | nested lists, tables, code blocks, `CustomBlock` round-trip |
+| Follow-up          | Scope                                                                 |
+| ------------------ | --------------------------------------------------------------------- |
+| Deferred docs      | `package-layout.md`, `compatibility.md`, `README.md`, glossary review |
+| Branch integration | stage, commit, PR on `feat/add-gfm-preset` (deferred per user)        |
+| M5+                | `createEditor`, React Shell, `bootstrapCore` Adapter loading          |
+| M4+ syntax         | nested lists, tables, code blocks, `CustomBlock` round-trip           |
 
 ## Archive Readiness Checklist
 

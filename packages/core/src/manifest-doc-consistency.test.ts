@@ -13,8 +13,7 @@ const OFFICIAL_PACKAGE_SRC_DIRS = [
   "packages/react/src",
 ] as const;
 
-const STABLE_MANIFEST_VERSION_ROW =
-  /^\|\s*`(\d+)`\s*\|\s*\*\*Stable\*\*\s*\|/gm;
+const STABLE_MANIFEST_VERSION_ROW = /^\|\s*`(\d+)`\s*\|\s*\*\*Stable\*\*\s*\|/gm;
 
 const MANIFEST_VERSION_LITERAL = /manifestVersion:\s*(\d+)/g;
 
@@ -82,9 +81,7 @@ describe("manifest documentation consistency", () => {
     const manifestDocPath = join(repoRoot, "docs", "sdk", "manifest.md");
     const markdown = readFileSync(manifestDocPath, "utf8");
     const docVersions = parseStableManifestVersions(markdown);
-    const supportedVersions = [...SUPPORTED_MANIFEST_VERSIONS].sort(
-      (left, right) => left - right,
-    );
+    const supportedVersions = [...SUPPORTED_MANIFEST_VERSIONS].sort((left, right) => left - right);
 
     assert.deepEqual(
       docVersions,

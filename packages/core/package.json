@@ -24,7 +24,8 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc --noEmit",
-    "test": "pnpm --filter @aether-md/plugin-remark build && pnpm --filter @aether-md/plugin-prosemirror build && pnpm --filter @aether-md/preset-gfm build && tsc -p tsconfig.test.json && node --test $(find dist-test -name '*.test.js' | sort)"
+    "test": "pnpm --filter @aether-md/plugin-remark build && pnpm --filter @aether-md/plugin-prosemirror build && pnpm --filter @aether-md/preset-gfm build && tsc -p tsconfig.test.json && node --test $(find dist-test -name '*.test.js' | sort)",
+    "check": "pnpm typecheck && pnpm test"
   },
   "devDependencies": {
     "@types/node": "^26.1.0",

@@ -49,10 +49,7 @@ describe("document model public types", () => {
 
     assert.equal(parsed.type, "doc");
     assert.equal(parsed.children[0]?.type, "paragraph");
-    assert.equal(
-      (parsed.children[0] as ParagraphBlock).children[0]?.type,
-      "text",
-    );
+    assert.equal((parsed.children[0] as ParagraphBlock).children[0]?.type, "text");
     assert.doesNotMatch(json, /function|\[object Object\]/);
   });
 

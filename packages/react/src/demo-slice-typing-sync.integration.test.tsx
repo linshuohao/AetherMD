@@ -11,11 +11,7 @@ import {
   resolveProseMirrorView,
 } from "@aether-md/plugin-prosemirror";
 
-import {
-  AetherEditorContent,
-  AetherEditorRoot,
-  useAetherEditor,
-} from "./index.js";
+import { AetherEditorContent, AetherEditorRoot, useAetherEditor } from "./index.js";
 import { createGfmEditorPlugins } from "./test-helpers.js";
 
 const GFM_FIXTURE = `# Demo Title
@@ -29,9 +25,7 @@ Visit [example](https://example.com).
 
 function MarkdownPreview() {
   const { markdown, ready } = useAetherEditor();
-  return (
-    <pre data-testid="markdown-preview">{ready ? markdown : "Loading…"}</pre>
-  );
+  return <pre data-testid="markdown-preview">{ready ? markdown : "Loading…"}</pre>;
 }
 
 function renderTypingShell() {
@@ -57,7 +51,11 @@ function getEditorView() {
   return view;
 }
 
-async function insertTextAt(view: ReturnType<typeof getEditorView>, position: number, text: string) {
+async function insertTextAt(
+  view: ReturnType<typeof getEditorView>,
+  position: number,
+  text: string,
+) {
   await act(async () => {
     dispatchProseMirrorInsertText(view, position, text);
   });

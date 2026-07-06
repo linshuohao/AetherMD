@@ -5,19 +5,13 @@ export interface MorphingFocusContextValue {
   setFocusedBlockIndex: (index: number | null) => void;
 }
 
-const MorphingFocusContext = createContext<MorphingFocusContextValue | null>(
-  null,
-);
+const MorphingFocusContext = createContext<MorphingFocusContextValue | null>(null);
 
 export function MorphingFocusProvider({ children }: { children: ReactNode }) {
-  const [focusedBlockIndex, setFocusedBlockIndex] = useState<number | null>(
-    null,
-  );
+  const [focusedBlockIndex, setFocusedBlockIndex] = useState<number | null>(null);
 
   return (
-    <MorphingFocusContext.Provider
-      value={{ focusedBlockIndex, setFocusedBlockIndex }}
-    >
+    <MorphingFocusContext.Provider value={{ focusedBlockIndex, setFocusedBlockIndex }}>
       {children}
     </MorphingFocusContext.Provider>
   );

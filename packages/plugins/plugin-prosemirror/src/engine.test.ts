@@ -1,7 +1,14 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
-import type { AetherDoc, HeadingBlock, LinkInline, ListBlock, MarkedInline, ParagraphBlock, TextInline } from "@aether-md/core";
+import type {
+  AetherDoc,
+  LinkInline,
+  ListBlock,
+  MarkedInline,
+  ParagraphBlock,
+  TextInline,
+} from "@aether-md/core";
 import { AdapterError } from "@aether-md/core";
 
 import { gfmFixtureDoc } from "./fixtures/gfm-doc.js";
@@ -83,10 +90,7 @@ describe("ProseMirror EngineAdapter", () => {
     const block = result.doc!.children[0] as ParagraphBlock;
     assert.equal(block.children.length, 2);
     assert.equal((block.children[1] as MarkedInline).mark, "strong");
-    assert.equal(
-      ((block.children[1] as MarkedInline).children[0] as TextInline).text,
-      "AetherMD",
-    );
+    assert.equal(((block.children[1] as MarkedInline).children[0] as TextInline).text, "AetherMD");
   });
 
   it("returns ok false with AdapterError and preserves snapshot on failed apply", async () => {
@@ -175,10 +179,7 @@ describe("ProseMirror EngineAdapter", () => {
     assert.equal(result.ok, true);
     const list = result.doc!.children[2] as ListBlock;
     assert.equal(list.items.length, 2);
-    assert.equal(
-      ((list.items[1]![0] as ParagraphBlock).children[0] as TextInline).text,
-      "beta",
-    );
+    assert.equal(((list.items[1]![0] as ParagraphBlock).children[0] as TextInline).text, "beta");
   });
 
   it("converts internal throws to AdapterError without leaking to harness", async () => {

@@ -1,9 +1,4 @@
-import {
-  createEditor,
-  type AetherDoc,
-  type AetherEditor,
-  type ExtensionPlugin,
-} from "@aether-md/core";
+import { createEditor, type AetherDoc, type AetherEditor } from "@aether-md/core";
 import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
 
 import { AetherEditorContext } from "./context.js";
@@ -51,9 +46,7 @@ export function AetherEditorRoot({
   const isControlled = controlledValue !== undefined;
   const onChangeRef = useRef(onChange);
   onChangeRef.current = onChange;
-  const pluginsKey = plugins
-    .map((plugin) => plugin.manifest.metadata.name)
-    .join("|");
+  const pluginsKey = plugins.map((plugin) => plugin.manifest.metadata.name).join("|");
 
   const disposeEditor = useCallback(async (instance: AetherEditor | null) => {
     if (instance) {
@@ -70,8 +63,7 @@ export function AetherEditorRoot({
       setReady(false);
       setError(null);
 
-      const mountInitial =
-        controlledValue !== undefined ? controlledValue : initialValue;
+      const mountInitial = controlledValue !== undefined ? controlledValue : initialValue;
 
       const created = await createEditor({
         plugins,
@@ -92,8 +84,7 @@ export function AetherEditorRoot({
       setShellMarkdown(nextMarkdown);
       setDoc(nextDoc);
       setReady(true);
-      prevControlledRef.current =
-        controlledValue !== undefined ? controlledValue : nextMarkdown;
+      prevControlledRef.current = controlledValue !== undefined ? controlledValue : nextMarkdown;
 
       unsubscribe = createChangeHandler(
         created,
@@ -187,8 +178,6 @@ export function AetherEditorRoot({
   };
 
   return (
-    <AetherEditorContext.Provider value={contextValue}>
-      {children}
-    </AetherEditorContext.Provider>
+    <AetherEditorContext.Provider value={contextValue}>{children}</AetherEditorContext.Provider>
   );
 }

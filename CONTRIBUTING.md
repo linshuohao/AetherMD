@@ -34,12 +34,12 @@
 
 ### Workflow Path 选择（简表）
 
-| 场景 | 路径 |
-| --- | --- |
-| typo / 坏链 / 纯格式 | Maintenance |
-| 小范围 docs 澄清、单点 fix | Quick Change |
-| 单 capability spec delta、1 task | Spec Change |
-| 架构 / SDK / workflow semantics / 多 task | Full Change |
+| 场景                                      | 路径         |
+| ----------------------------------------- | ------------ |
+| typo / 坏链 / 纯格式                      | Maintenance  |
+| 小范围 docs 澄清、单点 fix                | Quick Change |
+| 单 capability spec delta、1 task          | Spec Change  |
+| 架构 / SDK / workflow semantics / 多 task | Full Change  |
 
 Discover 阶段必须使用 `aether-workflow-discover-context`；不得跳过分类直接实现。
 

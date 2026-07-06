@@ -134,33 +134,33 @@ Accepted ADRs：
 
 ## Boundary Risks
 
-| 风险 | 触发点 | 处理方式 |
-| --- | --- | --- |
-| M1 膨胀到 M2/M3 | 为了完整 `createEditor` 而引入 Command/Event/Adapter | 本 change 只实现 bootstrap 子集；需要后续 change 才能实现 M2/M3 |
+| 风险                                     | 触发点                                                        | 处理方式                                                            |
+| ---------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------- |
+| M1 膨胀到 M2/M3                          | 为了完整 `createEditor` 而引入 Command/Event/Adapter          | 本 change 只实现 bootstrap 子集；需要后续 change 才能实现 M2/M3     |
 | Adapter-backed capability 被误认为已可用 | `CORE_SERVICE_REGISTRY` 文档包含 `core:engine`、`core:parser` | 在 M1 显式定义 capability set；未实现 Adapter 前不得 silent provide |
-| public contract 被实现任务顺手扩张 | 增加 docs 未定义的 exported API | 暂停并更新 OpenSpec；review 检查 exports |
-| duplicate `metadata.provides` 语义不清 | 多插件声明同一 Service Capability | 保留为 open question；不在任务中偷偷发明 ConflictResolver 行为 |
-| lifecycle failure cleanup 未明确 | `onInit` 或 `onReady` 抛错后部分插件已启动 | 在后续 task 中显式限定失败语义和测试；必要时记录 deviation |
-| `dispose()` 幂等语义不清 | 多次调用 `dispose()` | 保留为 open question；实现任务不得隐式宣称完整幂等支持 |
-| 文档语言漂移 | 后续 plan/task/validation/review 使用英文长正文 | 任务模板和 review focus 中检查中文说明性正文 |
+| public contract 被实现任务顺手扩张       | 增加 docs 未定义的 exported API                               | 暂停并更新 OpenSpec；review 检查 exports                            |
+| duplicate `metadata.provides` 语义不清   | 多插件声明同一 Service Capability                             | 保留为 open question；不在任务中偷偷发明 ConflictResolver 行为      |
+| lifecycle failure cleanup 未明确         | `onInit` 或 `onReady` 抛错后部分插件已启动                    | 在后续 task 中显式限定失败语义和测试；必要时记录 deviation          |
+| `dispose()` 幂等语义不清                 | 多次调用 `dispose()`                                          | 保留为 open question；实现任务不得隐式宣称完整幂等支持              |
+| 文档语言漂移                             | 后续 plan/task/validation/review 使用英文长正文               | 任务模板和 review focus 中检查中文说明性正文                        |
 
 ## Validation Matrix
 
-| Spec Requirement | 验证类型 | 核心场景 | 预期结果 |
-| --- | --- | --- | --- |
-| Minimal Core package exists | package/export test | import `@aether-md/core` M1 exports | 只暴露 M1 bootstrap 所需 API，不暴露后续里程碑 API |
-| Manifest version is validated during bootstrap | unit/contract test | `manifestVersion: 1` | validation 通过 |
-| Manifest version is validated during bootstrap | unit/contract test | unsupported `manifestVersion` | fatal Core bootstrap error，hooks 不运行 |
-| Manifest shape is validated before lifecycle hooks | unit test | 缺失 `manifest.metadata` | fatal Core bootstrap error，`onInit`/`onReady` 不运行 |
-| Service Capability requirements are validated | unit/contract test | required capability 已由 Core 或 plugin provide | bootstrap 继续 |
-| Service Capability requirements are validated | unit/contract test | required capability 缺失 | fatal Core bootstrap error，hooks 不运行 |
-| Plugin dependsOn order is resolved deterministically | unit test | `table` depends on `heading` | `heading` 在 `table` 前 |
-| Plugin dependsOn order is resolved deterministically | unit test | missing dependency | fatal Core bootstrap error，hooks 不运行 |
-| Plugin dependsOn order is resolved deterministically | unit test | dependency cycle | fatal Core bootstrap error，hooks 不运行 |
-| Lifecycle hooks run in dependency order | contract test | 多 plugin 有 `onInit`/`onReady` | 按 dependency order 调用 |
-| Dispose destroys plugins in reverse lifecycle order | contract test | 多 plugin 成功启动后 dispose | `onDestroy` 按 successful lifecycle order 逆序调用 |
-| M1 excludes later milestone behavior | scope/export test | 搜索或 import boundary 检查 | 不依赖 Command Bus、Event Hub、Adapter、React、Remark、ProseMirror、GFM preset |
-| Workflow documents are written in Chinese | docs review | plan/task/validation/review/archive artifacts | 说明性正文为中文，代码标识和工具关键词保留英文 |
+| Spec Requirement                                     | 验证类型            | 核心场景                                        | 预期结果                                                                       |
+| ---------------------------------------------------- | ------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------ |
+| Minimal Core package exists                          | package/export test | import `@aether-md/core` M1 exports             | 只暴露 M1 bootstrap 所需 API，不暴露后续里程碑 API                             |
+| Manifest version is validated during bootstrap       | unit/contract test  | `manifestVersion: 1`                            | validation 通过                                                                |
+| Manifest version is validated during bootstrap       | unit/contract test  | unsupported `manifestVersion`                   | fatal Core bootstrap error，hooks 不运行                                       |
+| Manifest shape is validated before lifecycle hooks   | unit test           | 缺失 `manifest.metadata`                        | fatal Core bootstrap error，`onInit`/`onReady` 不运行                          |
+| Service Capability requirements are validated        | unit/contract test  | required capability 已由 Core 或 plugin provide | bootstrap 继续                                                                 |
+| Service Capability requirements are validated        | unit/contract test  | required capability 缺失                        | fatal Core bootstrap error，hooks 不运行                                       |
+| Plugin dependsOn order is resolved deterministically | unit test           | `table` depends on `heading`                    | `heading` 在 `table` 前                                                        |
+| Plugin dependsOn order is resolved deterministically | unit test           | missing dependency                              | fatal Core bootstrap error，hooks 不运行                                       |
+| Plugin dependsOn order is resolved deterministically | unit test           | dependency cycle                                | fatal Core bootstrap error，hooks 不运行                                       |
+| Lifecycle hooks run in dependency order              | contract test       | 多 plugin 有 `onInit`/`onReady`                 | 按 dependency order 调用                                                       |
+| Dispose destroys plugins in reverse lifecycle order  | contract test       | 多 plugin 成功启动后 dispose                    | `onDestroy` 按 successful lifecycle order 逆序调用                             |
+| M1 excludes later milestone behavior                 | scope/export test   | 搜索或 import boundary 检查                     | 不依赖 Command Bus、Event Hub、Adapter、React、Remark、ProseMirror、GFM preset |
+| Workflow documents are written in Chinese            | docs review         | plan/task/validation/review/archive artifacts   | 说明性正文为中文，代码标识和工具关键词保留英文                                 |
 
 ## Task Breakdown
 

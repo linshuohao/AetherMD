@@ -12,15 +12,15 @@
 
 ## Change
 
-| 字段 | 值 |
-| --- | --- |
-| OpenSpec change | `add-validation-suite` |
-| Branch | `feat/add-validation-suite`（自 `main`；plan 时工作树仅含 OpenSpec artifacts） |
-| OpenSpec status | **complete**（4/4 artifacts：`proposal` / `design` / `specs` / `tasks`）；`openspec validate add-validation-suite --strict` 待 implementation 后确认 |
-| Apply readiness | `isComplete: true`；OpenSpec high-level tasks 0/8 sections complete |
-| Version impact | **package metadata only** — 五包 `license` / `repository` / `files` / `publishConfig`；Changesets `linked` 五包；`examples/headless-gfm` 新 private workspace package；`pnpm-lock.yaml` **预期变更**（example 依赖）；**无** public API breaking change；`SUPPORTED_MANIFEST_VERSIONS` / `manifestVersion` **不变**（`[1]`）；semver **不变**（`0.0.0` private） |
-| Expected commit scope | `chore(examples)`、`chore(release)`、`test(core)`、`docs(status)`、`docs(community)`；OpenSpec 产物 `docs(openspec)` |
-| Commit strategy | **每 task 可独立 commit**（Conventional Commits）；PR body 须追踪 OpenSpec change id 与 task id；whole-change squash 留 PR merge 时决定 |
+| 字段                  | 值                                                                                                                                                                                                                                                                                                                                                               |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| OpenSpec change       | `add-validation-suite`                                                                                                                                                                                                                                                                                                                                           |
+| Branch                | `feat/add-validation-suite`（自 `main`；plan 时工作树仅含 OpenSpec artifacts）                                                                                                                                                                                                                                                                                   |
+| OpenSpec status       | **complete**（4/4 artifacts：`proposal` / `design` / `specs` / `tasks`）；`openspec validate add-validation-suite --strict` 待 implementation 后确认                                                                                                                                                                                                             |
+| Apply readiness       | `isComplete: true`；OpenSpec high-level tasks 0/8 sections complete                                                                                                                                                                                                                                                                                              |
+| Version impact        | **package metadata only** — 五包 `license` / `repository` / `files` / `publishConfig`；Changesets `linked` 五包；`examples/headless-gfm` 新 private workspace package；`pnpm-lock.yaml` **预期变更**（example 依赖）；**无** public API breaking change；`SUPPORTED_MANIFEST_VERSIONS` / `manifestVersion` **不变**（`[1]`）；semver **不变**（`0.0.0` private） |
+| Expected commit scope | `chore(examples)`、`chore(release)`、`test(core)`、`docs(status)`、`docs(community)`；OpenSpec 产物 `docs(openspec)`                                                                                                                                                                                                                                             |
+| Commit strategy       | **每 task 可独立 commit**（Conventional Commits）；PR body 须追踪 OpenSpec change id 与 task id；whole-change squash 留 PR merge 时决定                                                                                                                                                                                                                          |
 
 范围边界：
 
@@ -67,27 +67,27 @@ OpenSpec artifacts：
 
 ## File Map
 
-| 路径 | 职责 |
-| --- | --- |
-| `examples/headless-gfm/package.json` | `@aether-md/example-headless-gfm`，`private: true`；`start` / `typecheck` / `build` scripts |
-| `examples/headless-gfm/tsconfig.json` | example 编译与 `tsc --noEmit` 配置 |
-| `examples/headless-gfm/src/run.ts` | Node 可运行 main：`createEditor` + `createGfmPreset()` + adapter wiring；stdout 输出 round-trip 或成功日志 |
-| `pnpm-workspace.yaml` | 新增 `examples/*` glob |
-| `packages/core/package.json` | 五包之一；添加 MIT `license`、`repository`、`files`、`publishConfig` |
-| `packages/plugins/plugin-remark/package.json` | 同上 |
-| `packages/plugins/plugin-prosemirror/package.json` | 同上 |
-| `packages/preset-gfm/package.json` | 同上 |
-| `packages/react/package.json` | 同上 |
-| `.changeset/config.json` | `linked` 五包版本组 |
-| `package.json`（根） | `changeset:publish` 脚本；可选 manifest 校验入口 |
-| `packages/core/src/manifest-doc-consistency.test.ts`（推荐名） | G11：`SUPPORTED_MANIFEST_VERSIONS` ↔ `docs/sdk/manifest.md`；官方包 `manifestVersion` 校验 |
-| `packages/core/src/editor/startup-abort.integration.test.ts`（推荐名） | `createEditor` fatal startup：unsupported version、duplicate name |
-| `packages/core/src/editor/conflict-resolver.test.ts` | 已有 schema abort 单元测试 — **确认覆盖，不删** |
-| `packages/core/src/editor/create-editor-gfm.integration.test.ts` | 已有 headless GFM 集成 — example **不重复** CI 断言职责 |
-| `docs/project-status.md` | G12 主落点：M6 状态 + v1.0 差距小节 |
-| `docs/architecture/roadmap.md` | 差距短表或链接至 `project-status.md` |
-| `docs/architecture/ci-checklist.md` | 勾选 G11/G6/行为回归已启用项 + M6 scope 注释 |
-| `docs/community/release-process.md` | M6 预备完成态、linked 五包、明确 M7 未开始 |
+| 路径                                                                   | 职责                                                                                                       |
+| ---------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `examples/headless-gfm/package.json`                                   | `@aether-md/example-headless-gfm`，`private: true`；`start` / `typecheck` / `build` scripts                |
+| `examples/headless-gfm/tsconfig.json`                                  | example 编译与 `tsc --noEmit` 配置                                                                         |
+| `examples/headless-gfm/src/run.ts`                                     | Node 可运行 main：`createEditor` + `createGfmPreset()` + adapter wiring；stdout 输出 round-trip 或成功日志 |
+| `pnpm-workspace.yaml`                                                  | 新增 `examples/*` glob                                                                                     |
+| `packages/core/package.json`                                           | 五包之一；添加 MIT `license`、`repository`、`files`、`publishConfig`                                       |
+| `packages/plugins/plugin-remark/package.json`                          | 同上                                                                                                       |
+| `packages/plugins/plugin-prosemirror/package.json`                     | 同上                                                                                                       |
+| `packages/preset-gfm/package.json`                                     | 同上                                                                                                       |
+| `packages/react/package.json`                                          | 同上                                                                                                       |
+| `.changeset/config.json`                                               | `linked` 五包版本组                                                                                        |
+| `package.json`（根）                                                   | `changeset:publish` 脚本；可选 manifest 校验入口                                                           |
+| `packages/core/src/manifest-doc-consistency.test.ts`（推荐名）         | G11：`SUPPORTED_MANIFEST_VERSIONS` ↔ `docs/sdk/manifest.md`；官方包 `manifestVersion` 校验                 |
+| `packages/core/src/editor/startup-abort.integration.test.ts`（推荐名） | `createEditor` fatal startup：unsupported version、duplicate name                                          |
+| `packages/core/src/editor/conflict-resolver.test.ts`                   | 已有 schema abort 单元测试 — **确认覆盖，不删**                                                            |
+| `packages/core/src/editor/create-editor-gfm.integration.test.ts`       | 已有 headless GFM 集成 — example **不重复** CI 断言职责                                                    |
+| `docs/project-status.md`                                               | G12 主落点：M6 状态 + v1.0 差距小节                                                                        |
+| `docs/architecture/roadmap.md`                                         | 差距短表或链接至 `project-status.md`                                                                       |
+| `docs/architecture/ci-checklist.md`                                    | 勾选 G11/G6/行为回归已启用项 + M6 scope 注释                                                               |
+| `docs/community/release-process.md`                                    | M6 预备完成态、linked 五包、明确 M7 未开始                                                                 |
 
 **Repository URL（五包统一）：** `https://github.com/linshuohao/AetherMD.git`，各包 `directory` 分别为 `packages/core`、`packages/plugins/plugin-remark`、`packages/plugins/plugin-prosemirror`、`packages/preset-gfm`、`packages/react`。
 
@@ -162,63 +162,63 @@ Barrier: Task 09 ◄── 01–08 全部完成
 
 ## Boundary Risks
 
-| 风险 | 触发点 | 处理方式 |
-| --- | --- | --- |
-| Example 与 `create-editor-gfm.integration.test.ts` 职责重叠 | 复制测试逻辑到 example | Example 侧重可运行叙事 + 文档引用；包内测试侧重断言与 CI 回归 |
-| G6 双路径重复 CI | 同时 typecheck `docs/sdk/examples.md` 与 example | 主路径 = `examples/headless-gfm`；次路径仅当 headless example 不足 G6 |
-| G11 解析 markdown 脆弱 | 手写双份版本列表 | 从 `manifest.ts` 导出为 truth；测试解析 `docs/sdk/manifest.md` 版本表 |
-| Schema 冲突 checklist 与 compile-layer 差距 | 期望完整 schema merge 集成 | Decision 6：单元 schema abort + `createEditor` fatal startup；validation 记录注明 deferred |
-| Changesets linked 配置错误 | M7 版本 bump 不同步 | Task 04 运行 `pnpm changeset:status`；`release-process.md` 文档化 |
-| 元数据变更被误认为 publish ready | 维护者误解 M6 完成度 | 保持 `private: true`；release-process 标明 M7 未开始 |
-| 误改 Core/React 生产语义 | 为凑 coverage 改 runtime | 仅测试/元数据/docs；bug 须 deviation 记录 |
-| turbo check 未纳入新门禁 | 仅 local 脚本未挂 pipeline | Task 06 显式改 `turbo.json` / package `check` 脚本 |
+| 风险                                                        | 触发点                                           | 处理方式                                                                                   |
+| ----------------------------------------------------------- | ------------------------------------------------ | ------------------------------------------------------------------------------------------ |
+| Example 与 `create-editor-gfm.integration.test.ts` 职责重叠 | 复制测试逻辑到 example                           | Example 侧重可运行叙事 + 文档引用；包内测试侧重断言与 CI 回归                              |
+| G6 双路径重复 CI                                            | 同时 typecheck `docs/sdk/examples.md` 与 example | 主路径 = `examples/headless-gfm`；次路径仅当 headless example 不足 G6                      |
+| G11 解析 markdown 脆弱                                      | 手写双份版本列表                                 | 从 `manifest.ts` 导出为 truth；测试解析 `docs/sdk/manifest.md` 版本表                      |
+| Schema 冲突 checklist 与 compile-layer 差距                 | 期望完整 schema merge 集成                       | Decision 6：单元 schema abort + `createEditor` fatal startup；validation 记录注明 deferred |
+| Changesets linked 配置错误                                  | M7 版本 bump 不同步                              | Task 04 运行 `pnpm changeset:status`；`release-process.md` 文档化                          |
+| 元数据变更被误认为 publish ready                            | 维护者误解 M6 完成度                             | 保持 `private: true`；release-process 标明 M7 未开始                                       |
+| 误改 Core/React 生产语义                                    | 为凑 coverage 改 runtime                         | 仅测试/元数据/docs；bug 须 deviation 记录                                                  |
+| turbo check 未纳入新门禁                                    | 仅 local 脚本未挂 pipeline                       | Task 06 显式改 `turbo.json` / package `check` 脚本                                         |
 
 ## Validation Matrix
 
-| Phase | OpenSpec Requirement | Validation 入口 | Intuitive Verification | Notes |
-| --- | --- | --- | --- | --- |
-| 1 | Headless GFM example package demonstrates integration path | `pnpm --filter @aether-md/example-headless-gfm start` | stdout 成功；无 React/DOM | 需先 `pnpm build` |
-| 1 | Headless example is private and not published | review `examples/headless-gfm/package.json` | `private: true` | 排除 publish 矩阵 |
-| 2 | Five packages declare MIT license metadata | review 五包 `package.json` | `license`/`repository`/`files`/`publishConfig` | semver 不变 |
-| 2 | Changesets linked group covers five packages | review `.changeset/config.json` | linked 含五包 | 不执行 publish |
-| 2 | Publish script exists but M6 does not publish | review 根 `package.json` | `changeset:publish` 存在；无 `NPM_TOKEN` | M7 deferred |
-| 3 | Manifest version constant matches SDK docs | `pnpm --filter @aether-md/core test` | G11 test PASS | 故意 drift 应 FAIL |
-| 3 | Official packages use supported manifest versions | 同上 | 五官方包 manifestVersion ∈ `[1]` | |
-| 3 | Headless example typechecks in check pipeline | `pnpm check` | turbo 执行 example typecheck | G6 主路径 |
-| 3 | Existing M1 through M5 tests remain green | `pnpm check` | 全 workspace 绿 | G5 |
-| 3 | Unsupported manifest version aborts createEditor | `pnpm --filter @aether-md/core test` | startup-abort integration | 已有 orchestration test 可合并 |
-| 3 | Duplicate plugin name aborts createEditor | 同上 | `PLUGIN_NAME_DUPLICATE` | bootstrap 已有；createEditor 路径补充 |
-| 3 | Default resolver aborts schema conflicts at unit level | `pnpm --filter @aether-md/core test` | `conflict-resolver.test.ts` | 已有，保持绿 |
-| 3 | M6 validation gates participate in root check pipeline | `pnpm check` | manifest/examples 失败导致 check 红 | engineering-workflow delta |
-| 4 | Project status lists v1.0 gaps | review `docs/project-status.md` | 差距小节 + roadmap 链接 | G12 主落点 |
-| 4 | CI checklist reflects enabled M6 gates | review `docs/architecture/ci-checklist.md` | G11/G6/行为项勾选或注释 | compile-layer 注释 |
-| 4 | Release process shows M6 prep without publish | review `docs/community/release-process.md` | M6 预备完成；M7 未开始 | |
-| 5 | 全量 gate | `pnpm check && openspec validate add-validation-suite --strict` | 全绿 | Task 09 Barrier |
+| Phase | OpenSpec Requirement                                       | Validation 入口                                                 | Intuitive Verification                         | Notes                                 |
+| ----- | ---------------------------------------------------------- | --------------------------------------------------------------- | ---------------------------------------------- | ------------------------------------- |
+| 1     | Headless GFM example package demonstrates integration path | `pnpm --filter @aether-md/example-headless-gfm start`           | stdout 成功；无 React/DOM                      | 需先 `pnpm build`                     |
+| 1     | Headless example is private and not published              | review `examples/headless-gfm/package.json`                     | `private: true`                                | 排除 publish 矩阵                     |
+| 2     | Five packages declare MIT license metadata                 | review 五包 `package.json`                                      | `license`/`repository`/`files`/`publishConfig` | semver 不变                           |
+| 2     | Changesets linked group covers five packages               | review `.changeset/config.json`                                 | linked 含五包                                  | 不执行 publish                        |
+| 2     | Publish script exists but M6 does not publish              | review 根 `package.json`                                        | `changeset:publish` 存在；无 `NPM_TOKEN`       | M7 deferred                           |
+| 3     | Manifest version constant matches SDK docs                 | `pnpm --filter @aether-md/core test`                            | G11 test PASS                                  | 故意 drift 应 FAIL                    |
+| 3     | Official packages use supported manifest versions          | 同上                                                            | 五官方包 manifestVersion ∈ `[1]`               |                                       |
+| 3     | Headless example typechecks in check pipeline              | `pnpm check`                                                    | turbo 执行 example typecheck                   | G6 主路径                             |
+| 3     | Existing M1 through M5 tests remain green                  | `pnpm check`                                                    | 全 workspace 绿                                | G5                                    |
+| 3     | Unsupported manifest version aborts createEditor           | `pnpm --filter @aether-md/core test`                            | startup-abort integration                      | 已有 orchestration test 可合并        |
+| 3     | Duplicate plugin name aborts createEditor                  | 同上                                                            | `PLUGIN_NAME_DUPLICATE`                        | bootstrap 已有；createEditor 路径补充 |
+| 3     | Default resolver aborts schema conflicts at unit level     | `pnpm --filter @aether-md/core test`                            | `conflict-resolver.test.ts`                    | 已有，保持绿                          |
+| 3     | M6 validation gates participate in root check pipeline     | `pnpm check`                                                    | manifest/examples 失败导致 check 红            | engineering-workflow delta            |
+| 4     | Project status lists v1.0 gaps                             | review `docs/project-status.md`                                 | 差距小节 + roadmap 链接                        | G12 主落点                            |
+| 4     | CI checklist reflects enabled M6 gates                     | review `docs/architecture/ci-checklist.md`                      | G11/G6/行为项勾选或注释                        | compile-layer 注释                    |
+| 4     | Release process shows M6 prep without publish              | review `docs/community/release-process.md`                      | M6 预备完成；M7 未开始                         |                                       |
+| 5     | 全量 gate                                                  | `pnpm check && openspec validate add-validation-suite --strict` | 全绿                                           | Task 09 Barrier                       |
 
 **汇总命令映射：**
 
-| 命令 | 覆盖 |
-| --- | --- |
-| `pnpm --filter @aether-md/example-headless-gfm typecheck` | Task 01–02 local；Task 06 CI |
-| `pnpm --filter @aether-md/example-headless-gfm start` | Task 02 smoke |
-| `pnpm --filter @aether-md/core test` | Task 05 G11；Task 07 startup abort |
-| `pnpm changeset:status` | Task 04 linked 验证 |
-| `pnpm check` | Task 06–09 全 workspace gate |
-| `openspec validate add-validation-suite --strict` | Task 09 OpenSpec gate |
+| 命令                                                      | 覆盖                               |
+| --------------------------------------------------------- | ---------------------------------- |
+| `pnpm --filter @aether-md/example-headless-gfm typecheck` | Task 01–02 local；Task 06 CI       |
+| `pnpm --filter @aether-md/example-headless-gfm start`     | Task 02 smoke                      |
+| `pnpm --filter @aether-md/core test`                      | Task 05 G11；Task 07 startup abort |
+| `pnpm changeset:status`                                   | Task 04 linked 验证                |
+| `pnpm check`                                              | Task 06–09 全 workspace gate       |
+| `openspec validate add-validation-suite --strict`         | Task 09 OpenSpec gate              |
 
 ## Task Breakdown
 
-| ID | 任务 | Parallel Group | Barrier | Depends On | Allowed Files | Forbidden Files | TDD Entry Point | Validation Command |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| **01** | `examples/headless-gfm` 脚手架（package.json、workspace、tsconfig） | wave-a | false | — | `examples/headless-gfm/package.json`、`examples/headless-gfm/tsconfig.json`、`pnpm-workspace.yaml`、`pnpm-lock.yaml` | `packages/core/src/**`（生产）、`packages/react/**`、`.github/**`、OpenSpec artifacts（已存在） | 先添加 failing workspace 探测：根脚本或临时 test 断言 `examples/headless-gfm/package.json` 存在且 `private: true`；`pnpm install` 后 `pnpm --filter @aether-md/example-headless-gfm typecheck` 预期 FAIL（无 `src/`） | `pnpm install && pnpm --filter @aether-md/example-headless-gfm typecheck`（预期 FAIL → scaffold 后至少能解析 tsconfig） |
-| **02** | headless-gfm 可运行脚本 + smoke/集成验证 | wave-a | false | 01 | `examples/headless-gfm/src/run.ts`、`examples/headless-gfm/package.json`（scripts：`build`/`start`/`typecheck`/`check`）、`examples/headless-gfm/tsconfig.json` | `packages/core/src/**`（生产）、React/DOM 依赖、`examples/react-basic/**` | 参照 `packages/core/src/editor/create-editor-gfm.integration.test.ts` wiring 模式，先写 `examples/headless-gfm` smoke script（内置 fixture `**bold**\n` 或 CLI arg）；运行 `pnpm build && pnpm --filter @aether-md/example-headless-gfm start` 预期 FAIL（无实现）→ 实现 `run.ts` → PASS | `pnpm build && pnpm --filter @aether-md/example-headless-gfm start && pnpm --filter @aether-md/example-headless-gfm typecheck` |
-| **03** | 五包 license/repository/files/publishConfig 元数据同步 | wave-b | false | — | `packages/core/package.json`、`packages/plugins/plugin-remark/package.json`、`packages/plugins/plugin-prosemirror/package.json`、`packages/preset-gfm/package.json`、`packages/react/package.json` | 五包 `src/**`、`version` bump、去 `private: true`、runtime deps 变更 | 先写 review checklist 或 optional `scripts/check-package-metadata.mjs` failing test：断言五包缺 `license` 时 exit 1；补元数据后 exit 0 | `node -e "const pkgs=['core','plugins/plugin-remark','plugins/plugin-prosemirror','preset-gfm','react'].map(p=>require('./packages/'+p+'/package.json')); pkgs.forEach(p=>{if(p.license!=='MIT')throw new Error(p.name); if(!p.repository||!p.files||!p.publishConfig)throw new Error(p.name+' metadata'); if(p.private!==true)throw new Error(p.name+' must stay private');});"` |
-| **04** | Changesets linked/fixed + changeset:publish 根脚本 | wave-b | false | —（可与 03 同 PR，逻辑独立） | `.changeset/config.json`、根 `package.json` | `.github/workflows/**`（Release workflow）、`.npmrc` with token、执行 `changeset publish` | 先断言 `.changeset/config.json` 的 `linked` 为空数组 → 配置五包 linked 组 + 根 `"changeset:publish": "changeset publish"` → `pnpm changeset:status` 无配置错误 | `pnpm changeset:status && node -e "const c=require('./.changeset/config.json'); const g=c.linked?.[0]||[]; const want=['@aether-md/core','@aether-md/plugin-remark','@aether-md/plugin-prosemirror','@aether-md/preset-gfm','@aether-md/react']; if(want.some(x=>!g.includes(x))) throw new Error('linked group incomplete');"` |
-| **05** | `SUPPORTED_MANIFEST_VERSIONS` 一致性校验（脚本或测试） | wave-c | false | — | `packages/core/src/manifest-doc-consistency.test.ts`（或等价名）、可选 `packages/core/tsconfig.test.json`、`packages/core/package.json`（test script 若需） | `packages/core/src/manifest.ts`（除非 docs/code 真 drift）、`docs/sdk/manifest.md`（除非对齐修复） | 先写 failing test：解析 `docs/sdk/manifest.md` Stable 行与 `SUPPORTED_MANIFEST_VERSIONS` 比较；再扫描官方包 Manifest `manifestVersion`；故意改 docs 表格应 FAIL | `pnpm --filter @aether-md/core test -- --test-name-pattern="manifest"`（或运行完整 core test suite） |
-| **06** | SDK examples 或 examples `tsc --noEmit` CI 门禁 | wave-c | false | 01, 02 | `examples/headless-gfm/package.json`（`typecheck`/`check`）、`turbo.json`、根 `package.json`（若需）、`pnpm-workspace.yaml`（若 Task 01 未合） | `docs/sdk/examples.md` 大改（非必须）、`packages/core/src/**` 生产代码 | 先确认 `pnpm check` **不**执行 example typecheck（基线）→ 为 example 添加 `check`/`typecheck` 并让 turbo `check` dependsOn 包含 example → 引入故意 TS 错误应 FAIL | `pnpm check`（或 `turbo run check --filter=@aether-md/example-headless-gfm` 作局部预检） |
-| **07** | Schema 冲突 → CoreError 启动中止集成测试 | wave-c | false | — | `packages/core/src/editor/startup-abort.integration.test.ts`（或整合进 `editor-orchestration.test.ts`）、确认 `packages/core/src/editor/conflict-resolver.test.ts` 不变 | `packages/core/src/editor/conflict-resolver.ts`（生产语义）、compile-layer merge 新模块、`EditorConfig` 新公开字段 | **单元（已有）：** `conflict-resolver.test.ts` schema → `abort` 保持绿。**集成（新增）：** 先写 failing test — `createEditor` + duplicate `metadata.name` 两 plugin → `CoreError` / `PLUGIN_NAME_DUPLICATE`；unsupported `manifestVersion` 可合并至新文件（`editor-orchestration.test.ts` 已有 1 case，补 duplicate name via `createEditor` 若缺失） | `pnpm --filter @aether-md/core test -- --test-name-pattern="startup-abort|createEditor orchestration|createDefaultConflictResolver"` |
-| **08** | G12 差距文档 + ci-checklist/release-process 更新 | wave-d | false | 03, 04, 05, 06, 07 | `docs/project-status.md`、`docs/architecture/roadmap.md`、`docs/architecture/ci-checklist.md`、`docs/community/release-process.md`、可选 `docs/engineering/test-strategy.md` | `openspec/specs/**`（main spec sync 留 archive 后）、无关 docs 大改 | 文档验收清单：打开 `project-status.md` 应**尚无**完整 v1.0 差距小节 → 撰写差距列表（compile-layer merge、ConflictResolver 全套、History/Selection/Clipboard、PermissionGuard 等）→ 更新 ci-checklist 勾选 G11/G6/行为回归并加 M6 scope 脚注 | `openspec validate add-validation-suite --strict`（docs 不跑 tsc；人工 review + link check 可选 `rg "v1.0 差距" docs/project-status.md`） |
-| **09** | 全量验证 `pnpm check` + openspec validate（Barrier） | — | **true** | 01–08 | 全 change 允许区（只读验证为主） | 本 task **不**新增功能代码 | 基线：任一前置 task 未完成则 `pnpm check` 或 validate 应 FAIL → 全部完成后应 PASS | `pnpm check && openspec validate add-validation-suite --strict` |
+| ID     | 任务                                                                | Parallel Group | Barrier  | Depends On                   | Allowed Files                                                                                                                                                                                      | Forbidden Files                                                                                                    | TDD Entry Point                                                                                                                                                                                                                                                                                                                                      | Validation Command                                                                                                                                                                                                                        |
+| ------ | ------------------------------------------------------------------- | -------------- | -------- | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **01** | `examples/headless-gfm` 脚手架（package.json、workspace、tsconfig） | wave-a         | false    | —                            | `examples/headless-gfm/package.json`、`examples/headless-gfm/tsconfig.json`、`pnpm-workspace.yaml`、`pnpm-lock.yaml`                                                                               | `packages/core/src/**`（生产）、`packages/react/**`、`.github/**`、OpenSpec artifacts（已存在）                    | 先添加 failing workspace 探测：根脚本或临时 test 断言 `examples/headless-gfm/package.json` 存在且 `private: true`；`pnpm install` 后 `pnpm --filter @aether-md/example-headless-gfm typecheck` 预期 FAIL（无 `src/`）                                                                                                                                | `pnpm install && pnpm --filter @aether-md/example-headless-gfm typecheck`（预期 FAIL → scaffold 后至少能解析 tsconfig）                                                                                                                   |
+| **02** | headless-gfm 可运行脚本 + smoke/集成验证                            | wave-a         | false    | 01                           | `examples/headless-gfm/src/run.ts`、`examples/headless-gfm/package.json`（scripts：`build`/`start`/`typecheck`/`check`）、`examples/headless-gfm/tsconfig.json`                                    | `packages/core/src/**`（生产）、React/DOM 依赖、`examples/react-basic/**`                                          | 参照 `packages/core/src/editor/create-editor-gfm.integration.test.ts` wiring 模式，先写 `examples/headless-gfm` smoke script（内置 fixture `**bold**\n` 或 CLI arg）；运行 `pnpm build && pnpm --filter @aether-md/example-headless-gfm start` 预期 FAIL（无实现）→ 实现 `run.ts` → PASS                                                             | `pnpm build && pnpm --filter @aether-md/example-headless-gfm start && pnpm --filter @aether-md/example-headless-gfm typecheck`                                                                                                            |
+| **03** | 五包 license/repository/files/publishConfig 元数据同步              | wave-b         | false    | —                            | `packages/core/package.json`、`packages/plugins/plugin-remark/package.json`、`packages/plugins/plugin-prosemirror/package.json`、`packages/preset-gfm/package.json`、`packages/react/package.json` | 五包 `src/**`、`version` bump、去 `private: true`、runtime deps 变更                                               | 先写 review checklist 或 optional `scripts/check-package-metadata.mjs` failing test：断言五包缺 `license` 时 exit 1；补元数据后 exit 0                                                                                                                                                                                                               | `node -e "const pkgs=['core','plugins/plugin-remark','plugins/plugin-prosemirror','preset-gfm','react'].map(p=>require('./packages/'+p+'/package.json')); pkgs.forEach(p=>{if(p.license!=='MIT')throw new Error(p.name); if(!p.repository |                            | !p.files                                                                                                                                                                                                                 |     | !p.publishConfig)throw new Error(p.name+' metadata'); if(p.private!==true)throw new Error(p.name+' must stay private');});"` |
+| **04** | Changesets linked/fixed + changeset:publish 根脚本                  | wave-b         | false    | —（可与 03 同 PR，逻辑独立） | `.changeset/config.json`、根 `package.json`                                                                                                                                                        | `.github/workflows/**`（Release workflow）、`.npmrc` with token、执行 `changeset publish`                          | 先断言 `.changeset/config.json` 的 `linked` 为空数组 → 配置五包 linked 组 + 根 `"changeset:publish": "changeset publish"` → `pnpm changeset:status` 无配置错误                                                                                                                                                                                       | `pnpm changeset:status && node -e "const c=require('./.changeset/config.json'); const g=c.linked?.[0]                                                                                                                                     |                            | []; const want=['@aether-md/core','@aether-md/plugin-remark','@aether-md/plugin-prosemirror','@aether-md/preset-gfm','@aether-md/react']; if(want.some(x=>!g.includes(x))) throw new Error('linked group incomplete');"` |
+| **05** | `SUPPORTED_MANIFEST_VERSIONS` 一致性校验（脚本或测试）              | wave-c         | false    | —                            | `packages/core/src/manifest-doc-consistency.test.ts`（或等价名）、可选 `packages/core/tsconfig.test.json`、`packages/core/package.json`（test script 若需）                                        | `packages/core/src/manifest.ts`（除非 docs/code 真 drift）、`docs/sdk/manifest.md`（除非对齐修复）                 | 先写 failing test：解析 `docs/sdk/manifest.md` Stable 行与 `SUPPORTED_MANIFEST_VERSIONS` 比较；再扫描官方包 Manifest `manifestVersion`；故意改 docs 表格应 FAIL                                                                                                                                                                                      | `pnpm --filter @aether-md/core test -- --test-name-pattern="manifest"`（或运行完整 core test suite）                                                                                                                                      |
+| **06** | SDK examples 或 examples `tsc --noEmit` CI 门禁                     | wave-c         | false    | 01, 02                       | `examples/headless-gfm/package.json`（`typecheck`/`check`）、`turbo.json`、根 `package.json`（若需）、`pnpm-workspace.yaml`（若 Task 01 未合）                                                     | `docs/sdk/examples.md` 大改（非必须）、`packages/core/src/**` 生产代码                                             | 先确认 `pnpm check` **不**执行 example typecheck（基线）→ 为 example 添加 `check`/`typecheck` 并让 turbo `check` dependsOn 包含 example → 引入故意 TS 错误应 FAIL                                                                                                                                                                                    | `pnpm check`（或 `turbo run check --filter=@aether-md/example-headless-gfm` 作局部预检）                                                                                                                                                  |
+| **07** | Schema 冲突 → CoreError 启动中止集成测试                            | wave-c         | false    | —                            | `packages/core/src/editor/startup-abort.integration.test.ts`（或整合进 `editor-orchestration.test.ts`）、确认 `packages/core/src/editor/conflict-resolver.test.ts` 不变                            | `packages/core/src/editor/conflict-resolver.ts`（生产语义）、compile-layer merge 新模块、`EditorConfig` 新公开字段 | **单元（已有）：** `conflict-resolver.test.ts` schema → `abort` 保持绿。**集成（新增）：** 先写 failing test — `createEditor` + duplicate `metadata.name` 两 plugin → `CoreError` / `PLUGIN_NAME_DUPLICATE`；unsupported `manifestVersion` 可合并至新文件（`editor-orchestration.test.ts` 已有 1 case，补 duplicate name via `createEditor` 若缺失） | `pnpm --filter @aether-md/core test -- --test-name-pattern="startup-abort                                                                                                                                                                 | createEditor orchestration | createDefaultConflictResolver"`                                                                                                                                                                                          |
+| **08** | G12 差距文档 + ci-checklist/release-process 更新                    | wave-d         | false    | 03, 04, 05, 06, 07           | `docs/project-status.md`、`docs/architecture/roadmap.md`、`docs/architecture/ci-checklist.md`、`docs/community/release-process.md`、可选 `docs/engineering/test-strategy.md`                       | `openspec/specs/**`（main spec sync 留 archive 后）、无关 docs 大改                                                | 文档验收清单：打开 `project-status.md` 应**尚无**完整 v1.0 差距小节 → 撰写差距列表（compile-layer merge、ConflictResolver 全套、History/Selection/Clipboard、PermissionGuard 等）→ 更新 ci-checklist 勾选 G11/G6/行为回归并加 M6 scope 脚注                                                                                                          | `openspec validate add-validation-suite --strict`（docs 不跑 tsc；人工 review + link check 可选 `rg "v1.0 差距" docs/project-status.md`）                                                                                                 |
+| **09** | 全量验证 `pnpm check` + openspec validate（Barrier）                | —              | **true** | 01–08                        | 全 change 允许区（只读验证为主）                                                                                                                                                                   | 本 task **不**新增功能代码                                                                                         | 基线：任一前置 task 未完成则 `pnpm check` 或 validate 应 FAIL → 全部完成后应 PASS                                                                                                                                                                                                                                                                    | `pnpm check && openspec validate add-validation-suite --strict`                                                                                                                                                                           |
 
 ### Task 01 详细步骤（脚手架）
 
@@ -367,13 +367,13 @@ describe("createEditor startup abort", () => {
 
 ## Open Questions
 
-| 问题 | Plan 阶段处理 | 阻塞？ |
-| --- | --- | --- |
-| Example 运行方式 `tsc`+`node` vs `tsx` | Task 02 遵循仓库惯例（preset/core 均为 `tsc` + `node`） | 否 |
-| G11 解析 manifest.md 策略 | Task 05 解析 Stable 表格行；避免维护第二份常量文件 | 否 |
-| Task 07 新文件 vs 合并 orchestration test | 优先独立 `startup-abort.integration.test.ts`；合并须 validation 记录 | 否 |
-| Example 是否纳入 turbo `build` dependsOn | Task 06 确保 check 前 example 可 typecheck；start smoke 需 workspace build | 否 |
-| `docs/engineering/test-strategy.md` 是否更新 | Task 08 可选，若 M6 基线措辞受影响则更新 | 否 |
+| 问题                                         | Plan 阶段处理                                                              | 阻塞？ |
+| -------------------------------------------- | -------------------------------------------------------------------------- | ------ |
+| Example 运行方式 `tsc`+`node` vs `tsx`       | Task 02 遵循仓库惯例（preset/core 均为 `tsc` + `node`）                    | 否     |
+| G11 解析 manifest.md 策略                    | Task 05 解析 Stable 表格行；避免维护第二份常量文件                         | 否     |
+| Task 07 新文件 vs 合并 orchestration test    | 优先独立 `startup-abort.integration.test.ts`；合并须 validation 记录       | 否     |
+| Example 是否纳入 turbo `build` dependsOn     | Task 06 确保 check 前 example 可 typecheck；start smoke 需 workspace build | 否     |
+| `docs/engineering/test-strategy.md` 是否更新 | Task 08 可选，若 M6 基线措辞受影响则更新                                   | 否     |
 
 实现中若需偏离 OpenSpec design 决定，**MUST** 先更新 OpenSpec change，再改代码。
 
@@ -393,17 +393,17 @@ describe("createEditor startup abort", () => {
 
 **Commit 策略：**
 
-| Task | 推荐 commit message |
-| --- | --- |
-| 01 | `chore(examples): scaffold headless-gfm workspace package` |
-| 02 | `chore(examples): add headless-gfm runnable demo script` |
-| 03 | `chore(release): add publish-prep metadata to five packages` |
-| 04 | `chore(release): configure changesets linked group and publish script` |
-| 05 | `test(core): enforce manifest version doc consistency` |
-| 06 | `chore(examples): wire headless-gfm typecheck into check pipeline` |
-| 07 | `test(core): add createEditor startup abort integration tests` |
-| 08 | `docs(status): document M6 validation suite and v1.0 gaps` |
-| 09 | validation record only（若有）：`docs(superpowers): add M6 validation evidence` |
+| Task | 推荐 commit message                                                             |
+| ---- | ------------------------------------------------------------------------------- |
+| 01   | `chore(examples): scaffold headless-gfm workspace package`                      |
+| 02   | `chore(examples): add headless-gfm runnable demo script`                        |
+| 03   | `chore(release): add publish-prep metadata to five packages`                    |
+| 04   | `chore(release): configure changesets linked group and publish script`          |
+| 05   | `test(core): enforce manifest version doc consistency`                          |
+| 06   | `chore(examples): wire headless-gfm typecheck into check pipeline`              |
+| 07   | `test(core): add createEditor startup abort integration tests`                  |
+| 08   | `docs(status): document M6 validation suite and v1.0 gaps`                      |
+| 09   | validation record only（若有）：`docs(superpowers): add M6 validation evidence` |
 
 - 推荐 **一 task 一 commit**；PR 描述链接 OpenSpec change id 与各 task id。
 - Archive 前使用 `aether-workflow-update-docs-spec` sync main specs（`validation-suite`、可选 MODIFIED `engineering-workflow`）。

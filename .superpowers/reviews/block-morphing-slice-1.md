@@ -6,16 +6,16 @@
 
 ## Spec compliance
 
-| Requirement | Status | Evidence |
-| --- | --- | --- |
-| Slice A scenario A — focus shows `**` source | PASS | `block-morphing.integration.test.tsx` |
-| Slice A scenario B — blur rendered + serialization | PASS | `block-morphing.integration.test.tsx` |
-| Zero remount on consecutive edits | PASS | `block-morphing.integration.test.tsx` |
-| Core no morphing branch | PASS | No `packages/core` changes |
-| Additive React export `AetherMorphingContent` | PASS | `packages/react/src/index.ts` |
-| `examples/block-morphing` dev demo | PASS | `examples/block-morphing/` |
-| G6 typecheck in `pnpm check` | PASS | turbo includes `@aether-md/example-block-morphing` |
-| Phase 0 `react-basic` unchanged behavior | PASS | existing integration tests green |
+| Requirement                                        | Status | Evidence                                           |
+| -------------------------------------------------- | ------ | -------------------------------------------------- |
+| Slice A scenario A — focus shows `**` source       | PASS   | `block-morphing.integration.test.tsx`              |
+| Slice A scenario B — blur rendered + serialization | PASS   | `block-morphing.integration.test.tsx`              |
+| Zero remount on consecutive edits                  | PASS   | `block-morphing.integration.test.tsx`              |
+| Core no morphing branch                            | PASS   | No `packages/core` changes                         |
+| Additive React export `AetherMorphingContent`      | PASS   | `packages/react/src/index.ts`                      |
+| `examples/block-morphing` dev demo                 | PASS   | `examples/block-morphing/`                         |
+| G6 typecheck in `pnpm check`                       | PASS   | turbo includes `@aether-md/example-block-morphing` |
+| Phase 0 `react-basic` unchanged behavior           | PASS   | existing integration tests green                   |
 
 ## Architecture boundaries
 

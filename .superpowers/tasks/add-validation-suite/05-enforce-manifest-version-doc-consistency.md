@@ -122,7 +122,7 @@ Status:
 
 Run Log:
 
-- Added `packages/core/src/manifest-doc-consistency.test.ts` with `parseStableManifestVersions` (parses `| \`N\` | **Stable** |` rows from `docs/sdk/manifest.md`) and `collectOfficialManifestVersions` (scans `plugin-remark`, `plugin-prosemirror`, `preset-gfm`, `react` `src/` for `manifestVersion:` literals).
+- Added `packages/core/src/manifest-doc-consistency.test.ts` with `parseStableManifestVersions` (parses `| \`N\` | **Stable** |`rows from`docs/sdk/manifest.md`) and `collectOfficialManifestVersions`(scans`plugin-remark`, `plugin-prosemirror`, `preset-gfm`, `react` `src/`for`manifestVersion:` literals).
 - Code truth imported from `./manifest.js` (`SUPPORTED_MANIFEST_VERSIONS`); no duplicate version constant.
 - Fixed `packages/core/package.json` test script glob (`dist-test/**/*.test.js` only ran editor subfolder tests); now uses `find dist-test -name '*.test.js'` so G11 tests participate in `pnpm check`.
 - Validation: `pnpm --filter @aether-md/core test -- --test-name-pattern="manifest"` — 85 tests pass (includes `manifest documentation consistency` ×2 and `loadPluginManifests` ×4).

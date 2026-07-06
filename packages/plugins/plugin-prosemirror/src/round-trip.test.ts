@@ -4,10 +4,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, it } from "node:test";
 
-import {
-  createRemarkParserAdapter,
-  createRemarkSerializerAdapter,
-} from "@aether-md/plugin-remark";
+import { createRemarkParserAdapter, createRemarkSerializerAdapter } from "@aether-md/plugin-remark";
 
 import { createProseMirrorEngineAdapter } from "./engine.js";
 
@@ -62,9 +59,7 @@ describe("cross-package markdown round-trip", () => {
       "round-trip.test.ts",
     );
     const source = readFileSync(sourcePath, "utf8");
-    const importLines = source
-      .split("\n")
-      .filter((line) => line.trimStart().startsWith("import "));
+    const importLines = source.split("\n").filter((line) => line.trimStart().startsWith("import "));
 
     for (const line of importLines) {
       assert.doesNotMatch(line, /createEditor|bootstrapCore|@aether-md\/react|AetherEditor/);

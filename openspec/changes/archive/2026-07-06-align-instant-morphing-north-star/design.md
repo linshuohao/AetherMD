@@ -43,12 +43,12 @@ AetherMD 架构原则声明 **UX-Driven**：Instant Morphing、Block Focus、零
 
 **选择：**
 
-| 层 | 职责 |
-| --- | --- |
-| Core | Command Bus、Event Hub、块 id / 文档快照；**不**理解 Markdown 渲染语义 |
-| Preset / 块插件 | 块类型 schema、rendered 视图、source 编辑表面（或委托 Adapter） |
-| Engine Adapter | 事务应用；PM 仅在 Adapter 内 |
-| React Shell | 块 focus 状态机、挂载块 surface、GateLock；**不**内嵌 GFM 语义 |
+| 层              | 职责                                                                   |
+| --------------- | ---------------------------------------------------------------------- |
+| Core            | Command Bus、Event Hub、块 id / 文档快照；**不**理解 Markdown 渲染语义 |
+| Preset / 块插件 | 块类型 schema、rendered 视图、source 编辑表面（或委托 Adapter）        |
+| Engine Adapter  | 事务应用；PM 仅在 Adapter 内                                           |
+| React Shell     | 块 focus 状态机、挂载块 surface、GateLock；**不**内嵌 GFM 语义         |
 
 **理由：** 对齐原则「语义与交互皆可插件化」与 ADR 001 微内核。
 
@@ -56,10 +56,10 @@ AetherMD 架构原则声明 **UX-Driven**：Instant Morphing、Block Focus、零
 
 **选择：**
 
-| 层级 | 载体 | 验收 |
-| --- | --- | --- |
-| L1 架构管线 | `examples/react-basic` | 连续编辑 GFM 子集、GateLock、preview 同步（已有） |
-| L2 产品 north star | 未来 `examples/block-morphing`（名待定） | 块聚焦显示源码、失焦渲染、零分离 preview 栏 |
+| 层级               | 载体                                     | 验收                                              |
+| ------------------ | ---------------------------------------- | ------------------------------------------------- |
+| L1 架构管线        | `examples/react-basic`                   | 连续编辑 GFM 子集、GateLock、preview 同步（已有） |
+| L2 产品 north star | 未来 `examples/block-morphing`（名待定） | 块聚焦显示源码、失焦渲染、零分离 preview 栏       |
 
 **理由：** Demo Slice 程序已闭合 L1；L2 需新 change，避免 scope creep。
 
@@ -72,12 +72,12 @@ AetherMD 架构原则声明 **UX-Driven**：Instant Morphing、Block Focus、零
 
 ## Risks / Trade-offs
 
-| 风险 | 缓解 |
-| --- | --- |
-| 团队误以为纠偏 = 立刻废弃 PM 壳 | 文档明确 Phase 0 保留至 Slice A 可替代 |
-| 规格过大导致 again 只写不做 | 本 change 仅文档+spec；Slice A 单独 change + 硬验收 |
-| `interactiveRenderers` 草案与实现差距 | spec 引用 Manifest 钩子，实现切片再细化 API |
-| Core 被拉去写 morphing 逻辑 | design 冻结 Core 边界；review 拦截 |
+| 风险                                  | 缓解                                                |
+| ------------------------------------- | --------------------------------------------------- |
+| 团队误以为纠偏 = 立刻废弃 PM 壳       | 文档明确 Phase 0 保留至 Slice A 可替代              |
+| 规格过大导致 again 只写不做           | 本 change 仅文档+spec；Slice A 单独 change + 硬验收 |
+| `interactiveRenderers` 草案与实现差距 | spec 引用 Manifest 钩子，实现切片再细化 API         |
+| Core 被拉去写 morphing 逻辑           | design 冻结 Core 边界；review 拦截                  |
 
 ## Migration Plan
 

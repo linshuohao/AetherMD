@@ -2,11 +2,11 @@
 
 Date: 2026-07-06
 
-| Command | Result |
-| --- | --- |
-| `pnpm skills:sync` | pass |
-| `pnpm skills:check` | pass |
-| `pnpm check` | pass |
+| Command             | Result |
+| ------------------- | ------ |
+| `pnpm skills:sync`  | pass   |
+| `pnpm skills:check` | pass   |
+| `pnpm check`        | pass   |
 
 ## Retention applied
 

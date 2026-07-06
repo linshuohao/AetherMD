@@ -67,12 +67,12 @@ Skill **不是**新的长期事实来源；权威源在 `.skills/aether-workflow
 
 四层模型的操作含义是 **progressive disclosure**：
 
-| 阶段 | Agent 应读什么 | 不应读什么 |
-| --- | --- | --- |
-| Discover | 相关 Docs 索引、分类规则 | 完整 openspec 历史 |
-| Create change | 当前 change 的 source docs | 所有 archived change |
-| Implement task | **一个** task + 其引用的 Docs 片段 | 整个 `docs/` 树 |
-| Review | diff + spec + task logs + validation | 无关 package 源码 |
+| 阶段           | Agent 应读什么                       | 不应读什么           |
+| -------------- | ------------------------------------ | -------------------- |
+| Discover       | 相关 Docs 索引、分类规则             | 完整 openspec 历史   |
+| Create change  | 当前 change 的 source docs           | 所有 archived change |
+| Implement task | **一个** task + 其引用的 Docs 片段   | 整个 `docs/` 树      |
+| Review         | diff + spec + task logs + validation | 无关 package 源码    |
 
 这直接降低 hallucinate 概率，也降低 human review 时的认知负担。
 
@@ -87,12 +87,12 @@ Skill **不是**新的长期事实来源；权威源在 `.skills/aether-workflow
 
 ## 反模式
 
-| 反模式 | 为什么有害 |
-| --- | --- |
-| 把 task 步骤写进 `docs/architecture/` | 污染长期事实，难以归档 |
-| 没有 change 直接改 main spec | 丢失变更意图与 review 上下文 |
-| Agent 手写 `.superpowers/` 绕过 Superpowers 工具 | 产物结构漂移，loop 无法复用 |
-| 在 skill 里重新定义 SDK 契约 | 多源事实，mirror 同步失效 |
+| 反模式                                           | 为什么有害                   |
+| ------------------------------------------------ | ---------------------------- |
+| 把 task 步骤写进 `docs/architecture/`            | 污染长期事实，难以归档       |
+| 没有 change 直接改 main spec                     | 丢失变更意图与 review 上下文 |
+| Agent 手写 `.superpowers/` 绕过 Superpowers 工具 | 产物结构漂移，loop 无法复用  |
+| 在 skill 里重新定义 SDK 契约                     | 多源事实，mirror 同步失效    |
 
 ## 小结
 

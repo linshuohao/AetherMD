@@ -3,7 +3,6 @@ import { serializeListBlock } from "@aether-md/plugin-remark";
 
 import { appendInlineToDom } from "./dom-inlines.js";
 import type { CustomBlockRenderer, GfmMorphingBlockStrategy } from "./types.js";
-import { isParagraphBlock } from "./types.js";
 
 function isListBlock(block: AetherBlock): block is ListBlock {
   return block.type === "list";

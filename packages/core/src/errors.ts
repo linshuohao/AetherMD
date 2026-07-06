@@ -72,11 +72,7 @@ export class PluginError extends Error implements AetherError {
   }
 }
 
-export type AdapterErrorCode =
-  | "APPLY_FAILED"
-  | "CREATE_FAILED"
-  | "DISPOSE_FAILED"
-  | "PARSE_FAILED";
+export type AdapterErrorCode = "APPLY_FAILED" | "CREATE_FAILED" | "DISPOSE_FAILED" | "PARSE_FAILED";
 
 export interface AdapterErrorOptions {
   code: AdapterErrorCode;

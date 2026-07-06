@@ -38,13 +38,13 @@
 
 Recorded in `.superpowers/runs/harden-core-bootstrap-lifecycle/validation.md`. Archive re-run:
 
-| Command | Result |
-| --- | --- |
-| `pnpm core:test` | PASS — 57 tests, 16 suites, 0 failed |
-| `pnpm typecheck` | PASS |
-| `pnpm test` | PASS — 72 total (core + plugins) |
-| `pnpm check` | PASS — skills:check + turbo 9/9 |
-| `openspec validate harden-core-bootstrap-lifecycle` | PASS (pre-archive) |
+| Command                                             | Result                               |
+| --------------------------------------------------- | ------------------------------------ |
+| `pnpm core:test`                                    | PASS — 57 tests, 16 suites, 0 failed |
+| `pnpm typecheck`                                    | PASS                                 |
+| `pnpm test`                                         | PASS — 72 total (core + plugins)     |
+| `pnpm check`                                        | PASS — skills:check + turbo 9/9      |
+| `openspec validate harden-core-bootstrap-lifecycle` | PASS (pre-archive)                   |
 
 Compliance review: `.superpowers/reviews/harden-core-bootstrap-lifecycle.md` — **PASS with follow-up updates**; no blockers.
 
@@ -70,12 +70,12 @@ No ADR or glossary updates required.
 
 ## Deviations
 
-| Deviation | Status |
-| --- | --- |
-| Cleanup destroy failure `cause` chain | **Accepted** — delta MAY attach cleanup failures in primary error `cause`; implementation continues best-effort without explicit `cause` chaining |
-| Task 07 boundary test path `test --run src/package-boundary.test.ts` invalid | **Accepted** — full `pnpm core:test` includes package-boundary suite |
-| `validateUniquePluginNames` exported from `manifest.ts` module but not `index.ts` | **Accepted** — internal validation helper |
-| OpenSpec `tasks.md` checklist left unchecked in archived artifact | **Accepted** — Superpowers tasks 01–08 completed and validated; OpenSpec checklist is planning artifact only |
+| Deviation                                                                         | Status                                                                                                                                            |
+| --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Cleanup destroy failure `cause` chain                                             | **Accepted** — delta MAY attach cleanup failures in primary error `cause`; implementation continues best-effort without explicit `cause` chaining |
+| Task 07 boundary test path `test --run src/package-boundary.test.ts` invalid      | **Accepted** — full `pnpm core:test` includes package-boundary suite                                                                              |
+| `validateUniquePluginNames` exported from `manifest.ts` module but not `index.ts` | **Accepted** — internal validation helper                                                                                                         |
+| OpenSpec `tasks.md` checklist left unchecked in archived artifact                 | **Accepted** — Superpowers tasks 01–08 completed and validated; OpenSpec checklist is planning artifact only                                      |
 
 ## Deferred Non-Goals
 
@@ -113,34 +113,34 @@ Archived delta preserved at:
 
 ## Tasks Completed
 
-| Task | Status | Validation | Deviation |
-| --- | --- | --- | --- |
-| 01-define-duplicate-plugin-name-tests | completed | duplicate name tests | — |
-| 02-implement-duplicate-plugin-name-validation | completed | `PLUGIN_NAME_DUPLICATE` + bootstrap wiring | — |
-| 03-define-partial-startup-cleanup-tests | completed | 5 cleanup tests | — |
-| 04-implement-partial-startup-cleanup | completed | lifecycle.ts `runStartupFailureCleanup` | cause chain optional |
-| 05-define-bootstrap-dispose-idempotency-tests | completed | repeated dispose + fatal normal dispose | — |
-| 06-implement-bootstrap-dispose-idempotency-contract | completed | existing `disposed` flag + tests | — |
-| 07-reinforce-boundary-and-non-goals-guards | completed | rg guards + boundary suite | test path note |
-| 08-run-full-validation | completed | validation.md PASS | — |
+| Task                                                | Status    | Validation                                 | Deviation            |
+| --------------------------------------------------- | --------- | ------------------------------------------ | -------------------- |
+| 01-define-duplicate-plugin-name-tests               | completed | duplicate name tests                       | —                    |
+| 02-implement-duplicate-plugin-name-validation       | completed | `PLUGIN_NAME_DUPLICATE` + bootstrap wiring | —                    |
+| 03-define-partial-startup-cleanup-tests             | completed | 5 cleanup tests                            | —                    |
+| 04-implement-partial-startup-cleanup                | completed | lifecycle.ts `runStartupFailureCleanup`    | cause chain optional |
+| 05-define-bootstrap-dispose-idempotency-tests       | completed | repeated dispose + fatal normal dispose    | —                    |
+| 06-implement-bootstrap-dispose-idempotency-contract | completed | existing `disposed` flag + tests           | —                    |
+| 07-reinforce-boundary-and-non-goals-guards          | completed | rg guards + boundary suite                 | test path note       |
+| 08-run-full-validation                              | completed | validation.md PASS                         | —                    |
 
 ## Files Changed
 
-| File | Task / Reason |
-| --- | --- |
-| `packages/core/src/errors.ts` | 01–02 — `PLUGIN_NAME_DUPLICATE` |
-| `packages/core/src/manifest.ts` | 02 — `validateUniquePluginNames` |
-| `packages/core/src/bootstrap.ts` | 02 — validation call site |
-| `packages/core/src/bootstrap.test.ts` | 01–02 — duplicate name tests |
-| `packages/core/src/lifecycle.ts` | 03–04 — startup failure cleanup |
-| `packages/core/src/lifecycle.test.ts` | 03–06 — cleanup + dispose tests |
-| `packages/core/src/dependencies.ts` | 07 — comment only |
-| `openspec/specs/core-bootstrap/spec.md` | docs/spec sync |
-| `docs/sdk/manifest.md` | docs/spec sync |
-| `docs/sdk/lifecycle.md` | docs/spec sync |
-| `docs/engineering/error-model.md` | docs/spec sync |
-| `docs/engineering/mvp-implementation-plan.md` | docs/spec sync |
-| `docs/project-status.md` | docs/spec sync |
+| File                                          | Task / Reason                    |
+| --------------------------------------------- | -------------------------------- |
+| `packages/core/src/errors.ts`                 | 01–02 — `PLUGIN_NAME_DUPLICATE`  |
+| `packages/core/src/manifest.ts`               | 02 — `validateUniquePluginNames` |
+| `packages/core/src/bootstrap.ts`              | 02 — validation call site        |
+| `packages/core/src/bootstrap.test.ts`         | 01–02 — duplicate name tests     |
+| `packages/core/src/lifecycle.ts`              | 03–04 — startup failure cleanup  |
+| `packages/core/src/lifecycle.test.ts`         | 03–06 — cleanup + dispose tests  |
+| `packages/core/src/dependencies.ts`           | 07 — comment only                |
+| `openspec/specs/core-bootstrap/spec.md`       | docs/spec sync                   |
+| `docs/sdk/manifest.md`                        | docs/spec sync                   |
+| `docs/sdk/lifecycle.md`                       | docs/spec sync                   |
+| `docs/engineering/error-model.md`             | docs/spec sync                   |
+| `docs/engineering/mvp-implementation-plan.md` | docs/spec sync                   |
+| `docs/project-status.md`                      | docs/spec sync                   |
 
 Superpowers / OpenSpec artifacts:
 

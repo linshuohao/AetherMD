@@ -5,10 +5,7 @@ import type {
   SerializerAdapter,
 } from "@aether-md/core";
 import { createProseMirrorEngineAdapter } from "@aether-md/plugin-prosemirror";
-import {
-  createRemarkParserAdapter,
-  createRemarkSerializerAdapter,
-} from "@aether-md/plugin-remark";
+import { createRemarkParserAdapter, createRemarkSerializerAdapter } from "@aether-md/plugin-remark";
 
 import { gfmManifest } from "./manifest.js";
 
@@ -29,10 +26,7 @@ export function createGfmPreset(): GfmPreset {
 }
 
 export { gfmManifest } from "./manifest.js";
-export {
-  serializeInlineToMarkdown,
-  serializeParagraphInlines,
-} from "./gfm-inline-morphing.js";
+export { serializeInlineToMarkdown, serializeParagraphInlines } from "./gfm-inline-morphing.js";
 export {
   createGfmInteractiveRenderers,
   getGfmMorphingStrategy,
@@ -41,7 +35,4 @@ export {
   paragraphMorphingStrategy,
 } from "./morphing/registry.js";
 export { paragraphSourceFromBlock } from "./morphing/paragraph-strategy.js";
-export type {
-  CustomBlockRenderer,
-  GfmMorphingBlockStrategy,
-} from "./morphing/types.js";
+export type { CustomBlockRenderer, GfmMorphingBlockStrategy } from "./morphing/types.js";

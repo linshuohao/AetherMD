@@ -1,4 +1,1 @@
-export {
-  serializeInlineToMarkdown,
-  serializeParagraphInlines,
-} from "@aether-md/plugin-remark";
+export { serializeInlineToMarkdown, serializeParagraphInlines } from "@aether-md/plugin-remark";

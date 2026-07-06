@@ -6,12 +6,12 @@
 
 本白皮书采用 [RFC 2119](https://datatracker.ietf.org/doc/html/rfc2119) 关键词描述约束强度：
 
-| 关键词 | 含义 |
-| --- | --- |
-| **MUST / MUST NOT** | 架构原则级约束，违反即构成架构违规 |
-| **SHOULD / SHOULD NOT** | 强烈推荐的默认策略 |
-| **MAY** | 可选能力 |
-| **RECOMMENDED** | 最佳实践，非强制 |
+| 关键词                  | 含义                               |
+| ----------------------- | ---------------------------------- |
+| **MUST / MUST NOT**     | 架构原则级约束，违反即构成架构违规 |
+| **SHOULD / SHOULD NOT** | 强烈推荐的默认策略                 |
+| **MAY**                 | 可选能力                           |
+| **RECOMMENDED**         | 最佳实践，非强制                   |
 
 仅 [架构最高宪章](principles.md) 使用 **MUST** 作为硬性约束；实现细节见 Plugin SDK 与工程文档。
 

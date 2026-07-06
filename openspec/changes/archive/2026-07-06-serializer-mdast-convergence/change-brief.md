@@ -45,9 +45,9 @@ none — 无新 export、无 SemVer bump；行为保持 golden output 等价。
 
 ## Escalation Triggers Checked
 
-| 触发器 | 结果 |
-| --- | --- |
-| Core public API 变更 | **否** |
-| 多 task | **否** |
-| workflow / CI gate 变更 | **否** |
-| golden output 不可保持 | **若失败则暂停评估 handler 配置** |
+| 触发器                  | 结果                              |
+| ----------------------- | --------------------------------- |
+| Core public API 变更    | **否**                            |
+| 多 task                 | **否**                            |
+| workflow / CI gate 变更 | **否**                            |
+| golden output 不可保持  | **若失败则暂停评估 handler 配置** |

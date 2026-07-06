@@ -6,11 +6,11 @@ Date: 2026-07-06
 
 ## Commands
 
-| Command | Result |
-| --- | --- |
-| `pnpm --filter @aether-md/react test` | pass (19 tests, incl. demo-slice-pr0-acceptance) |
-| `pnpm --filter @aether-md/example-react-basic typecheck` | pass |
-| `pnpm check` | see below |
+| Command                                                  | Result                                           |
+| -------------------------------------------------------- | ------------------------------------------------ |
+| `pnpm --filter @aether-md/react test`                    | pass (19 tests, incl. demo-slice-pr0-acceptance) |
+| `pnpm --filter @aether-md/example-react-basic typecheck` | pass                                             |
+| `pnpm check`                                             | see below                                        |
 
 ## Files changed
 

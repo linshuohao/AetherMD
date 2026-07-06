@@ -22,28 +22,28 @@
 
 ## Tasks Completed
 
-| Task | Status | Validation | Deviation |
-| --- | --- | --- | --- |
-| 01 Add scheduling metadata fields | completed | `rg "Depends On\|Parallel Group\|Barrier" .skills/aether-workflow/aether-workflow-create-plan .skills/aether-workflow/aether-workflow-create-task` | none |
-| 02 Add loop protocol and capability probe | completed | `rg "Host Capability Probe\|wave-parallel\|parallel-wave-protocol\|dispatching-parallel-agents\|Barrier" .skills/aether-workflow/aether-workflow-execute-task-loop` | none |
-| 03 Clarify single-task guardrails | completed | `rg "single agent session\|implementer agent session\|coordinator" .skills/aether-workflow/aether-workflow-implement-task .skills/aether-workflow/aether-workflow-execute-task-loop` | none |
-| 04 Sync docs specs and validate | completed | `openspec validate improve-task-loop-parallel-scheduling`, `pnpm skills:check`, `pnpm check` | sandbox permission note for first `pnpm skills:sync` attempt |
+| Task                                      | Status    | Validation                                                                                                                                                                           | Deviation                                                    |
+| ----------------------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------ |
+| 01 Add scheduling metadata fields         | completed | `rg "Depends On\|Parallel Group\|Barrier" .skills/aether-workflow/aether-workflow-create-plan .skills/aether-workflow/aether-workflow-create-task`                                   | none                                                         |
+| 02 Add loop protocol and capability probe | completed | `rg "Host Capability Probe\|wave-parallel\|parallel-wave-protocol\|dispatching-parallel-agents\|Barrier" .skills/aether-workflow/aether-workflow-execute-task-loop`                  | none                                                         |
+| 03 Clarify single-task guardrails         | completed | `rg "single agent session\|implementer agent session\|coordinator" .skills/aether-workflow/aether-workflow-implement-task .skills/aether-workflow/aether-workflow-execute-task-loop` | none                                                         |
+| 04 Sync docs specs and validate           | completed | `openspec validate improve-task-loop-parallel-scheduling`, `pnpm skills:check`, `pnpm check`                                                                                         | sandbox permission note for first `pnpm skills:sync` attempt |
 
 ## Files Changed
 
-| File | Task / Reason | Notes |
-| --- | --- | --- |
-| `.skills/aether-workflow/aether-workflow-create-plan/**` | 01 | Plan template and planning instructions include scheduling metadata. |
-| `.skills/aether-workflow/aether-workflow-create-task/**` | 01 | Task template, task creation instructions, and quality rules include scheduling metadata. |
-| `.skills/aether-workflow/aether-workflow-execute-task-loop/**` | 02, 03 | Host capability probe, sequential/wave-parallel modes, and parallel wave protocol added. |
-| `.skills/aether-workflow/aether-workflow-implement-task/SKILL.md` | 03 | Single implementer session guardrail clarified. |
-| `.codex/skills/aether-workflow-*`, `.cursor/skills/aether-workflow-*` | 04 | Generated mirrors from `.skills/aether-workflow/`. |
-| `AI_NATIVE_ENGINEERING_WORKFLOW.md` | 04 | Step 3/4/6.5 long-lived workflow text updated. |
-| `openspec/specs/engineering-workflow/spec.md` | 04 | Main spec updated with accepted workflow requirements. |
-| `.superpowers/plans/improve-task-loop-parallel-scheduling.md` | Plan | Implementation plan and task DAG source. |
-| `.superpowers/tasks/improve-task-loop-parallel-scheduling/**` | Tasks | Per-task records. |
-| `.superpowers/runs/improve-task-loop-parallel-scheduling/**` | Validation / final report | Validation and final report. |
-| `.superpowers/reviews/improve-task-loop-parallel-scheduling.md` | Compliance review | Passed review with no blockers. |
+| File                                                                  | Task / Reason             | Notes                                                                                     |
+| --------------------------------------------------------------------- | ------------------------- | ----------------------------------------------------------------------------------------- |
+| `.skills/aether-workflow/aether-workflow-create-plan/**`              | 01                        | Plan template and planning instructions include scheduling metadata.                      |
+| `.skills/aether-workflow/aether-workflow-create-task/**`              | 01                        | Task template, task creation instructions, and quality rules include scheduling metadata. |
+| `.skills/aether-workflow/aether-workflow-execute-task-loop/**`        | 02, 03                    | Host capability probe, sequential/wave-parallel modes, and parallel wave protocol added.  |
+| `.skills/aether-workflow/aether-workflow-implement-task/SKILL.md`     | 03                        | Single implementer session guardrail clarified.                                           |
+| `.codex/skills/aether-workflow-*`, `.cursor/skills/aether-workflow-*` | 04                        | Generated mirrors from `.skills/aether-workflow/`.                                        |
+| `AI_NATIVE_ENGINEERING_WORKFLOW.md`                                   | 04                        | Step 3/4/6.5 long-lived workflow text updated.                                            |
+| `openspec/specs/engineering-workflow/spec.md`                         | 04                        | Main spec updated with accepted workflow requirements.                                    |
+| `.superpowers/plans/improve-task-loop-parallel-scheduling.md`         | Plan                      | Implementation plan and task DAG source.                                                  |
+| `.superpowers/tasks/improve-task-loop-parallel-scheduling/**`         | Tasks                     | Per-task records.                                                                         |
+| `.superpowers/runs/improve-task-loop-parallel-scheduling/**`          | Validation / final report | Validation and final report.                                                              |
+| `.superpowers/reviews/improve-task-loop-parallel-scheduling.md`       | Compliance review         | Passed review with no blockers.                                                           |
 
 ## Validation Results
 

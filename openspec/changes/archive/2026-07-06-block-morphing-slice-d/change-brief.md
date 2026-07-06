@@ -48,8 +48,8 @@ One task: preset block strategies + interactiveRenderers + engine whole-block re
 
 ## Escalation Triggers Checked
 
-| 触发器 | 结果 |
-| --- | --- |
-| 多 task 必需 | **否** — 单 task 可交付 |
-| 新 CommandId | **否** — 扩展 replaceText payload |
-| workflow 语义变更 | **否** |
+| 触发器            | 结果                              |
+| ----------------- | --------------------------------- |
+| 多 task 必需      | **否** — 单 task 可交付           |
+| 新 CommandId      | **否** — 扩展 replaceText payload |
+| workflow 语义变更 | **否**                            |

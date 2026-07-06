@@ -54,12 +54,9 @@ function createMockEditor(options: {
 
 describe("useAetherEditor", () => {
   it("throws when rendered outside AetherEditorRoot provider", () => {
-    assert.throws(
-      () => {
-        renderHook(() => useAetherEditor());
-      },
-      /must be used within AetherEditorRoot/,
-    );
+    assert.throws(() => {
+      renderHook(() => useAetherEditor());
+    }, /must be used within AetherEditorRoot/);
   });
 
   it("bridges change events to markdown and doc state", async () => {
@@ -67,9 +64,7 @@ describe("useAetherEditor", () => {
       markdown: "Hello",
       doc: {
         type: "doc",
-        children: [
-          { type: "paragraph", children: [{ type: "text", text: "Hello" }] },
-        ],
+        children: [{ type: "paragraph", children: [{ type: "text", text: "Hello" }] }],
       },
     });
 
@@ -92,9 +87,7 @@ describe("useAetherEditor", () => {
 
     const updatedDoc: AetherDoc = {
       type: "doc",
-      children: [
-        { type: "paragraph", children: [{ type: "text", text: "Updated" }] },
-      ],
+      children: [{ type: "paragraph", children: [{ type: "text", text: "Updated" }] }],
     };
 
     editor.emitChange("Updated", updatedDoc);

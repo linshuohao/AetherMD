@@ -21,10 +21,7 @@ describe("ProseMirror GFM conversion round-trip", () => {
     const list = roundTripped.children[2] as ListBlock;
     assert.equal(list.type, "list");
     assert.equal(list.ordered, false);
-    assert.equal(
-      ((list.items[0]?.[0] as ParagraphBlock).children[0] as TextInline).text,
-      "item",
-    );
+    assert.equal(((list.items[0]?.[0] as ParagraphBlock).children[0] as TextInline).text, "item");
   });
 
   it("preserves LinkInline through aetherDocToPm and pmToAetherDoc", () => {

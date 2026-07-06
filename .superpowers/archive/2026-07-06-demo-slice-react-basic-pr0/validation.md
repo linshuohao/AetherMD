@@ -6,10 +6,10 @@ Date: 2026-07-06
 
 ## Commands
 
-| Command | Result |
-| --- | --- |
-| `pnpm --filter @aether-md/example-react-basic typecheck` | pass |
-| `openspec validate demo-slice-react-basic-pr0` | skipped — CLI did not list active change |
+| Command                                                  | Result                                   |
+| -------------------------------------------------------- | ---------------------------------------- |
+| `pnpm --filter @aether-md/example-react-basic typecheck` | pass                                     |
+| `openspec validate demo-slice-react-basic-pr0`           | skipped — CLI did not list active change |
 
 ## Task checklist
 

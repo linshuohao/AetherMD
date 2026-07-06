@@ -46,12 +46,12 @@ createProseMirrorView(options: {
 
 **design.md Decision #2 对齐检查（开工前）：**
 
-| 项 | 定稿 |
-| --- | --- |
-| 实现位置 | `packages/plugins/plugin-prosemirror/src/view-bridge.ts`（plugin 侧，**非** core、**非** react 直依赖 PM） |
-| 公开 API | `createProseMirrorView` additive export |
-| React 约束 | `@aether-md/react` **MUST NOT** import `prosemirror-view` |
-| 依赖 | `prosemirror-view` 仅加在 `@aether-md/plugin-prosemirror` |
+| 项         | 定稿                                                                                                       |
+| ---------- | ---------------------------------------------------------------------------------------------------------- |
+| 实现位置   | `packages/plugins/plugin-prosemirror/src/view-bridge.ts`（plugin 侧，**非** core、**非** react 直依赖 PM） |
+| 公开 API   | `createProseMirrorView` additive export                                                                    |
+| React 约束 | `@aether-md/react` **MUST NOT** import `prosemirror-view`                                                  |
+| 依赖       | `prosemirror-view` 仅加在 `@aether-md/plugin-prosemirror`                                                  |
 
 - 更新 `plugin-prosemirror/package.json`：additive `prosemirror-view` dependency
 - 新增 `view-bridge.ts` + `view-bridge.test.ts`

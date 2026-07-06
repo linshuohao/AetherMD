@@ -53,14 +53,14 @@ none — 无 SemVer bump、无新 publishable export、无 `manifestVersion` 变
 
 ## Escalation Triggers Checked
 
-| 触发器 | 结果 |
-| --- | --- |
-| workflow semantics | **否** |
-| 多 task / 多 capability | **否** — 单 task；capability 延续 `validation-suite` |
-| 新 CommandId 或 Core 编排变更 | **否** — 目标内；若不可避免则暂停升级 Full Change |
+| 触发器                            | 结果                                                            |
+| --------------------------------- | --------------------------------------------------------------- |
+| workflow semantics                | **否**                                                          |
+| 多 task / 多 capability           | **否** — 单 task；capability 延续 `validation-suite`            |
+| 新 CommandId 或 Core 编排变更     | **否** — 目标内；若不可避免则暂停升级 Full Change               |
 | `ReplaceTextCommand` 可选字段扩展 | **可能** — 仅当 list 同步无法用现有 `children` 表达；须向后兼容 |
-| Playwright / CI gate 变更 | **否** |
-| 超出 demo allowed surface | **否** — `react` + `plugin-prosemirror` + tests + docs |
+| Playwright / CI gate 变更         | **否**                                                          |
+| 超出 demo allowed surface         | **否** — `react` + `plugin-prosemirror` + tests + docs          |
 
 **结论：** Spec Change；实现中若需第二个独立 task 或新 CommandId，暂停并升级 Full Change。
 
@@ -70,12 +70,12 @@ none — 无 SemVer bump、无新 publishable export、无 `manifestVersion` 变
 
 **MUST 覆盖（CI，`insertText` 或等效 PM 输入）：**
 
-| 表面 | 验收 |
-| --- | --- |
-| 连续 plain paragraph | 多次 `insertText` 后 preview 反映最终文本 |
-| heading 块内编辑 | 标题文本修改后 preview 更新 |
-| list item 内段落 | 列表项内打字后 preview 含更新项文本 |
-| strong / link 邻接打字 | 不破坏已有 mark 结构（回归） |
+| 表面                   | 验收                                      |
+| ---------------------- | ----------------------------------------- |
+| 连续 plain paragraph   | 多次 `insertText` 后 preview 反映最终文本 |
+| heading 块内编辑       | 标题文本修改后 preview 更新               |
+| list item 内段落       | 列表项内打字后 preview 含更新项文本       |
+| strong / link 邻接打字 | 不破坏已有 mark 结构（回归）              |
 
 **MUST 保留：** 既有 `demo-slice-pr0-acceptance`（dispatch 路径）与 GateLock 测试全绿。
 

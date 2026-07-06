@@ -22,16 +22,15 @@ $$\text{UI Shell} \longrightarrow \text{AetherCore} \longrightarrow \text{Plugin
 
 **跨文档职责映射：**
 
-| 架构概念 | 详细规范 |
-| --- | --- |
-| Manifest 分层、Lifecycle、Command Pipeline、Service Capability | → Plugin SDK |
-| Core 宿主入口、AetherDoc 文档模型 | → [Core API](core-api.md)、[文档模型](document-model.md) |
-| Error Model、Thread、Observability、Security、Concurrency | → 工程文档 |
-| Adapter 边界、MVP 实施、测试策略 | → [工程文档](../engineering/README.md) |
-| 数据流拓扑、Adapter 防腐层 | → 本页「确定性数据流」「容器化适配器」 |
+| 架构概念                                                       | 详细规范                                                 |
+| -------------------------------------------------------------- | -------------------------------------------------------- |
+| Manifest 分层、Lifecycle、Command Pipeline、Service Capability | → Plugin SDK                                             |
+| Core 宿主入口、AetherDoc 文档模型                              | → [Core API](core-api.md)、[文档模型](document-model.md) |
+| Error Model、Thread、Observability、Security、Concurrency      | → 工程文档                                               |
+| Adapter 边界、MVP 实施、测试策略                               | → [工程文档](../engineering/README.md)                   |
+| 数据流拓扑、Adapter 防腐层                                     | → 本页「确定性数据流」「容器化适配器」                   |
 
 ---
-
 
 ## 确定性数据流
 
@@ -44,7 +43,6 @@ Command → Adapter Transaction → Doc Update → Render → Serialize → Even
 错误分类与恢复策略见 [错误模型](../engineering/error-model.md)。
 
 ---
-
 
 ## 容器化适配器
 

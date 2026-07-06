@@ -82,9 +82,7 @@ async function removeManagedTargets(targetRoot) {
   await Promise.all(
     entries
       .filter((entry) => entry.isDirectory() && entry.name.startsWith(managedPrefix))
-      .map((entry) =>
-        rm(path.join(targetRoot, entry.name), { recursive: true, force: true }),
-      ),
+      .map((entry) => rm(path.join(targetRoot, entry.name), { recursive: true, force: true })),
   );
 }
 
@@ -103,6 +101,4 @@ for (const targetRoot of targetRoots) {
   }
 }
 
-console.log(
-  `Synced ${skills.length} Aether workflow skills to ${targetRoots.join(", ")}.`,
-);
+console.log(`Synced ${skills.length} Aether workflow skills to ${targetRoots.join(", ")}.`);

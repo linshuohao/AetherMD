@@ -11,52 +11,52 @@
 
 ## Artifact Coverage
 
-| Artifact | Present | Notes |
-| --- | --- | --- |
-| Proposal | yes | `openspec/changes/add-command-event-runtime/proposal.md` |
-| Design | yes | `openspec/changes/add-command-event-runtime/design.md` |
-| Delta specs | yes | `command-event-runtime` ADDED and `core-bootstrap` MODIFIED specs present |
-| OpenSpec status | yes | `isComplete: true`; proposal/design/specs/tasks all `done` |
-| OpenSpec validation | yes | `openspec validate add-command-event-runtime --strict` passed |
-| Plan | yes | `.superpowers/plans/add-command-event-runtime.md` |
-| Tasks | yes | `.superpowers/tasks/add-command-event-runtime/01` through `07`, all marked completed |
-| Validation | yes | `.superpowers/runs/add-command-event-runtime/validation.md` |
-| Review | yes | `.superpowers/reviews/add-command-event-runtime.md` |
+| Artifact            | Present | Notes                                                                                |
+| ------------------- | ------- | ------------------------------------------------------------------------------------ |
+| Proposal            | yes     | `openspec/changes/add-command-event-runtime/proposal.md`                             |
+| Design              | yes     | `openspec/changes/add-command-event-runtime/design.md`                               |
+| Delta specs         | yes     | `command-event-runtime` ADDED and `core-bootstrap` MODIFIED specs present            |
+| OpenSpec status     | yes     | `isComplete: true`; proposal/design/specs/tasks all `done`                           |
+| OpenSpec validation | yes     | `openspec validate add-command-event-runtime --strict` passed                        |
+| Plan                | yes     | `.superpowers/plans/add-command-event-runtime.md`                                    |
+| Tasks               | yes     | `.superpowers/tasks/add-command-event-runtime/01` through `07`, all marked completed |
+| Validation          | yes     | `.superpowers/runs/add-command-event-runtime/validation.md`                          |
+| Review              | yes     | `.superpowers/reviews/add-command-event-runtime.md`                                  |
 
 ## Changed-file Mapping
 
-| File | Task | Requirement / Source Doc | Status |
-| --- | --- | --- | --- |
-| `openspec/changes/add-command-event-runtime/.openspec.yaml` | OpenSpec setup | OpenSpec repo-local change metadata | mapped |
-| `openspec/changes/add-command-event-runtime/proposal.md` | OpenSpec proposal | change scope, version impact, non-goals | mapped |
-| `openspec/changes/add-command-event-runtime/design.md` | OpenSpec design | public contract, boundaries, testing strategy | mapped |
-| `openspec/changes/add-command-event-runtime/specs/command-event-runtime/spec.md` | OpenSpec delta spec | all M2 Command/Event requirements | mapped |
-| `openspec/changes/add-command-event-runtime/specs/core-bootstrap/spec.md` | OpenSpec delta spec | package boundary allows M2 and excludes later milestones | mapped |
-| `openspec/changes/add-command-event-runtime/tasks.md` | OpenSpec tasks | high-level implementation and verification tasks | mapped |
-| `.superpowers/plans/add-command-event-runtime.md` | Plan | OpenSpec requirements and source docs | mapped |
-| `.superpowers/tasks/add-command-event-runtime/*.md` | Tasks 01-07 | each task maps to OpenSpec requirements | mapped |
-| `.superpowers/runs/add-command-event-runtime/validation.md` | Task 07 | validation matrix and command results | mapped |
-| `packages/core/src/command-event-types.ts` | Task 01 | public Command/Event types; SDK command-event protocol | mapped |
-| `packages/core/src/command-event-runtime.ts` | Tasks 01-06 | factory, event hub, command bus, error isolation, dispose | mapped |
-| `packages/core/src/command-event-runtime.test.ts` | Tasks 01-07 | contract tests for M2 requirements | mapped |
-| `packages/core/src/errors.ts` | Tasks 01, 04, 05, 06 | `PluginError`, command runtime core failures | mapped |
-| `packages/core/src/index.ts` | Tasks 01, 06 | public exports | mapped |
-| `packages/core/src/package-boundary.test.ts` | Tasks 01, 07 | M2 allowed surface and later milestone exclusion | mapped |
-| `AGENTS.md` | workflow support artifact outside runtime implementation | repository agent/workflow instructions; must be committed separately from the runtime change or explicitly called out as workflow-support scope | mapped as separate commit scope |
+| File                                                                             | Task                                                     | Requirement / Source Doc                                                                                                                        | Status                          |
+| -------------------------------------------------------------------------------- | -------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
+| `openspec/changes/add-command-event-runtime/.openspec.yaml`                      | OpenSpec setup                                           | OpenSpec repo-local change metadata                                                                                                             | mapped                          |
+| `openspec/changes/add-command-event-runtime/proposal.md`                         | OpenSpec proposal                                        | change scope, version impact, non-goals                                                                                                         | mapped                          |
+| `openspec/changes/add-command-event-runtime/design.md`                           | OpenSpec design                                          | public contract, boundaries, testing strategy                                                                                                   | mapped                          |
+| `openspec/changes/add-command-event-runtime/specs/command-event-runtime/spec.md` | OpenSpec delta spec                                      | all M2 Command/Event requirements                                                                                                               | mapped                          |
+| `openspec/changes/add-command-event-runtime/specs/core-bootstrap/spec.md`        | OpenSpec delta spec                                      | package boundary allows M2 and excludes later milestones                                                                                        | mapped                          |
+| `openspec/changes/add-command-event-runtime/tasks.md`                            | OpenSpec tasks                                           | high-level implementation and verification tasks                                                                                                | mapped                          |
+| `.superpowers/plans/add-command-event-runtime.md`                                | Plan                                                     | OpenSpec requirements and source docs                                                                                                           | mapped                          |
+| `.superpowers/tasks/add-command-event-runtime/*.md`                              | Tasks 01-07                                              | each task maps to OpenSpec requirements                                                                                                         | mapped                          |
+| `.superpowers/runs/add-command-event-runtime/validation.md`                      | Task 07                                                  | validation matrix and command results                                                                                                           | mapped                          |
+| `packages/core/src/command-event-types.ts`                                       | Task 01                                                  | public Command/Event types; SDK command-event protocol                                                                                          | mapped                          |
+| `packages/core/src/command-event-runtime.ts`                                     | Tasks 01-06                                              | factory, event hub, command bus, error isolation, dispose                                                                                       | mapped                          |
+| `packages/core/src/command-event-runtime.test.ts`                                | Tasks 01-07                                              | contract tests for M2 requirements                                                                                                              | mapped                          |
+| `packages/core/src/errors.ts`                                                    | Tasks 01, 04, 05, 06                                     | `PluginError`, command runtime core failures                                                                                                    | mapped                          |
+| `packages/core/src/index.ts`                                                     | Tasks 01, 06                                             | public exports                                                                                                                                  | mapped                          |
+| `packages/core/src/package-boundary.test.ts`                                     | Tasks 01, 07                                             | M2 allowed surface and later milestone exclusion                                                                                                | mapped                          |
+| `AGENTS.md`                                                                      | workflow support artifact outside runtime implementation | repository agent/workflow instructions; must be committed separately from the runtime change or explicitly called out as workflow-support scope | mapped as separate commit scope |
 
 ## Requirement Compliance
 
-| Requirement | Evidence | Result | Notes |
-| --- | --- | --- | --- |
-| Command/Event public types exported | `command-event-types.ts`, `index.ts`, typecheck via `pnpm check` | pass | Required types are exported. Additional related source/error types (`AetherError`, `CommandSource`, `EventSource`, `ErrorSeverity`) are traceable to SDK/error-model docs. |
-| `CommandEventRuntime` API exported | `createCommandEventRuntime`, `CommandEventRuntime`, package boundary test | pass | Independent factory; does not require `bootstrapCore`, Adapter, Markdown, or Shell. |
-| Synchronous register/dispatch | `command-event-runtime.ts`, tests for handler invocation and result mapping | pass | `dispatch` returns `CommandResult`, not `Promise`. |
-| `CommandResult` success/failure | tests cover success value, `false`, unknown command | pass | Unknown command returns `CoreError` with `source: core`. |
-| Event Hub subscribe/emit/unsubscribe | tests cover `change`, `pluginError`, unsubscribe, JSON payload | pass | M2 tests do not require document snapshot. |
-| Handler throw isolation | tests cover `PluginError` result and `pluginError` event | pass | No Adapter transaction rollback implemented or asserted. |
-| Dispose fail-closed | tests cover dispatch after dispose, emit no-op, repeated dispose | pass | Runtime-level idempotency only; does not close M1 bootstrap follow-up. |
-| M2 package boundary excludes later milestones | package boundary test and `rg` guard | pass | Guard hits only forbidden-name assertions plus source-string unions from documented types. No later-milestone packages or APIs added. |
-| M1 follow-ups remain out of scope | task/validation notes; no `bootstrap.ts` changes | pass | duplicate `metadata.name`, partial startup cleanup, and `bootstrapCore` dispose public contract not implemented. |
+| Requirement                                   | Evidence                                                                    | Result | Notes                                                                                                                                                                      |
+| --------------------------------------------- | --------------------------------------------------------------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Command/Event public types exported           | `command-event-types.ts`, `index.ts`, typecheck via `pnpm check`            | pass   | Required types are exported. Additional related source/error types (`AetherError`, `CommandSource`, `EventSource`, `ErrorSeverity`) are traceable to SDK/error-model docs. |
+| `CommandEventRuntime` API exported            | `createCommandEventRuntime`, `CommandEventRuntime`, package boundary test   | pass   | Independent factory; does not require `bootstrapCore`, Adapter, Markdown, or Shell.                                                                                        |
+| Synchronous register/dispatch                 | `command-event-runtime.ts`, tests for handler invocation and result mapping | pass   | `dispatch` returns `CommandResult`, not `Promise`.                                                                                                                         |
+| `CommandResult` success/failure               | tests cover success value, `false`, unknown command                         | pass   | Unknown command returns `CoreError` with `source: core`.                                                                                                                   |
+| Event Hub subscribe/emit/unsubscribe          | tests cover `change`, `pluginError`, unsubscribe, JSON payload              | pass   | M2 tests do not require document snapshot.                                                                                                                                 |
+| Handler throw isolation                       | tests cover `PluginError` result and `pluginError` event                    | pass   | No Adapter transaction rollback implemented or asserted.                                                                                                                   |
+| Dispose fail-closed                           | tests cover dispatch after dispose, emit no-op, repeated dispose            | pass   | Runtime-level idempotency only; does not close M1 bootstrap follow-up.                                                                                                     |
+| M2 package boundary excludes later milestones | package boundary test and `rg` guard                                        | pass   | Guard hits only forbidden-name assertions plus source-string unions from documented types. No later-milestone packages or APIs added.                                      |
+| M1 follow-ups remain out of scope             | task/validation notes; no `bootstrap.ts` changes                            | pass   | duplicate `metadata.name`, partial startup cleanup, and `bootstrapCore` dispose public contract not implemented.                                                           |
 
 ## Boundary Review
 

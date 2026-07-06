@@ -87,11 +87,7 @@ describe("createEditor GFM headless integration", () => {
   });
 
   it("round-trips unordered list with golden string output", async () => {
-    const result = await editAndSerialize(
-      "- item one\n- item two\n\nTail\n",
-      1,
-      "Updated tail",
-    );
+    const result = await editAndSerialize("- item one\n- item two\n\nTail\n", 1, "Updated tail");
     assert.equal(result, "- item one\n- item two\n\nUpdated tail\n");
   });
 
@@ -105,9 +101,7 @@ describe("createEditor GFM headless integration", () => {
       "create-editor-gfm.integration.test.ts",
     );
     const source = readFileSync(sourcePath, "utf8");
-    const importLines = source
-      .split("\n")
-      .filter((line) => line.trimStart().startsWith("import "));
+    const importLines = source.split("\n").filter((line) => line.trimStart().startsWith("import "));
 
     for (const line of importLines) {
       assert.doesNotMatch(line, /@aether-md\/react|from ['"]react['"]|jsdom|happy-dom/i);
