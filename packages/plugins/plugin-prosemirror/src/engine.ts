@@ -5,6 +5,7 @@ import type {
   AetherInline,
   EngineAdapter,
   EngineSession,
+  ListBlock,
 } from "@aether-md/core";
 import { AdapterError } from "@aether-md/core";
 import { EditorState } from "prosemirror-state";
@@ -31,24 +32,72 @@ export function readSessionEditorState(session: EngineSession): EditorState {
   return record.state;
 }
 
+function replaceListItemParagraph(
+  list: ListBlock,
+  listItemIndex: number,
+  inlineChildren: AetherInline[],
+): ListBlock {
+  const items = list.items.map((itemBlocks, index) => {
+    if (index !== listItemIndex) {
+      return itemBlocks;
+    }
+
+    return itemBlocks.map((block, blockIndex) => {
+      if (blockIndex === 0 && block.type === "paragraph") {
+        return {
+          ...block,
+          children: inlineChildren,
+        };
+      }
+      return block;
+    });
+  });
+
+  return { ...list, items };
+}
+
+function parseListItemIndex(text: string | undefined): number | null {
+  if (text === undefined || !/^\d+$/.test(text)) {
+    return null;
+  }
+  return Number.parseInt(text, 10);
+}
+
 function replaceTextInDoc(
   doc: AetherDoc,
   blockIndex: number,
-  inlineChildren: AetherInline[],
+  request: Extract<AdapterCommandRequest, { type: "replaceText" }>,
 ): AetherDoc {
-  const children = doc.children.map((block, index) => {
+  const block = doc.children[blockIndex];
+  if (!block) {
+    return doc;
+  }
+
+  const listItemIndex = parseListItemIndex(request.text);
+  if (block.type === "list" && listItemIndex !== null && request.children !== undefined) {
+    const children = doc.children.map((current, index) => {
+      if (index !== blockIndex || current.type !== "list") {
+        return current;
+      }
+      return replaceListItemParagraph(current, listItemIndex, request.children!);
+    });
+    return { type: "doc", children };
+  }
+
+  const inlineChildren = resolveInlineChildren(request);
+  const children = doc.children.map((current, index) => {
     if (index !== blockIndex) {
-      return block;
+      return current;
     }
 
-    if (block.type === "paragraph" || block.type === "heading") {
+    if (current.type === "paragraph" || current.type === "heading") {
       return {
-        ...block,
+        ...current,
         children: inlineChildren,
       };
     }
 
-    return block;
+    return current;
   });
 
   return { type: "doc", children };
@@ -62,9 +111,27 @@ function resolveInlineChildren(request: Extract<AdapterCommandRequest, { type: "
   return [{ type: "text", text: request.text ?? "" }];
 }
 
-function canReplaceTextInBlock(doc: AetherDoc, blockIndex: number): boolean {
+function canReplaceTextInBlock(
+  doc: AetherDoc,
+  blockIndex: number,
+  request: Extract<AdapterCommandRequest, { type: "replaceText" }>,
+): boolean {
   const block = doc.children[blockIndex];
-  return block?.type === "paragraph" || block?.type === "heading";
+  if (!block) {
+    return false;
+  }
+
+  if (block.type === "list") {
+    const listItemIndex = parseListItemIndex(request.text);
+    return (
+      listItemIndex !== null &&
+      request.children !== undefined &&
+      listItemIndex >= 0 &&
+      listItemIndex < block.items.length
+    );
+  }
+
+  return block.type === "paragraph" || block.type === "heading";
 }
 
 export function createProseMirrorEngineAdapter(): EngineAdapter {
@@ -127,7 +194,7 @@ export function createProseMirrorEngineAdapter(): EngineAdapter {
             };
           }
 
-          if (!canReplaceTextInBlock(beforeDoc, request.blockIndex)) {
+          if (!canReplaceTextInBlock(beforeDoc, request.blockIndex, request)) {
             return {
               ok: false,
               error: new AdapterError({
@@ -137,11 +204,7 @@ export function createProseMirrorEngineAdapter(): EngineAdapter {
             };
           }
 
-          const updatedDoc = replaceTextInDoc(
-            beforeDoc,
-            request.blockIndex,
-            resolveInlineChildren(request),
-          );
+          const updatedDoc = replaceTextInDoc(beforeDoc, request.blockIndex, request);
           const pmDoc = aetherDocToPm(updatedDoc);
           record.state = EditorState.create({ doc: pmDoc });
 

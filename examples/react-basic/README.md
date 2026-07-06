@@ -16,6 +16,18 @@ After `pnpm install` and `pnpm build` at repo root:
 
 Out of scope for PR A: History, Selection, Clipboard, full toolbar, publish, workflow main-spec changes.
 
+## Maintainer browser sign-off (`demo-slice-typing-sync`)
+
+CI covers ProseMirror `insertText` and programmatic `dispatch` paths. Before M7 demo sign-off, confirm in a real browser:
+
+1. `pnpm --filter @aether-md/example-react-basic dev`
+2. Type continuously in a plain paragraph — preview tracks each keystroke without GateLock reset
+3. Edit the heading text — preview shows updated title
+4. Type inside a list item — preview updates the list item text
+5. Type adjacent to **bold** and a link — marks remain structurally valid in preview
+6. Click **Force parent rerender** (if shown) — edited content is preserved when `value` is unchanged
+7. Record any remaining browser-only gaps in [baseline-record.md](../../openspec/changes/archive/2026-07-06-demo-slice-react-basic-pr0/baseline-record.md)
+
 ## Scripts
 
 - `pnpm dev` — local Vite dev server

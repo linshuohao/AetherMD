@@ -16,9 +16,9 @@
 | Scenario | Status | Evidence / gap |
 | --- | --- | --- |
 | Maintainer can start browser demo | **pass** | `pnpm dev` documented; manual browser walk recommended |
-| Continuous plain paragraphs | **gap (browser)** | CI passes via `dispatch` only; **keyboard typing** in `AetherEditorContent` not verified in CI |
-| Frozen GFM subset (heading, strong, list, link) | **gap (browser)** | Initial fixture renders; **in-editor typing** in list/link blocks not synced (`view-bridge` + `engine` limit to paragraph/heading) |
-| GateLock on parent rerender | **partial** | CI covers controlled Shell; browser UX may still diverge from PM local state |
+| Continuous plain paragraphs | **pass (CI)** | `demo-slice-typing-sync.integration.test.tsx` — ProseMirror `insertText` |
+| Frozen GFM subset (heading, strong, list, link) | **pass (CI)** | Typing tests cover heading, list item, strong/link mark stability; browser sign-off still required |
+| GateLock on parent rerender | **pass (CI)** | `demo-slice-pr0-acceptance` + GateLock integration tests |
 | PR A excludes deferred chrome | **pass** | Boundary frozen in change-brief and delta; no implementation in this change |
 | PR A allowed surface bounded | **pass** | Documented in change-brief; no `packages/**` changes in PR0 |
 
@@ -31,12 +31,12 @@
 ## PR A implied work (from gaps)
 
 1. ~~Browser smoke~~ — **deferred to follow-up change `demo-slice-typing-sync`**
-2. **List / list_item typing** — `view-bridge` ignores non-paragraph/heading blocks; `engine.replaceText` same
-3. **User typing path** — CI uses `dispatch`; real ProseMirror `insertText` in mounted Shell not in acceptance test
-4. Follow-up Spec Change: view-bridge + engine sync + PM input integration tests
+2. ~~**List / list_item typing**~~ — **addressed in `demo-slice-typing-sync`** (`view-bridge` list item index + `engine` list replace)
+3. ~~**User typing path**~~ — **addressed in `demo-slice-typing-sync`** (`demo-slice-typing-sync.integration.test.tsx`)
+4. Follow-up Spec Change: view-bridge + engine sync + PM input integration tests — **complete (`demo-slice-typing-sync`)**
 
 ## Maintainer sign-off
 
 - [x] CI acceptance tests pass (`demo-slice-pr0-acceptance`)
-- [ ] **Browser editing meets PR0 intent** — **not yet**; merge program PR; fix in next slice
+- [ ] **Browser editing meets PR0 intent** — CI typing path green; **maintainer MUST confirm** `pnpm dev` per `examples/react-basic/README.md` before M7 demo sign-off
 - [x] PR A boundary accepted as frozen in `change-brief.md`
