@@ -50,7 +50,7 @@ Write Markdown with clear headings, short paragraphs, and repository-relative li
 
 ## Testing Guidelines
 
-Workspace packages currently use TypeScript plus the Node built-in test runner (M1–M5 baselines). Treat review as both design validation and executable contract validation: check that architecture changes remain compatible with `docs/architecture/principles.md`, SDK changes update the relevant `docs/sdk/` contract, runtime behavior changes are reflected in `docs/engineering/`, and Core changes keep `pnpm check` green. For major decisions, add or update an ADR rather than burying rationale in a single topic page.
+Workspace packages use TypeScript plus the Node built-in test runner (M1–M5 baselines). Production code lives under `src/`; tests live under `test/` (`unit/`, `integration/`, `boundary/`, `helpers/`, `fixtures/`). See [docs/engineering/test-strategy.md](docs/engineering/test-strategy.md) for the full layout contract. Treat review as both design validation and executable contract validation: check that architecture changes remain compatible with `docs/architecture/principles.md`, SDK changes update the relevant `docs/sdk/` contract, runtime behavior changes are reflected in `docs/engineering/`, and Core changes keep `pnpm check` green. For major decisions, add or update an ADR rather than burying rationale in a single topic page.
 
 ## Commit & Pull Request Guidelines
 

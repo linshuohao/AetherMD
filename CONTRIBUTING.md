@@ -31,6 +31,7 @@
 6. 涉及 public API、package 边界、插件契约、发布或版本影响时，遵守 [组件库治理规范](docs/engineering/component-library-governance.md)。
 7. 遵守 [Git 工作流规范](docs/community/git-workflow.md) 与 [AI-native 工程工作流](AI_NATIVE_ENGINEERING_WORKFLOW.md) 的路径分类。
 8. 每次修改尽量只处理一个主题。
+9. 新增或移动测试时遵守 [测试策略](docs/engineering/test-strategy.md) 中的 `src/` / `test/` 目录约定。
 
 ### Workflow Path 选择（简表）
 

@@ -3,9 +3,10 @@
   "compilerOptions": {
     "declaration": false,
     "declarationMap": false,
-    "outDir": "dist",
+    "outDir": "dist-test",
+    "rootDir": "test",
     "types": ["node"]
   },
-  "include": ["src/**/*.ts"],
+  "include": ["test/**/*.ts"],
   "exclude": []
 }

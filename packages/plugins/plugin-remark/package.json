@@ -24,7 +24,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc --noEmit",
-    "test": "tsc -p tsconfig.test.json && node --test dist/**/*.test.js",
+    "test": "tsc -p tsconfig.test.json && node --test $(find dist-test -name '*.test.js' | sort)",
     "check": "pnpm typecheck && pnpm test",
     "types:check": "tsd --typings dist/index.d.ts"
   },

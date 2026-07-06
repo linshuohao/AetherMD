@@ -8,12 +8,12 @@
     "declaration": false,
     "declarationMap": false,
     "outDir": "dist-test",
-    "rootDir": "src",
+    "rootDir": ".",
     "noEmit": false,
     "skipLibCheck": true,
     "isolatedModules": true,
     "types": ["node"]
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "include": ["test/**/*.ts", "test/**/*.tsx", "src/plugins.ts"],
   "exclude": []
 }

@@ -15,6 +15,28 @@
 | Integration | 多模块主路径   | Markdown 初始化、命令执行、序列化、React Shell 挂载 |
 | Regression  | 已知错误       | 插件异常隔离、事务回滚、权限拒绝                    |
 
+## Package 测试目录布局
+
+Workspace packages 与带测试的 examples **MUST** 将生产代码与测试代码分离：
+
+| 路径                | 用途                                                          |
+| ------------------- | ------------------------------------------------------------- |
+| `src/`              | 生产代码与 package 公开 export 的唯一来源                     |
+| `test/setup.ts`     | 全局测试环境（如 happy-dom 注册）                             |
+| `test/helpers/`     | 跨测试共享 helper（**MUST NOT** 被 examples 或外部包 import） |
+| `test/fixtures/`    | 测试专用 fixture 数据                                         |
+| `test/unit/`        | 单元测试（`*.test.ts` / `*.test.tsx`）                        |
+| `test/integration/` | 集成测试；按 feature 分子目录（如 `block-morphing/`）         |
+| `test/boundary/`    | package export / 依赖边界守卫                                 |
+| `test-d/`           | `tsd` 类型快照（package 根目录，与 `test/` 并列）             |
+
+约定：
+
+- `src/` **MUST NOT** 包含 `*.test.ts(x)` 或 test-only helper。
+- 测试编译：`tsconfig.test.json` 以 `rootDir: "test"`、`outDir: "dist-test"` 编译；`pnpm test` 执行 `node --test $(find dist-test -name '*.test.js' | sort)`。
+- 测试 import 已构建的生产模块时使用相对路径 `../dist/...`（或按深度调整），**MUST NOT** 从 `@aether-md/*` 包名 import 本包 `src/`（boundary 测试除外）。package `build` **MUST** 在 `test` 之前完成（Turbo `check` 管线已保证）。
+- Examples **MUST NOT** import 任意 package 的 `test/` 路径；GFM wiring 在 example `src/plugins.ts` 中显式复制。
+
 ## MVP 必测场景
 
 - 不支持的 `manifestVersion` 会中止启动。（M1 已覆盖）
@@ -31,8 +53,8 @@
 - `dispose` 按逆序调用 `onDestroy`。（M1 已覆盖）
 - 未授权 Runtime Permission 不进入受保护能力路径。（尚未实现）
 - React Shell 挂载、dispatch 路径变更、`onChange` 回调与 `dispose`。（M5 已覆盖 — `@aether-md/react` happy-dom 集成测试）
-- GateLock：`prevValue === nextValue` 时不重设文档。（M5 已覆盖 — `gate-lock.integration.test.tsx`）
-- GFM preset 经 React Shell 的 paragraph、strong、list smoke。（M5 已覆盖 — `gfm-react-smoke.test.tsx`）
+- GateLock：`prevValue === nextValue` 时不重设文档。（M5 已覆盖 — `test/integration/gate-lock.test.tsx`）
+- GFM preset 经 React Shell 的 paragraph、strong、list smoke。（M5 已覆盖 — `test/integration/gfm-react-smoke.test.tsx`）
 
 ## M1 Core Bootstrap 验证基线
 
@@ -98,8 +120,8 @@ M4.5 **不**覆盖：React Shell、Guard 链、compile-layer merge、duplicate-c
 M5 baseline 覆盖：
 
 - `@aether-md/react`：package-boundary guards（公开 exports、无 `ShellAdapter`、无 `prosemirror-view` 直接 import）；`useAetherEditor` change 桥接单元测试；GateLock 单元与集成测试。
-- happy-dom 集成：`AetherEditorRoot` 挂载、`.ProseMirror` 视图、`dispatch` 路径 `onChange`、`dispose` 后 DOM 清理与 post-unmount `dispatch` fail-closed `EDITOR_DISPOSED`（`react-shell.integration.test.tsx`）；GateLock 受控 `value` 等值 rerender 不重设（`gate-lock.integration.test.tsx`）。
-- GFM React smoke：`createGfmPreset()` + paragraph（含 `dispatch` minimal edit）、strong、unordered list fixtures（`gfm-react-smoke.test.tsx`）；与 M4.5 headless integration 区分。
+- happy-dom 集成：`AetherEditorRoot` 挂载、`.ProseMirror` 视图、`dispatch` 路径 `onChange`、`dispose` 后 DOM 清理与 post-unmount `dispatch` fail-closed `EDITOR_DISPOSED`（`test/integration/react-shell.test.tsx`）；GateLock 受控 `value` 等值 rerender 不重设（`test/integration/gate-lock.test.tsx`）。
+- GFM React smoke：`createGfmPreset()` + paragraph（含 `dispatch` minimal edit）、strong、unordered list fixtures（`test/integration/gfm-react-smoke.test.tsx`）；与 M4.5 headless integration 区分。
 - `@aether-md/plugin-prosemirror`：view-bridge unit tests（`createProseMirrorView`、`dispatchInput`、destroy）；additive `readSessionEditorState` 仅供 bridge sync。
 - package export boundary：react 依赖 core + plugin-prosemirror；core 无 react/prosemirror/remark runtime deps；react 无 `prosemirror-view` 直接依赖。
 
@@ -111,8 +133,8 @@ M6 baseline 覆盖：
 
 - `@aether-md/example-headless-gfm`：Node `start` 可运行 headless GFM 集成（`createEditor` + `createGfmPreset()` + adapter wiring）；`typecheck`（`tsc --noEmit`）纳入根 `pnpm check`（G6）。
 - G11 `manifest-doc-consistency.test.ts`：`SUPPORTED_MANIFEST_VERSIONS` ↔ `docs/sdk/manifest.md`；官方 plugin / preset / react 包 `manifestVersion` 扫描。
-- `createEditor` 启动中止集成回归：duplicate `metadata.name`（`startup-abort.integration.test.ts`）；unsupported `manifestVersion`（`editor-orchestration.test.ts`）。
-- `createDefaultConflictResolver` schema abort 单元测试（`conflict-resolver.test.ts`）；**无** compile-layer schema merge 集成要求。
+- `createEditor` 启动中止集成回归：duplicate `metadata.name`（`test/integration/editor/startup-abort.test.ts`）；unsupported `manifestVersion`（`test/integration/editor/editor-orchestration.test.ts`）。
+- `createDefaultConflictResolver` schema abort 单元测试（`test/unit/editor/conflict-resolver.test.ts`）；**无** compile-layer schema merge 集成要求。
 - 五包 publish 预备元数据与 Changesets `linked` 配置；根 `changeset:publish` 脚本预留；**无** npm publish。
 
 M6 **不**覆盖：compile-layer schema merge、`EditorConfig.conflictResolver` 新 API、`CORE_SERVICE_REGISTRY` 自动比对、Playwright、npm publish。
