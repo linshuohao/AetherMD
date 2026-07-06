@@ -61,6 +61,7 @@ export interface CompileManifest {
 // Layer 3: runtime — 运行时渲染与生命周期
 // ─────────────────────────────────────────────
 export interface RuntimeManifest {
+  /** Block-level DOM morphing renderers (Slice D+); GFM inline serialize is headless in `@aether-md/preset-gfm`. See [custom-block-renderer](./custom-block-renderer.md). */
   interactiveRenderers?: Record<string, CustomBlockRenderer>;
   onInit?(ctx: EditorContext): void | Promise<void>;
   onReady?(ctx: EditorContext): void;

@@ -220,7 +220,7 @@ References:
 
 ### Requirement: React Shell exposes morphing content surface for Slice A
 
-`@aether-md/react` SHALL export `AetherMorphingContent` as an additive public Shell surface for L2 Slice A single-paragraph Instant Morphing. The component SHALL orchestrate block focus state (rendered vs source) at the Shell layer without adding morphing semantics to `@aether-md/core`. `AetherMorphingContent` SHALL consume `useAetherEditor` for `editor`, `markdown`, and `ready` state and SHALL commit edits through `AetherEditor.dispatch` with `core:replaceText`.
+`@aether-md/react` SHALL export `AetherMorphingContent` as an additive public Shell surface for L2 Slice A single-paragraph Instant Morphing. The component SHALL orchestrate block focus state (rendered vs source) at the Shell layer without adding morphing semantics to `@aether-md/core`. `AetherMorphingContent` SHALL consume `useAetherEditor` for `editor`, `markdown`, and `ready` state and SHALL commit edits through `AetherEditor.dispatch` with `core:replaceText`. Rendered surfaces SHALL use `renderParagraphFromBlock(block)` from the `AetherInline` tree and MUST NOT call deprecated `renderParagraphInline` on the morphing path. Source edits SHALL dispatch `core:replaceText` with parser-derived `children` when inline marks are present in the edited Markdown.
 
 References:
 
@@ -330,3 +330,33 @@ References:
 - **GIVEN** `AetherMorphingContent` with single-paragraph fixture
 - **WHEN** Slice A scenario A and B tests run
 - **THEN** focus/blur morphing behavior matches Slice A acceptance criteria
+
+### Requirement: Slice B morphing integration tests use happy-dom
+
+`@aether-md/react` SHALL include happy-dom integration tests for Slice B GFM inline mark morphing fidelity (emphasis/link source sigils, blurred `<em>`/`<a>` render, source edit mark preservation) plus Slice A and Slice C regression.
+
+References:
+
+- `docs/architecture/product-experience-spec.md`
+- `docs/engineering/test-strategy.md`
+
+#### Scenario: MorphingBlockSurface renders from block tree
+
+- **GIVEN** a `ParagraphBlock` with strong, emphasis, and link children
+- **WHEN** the block is in rendered (blurred) state
+- **THEN** `MorphingBlockSurface` renders `<strong>`, `<em>`, and `<a>` from `block.children`
+- **AND** does not use `renderParagraphInline`
+
+#### Scenario: Source change dispatches parsed children
+
+- **GIVEN** a focused morphing textarea with `*edited*` emphasis
+- **WHEN** the user triggers `change` on the textarea
+- **THEN** the editor dispatches `core:replaceText` with `children` reflecting parsed inline marks
+- **AND** document serialization preserves emphasis syntax
+
+#### Scenario: Slice B integration tests pass in CI
+
+- **GIVEN** Slice B implementation is complete
+- **WHEN** `pnpm --filter @aether-md/react test` runs
+- **THEN** Slice B inline mark scenarios pass
+- **AND** Slice A and Slice C scenarios continue to pass

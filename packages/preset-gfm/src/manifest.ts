@@ -1,5 +1,10 @@
 import type { ExtensionManifest } from "@aether-md/core";
 
+/**
+ * GFM preset manifest. `interactiveRenderers` (see `docs/sdk/manifest.md`) is
+ * reserved for Slice D block-level DOM morphing render registration; inline
+ * morphing serialize lives in `gfm-inline-morphing.ts` (headless, no React).
+ */
 export const gfmManifest: ExtensionManifest = {
   metadata: {
     manifestVersion: 1,

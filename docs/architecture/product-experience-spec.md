@@ -113,7 +113,7 @@ M5 `@aether-md/react` + 常驻 ProseMirror `EditorView` + 下方 Markdown previe
 | Slice C | 多块 + Block Focus 切换 |
 | Slice D | 列表 / 链接等块插件化 |
 
-实现 change：`block-morphing-slice-1`（已归档）、`block-morphing-slice-c`（已归档）。
+实现 change：`block-morphing-slice-1`（已归档）、`block-morphing-slice-b`（已归档）、`block-morphing-slice-c`（已归档）。
 
 ## 相关文档
 

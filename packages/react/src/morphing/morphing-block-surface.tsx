@@ -1,13 +1,15 @@
 import { useCallback, useEffect, useRef } from "react";
 
-import type { ParagraphBlock } from "@aether-md/core";
+import type { AetherInline, ParagraphBlock } from "@aether-md/core";
 
 import { useAetherEditor } from "../use-aether-editor.js";
 import {
   paragraphSourceFromBlock,
-  renderParagraphInline,
+  renderParagraphFromBlock,
 } from "./paragraph-render.js";
 import { useMorphingFocus } from "./morphing-focus-context.js";
+
+const PARSER_SCHEMA = { version: 1 as const };
 
 export interface MorphingBlockSurfaceProps {
   blockIndex: number;
@@ -15,6 +17,21 @@ export interface MorphingBlockSurfaceProps {
   /** Local focus mode when not inside MorphingFocusProvider. */
   localFocus?: boolean;
   onLocalFocusChange?: (focused: boolean) => void;
+}
+
+async function parseParagraphChildren(
+  editor: NonNullable<ReturnType<typeof useAetherEditor>["editor"]>,
+  rawSource: string,
+): Promise<AetherInline[]> {
+  const parsed = await editor.context.services.parser.adapter.parse(
+    `${rawSource}\n`,
+    PARSER_SCHEMA,
+  );
+  const firstBlock = parsed.children[0];
+  if (firstBlock?.type === "paragraph") {
+    return firstBlock.children;
+  }
+  return [{ type: "text", text: rawSource }];
 }
 
 export function MorphingBlockSurface({
@@ -70,10 +87,14 @@ export function MorphingBlockSurface({
         return;
       }
 
-      void editor.dispatch({
-        id: "core:replaceText",
-        payload: { blockIndex, text: event.target.value },
-      });
+      const rawSource = event.target.value;
+      void (async () => {
+        const children = await parseParagraphChildren(editor, rawSource);
+        await editor.dispatch({
+          id: "core:replaceText",
+          payload: { blockIndex, text: rawSource, children },
+        });
+      })();
     },
     [editor, blockIndex],
   );
@@ -107,7 +128,7 @@ export function MorphingBlockSurface({
             handleFocus();
           }}
         >
-          {renderParagraphInline(paragraphSourceFromBlock(block))}
+          {renderParagraphFromBlock(block)}
         </div>
       )}
     </div>

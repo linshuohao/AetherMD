@@ -31,7 +31,8 @@
   },
   "dependencies": {
     "@aether-md/core": "workspace:*",
-    "@aether-md/plugin-prosemirror": "workspace:*"
+    "@aether-md/plugin-prosemirror": "workspace:*",
+    "@aether-md/preset-gfm": "workspace:*"
   },
   "devDependencies": {
     "@aether-md/plugin-remark": "workspace:*",
