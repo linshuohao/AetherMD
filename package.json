@@ -26,9 +26,15 @@
     "ruleset:apply": "node scripts/apply-github-ruleset.mjs",
     "core:build": "pnpm --filter @aether-md/core build",
     "core:typecheck": "pnpm --filter @aether-md/core exec tsc --noEmit",
-    "core:test": "pnpm --filter @aether-md/core test"
+    "core:test": "pnpm --filter @aether-md/core test",
+    "e2e:install": "playwright install --with-deps chromium",
+    "e2e:test": "playwright test --config e2e/playwright/playwright.config.ts",
+    "e2e:test:headed": "playwright test --config e2e/playwright/playwright.config.ts --project=chromium --headed",
+    "e2e:test:ui": "playwright test --config e2e/playwright/playwright.config.ts --ui",
+    "consumer:smoke": "node scripts/consumer-smoke.mjs"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.1",
     "@changesets/cli": "^2.29.7",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
