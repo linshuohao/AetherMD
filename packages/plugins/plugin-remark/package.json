@@ -35,6 +35,7 @@
     "unified": "^11.0.5"
   },
   "devDependencies": {
+    "@aether-md/adapter-contract-tests": "workspace:*",
     "@types/mdast": "^4.0.4",
     "@types/node": "^26.1.0",
     "typescript": "^6.0.3"

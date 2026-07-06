@@ -10,6 +10,7 @@ import type {
   TextInline,
 } from "@aether-md/core";
 import { AdapterError } from "@aether-md/core";
+import { runEngineAdapterContractTests } from "@aether-md/adapter-contract-tests";
 
 import { gfmFixtureDoc } from "./fixtures/gfm-doc.js";
 import { createProseMirrorEngineAdapter } from "./engine.js";
@@ -26,50 +27,10 @@ function paragraphDoc(text: string): AetherDoc {
   };
 }
 
-function headingParagraphDoc(title: string, body: string): AetherDoc {
-  return {
-    type: "doc",
-    children: [
-      {
-        type: "heading",
-        level: 2,
-        children: [{ type: "text", text: title }],
-      },
-      {
-        type: "paragraph",
-        children: [{ type: "text", text: body }],
-      },
-    ],
-  };
-}
+runEngineAdapterContractTests("ProseMirror", createProseMirrorEngineAdapter);
 
 describe("ProseMirror EngineAdapter", () => {
   const engine = createProseMirrorEngineAdapter();
-
-  it("creates a session and getDocument returns equivalent initial snapshot", async () => {
-    const initial = paragraphDoc("Hello world");
-    const session = await engine.create(initial);
-    const snapshot = engine.getDocument(session);
-
-    assert.equal(snapshot.type, "doc");
-    assert.equal(snapshot.children.length, 1);
-    const block = snapshot.children[0] as ParagraphBlock;
-    assert.equal((block.children[0] as TextInline).text, "Hello world");
-  });
-
-  it("returns ok true and updated doc on successful replaceText apply", async () => {
-    const session = await engine.create(paragraphDoc("Hello world"));
-    const result = await engine.apply(session, {
-      type: "replaceText",
-      blockIndex: 0,
-      text: "Hello AetherMD",
-    });
-
-    assert.equal(result.ok, true);
-    assert.ok(result.doc);
-    const block = result.doc!.children[0] as ParagraphBlock;
-    assert.equal((block.children[0] as TextInline).text, "Hello AetherMD");
-  });
 
   it("preserves inline marks when replaceText uses structured children", async () => {
     const session = await engine.create(paragraphDoc("Hello world"));
@@ -91,23 +52,6 @@ describe("ProseMirror EngineAdapter", () => {
     assert.equal(block.children.length, 2);
     assert.equal((block.children[1] as MarkedInline).mark, "strong");
     assert.equal(((block.children[1] as MarkedInline).children[0] as TextInline).text, "AetherMD");
-  });
-
-  it("returns ok false with AdapterError and preserves snapshot on failed apply", async () => {
-    const initial = headingParagraphDoc("Title", "Body");
-    const session = await engine.create(initial);
-    const before = engine.getDocument(session);
-
-    const result = await engine.apply(session, {
-      type: "replaceText",
-      blockIndex: 99,
-      text: "invalid",
-    });
-
-    assert.equal(result.ok, false);
-    assert.ok(result.error instanceof AdapterError);
-    assert.equal(result.error?.source, "adapter");
-    assert.deepEqual(engine.getDocument(session), before);
   });
 
   it("updates list item paragraph when replaceText includes list item index", async () => {
@@ -192,15 +136,6 @@ describe("ProseMirror EngineAdapter", () => {
 
     assert.equal(result.ok, false);
     assert.ok(result.error instanceof AdapterError);
-  });
-
-  it("disposes session safely and allows repeated dispose", async () => {
-    const session = await engine.create(paragraphDoc("Hello"));
-    await engine.dispose(session);
-    await assert.doesNotReject(async () => engine.dispose(session));
-
-    const afterDispose = engine.getDocument(session);
-    assert.equal(afterDispose.children.length, 0);
   });
 });
 
