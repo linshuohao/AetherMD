@@ -8,7 +8,14 @@ import {
 
 import { createGfmEditorPlugins } from "./plugins.js";
 
-const INITIAL_MARKDOWN = "Hello **AetherMD**\n";
+const INITIAL_MARKDOWN = `# AetherMD Demo
+
+Hello **bold** text.
+
+- list item
+
+Learn more at [AetherMD](https://github.com/linshuohao/AetherMD).
+`;
 
 function MarkdownPreview() {
   const { markdown, ready } = useAetherEditor();

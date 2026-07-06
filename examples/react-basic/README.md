@@ -2,6 +2,20 @@
 
 Workspace-private Vite + React demo for `@aether-md/react` with GFM preset wiring and GateLock controlled `value` / `onChange`.
 
+## PR A acceptance checklist (frozen in PR0)
+
+North star and boundaries: [Demo Slice 交付计划](../../docs/engineering/demo-slice-delivery-program.md) · [PR0 baseline record (archived)](../../openspec/changes/archive/2026-07-06-demo-slice-react-basic-pr0/baseline-record.md).
+
+After `pnpm install` and `pnpm build` at repo root:
+
+1. `pnpm --filter @aether-md/example-react-basic dev` — editor loads in browser
+2. Continuous plain paragraph typing — no reset or bounce
+3. Edit GFM subset in session: heading, **bold**, list, link (at least one each)
+4. Markdown preview (`data-testid="markdown-preview"`) reflects edits
+5. **Force parent rerender** — document must not reset when `value` unchanged
+
+Out of scope for PR A: History, Selection, Clipboard, full toolbar, publish, workflow main-spec changes.
+
 ## Scripts
 
 - `pnpm dev` — local Vite dev server

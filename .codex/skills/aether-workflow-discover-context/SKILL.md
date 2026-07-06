@@ -70,8 +70,10 @@ The following always require **Full Change** (never Maintenance, Quick Change, o
 - Workflow semantics (path rules, skill routing, task loop guardrails, engineering-workflow SHALL/MUST changes)
 - New workflow skills or deletion of workflow skills
 - Multi-capability delta or multi-task implementation
-- MVP package or runtime behavior first implementation
+- MVP **public contract** or new **publishable package** first implementation (Core/SDK export, Manifest, main spec capability semantics)
 - Direct edits to `openspec/specs/**` main specs without a change delta
+
+**Demo / example slice (PR B, validated):** Changes primarily under `examples/**` with demo-necessary fixes in `packages/react` or adapter packages, **without** public export or main spec semantic changes, SHALL default to **Spec Change** (single task). Example-only README, styling, or copy MAY use **Quick Change**. Do **not** upgrade to Full Change solely because editor runtime behavior is touched in allowed packages. See `docs/engineering/demo-slice-delivery-program.md`.
 
 **Maintenance** additionally forbids: `packages/**`, `openspec/**`, `.skills/**`, ADR, any semantic change.
 
@@ -111,7 +113,7 @@ Require OpenSpec when the request:
 
 - changes architecture boundaries;
 - changes SDK, Core API, Manifest, Command/Event, Capability, or Permission contracts;
-- starts implementation of MVP packages or runtime behavior;
+- starts implementation of MVP **public contract** or new publishable package behavior;
 - changes test strategy or CI gates;
 - changes, supersedes, or deprecates an ADR;
 - changes workflow semantics or engineering-workflow requirements.

@@ -74,7 +74,13 @@ To invoke a named skill:
 8. Verify docs/spec/ADR updates are complete or explicitly deferred.
 9. Create `.superpowers/runs/<change>/final-report.md` using the template that matches the workflow path.
 10. Complete the OpenSpec archive through `openspec-archive-change`.
-11. If committing or preparing a PR, follow `docs/community/git-workflow.md`.
+11. **Superpowers retention:** after OpenSpec archive succeeds, move or remove completed execution details for this change:
+    - `.superpowers/tasks/<change>/` → `.superpowers/archive/<YYYY-MM-DD>-<change>/tasks/` (or delete if `final-report.md` Tasks Completed table is sufficient; prefer move when git-uncommitted)
+    - `.superpowers/plans/<change>.md` → archive directory or delete
+    - `.superpowers/reviews/<change>.md` → archive directory
+    - Preserve `.superpowers/runs/<change>/final-report.md`, `validation.md`, and optional `deviations.md` under `.superpowers/archive/<YYYY-MM-DD>-<change>/` (copy from `runs/` if needed, then remove duplicate active `runs/` subtree for archived change)
+    - Active `.superpowers/tasks/`, `plans/`, `reviews/` MUST NOT retain archived change names
+12. If committing or preparing a PR, follow `docs/community/git-workflow.md`.
 
 ## Final Report Sections
 

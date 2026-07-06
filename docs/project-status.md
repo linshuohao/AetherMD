@@ -9,7 +9,7 @@ AetherMD 当前是设计到最小实现过渡阶段的开源项目。
 | 阶段 | 设计草案 + M1 Core Bootstrap + M2 Command/Event Runtime + M3 Adapter 基座 + M4 GFM Preset + M4.5 Editor Orchestration + M5 React Shell + **M6 验证套件** |
 | 实现 | `@aether-md/core` 已提供 M1 bootstrap、M2 Command/Event、M3 document/adapter 类型与 M4.5 `createEditor` / `AetherEditor` headless 编排；`@aether-md/plugin-remark` 与 `@aether-md/plugin-prosemirror` 提供 Adapter 实现；`@aether-md/preset-gfm` 提供 GFM preset 与 round-trip 集成测试；`@aether-md/react` 提供 M5 React Shell（Root / Content / hook、GateLock、happy-dom 集成测试）；**M6** 交付 `examples/headless-gfm` headless GFM 集成证明、G11 manifest 文档一致性、G6 example `typecheck` 门禁、`createEditor` 启动中止行为回归、五包 publish 预备元数据与 Changesets `linked` 配置 |
 | 主要产物 | 文档、OpenSpec 规格、`packages/core`、两个 Adapter plugin packages、`packages/preset-gfm`、`packages/react`、`examples/headless-gfm`、`examples/react-basic` |
-| 当前目标 | M6 验证套件已闭合；规划 M7 首次 canary 发布（见 [ADR 009](adr/009-release-governance.md)） |
+| 当前目标 | Demo Slice 程序已闭合（2026-07-06）；下一优先级 **History slice** 与 M7 发布条件（见 [交付计划](engineering/demo-slice-delivery-program.md)、[ADR 009](adr/009-release-governance.md)） |
 
 ## 已有内容
 
@@ -82,12 +82,13 @@ AetherMD 当前是设计到最小实现过渡阶段的开源项目。
 
 ## 近期重点
 
-1. 稳定文档体系并与 M6 验证套件实现对齐。
-2. 持续审查 SDK 契约与已实现 Core / Adapter / GFM preset / editor orchestration / React Shell 边界（M1–M6）。
-3. O1/O2 闭合后再按 [ADR 009](adr/009-release-governance.md) 启动 M7 首发发布（Changesets prerelease、Release CI、`NPM_TOKEN`）。
-4. 跟踪 [v1.0 差距](#v10-差距) 项，按路线图优先级推进 compile-layer merge、内置底座与 Guard 链。
-5. 审查 [MVP 实施计划](engineering/mvp-implementation-plan.md)、[Core API](architecture/core-api.md)、[文档模型](architecture/document-model.md)、[Adapter 协议](engineering/adapter-protocol.md) 和 [测试策略](engineering/test-strategy.md)。
-6. 继续保持 OpenSpec、Docs 和实现同步；M7 前不执行 npm publish。
+**Demo Slice 程序（PR0→PR A→PR B）已于 2026-07-06 闭合。** 见 [Demo Slice 交付计划](engineering/demo-slice-delivery-program.md)。
+
+1. **下一 slice：** History（或 Selection）— 默认 **Spec Change**；见 [v1.0 差距](#v10-差距)。
+2. **M7 发布条件：** `react-basic` 可演示 + 至少一个 post-demo slice 满意 + 维护者 sign-off；闭合 ADR 009 O1/O2 后再启动 Release CI / `NPM_TOKEN`。
+3. 新 demo/example 改动默认 **Spec Change**；public contract 变更仍 **Full Change**（见 `AI_NATIVE_ENGINEERING_WORKFLOW.md`）。
+4. 归档 change 时执行 Superpowers retention（`aether-workflow-archive-change`）。
+5. 继续保持 `pnpm check` 绿。
 
 ## 贡献建议
 
