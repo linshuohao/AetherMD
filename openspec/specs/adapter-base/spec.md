@@ -70,6 +70,20 @@ References:
 - **THEN** the output is a deterministic Markdown string for the supported test matrix
 - **AND** M3 deterministic output shapes remain valid for M3 fixtures
 
+#### Scenario: Remark serializer uses MDAST stringifier pipeline
+
+- **GIVEN** `@aether-md/plugin-remark` is built
+- **WHEN** `SerializerAdapter.serialize` is called with M4 GFM fixture `AetherDoc`
+- **THEN** serialization flows through shared `AetherDoc -> MDAST` mapping and remark-stringify
+- **AND** output matches existing GFM golden strings in serializer tests
+
+#### Scenario: Shared MDAST mapping is symmetric
+
+- **GIVEN** `@aether-md/plugin-remark` exports shared MDAST mapping utilities
+- **WHEN** a maintainer inspects parser and serializer sources
+- **THEN** `mdast -> AetherDoc` and `AetherDoc -> mdast` live in one module
+- **AND** parser no longer duplicates mapping logic inline
+
 ### Requirement: ProseMirror plugin package provides Engine adapter
 
 The workspace SHALL include `@aether-md/plugin-prosemirror` at `packages/plugins/plugin-prosemirror` implementing `EngineAdapter` without placing ProseMirror dependencies in `@aether-md/core`.
