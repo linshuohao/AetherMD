@@ -22,9 +22,7 @@ export function isParagraphBlock(block: AetherBlock): block is ParagraphBlock {
 }
 
 export function paragraphTextContent(block: ParagraphBlock): string {
-  return block.children
-    .map((inline) => inlineText(inline))
-    .join("");
+  return block.children.map((inline) => inlineText(inline)).join("");
 }
 
 function inlineText(inline: AetherInline): string {

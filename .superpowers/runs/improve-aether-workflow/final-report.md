@@ -21,27 +21,27 @@
 
 ## Tasks Completed
 
-| Task | Status | Validation | Deviation |
-| --- | --- | --- | --- |
-| Skill source unification | complete | `pnpm skills:sync`, `pnpm skills:check` | initial generated-source notice placement corrected |
-| Skill sync tooling | complete | `pnpm skills:check` | none |
-| Branch lifecycle workflow | complete | `openspec validate`, `pnpm check` | none |
-| Spec sync and validation | complete | `openspec validate`, `pnpm check` | OpenSpec apply workflow used without dedicated Superpowers task files |
+| Task                      | Status   | Validation                              | Deviation                                                             |
+| ------------------------- | -------- | --------------------------------------- | --------------------------------------------------------------------- |
+| Skill source unification  | complete | `pnpm skills:sync`, `pnpm skills:check` | initial generated-source notice placement corrected                   |
+| Skill sync tooling        | complete | `pnpm skills:check`                     | none                                                                  |
+| Branch lifecycle workflow | complete | `openspec validate`, `pnpm check`       | none                                                                  |
+| Spec sync and validation  | complete | `openspec validate`, `pnpm check`       | OpenSpec apply workflow used without dedicated Superpowers task files |
 
 ## Files Changed
 
-| File | Task / Reason | Notes |
-| --- | --- | --- |
-| `.skills/aether-workflow/*` | authoritative workflow skill source | new canonical source |
-| `.codex/skills/*`, `.cursor/skills/*` | generated mirrors | synced from `.skills/aether-workflow/` |
-| `scripts/sync-aether-workflow-skills.mjs` | sync tooling | generated mirrors with notices |
-| `scripts/check-aether-workflow-skills.mjs` | drift detection | verifies mirror parity |
-| `package.json` | workflow scripts | adds `skills:sync`, `skills:check`, and gates `pnpm check` |
-| `AI_NATIVE_ENGINEERING_WORKFLOW.md` | workflow rules | adds Prepare Branch and source/mirror policy |
-| `docs/community/git-workflow.md` | branch rules | maps change types to branch prefixes |
-| `openspec/specs/engineering-workflow/spec.md` | main spec sync | adds source + branch requirements |
-| `AGENTS.md` | repository guidance | documents source, mirror, and branch conventions |
-| `openspec/changes/improve-aether-workflow/*` | OpenSpec artifacts | proposal, design, spec, tasks |
+| File                                          | Task / Reason                       | Notes                                                      |
+| --------------------------------------------- | ----------------------------------- | ---------------------------------------------------------- |
+| `.skills/aether-workflow/*`                   | authoritative workflow skill source | new canonical source                                       |
+| `.codex/skills/*`, `.cursor/skills/*`         | generated mirrors                   | synced from `.skills/aether-workflow/`                     |
+| `scripts/sync-aether-workflow-skills.mjs`     | sync tooling                        | generated mirrors with notices                             |
+| `scripts/check-aether-workflow-skills.mjs`    | drift detection                     | verifies mirror parity                                     |
+| `package.json`                                | workflow scripts                    | adds `skills:sync`, `skills:check`, and gates `pnpm check` |
+| `AI_NATIVE_ENGINEERING_WORKFLOW.md`           | workflow rules                      | adds Prepare Branch and source/mirror policy               |
+| `docs/community/git-workflow.md`              | branch rules                        | maps change types to branch prefixes                       |
+| `openspec/specs/engineering-workflow/spec.md` | main spec sync                      | adds source + branch requirements                          |
+| `AGENTS.md`                                   | repository guidance                 | documents source, mirror, and branch conventions           |
+| `openspec/changes/improve-aether-workflow/*`  | OpenSpec artifacts                  | proposal, design, spec, tasks                              |
 
 ## Validation Results
 

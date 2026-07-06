@@ -43,10 +43,7 @@ export interface SerializerAdapter {
 export interface EngineAdapter {
   readonly name: string;
   create(initialDoc: AetherDoc): Promise<EngineSession>;
-  apply(
-    session: EngineSession,
-    request: AdapterCommandRequest,
-  ): Promise<AdapterTransactionResult>;
+  apply(session: EngineSession, request: AdapterCommandRequest): Promise<AdapterTransactionResult>;
   getDocument(session: EngineSession): AetherDoc;
   dispose(session: EngineSession): Promise<void>;
 }

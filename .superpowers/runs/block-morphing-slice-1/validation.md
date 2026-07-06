@@ -5,10 +5,10 @@
 
 ## Commands
 
-| Command | Result |
-| --- | --- |
-| `openspec validate block-morphing-slice-1 --strict` | PASS |
-| `pnpm check` | PASS (24 turbo tasks) |
+| Command                                             | Result                |
+| --------------------------------------------------- | --------------------- |
+| `openspec validate block-morphing-slice-1 --strict` | PASS                  |
+| `pnpm check`                                        | PASS (24 turbo tasks) |
 
 ## Test highlights
 

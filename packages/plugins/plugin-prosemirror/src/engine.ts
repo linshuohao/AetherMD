@@ -110,7 +110,9 @@ function replaceTextInDoc(
   return { type: "doc", children };
 }
 
-function resolveInlineChildren(request: Extract<AdapterCommandRequest, { type: "replaceText" }>): AetherInline[] {
+function resolveInlineChildren(
+  request: Extract<AdapterCommandRequest, { type: "replaceText" }>,
+): AetherInline[] {
   if (request.children !== undefined) {
     return request.children;
   }

@@ -8,15 +8,9 @@ import {
 } from "../manifest.js";
 import { validateServiceCapabilities } from "../capabilities.js";
 import { resolvePluginDependencyOrder } from "../dependencies.js";
-import {
-  resolveWiredAdapters,
-  type ExtensionPluginWithAdapters,
-} from "./adapter-wiring.js";
+import { resolveWiredAdapters, type ExtensionPluginWithAdapters } from "./adapter-wiring.js";
 import { createEditorContext } from "./context.js";
-import {
-  AetherEditorImpl,
-  createEditorRuntime,
-} from "./aether-editor.js";
+import { AetherEditorImpl, createEditorRuntime } from "./aether-editor.js";
 import type { EditorConfig, AetherEditor } from "./types.js";
 
 const DEFAULT_SCHEMA = { version: 1 as const };

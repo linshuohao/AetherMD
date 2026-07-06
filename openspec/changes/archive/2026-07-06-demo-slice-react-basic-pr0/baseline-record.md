@@ -6,21 +6,21 @@
 
 ## Automated checks
 
-| Check | Result | Notes |
-| --- | --- | --- |
-| `pnpm --filter @aether-md/example-react-basic typecheck` | **pass** | G6 gate green |
-| `openspec validate demo-slice-react-basic-pr0` | **skipped** | CLI did not register active change in this environment |
+| Check                                                    | Result      | Notes                                                  |
+| -------------------------------------------------------- | ----------- | ------------------------------------------------------ |
+| `pnpm --filter @aether-md/example-react-basic typecheck` | **pass**    | G6 gate green                                          |
+| `openspec validate demo-slice-react-basic-pr0`           | **skipped** | CLI did not register active change in this environment |
 
 ## Delta scenario mapping
 
-| Scenario | Status | Evidence / gap |
-| --- | --- | --- |
-| Maintainer can start browser demo | **pass** | `pnpm dev` documented; manual browser walk recommended |
-| Continuous plain paragraphs | **pass (CI)** | `demo-slice-typing-sync.integration.test.tsx` — ProseMirror `insertText` |
+| Scenario                                        | Status        | Evidence / gap                                                                                     |
+| ----------------------------------------------- | ------------- | -------------------------------------------------------------------------------------------------- |
+| Maintainer can start browser demo               | **pass**      | `pnpm dev` documented; manual browser walk recommended                                             |
+| Continuous plain paragraphs                     | **pass (CI)** | `demo-slice-typing-sync.integration.test.tsx` — ProseMirror `insertText`                           |
 | Frozen GFM subset (heading, strong, list, link) | **pass (CI)** | Typing tests cover heading, list item, strong/link mark stability; browser sign-off still required |
-| GateLock on parent rerender | **pass (CI)** | `demo-slice-pr0-acceptance` + GateLock integration tests |
-| PR A excludes deferred chrome | **pass** | Boundary frozen in change-brief and delta; no implementation in this change |
-| PR A allowed surface bounded | **pass** | Documented in change-brief; no `packages/**` changes in PR0 |
+| GateLock on parent rerender                     | **pass (CI)** | `demo-slice-pr0-acceptance` + GateLock integration tests                                           |
+| PR A excludes deferred chrome                   | **pass**      | Boundary frozen in change-brief and delta; no implementation in this change                        |
+| PR A allowed surface bounded                    | **pass**      | Documented in change-brief; no `packages/**` changes in PR0                                        |
 
 ## Code inventory (PR A starting point)
 

@@ -1,9 +1,5 @@
 import type { AetherBlock, AetherDoc, AetherInline, AetherSchema } from "../document-model.js";
-import type {
-  AdapterCommandRequest,
-  EngineAdapter,
-  EngineSession,
-} from "../adapter-types.js";
+import type { AdapterCommandRequest, EngineAdapter, EngineSession } from "../adapter-types.js";
 import type { CommandId, CommandRequest } from "../command-event-types.js";
 import type { CommandEventRuntime } from "../command-event-runtime.js";
 
@@ -49,9 +45,7 @@ export function toAdapterCommand(request: CommandRequest): AdapterCommandRequest
     blockIndex: payload.blockIndex,
     ...(payload.text !== undefined ? { text: payload.text } : {}),
     ...(payload.children !== undefined ? { children: payload.children } : {}),
-    ...(payload.replacement !== undefined
-      ? { replacement: payload.replacement }
-      : {}),
+    ...(payload.replacement !== undefined ? { replacement: payload.replacement } : {}),
   };
 }
 

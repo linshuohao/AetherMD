@@ -75,13 +75,13 @@ M3 Adapter 基座已在 `@aether-md/plugin-remark` 与 `@aether-md/plugin-prosem
 
 ## Docs 子集关系
 
-| Docs | M4 采用 | M4 明确延后 |
-| --- | --- | --- |
-| `docs/architecture/document-model.md` | v1.0 六类 GFM 块/行内 structured round-trip | 稳定 `id`、`CustomBlock` fallback、`meta` 命名空间 |
-| `docs/engineering/adapter-protocol.md` | GFM parse/serialize、`SerializationError` 或占位符 | Adapter 能力矩阵、`SelectionAdapter` |
-| `docs/engineering/error-model.md` | `SerializationError` 占位符 `[unsupported:block:<name>]`；GFM 已知节点 deterministic serialize | `RenderError` 降级视图 |
-| `docs/engineering/test-strategy.md` | 六类语法 round-trip integration tests | React Shell 挂载、Permission 拒绝 |
-| `docs/architecture/package-layout.md` | 建立 `packages/preset-gfm` | `packages/react` 仍待 M5 |
+| Docs                                   | M4 采用                                                                                        | M4 明确延后                                        |
+| -------------------------------------- | ---------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| `docs/architecture/document-model.md`  | v1.0 六类 GFM 块/行内 structured round-trip                                                    | 稳定 `id`、`CustomBlock` fallback、`meta` 命名空间 |
+| `docs/engineering/adapter-protocol.md` | GFM parse/serialize、`SerializationError` 或占位符                                             | Adapter 能力矩阵、`SelectionAdapter`               |
+| `docs/engineering/error-model.md`      | `SerializationError` 占位符 `[unsupported:block:<name>]`；GFM 已知节点 deterministic serialize | `RenderError` 降级视图                             |
+| `docs/engineering/test-strategy.md`    | 六类语法 round-trip integration tests                                                          | React Shell 挂载、Permission 拒绝                  |
+| `docs/architecture/package-layout.md`  | 建立 `packages/preset-gfm`                                                                     | `packages/react` 仍待 M5                           |
 
 ## 风险
 

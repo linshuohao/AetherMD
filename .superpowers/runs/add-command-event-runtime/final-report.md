@@ -50,49 +50,49 @@ No new ADR. No glossary changes.
 
 ## Tasks Completed
 
-| Task | Status | Validation | Deviation |
-| --- | --- | --- | --- |
-| OpenSpec 1.x public types and API surface | completed | types + exports + boundary tests | none |
-| OpenSpec 2.x Event Hub | completed | on/emit/unsubscribe tests | none |
-| OpenSpec 3.x Command Bus | completed | success/false/unknown/throw/dispose tests | none |
-| OpenSpec 4.x package boundary | completed | package-boundary tests + `rg` guard | none |
-| OpenSpec 5.x verification | completed | `pnpm check` pass (38 tests) | none |
-| OpenSpec 6.x deferred M1 follow-ups (record only) | completed | recorded in plan/validation/review | intentionally not implemented |
-| OpenSpec 7.x workflow follow-up | completed | Chinese Superpowers artifacts; English API/path keywords | `AGENTS.md` kept out of runtime commit scope |
-| Superpowers 01 define types and boundary tests | completed | red→green recorded | none |
-| Superpowers 02 minimal event hub | completed | red→green recorded | none |
-| Superpowers 03 command handler registry | completed | red→green recorded | none |
-| Superpowers 04 command dispatch and result | completed | red→green recorded | none |
-| Superpowers 05 handler error wrapping | completed | red→green recorded | none |
-| Superpowers 06 public surface and dispose | completed | red→green recorded | none |
-| Superpowers 07 complete tests/exports/boundary | completed | matrix already covered by 01–06 | Task 07 added no new failing test |
+| Task                                              | Status    | Validation                                               | Deviation                                    |
+| ------------------------------------------------- | --------- | -------------------------------------------------------- | -------------------------------------------- |
+| OpenSpec 1.x public types and API surface         | completed | types + exports + boundary tests                         | none                                         |
+| OpenSpec 2.x Event Hub                            | completed | on/emit/unsubscribe tests                                | none                                         |
+| OpenSpec 3.x Command Bus                          | completed | success/false/unknown/throw/dispose tests                | none                                         |
+| OpenSpec 4.x package boundary                     | completed | package-boundary tests + `rg` guard                      | none                                         |
+| OpenSpec 5.x verification                         | completed | `pnpm check` pass (38 tests)                             | none                                         |
+| OpenSpec 6.x deferred M1 follow-ups (record only) | completed | recorded in plan/validation/review                       | intentionally not implemented                |
+| OpenSpec 7.x workflow follow-up                   | completed | Chinese Superpowers artifacts; English API/path keywords | `AGENTS.md` kept out of runtime commit scope |
+| Superpowers 01 define types and boundary tests    | completed | red→green recorded                                       | none                                         |
+| Superpowers 02 minimal event hub                  | completed | red→green recorded                                       | none                                         |
+| Superpowers 03 command handler registry           | completed | red→green recorded                                       | none                                         |
+| Superpowers 04 command dispatch and result        | completed | red→green recorded                                       | none                                         |
+| Superpowers 05 handler error wrapping             | completed | red→green recorded                                       | none                                         |
+| Superpowers 06 public surface and dispose         | completed | red→green recorded                                       | none                                         |
+| Superpowers 07 complete tests/exports/boundary    | completed | matrix already covered by 01–06                          | Task 07 added no new failing test            |
 
 ## Files Changed
 
-| File | Task / Reason | Notes |
-| --- | --- | --- |
-| `packages/core/src/command-event-types.ts` | Task 01 | public Command/Event types |
-| `packages/core/src/command-event-runtime.ts` | Tasks 01–06 | factory, hub, bus, error isolation, dispose |
-| `packages/core/src/command-event-runtime.test.ts` | Tasks 01–07 | contract tests |
-| `packages/core/src/errors.ts` | Tasks 01, 04–06 | `PluginError`, disposed/unknown core failures |
-| `packages/core/src/index.ts` | Tasks 01, 06 | public exports |
-| `packages/core/src/package-boundary.test.ts` | Tasks 01, 07 | M2 allowed / later milestones excluded |
-| `openspec/specs/command-event-runtime/spec.md` | docs/spec sync | main capability spec |
-| `openspec/specs/core-bootstrap/spec.md` | docs/spec sync | package boundary allows M2 |
-| `docs/architecture/core-api.md` | docs/spec sync | M2 API surface |
-| `docs/sdk/command-event-protocol.md` | docs/spec sync | implemented subset |
-| `docs/engineering/error-model.md` | docs/spec sync | PluginError baseline |
-| `docs/engineering/mvp-implementation-plan.md` | docs/spec sync | M2 status |
-| `docs/engineering/test-strategy.md` | docs/spec sync | M2 matrix |
-| `docs/project-status.md` | docs/spec sync | stage status |
-| `.superpowers/plans/add-command-event-runtime.md` | plan | implementation plan |
-| `.superpowers/tasks/add-command-event-runtime/*.md` | tasks 01–07 | Superpowers tasks |
-| `.superpowers/runs/add-command-event-runtime/validation.md` | Task 07 | validation record |
-| `.superpowers/runs/add-command-event-runtime/final-report.md` | archive | this report |
-| `.superpowers/reviews/add-command-event-runtime.md` | compliance review | pass, no blockers |
-| `openspec/changes/archive/2026-07-04-add-command-event-runtime/*` | OpenSpec change | archived proposal/design/delta/tasks |
-| `AGENTS.md` | workflow-support (separate scope) | not part of runtime implementation commit |
-| `.cursor/skills/aether-workflow-*.md` | unrelated/workflow dirty tree | present in working tree; not runtime implementation |
+| File                                                              | Task / Reason                     | Notes                                               |
+| ----------------------------------------------------------------- | --------------------------------- | --------------------------------------------------- |
+| `packages/core/src/command-event-types.ts`                        | Task 01                           | public Command/Event types                          |
+| `packages/core/src/command-event-runtime.ts`                      | Tasks 01–06                       | factory, hub, bus, error isolation, dispose         |
+| `packages/core/src/command-event-runtime.test.ts`                 | Tasks 01–07                       | contract tests                                      |
+| `packages/core/src/errors.ts`                                     | Tasks 01, 04–06                   | `PluginError`, disposed/unknown core failures       |
+| `packages/core/src/index.ts`                                      | Tasks 01, 06                      | public exports                                      |
+| `packages/core/src/package-boundary.test.ts`                      | Tasks 01, 07                      | M2 allowed / later milestones excluded              |
+| `openspec/specs/command-event-runtime/spec.md`                    | docs/spec sync                    | main capability spec                                |
+| `openspec/specs/core-bootstrap/spec.md`                           | docs/spec sync                    | package boundary allows M2                          |
+| `docs/architecture/core-api.md`                                   | docs/spec sync                    | M2 API surface                                      |
+| `docs/sdk/command-event-protocol.md`                              | docs/spec sync                    | implemented subset                                  |
+| `docs/engineering/error-model.md`                                 | docs/spec sync                    | PluginError baseline                                |
+| `docs/engineering/mvp-implementation-plan.md`                     | docs/spec sync                    | M2 status                                           |
+| `docs/engineering/test-strategy.md`                               | docs/spec sync                    | M2 matrix                                           |
+| `docs/project-status.md`                                          | docs/spec sync                    | stage status                                        |
+| `.superpowers/plans/add-command-event-runtime.md`                 | plan                              | implementation plan                                 |
+| `.superpowers/tasks/add-command-event-runtime/*.md`               | tasks 01–07                       | Superpowers tasks                                   |
+| `.superpowers/runs/add-command-event-runtime/validation.md`       | Task 07                           | validation record                                   |
+| `.superpowers/runs/add-command-event-runtime/final-report.md`     | archive                           | this report                                         |
+| `.superpowers/reviews/add-command-event-runtime.md`               | compliance review                 | pass, no blockers                                   |
+| `openspec/changes/archive/2026-07-04-add-command-event-runtime/*` | OpenSpec change                   | archived proposal/design/delta/tasks                |
+| `AGENTS.md`                                                       | workflow-support (separate scope) | not part of runtime implementation commit           |
+| `.cursor/skills/aether-workflow-*.md`                             | unrelated/workflow dirty tree     | present in working tree; not runtime implementation |
 
 ## Validation Results
 

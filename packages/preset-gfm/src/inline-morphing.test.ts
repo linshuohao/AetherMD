@@ -4,10 +4,7 @@ import { describe, it } from "node:test";
 import type { ParagraphBlock } from "@aether-md/core";
 
 import { createGfmPreset } from "./index.js";
-import {
-  serializeInlineToMarkdown,
-  serializeParagraphInlines,
-} from "./gfm-inline-morphing.js";
+import { serializeInlineToMarkdown, serializeParagraphInlines } from "./gfm-inline-morphing.js";
 
 const schema = { version: 1 as const };
 
@@ -46,8 +43,7 @@ describe("gfm-inline-morphing", () => {
 
   it("round-trips with remark parser for inline marks", async () => {
     const preset = createGfmPreset();
-    const markdown =
-      "Hello **bold** and *emphasis* with [link](https://example.com).\n";
+    const markdown = "Hello **bold** and *emphasis* with [link](https://example.com).\n";
     const doc = await preset.parser.parse(markdown, schema);
     const paragraph = doc.children[0];
     assert.equal(paragraph?.type, "paragraph");

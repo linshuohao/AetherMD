@@ -2,11 +2,11 @@
 
 ## Commands
 
-| Command | Result |
-| --- | --- |
-| `pnpm --filter @aether-md/plugin-remark test` | ✅ 21 pass |
-| `pnpm --filter @aether-md/preset-gfm test` | ✅ pass |
-| `pnpm check` | ✅ 24 tasks green |
+| Command                                       | Result            |
+| --------------------------------------------- | ----------------- |
+| `pnpm --filter @aether-md/plugin-remark test` | ✅ 21 pass        |
+| `pnpm --filter @aether-md/preset-gfm test`    | ✅ pass           |
+| `pnpm check`                                  | ✅ 24 tasks green |
 
 ## Notes
 

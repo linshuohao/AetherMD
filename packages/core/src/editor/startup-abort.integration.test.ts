@@ -39,7 +39,7 @@ function createMockPreset(name = "mock-preset"): ExtensionPluginWithAdapters {
     },
     engine: {
       name: "mock-engine",
-      async create(initialDoc: AetherDoc) {
+      async create(_initialDoc: AetherDoc) {
         return { id: "session-1" };
       },
       async apply() {
@@ -61,8 +61,7 @@ describe("createEditor startup-abort", () => {
 
     await assert.rejects(
       () => createEditor({ plugins: [pluginA, pluginB] }),
-      (error: unknown) =>
-        error instanceof CoreError && error.code === "PLUGIN_NAME_DUPLICATE",
+      (error: unknown) => error instanceof CoreError && error.code === "PLUGIN_NAME_DUPLICATE",
     );
   });
 
@@ -83,8 +82,7 @@ describe("createEditor startup-abort", () => {
 
     await assert.rejects(
       () => createEditor({ plugins: [pluginA, pluginB] }),
-      (error: unknown) =>
-        error instanceof CoreError && error.code === "PLUGIN_NAME_DUPLICATE",
+      (error: unknown) => error instanceof CoreError && error.code === "PLUGIN_NAME_DUPLICATE",
     );
 
     assert.equal(onInitCalls, 0);

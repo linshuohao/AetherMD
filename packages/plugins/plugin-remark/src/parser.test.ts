@@ -65,14 +65,8 @@ describe("Remark ParserAdapter", () => {
     assert.equal(list.type, "list");
     assert.equal(list.ordered, true);
     assert.equal(list.items.length, 2);
-    assert.equal(
-      ((list.items[0]?.[0] as ParagraphBlock).children[0] as TextInline).text,
-      "first",
-    );
-    assert.equal(
-      ((list.items[1]?.[0] as ParagraphBlock).children[0] as TextInline).text,
-      "second",
-    );
+    assert.equal(((list.items[0]?.[0] as ParagraphBlock).children[0] as TextInline).text, "first");
+    assert.equal(((list.items[1]?.[0] as ParagraphBlock).children[0] as TextInline).text, "second");
   });
 
   it("parses strong inline into MarkedInline with mark strong", async () => {
@@ -116,9 +110,7 @@ describe("Remark ParserAdapter", () => {
     const block = doc.children[0] as ParagraphBlock;
     assert.equal(block.type, "paragraph");
     assert.ok(
-      block.children.some(
-        (inline) => inline.type === "text" && inline.text.includes("custom"),
-      ),
+      block.children.some((inline) => inline.type === "text" && inline.text.includes("custom")),
     );
   });
 

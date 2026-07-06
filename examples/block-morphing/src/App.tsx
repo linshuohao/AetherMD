@@ -1,9 +1,6 @@
 import { useState } from "react";
 
-import {
-  AetherEditorRoot,
-  AetherMorphingDocument,
-} from "@aether-md/react";
+import { AetherEditorRoot, AetherMorphingDocument } from "@aether-md/react";
 
 import { createGfmEditorPlugins } from "./plugins.js";
 
@@ -19,10 +16,9 @@ export function App() {
     <main className="app">
       <h1>AetherMD Block Morphing — Slice D</h1>
       <p className="lede">
-        L2 product north star demo: GFM list blocks morph between rendered{" "}
-        <code>ul</code>/<code>li</code> and Markdown source. Paragraph blocks
-        keep inline mark fidelity (Slice B). Only one block is in source state
-        at a time (Block Focus, Slice C).
+        L2 product north star demo: GFM list blocks morph between rendered <code>ul</code>/
+        <code>li</code> and Markdown source. Paragraph blocks keep inline mark fidelity (Slice B).
+        Only one block is in source state at a time (Block Focus, Slice C).
       </p>
       <button
         type="button"
@@ -31,16 +27,11 @@ export function App() {
       >
         Force parent rerender ({renderCount})
       </button>
-      <AetherEditorRoot
-        plugins={createGfmEditorPlugins()}
-        value={markdown}
-        onChange={setMarkdown}
-      >
+      <AetherEditorRoot plugins={createGfmEditorPlugins()} value={markdown} onChange={setMarkdown}>
         <AetherMorphingDocument />
       </AetherEditorRoot>
       <p className="hint">
-        Slice D scope: list block morphing + preset{" "}
-        <code>interactiveRenderers</code>. See{" "}
+        Slice D scope: list block morphing + preset <code>interactiveRenderers</code>. See{" "}
         <code>docs/architecture/product-experience-spec.md</code>.
       </p>
     </main>

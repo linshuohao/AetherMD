@@ -23,28 +23,28 @@
 
 ## Tasks Completed
 
-| Task | Status | Validation | Deviation |
-| --- | --- | --- | --- |
-| Add architecture optimization guidance document | Complete | `pnpm check`; manual docs review | None |
-| Include design principles, approved patterns, rejection rules, and migration phases | Complete | OpenSpec requirement review | None |
-| Ground document in current source docs and examples without runtime changes | Complete | Compliance review | None |
-| Link from architecture README | Complete | OpenSpec scenario review | None |
-| Link from design-doc map | Complete | OpenSpec scenario review | None |
-| Validate OpenSpec change | Complete | `openspec validate --changes summarize-architecture-optimization-principles` | First attempt used invalid `--change` option, then reran successfully. |
-| Run repository check | Complete | `pnpm check` | None |
+| Task                                                                                | Status   | Validation                                                                   | Deviation                                                              |
+| ----------------------------------------------------------------------------------- | -------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| Add architecture optimization guidance document                                     | Complete | `pnpm check`; manual docs review                                             | None                                                                   |
+| Include design principles, approved patterns, rejection rules, and migration phases | Complete | OpenSpec requirement review                                                  | None                                                                   |
+| Ground document in current source docs and examples without runtime changes         | Complete | Compliance review                                                            | None                                                                   |
+| Link from architecture README                                                       | Complete | OpenSpec scenario review                                                     | None                                                                   |
+| Link from design-doc map                                                            | Complete | OpenSpec scenario review                                                     | None                                                                   |
+| Validate OpenSpec change                                                            | Complete | `openspec validate --changes summarize-architecture-optimization-principles` | First attempt used invalid `--change` option, then reran successfully. |
+| Run repository check                                                                | Complete | `pnpm check`                                                                 | None                                                                   |
 
 ## Files Changed
 
-| File | Task / Reason | Notes |
-| --- | --- | --- |
-| `docs/architecture/architecture-optimization-principles.md` | Main architecture summary document | New long-lived architecture guardrail. |
-| `docs/architecture/README.md` | Discoverability | Adds page link. |
-| `docs/architecture/design-doc-map.md` | Discoverability | Adds page to overview design mapping. |
-| `openspec/specs/architecture-optimization-principles/spec.md` | Main spec sync | New long-lived capability spec. |
-| `openspec/changes/summarize-architecture-optimization-principles/**` | OpenSpec change artifacts | Proposal, design, delta spec, tasks. |
-| `.superpowers/runs/summarize-architecture-optimization-principles/validation.md` | Validation record | Records command results. |
-| `.superpowers/reviews/summarize-architecture-optimization-principles.md` | Compliance review | Records anticorruption review. |
-| `.superpowers/runs/summarize-architecture-optimization-principles/final-report.md` | Final report | This report. |
+| File                                                                               | Task / Reason                      | Notes                                  |
+| ---------------------------------------------------------------------------------- | ---------------------------------- | -------------------------------------- |
+| `docs/architecture/architecture-optimization-principles.md`                        | Main architecture summary document | New long-lived architecture guardrail. |
+| `docs/architecture/README.md`                                                      | Discoverability                    | Adds page link.                        |
+| `docs/architecture/design-doc-map.md`                                              | Discoverability                    | Adds page to overview design mapping.  |
+| `openspec/specs/architecture-optimization-principles/spec.md`                      | Main spec sync                     | New long-lived capability spec.        |
+| `openspec/changes/summarize-architecture-optimization-principles/**`               | OpenSpec change artifacts          | Proposal, design, delta spec, tasks.   |
+| `.superpowers/runs/summarize-architecture-optimization-principles/validation.md`   | Validation record                  | Records command results.               |
+| `.superpowers/reviews/summarize-architecture-optimization-principles.md`           | Compliance review                  | Records anticorruption review.         |
+| `.superpowers/runs/summarize-architecture-optimization-principles/final-report.md` | Final report                       | This report.                           |
 
 ## Validation Results
 

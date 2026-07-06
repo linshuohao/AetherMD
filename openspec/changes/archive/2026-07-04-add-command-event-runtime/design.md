@@ -188,10 +188,10 @@ M2 **不测**（留给后续里程碑或 M1 follow-up change）：
 
 来源：`.superpowers/reviews/add-core-bootstrap.md` Recommended future hardening。
 
-| Follow-up | 当前状态 | 本 change |
-| --- | --- | --- |
-| duplicate `metadata.name` | 未在 main spec 要求 fatal；实现可能静默覆盖 | 仅记录，不实现 |
-| partial startup cleanup | hook failure 中止启动；已成功插件的 cleanup 未定义 | 仅记录，不实现 |
+| Follow-up                           | 当前状态                                                  | 本 change                                                               |
+| ----------------------------------- | --------------------------------------------------------- | ----------------------------------------------------------------------- |
+| duplicate `metadata.name`           | 未在 main spec 要求 fatal；实现可能静默覆盖               | 仅记录，不实现                                                          |
+| partial startup cleanup             | hook failure 中止启动；已成功插件的 cleanup 未定义        | 仅记录，不实现                                                          |
 | dispose idempotency public contract | M1 实现重复 dispose no-op，但未提升为长期 public contract | 仅记录；Command/Event runtime 自身重复 dispose no-op 不替代该 follow-up |
 
 ## Open Questions

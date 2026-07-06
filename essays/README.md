@@ -6,11 +6,11 @@
 
 ## 主题索引
 
-| 主题 | 目录 | 回答什么问题 |
-| --- | --- | --- |
+| 主题                 | 目录                                           | 回答什么问题                                                                           |
+| -------------------- | ---------------------------------------------- | -------------------------------------------------------------------------------------- |
 | **AI-native 工作流** | [`ai-native-workflow/`](./ai-native-workflow/) | 如何用 Docs / OpenSpec / Superpowers / Skill 约束 Agent；路径分级、task 粒度、产物归档 |
-| **产品与交付** | [`product-delivery/`](./product-delivery/) | MVP 怎么定、纵向切片 vs 横向铺层、demo 作为 north star |
-| *Agent 协作实践* | *(待建 `agent-practice/`)* | 上下文策略、prompt 边界、人机分工（尚无文章） |
+| **产品与交付**       | [`product-delivery/`](./product-delivery/)     | MVP 怎么定、纵向切片 vs 横向铺层、demo 作为 north star                                 |
+| _Agent 协作实践_     | _(待建 `agent-practice/`)_                     | 上下文策略、prompt 边界、人机分工（尚无文章）                                          |
 
 ## 主题之间的关系
 
@@ -36,10 +36,10 @@ flowchart LR
 
 ## 与仓库其他位置
 
-| 位置 | 用途 |
-| --- | --- |
+| 位置                                                                                                    | 用途                              |
+| ------------------------------------------------------------------------------------------------------- | --------------------------------- |
 | [`docs/engineering/demo-slice-delivery-program.md`](../docs/engineering/demo-slice-delivery-program.md) | **活跃执行计划**（PR0→PR A→PR B） |
-| [`docs/`](../docs/) | 长期架构与 SDK 事实 |
-| [`openspec/`](../openspec/) | 可执行规格与变更 delta |
-| [`.superpowers/`](../.superpowers/) | 计划、task、验证、review 执行记录 |
-| **本目录 `essays/`** | 反思、复盘、尚未写入规范的经验 |
+| [`docs/`](../docs/)                                                                                     | 长期架构与 SDK 事实               |
+| [`openspec/`](../openspec/)                                                                             | 可执行规格与变更 delta            |
+| [`.superpowers/`](../.superpowers/)                                                                     | 计划、task、验证、review 执行记录 |
+| **本目录 `essays/`**                                                                                    | 反思、复盘、尚未写入规范的经验    |

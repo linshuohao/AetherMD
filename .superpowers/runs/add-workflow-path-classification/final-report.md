@@ -19,9 +19,9 @@
 
 ## Tasks Completed
 
-| Task | Status | Validation | Deviation |
-| --- | --- | --- | --- |
-| Full implementation (skills + docs + CI) | completed | pnpm check pass | none |
+| Task                                     | Status    | Validation      | Deviation |
+| ---------------------------------------- | --------- | --------------- | --------- |
+| Full implementation (skills + docs + CI) | completed | pnpm check pass | none      |
 
 ## Files Changed
 

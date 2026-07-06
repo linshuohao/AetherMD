@@ -12,13 +12,13 @@
 
 ## Change
 
-| 字段 | 值 |
-| --- | --- |
-| OpenSpec change | `add-command-event-runtime` |
-| Status | OpenSpec artifacts complete（proposal / design / specs / tasks）；plan ready |
-| Version impact | `@aether-md/core` public exports 增量（minor-level，包未发布）；不改 `SUPPORTED_MANIFEST_VERSIONS` / `manifestVersion` / lockfiles |
-| Expected commit scope | `feat(core)`；OpenSpec 产物可用 `docs(openspec)` 或同 PR body 追踪 change id |
-| Commit strategy | 每个 Superpowers task 可单独 commit；PR 合入前可 squash，但 body 须保留 task / requirement 追踪 |
+| 字段                  | 值                                                                                                                                 |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| OpenSpec change       | `add-command-event-runtime`                                                                                                        |
+| Status                | OpenSpec artifacts complete（proposal / design / specs / tasks）；plan ready                                                       |
+| Version impact        | `@aether-md/core` public exports 增量（minor-level，包未发布）；不改 `SUPPORTED_MANIFEST_VERSIONS` / `manifestVersion` / lockfiles |
+| Expected commit scope | `feat(core)`；OpenSpec 产物可用 `docs(openspec)` 或同 PR body 追踪 change id                                                       |
+| Commit strategy       | 每个 Superpowers task 可单独 commit；PR 合入前可 squash，但 body 须保留 task / requirement 追踪                                    |
 
 范围边界：
 
@@ -55,14 +55,14 @@ Code-management：
 
 ## File Map
 
-| 路径 | 职责 |
-| --- | --- |
-| `packages/core/src/command-event-types.ts` | Command/Event public types（`CommandId`、`CommandRequest`、`CommandResult`、`EventEnvelope` 等） |
-| `packages/core/src/plugin-error.ts` 或扩展 `errors.ts` | `PluginError`（`source: 'plugin'`，`severity: 'recoverable'`）与 runtime core 失败码 |
-| `packages/core/src/command-event-runtime.ts` | `createCommandEventRuntime`、`CommandEventRuntime`（Event Hub + Command Bus） |
-| `packages/core/src/command-event-runtime.test.ts` | Command/Event contract tests |
-| `packages/core/src/package-boundary.test.ts` | 更新 M2 允许面与后续里程碑禁止面 |
-| `packages/core/src/index.ts` | public exports |
+| 路径                                                   | 职责                                                                                             |
+| ------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| `packages/core/src/command-event-types.ts`             | Command/Event public types（`CommandId`、`CommandRequest`、`CommandResult`、`EventEnvelope` 等） |
+| `packages/core/src/plugin-error.ts` 或扩展 `errors.ts` | `PluginError`（`source: 'plugin'`，`severity: 'recoverable'`）与 runtime core 失败码             |
+| `packages/core/src/command-event-runtime.ts`           | `createCommandEventRuntime`、`CommandEventRuntime`（Event Hub + Command Bus）                    |
+| `packages/core/src/command-event-runtime.test.ts`      | Command/Event contract tests                                                                     |
+| `packages/core/src/package-boundary.test.ts`           | 更新 M2 允许面与后续里程碑禁止面                                                                 |
+| `packages/core/src/index.ts`                           | public exports                                                                                   |
 
 不得新增依赖或引用：`react`、`prosemirror`、`remark`、`gfm`、Adapter、Markdown parse/serialize 模块。
 
@@ -70,13 +70,13 @@ Code-management：
 
 每个阶段结束前，实现者 **MUST** 确认：
 
-| 禁止项 | Guard |
-| --- | --- |
-| Adapter | 无 Adapter 类型/工厂/依赖；exports 不含 Adapter API |
-| React | 无 `react` / `@aether-md/react` 依赖或 import |
-| Remark | 无 `remark` 依赖或 import |
-| ProseMirror | 无 `prosemirror*` 依赖或 import |
-| GFM | 无 GFM preset 包或 import |
+| 禁止项                   | Guard                                                                               |
+| ------------------------ | ----------------------------------------------------------------------------------- |
+| Adapter                  | 无 Adapter 类型/工厂/依赖；exports 不含 Adapter API                                 |
+| React                    | 无 `react` / `@aether-md/react` 依赖或 import                                       |
+| Remark                   | 无 `remark` 依赖或 import                                                           |
+| ProseMirror              | 无 `prosemirror*` 依赖或 import                                                     |
+| GFM                      | 无 GFM preset 包或 import                                                           |
 | Markdown parse/serialize | 无 `parseMarkdown` / `serializeMarkdown` / `getMarkdown` / `getDocument` public API |
 
 建议 guard 命令（Phase 6 必跑，中间阶段可抽查）：
@@ -208,41 +208,41 @@ rg -i "react|prosemirror|remark|gfm|createEditor|parseMarkdown|serializeMarkdown
 
 ## Boundary Risks
 
-| 风险 | 触发点 | 处理方式 |
-| --- | --- | --- |
-| M2 膨胀到 M3 | 为 `change` payload 引入假文档或 Adapter | 只测 `emit('change')` 与 JSON payload，不发明 `AetherDoc` |
-| 误实现事务回滚 | 照搬 test-strategy 全文 | 只断言 `PluginError` 隔离；不写 rollback 测试 |
-| 破坏 M1 边界测试 | `package-boundary.test.ts` 仍禁止所有 Command/Event | Phase 6 明确允许 `createCommandEventRuntime`，继续禁止后续里程碑 |
-| 耦合 `bootstrapCore` | 把 Bus/Hub 塞进 bootstrap runtime | design Decision 1：独立 factory |
-| 偷偷做 M1 follow-up | 改 dependency 同名检测或 bootstrap dispose 文档合同 | Phase 6 checklist；tasks §6 仅记录 |
-| 无关文件污染 | 提交 `AGENTS.md` | code-management：排除无关脏文件 |
-| Promise vs sync 漂移 | 实现 `async dispatch` | 保持同步 `CommandResult`；Promise 留给后续 `AetherEditor` |
+| 风险                 | 触发点                                              | 处理方式                                                         |
+| -------------------- | --------------------------------------------------- | ---------------------------------------------------------------- |
+| M2 膨胀到 M3         | 为 `change` payload 引入假文档或 Adapter            | 只测 `emit('change')` 与 JSON payload，不发明 `AetherDoc`        |
+| 误实现事务回滚       | 照搬 test-strategy 全文                             | 只断言 `PluginError` 隔离；不写 rollback 测试                    |
+| 破坏 M1 边界测试     | `package-boundary.test.ts` 仍禁止所有 Command/Event | Phase 6 明确允许 `createCommandEventRuntime`，继续禁止后续里程碑 |
+| 耦合 `bootstrapCore` | 把 Bus/Hub 塞进 bootstrap runtime                   | design Decision 1：独立 factory                                  |
+| 偷偷做 M1 follow-up  | 改 dependency 同名检测或 bootstrap dispose 文档合同 | Phase 6 checklist；tasks §6 仅记录                               |
+| 无关文件污染         | 提交 `AGENTS.md`                                    | code-management：排除无关脏文件                                  |
+| Promise vs sync 漂移 | 实现 `async dispatch`                               | 保持同步 `CommandResult`；Promise 留给后续 `AetherEditor`        |
 
 ## Validation Matrix
 
-| Phase | OpenSpec Requirement | Validation 入口 | 预期 |
-| --- | --- | --- | --- |
-| 1 | Command and Event public types are exported | import types / compile + export smoke | types 可从 package entry 导入 |
-| 1 | CommandEventRuntime public API is exported | `typeof createCommandEventRuntime === 'function'`；runtime 含五方法 | factory 与方法表面存在 |
-| 2 | Event Hub supports subscribe emit and unsubscribe | `on` / `emit` / `Unsubscribe` / JSON payload / `change`+`pluginError` tests | 订阅投递与取消正确 |
-| 3 | Synchronous command handlers can be registered and dispatched | register + dispatch success / unknown / priority tests | 同步路径与 core 失败 |
-| 3 | CommandResult reports success and failure | success `ok: true`；`false` → `ok: false` | 结果形状正确 |
-| 4 | Handler errors become reviewable failure results | throw → PluginError；emit `pluginError`；无 rollback 断言 | 错误隔离 |
-| 5 | Disposed runtime rejects further command dispatch | dispose 后 dispatch/emit/重复 dispose | 失败关闭 |
-| 6 | M2 package boundary excludes later milestones | package-boundary tests + `rg` guard + `pnpm check` | 允许 M2，禁止 Adapter/React/Remark/ProseMirror/GFM/Markdown |
-| 6 | core-bootstrap MODIFIED package surface | boundary tests 仍暴露 M1 bootstrap API | M1 行为保持 |
-| 6 | M1 follow-ups remain out of this capability | review checklist | 未实现三条 follow-up |
+| Phase | OpenSpec Requirement                                          | Validation 入口                                                             | 预期                                                        |
+| ----- | ------------------------------------------------------------- | --------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| 1     | Command and Event public types are exported                   | import types / compile + export smoke                                       | types 可从 package entry 导入                               |
+| 1     | CommandEventRuntime public API is exported                    | `typeof createCommandEventRuntime === 'function'`；runtime 含五方法         | factory 与方法表面存在                                      |
+| 2     | Event Hub supports subscribe emit and unsubscribe             | `on` / `emit` / `Unsubscribe` / JSON payload / `change`+`pluginError` tests | 订阅投递与取消正确                                          |
+| 3     | Synchronous command handlers can be registered and dispatched | register + dispatch success / unknown / priority tests                      | 同步路径与 core 失败                                        |
+| 3     | CommandResult reports success and failure                     | success `ok: true`；`false` → `ok: false`                                   | 结果形状正确                                                |
+| 4     | Handler errors become reviewable failure results              | throw → PluginError；emit `pluginError`；无 rollback 断言                   | 错误隔离                                                    |
+| 5     | Disposed runtime rejects further command dispatch             | dispose 后 dispatch/emit/重复 dispose                                       | 失败关闭                                                    |
+| 6     | M2 package boundary excludes later milestones                 | package-boundary tests + `rg` guard + `pnpm check`                          | 允许 M2，禁止 Adapter/React/Remark/ProseMirror/GFM/Markdown |
+| 6     | core-bootstrap MODIFIED package surface                       | boundary tests 仍暴露 M1 bootstrap API                                      | M1 行为保持                                                 |
+| 6     | M1 follow-ups remain out of this capability                   | review checklist                                                            | 未实现三条 follow-up                                        |
 
 ## Task Breakdown
 
-| Task | Outcome | Allowed Area | Validation | Version Impact |
-| --- | --- | --- | --- | --- |
-| 01 Public types + factory surface | types、`PluginError`、`createCommandEventRuntime` stub 导出 | `packages/core/src/{command-event-types,errors or plugin-error,command-event-runtime,index}.ts` + 初始 tests | Phase 1 TDD | public exports 增量 |
-| 02 Event Hub | `on` / `emit` / `Unsubscribe` | `command-event-runtime.ts` + tests | Phase 2 TDD | 无额外 SemVer 面（方法已在 factory 表面） |
-| 03 Sync Command Bus | register/dispatch 成功、`false`、未知命令、忽略 priority | 同上 | Phase 3 TDD | 无 |
-| 04 Handler error isolation | PluginError 结果 + `pluginError` 事件 | 同上 | Phase 4 TDD | 导出 `PluginError` |
-| 05 Dispose fail-closed | dispose 后 dispatch/emit/重复 dispose | 同上 | Phase 5 TDD | 无 |
-| 06 Package boundary + full check | 更新 boundary tests、scope guard、`pnpm check`、M1 follow-up 护栏记录 | `package-boundary.test.ts`、validation notes | Phase 6 | 确认无 lockfile / manifestVersion 变更 |
+| Task                              | Outcome                                                               | Allowed Area                                                                                                 | Validation  | Version Impact                            |
+| --------------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ----------- | ----------------------------------------- |
+| 01 Public types + factory surface | types、`PluginError`、`createCommandEventRuntime` stub 导出           | `packages/core/src/{command-event-types,errors or plugin-error,command-event-runtime,index}.ts` + 初始 tests | Phase 1 TDD | public exports 增量                       |
+| 02 Event Hub                      | `on` / `emit` / `Unsubscribe`                                         | `command-event-runtime.ts` + tests                                                                           | Phase 2 TDD | 无额外 SemVer 面（方法已在 factory 表面） |
+| 03 Sync Command Bus               | register/dispatch 成功、`false`、未知命令、忽略 priority              | 同上                                                                                                         | Phase 3 TDD | 无                                        |
+| 04 Handler error isolation        | PluginError 结果 + `pluginError` 事件                                 | 同上                                                                                                         | Phase 4 TDD | 导出 `PluginError`                        |
+| 05 Dispose fail-closed            | dispose 后 dispatch/emit/重复 dispose                                 | 同上                                                                                                         | Phase 5 TDD | 无                                        |
+| 06 Package boundary + full check  | 更新 boundary tests、scope guard、`pnpm check`、M1 follow-up 护栏记录 | `package-boundary.test.ts`、validation notes                                                                 | Phase 6     | 确认无 lockfile / manifestVersion 变更    |
 
 详细 Superpowers task 文件由 `aether-workflow-create-task` 从本 plan 拆出；每个 task **MUST** 以失败测试开头。
 

@@ -27,11 +27,7 @@ describe("@aether-md/react package boundary", () => {
     const exportedKeys = Object.keys(reactShell);
 
     for (const forbidden of FORBIDDEN_CORE_REEXPORTS) {
-      assert.equal(
-        exportedKeys.includes(forbidden),
-        false,
-        `must not re-export ${forbidden}`,
-      );
+      assert.equal(exportedKeys.includes(forbidden), false, `must not re-export ${forbidden}`);
     }
 
     assert.equal(exportedKeys.includes("ShellAdapter"), false);

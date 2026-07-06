@@ -94,11 +94,11 @@ createProseMirrorView(options: {
 
 **选择：**
 
-| 条件 | 行为 |
-| --- | --- |
+| 条件                                                            | 行为                                                                                                             |
+| --------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | 受控 `value` / `markdown` prop 变化且 `prevValue !== nextValue` | **MAY** 经 `createEditor` 重初始化或 `dispatch` 重置文档（implementation 定形；优先避免 remount 若可增量 apply） |
-| `prevValue === nextValue`（引用相等或字符串相等） | **MUST NOT** 重设文档、**MUST NOT** remount engine session、**MUST NOT** 触发多余 `getMarkdown` 驱动的反馈环 |
-| 用户编辑引发 `change` | Shell 调用 `onChange(markdown)`；若宿主回传相同 `value`，GateLock 阻止重入 |
+| `prevValue === nextValue`（引用相等或字符串相等）               | **MUST NOT** 重设文档、**MUST NOT** remount engine session、**MUST NOT** 触发多余 `getMarkdown` 驱动的反馈环     |
+| 用户编辑引发 `change`                                           | Shell 调用 `onChange(markdown)`；若宿主回传相同 `value`，GateLock 阻止重入                                       |
 
 比较基准：**Markdown string**（与 CI checklist 与受控 editor 惯例一致）。
 
@@ -157,20 +157,20 @@ packages/react/
 
 ## Risks / Trade-offs
 
-| 风险 | 缓解 |
-| --- | --- |
-| happy-dom 输入事件与 PM 不完全一致 | 集成测试覆盖 type → change；失败时记录 gap，M6 再评估 Playwright |
-| view-bridge 与 headless session 双轨状态 | bridge **MUST** 读写同一 `EngineSession` record；单测断言 apply 后 view 与 `getDocument()` 一致 |
-| GateLock 与 React Strict Mode 双 mount | dispose/create 幂等；集成测试断言 `prevValue === nextValue` 不二次 parse |
-| 受控 prop 反馈环 | GateLock 在 prop effect 入口比较 string；仅不等时重设 |
-| plugin-prosemirror additive export 扩大 surface | 仅 export view factory；不 export `sessions` Map；contract test 覆盖 |
+| 风险                                            | 缓解                                                                                            |
+| ----------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| happy-dom 输入事件与 PM 不完全一致              | 集成测试覆盖 type → change；失败时记录 gap，M6 再评估 Playwright                                |
+| view-bridge 与 headless session 双轨状态        | bridge **MUST** 读写同一 `EngineSession` record；单测断言 apply 后 view 与 `getDocument()` 一致 |
+| GateLock 与 React Strict Mode 双 mount          | dispose/create 幂等；集成测试断言 `prevValue === nextValue` 不二次 parse                        |
+| 受控 prop 反馈环                                | GateLock 在 prop effect 入口比较 string；仅不等时重设                                           |
+| plugin-prosemirror additive export 扩大 surface | 仅 export view factory；不 export `sessions` Map；contract test 覆盖                            |
 
 ## Migration Plan
 
 1. 合并 OpenSpec artifacts → `aether-workflow-create-plan` → implementation tasks。
 2. 先 scaffold `packages/react` + package-boundary tests。
 3. additive `plugin-prosemirror` view-bridge（若需要）→ React 组件 → GateLock → tests。
-3. `pnpm check` 全绿 → archive → `aether-workflow-update-docs-spec` sync main specs 与 `docs/engineering/test-strategy.md` M5 基线。
+4. `pnpm check` 全绿 → archive → `aether-workflow-update-docs-spec` sync main specs 与 `docs/engineering/test-strategy.md` M5 基线。
 
 **Rollback：** 移除 `packages/react` workspace entry；revert plugin-prosemirror additive export；Core 无变更故无 Core rollback。
 
@@ -178,11 +178,11 @@ packages/react/
 
 以下问题在本 design **已冻结**（implementation 不得偏离，除非新 OpenSpec deviation 记录）：
 
-| # | 问题 | 冻结决策 |
-| --- | --- | --- |
-| 1 | EditorView 桥接位置 | `@aether-md/plugin-prosemirror` additive `createProseMirrorView`；`@aether-md/react` 不直接依赖 `prosemirror-view` |
-| 2 | 测试 DOM | **happy-dom**（非 Playwright；jsdom 仅作 documented fallback） |
-| 3 | `useAetherEditor` 是否暴露 `markdown` | **是** — `markdown` + `doc` state，由 `change` + lazy `getMarkdown`/`getDocument` 更新 |
+| #   | 问题                                  | 冻结决策                                                                                                           |
+| --- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| 1   | EditorView 桥接位置                   | `@aether-md/plugin-prosemirror` additive `createProseMirrorView`；`@aether-md/react` 不直接依赖 `prosemirror-view` |
+| 2   | 测试 DOM                              | **happy-dom**（非 Playwright；jsdom 仅作 documented fallback）                                                     |
+| 3   | `useAetherEditor` 是否暴露 `markdown` | **是** — `markdown` + `doc` state，由 `change` + lazy `getMarkdown`/`getDocument` 更新                             |
 
 **Implementation 阶段待定形（不阻塞 OpenSpec）：**
 

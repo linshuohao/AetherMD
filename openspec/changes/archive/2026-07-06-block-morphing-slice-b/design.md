@@ -55,11 +55,11 @@ editor.dispatch({
 
 ## Risks / Mitigations
 
-| 风险 | 缓解 |
-| --- | --- |
+| 风险                            | 缓解                                                                                               |
+| ------------------------------- | -------------------------------------------------------------------------------------------------- |
 | Parse latency on each keystroke | Single-paragraph parse; async dispatch; existing Slice A/C edit path already dispatches per change |
-| Non-paragraph parse result | Fallback to text-only `children: [{ type: "text", text: rawSource }]` if first child not paragraph |
-| Nested marks | remark parser + recursive `renderInline` handle nesting |
+| Non-paragraph parse result      | Fallback to text-only `children: [{ type: "text", text: rawSource }]` if first child not paragraph |
+| Nested marks                    | remark parser + recursive `renderInline` handle nesting                                            |
 
 ## Open Questions
 

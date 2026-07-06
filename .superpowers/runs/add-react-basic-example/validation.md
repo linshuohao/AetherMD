@@ -9,34 +9,34 @@
 
 ## Host Capability Probe
 
-| Capability | Available | Selected fallback |
-| --- | --- | --- |
-| Task/subagent dispatch | yes (Task tool) | sequential in-coordinator execution |
-| subagent-driven-development | yes | not used — user required one task per implementer session |
-| dispatching-parallel-agents | yes | not used — wave-a chained deps |
-| executing-plans | yes | fallback driver |
-| Branch | feature/add-react-basic-example | matches change |
+| Capability                  | Available                       | Selected fallback                                         |
+| --------------------------- | ------------------------------- | --------------------------------------------------------- |
+| Task/subagent dispatch      | yes (Task tool)                 | sequential in-coordinator execution                       |
+| subagent-driven-development | yes                             | not used — user required one task per implementer session |
+| dispatching-parallel-agents | yes                             | not used — wave-a chained deps                            |
+| executing-plans             | yes                             | fallback driver                                           |
+| Branch                      | feature/add-react-basic-example | matches change                                            |
 
 ## Barrier Commands (Task 07)
 
-| Command | Purpose | Result | Notes |
-| --- | --- | --- | --- |
-| `pnpm check` | full workspace gate | **PASS** | skills:check + workflow:pr-check + turbo check (7 packages incl. both examples) |
-| `openspec validate add-react-basic-example --strict` | OpenSpec gate | **PASS** | Change is valid |
-| `pnpm --filter @aether-md/example-react-basic typecheck` | G6 react-basic | **PASS** | via turbo in pnpm check |
-| `pnpm --filter @aether-md/example-headless-gfm typecheck` | G6 headless regression | **PASS** | via turbo in pnpm check |
+| Command                                                   | Purpose                | Result   | Notes                                                                           |
+| --------------------------------------------------------- | ---------------------- | -------- | ------------------------------------------------------------------------------- |
+| `pnpm check`                                              | full workspace gate    | **PASS** | skills:check + workflow:pr-check + turbo check (7 packages incl. both examples) |
+| `openspec validate add-react-basic-example --strict`      | OpenSpec gate          | **PASS** | Change is valid                                                                 |
+| `pnpm --filter @aether-md/example-react-basic typecheck`  | G6 react-basic         | **PASS** | via turbo in pnpm check                                                         |
+| `pnpm --filter @aether-md/example-headless-gfm typecheck` | G6 headless regression | **PASS** | via turbo in pnpm check                                                         |
 
 ## Per-Task Validation Summary
 
-| Task | Key validation | Result |
-| --- | --- | --- |
-| 01 scaffold | `pnpm install`; typecheck FAIL (no src/); `private: true` | PASS |
-| 02 vite entry | `tsc --noEmit`; `vite build` | PASS |
-| 03 shell + GFM | typecheck; vite build; no test-helpers/prosemirror-view | PASS |
-| 04 GateLock UI | typecheck; manual dev smoke deferred | PASS |
-| 05 G6 pipeline | turbo check react-basic; negative TS probe FAIL→revert | PASS |
-| 06 docs | `rg react-basic docs/` aligned | PASS |
-| 07 barrier | `pnpm check` + openspec validate | PASS |
+| Task           | Key validation                                            | Result |
+| -------------- | --------------------------------------------------------- | ------ |
+| 01 scaffold    | `pnpm install`; typecheck FAIL (no src/); `private: true` | PASS   |
+| 02 vite entry  | `tsc --noEmit`; `vite build`                              | PASS   |
+| 03 shell + GFM | typecheck; vite build; no test-helpers/prosemirror-view   | PASS   |
+| 04 GateLock UI | typecheck; manual dev smoke deferred                      | PASS   |
+| 05 G6 pipeline | turbo check react-basic; negative TS probe FAIL→revert    | PASS   |
+| 06 docs        | `rg react-basic docs/` aligned                            | PASS   |
+| 07 barrier     | `pnpm check` + openspec validate                          | PASS   |
 
 ## TDD Integrity
 

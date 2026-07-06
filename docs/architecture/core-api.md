@@ -64,10 +64,26 @@ export interface CommandEventRuntime {
 
 ```typescript
 // document-model（type exports）
-export type { AetherDoc, AetherBlock, AetherInline, AetherSchema, ParagraphBlock, HeadingBlock, TextInline, /* … */ };
+export type {
+  AetherDoc,
+  AetherBlock,
+  AetherInline,
+  AetherSchema,
+  ParagraphBlock,
+  HeadingBlock,
+  TextInline /* … */,
+};
 
 // adapter-base（type exports + error classes）
-export type { ParserAdapter, SerializerAdapter, EngineAdapter, EngineSession, AdapterCommandRequest, AdapterTransactionResult, AdapterEvent };
+export type {
+  ParserAdapter,
+  SerializerAdapter,
+  EngineAdapter,
+  EngineSession,
+  AdapterCommandRequest,
+  AdapterTransactionResult,
+  AdapterEvent,
+};
 export { AdapterError, SerializationError };
 ```
 

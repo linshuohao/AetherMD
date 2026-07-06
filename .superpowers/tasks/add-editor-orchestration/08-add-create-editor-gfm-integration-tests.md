@@ -32,7 +32,7 @@ Source Docs:
 
 - 更新 `packages/core/package.json` **devDependencies**：
   - `@aether-md/preset-gfm`: `workspace:*`
-  - `@aether-md/plugin-remark`: `workspace:*`（若 preset  transitive 不足）
+  - `@aether-md/plugin-remark`: `workspace:*`（若 preset transitive 不足）
   - `@aether-md/plugin-prosemirror`: `workspace:*`
 - 新增 `editor/create-editor-gfm.integration.test.ts`：
   - import `createGfmPreset` from devDependency。

@@ -6,14 +6,14 @@
 
 ## Spec compliance
 
-| Requirement | Status |
-| --- | --- |
+| Requirement                                       | Status                                  |
+| ------------------------------------------------- | --------------------------------------- |
 | `AetherDoc -> MDAST -> remark-stringify` pipeline | ✅ `mdast-mapping.ts` + `serializer.ts` |
-| Symmetric `mdast <-> AetherDoc` in one module | ✅ `mdast-mapping.ts` |
-| GFM golden output unchanged | ✅ 21/21 plugin-remark serializer tests |
-| preset-gfm reuses remark single outlet | ✅ `gfm-inline-morphing.ts` re-exports |
-| Core unchanged | ✅ |
-| No public API breaking change | ✅ additive exports on plugin-remark |
+| Symmetric `mdast <-> AetherDoc` in one module     | ✅ `mdast-mapping.ts`                   |
+| GFM golden output unchanged                       | ✅ 21/21 plugin-remark serializer tests |
+| preset-gfm reuses remark single outlet            | ✅ `gfm-inline-morphing.ts` re-exports  |
+| Core unchanged                                    | ✅                                      |
+| No public API breaking change                     | ✅ additive exports on plugin-remark    |
 
 ## Deviations
 

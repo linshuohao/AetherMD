@@ -4,13 +4,13 @@
 
 ## 决策类型
 
-| 决策 | 需要的文档 |
-| --- | --- |
-| 架构原则或原则反转 | ADR |
-| 公开 SDK 契约 | SDK 文档更新 |
-| 运行时实现策略 | 工程文档更新 |
-| 路线图范围 | 架构路线图更新 |
-| 贡献流程 | 社区文档更新 |
+| 决策               | 需要的文档     |
+| ------------------ | -------------- |
+| 架构原则或原则反转 | ADR            |
+| 公开 SDK 契约      | SDK 文档更新   |
+| 运行时实现策略     | 工程文档更新   |
+| 路线图范围         | 架构路线图更新 |
+| 贡献流程           | 社区文档更新   |
 
 ## 维护者职责
 
@@ -42,10 +42,10 @@
 
 以下角色可在 M7 前指派具名维护者；Review 时应明确判断归属：
 
-| 角色 | 负责内容 |
-| --- | --- |
-| Release owner | Changeset、SemVer、canary / `latest` 通道、CI 发布（ADR 009） |
-| SDK contract owner | Manifest、Capability、Permission、Lifecycle、Command/Event |
-| Core maintainer | Core 边界、package `exports` surface |
+| 角色               | 负责内容                                                      |
+| ------------------ | ------------------------------------------------------------- |
+| Release owner      | Changeset、SemVer、canary / `latest` 通道、CI 发布（ADR 009） |
+| SDK contract owner | Manifest、Capability、Permission、Lifecycle、Command/Event    |
+| Core maintainer    | Core 边界、package `exports` surface                          |
 
 详见 [组件库治理规范 §13](../engineering/component-library-governance.md)。

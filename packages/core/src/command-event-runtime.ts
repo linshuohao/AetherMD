@@ -80,8 +80,7 @@ export function createCommandEventRuntime(): CommandEventRuntime {
       } catch (cause) {
         const pluginName = command.meta?.pluginName;
         const error = new PluginError({
-          message:
-            cause instanceof Error ? cause.message : "Command handler failed",
+          message: cause instanceof Error ? cause.message : "Command handler failed",
           cause,
           ...(pluginName !== undefined ? { pluginName } : {}),
         });

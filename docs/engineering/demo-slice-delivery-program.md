@@ -30,11 +30,11 @@ flowchart LR
     PRA -->|验证结论| PRB
 ```
 
-| 阶段 | 目标 | 建议路径 | 状态 |
-| --- | --- | --- | --- |
-| **PR0** | 形成 PR A 的直接指导；不追求写完整个工程方法 | **Spec Change** | **已完成**（`demo-slice-react-basic-pr0`） |
-| **PR A** | `react-basic` 成为可摸到的最小 GFM demo | **Spec Change**（必要时升级 Full） | **已完成**（`demo-slice-react-basic`） |
-| **PR B** | 把 PR0+PR A 验证过的结论写回 roadmap / workflow / retention | **Full Change** | **已完成**（`demo-slice-workflow-retention`） |
+| 阶段     | 目标                                                        | 建议路径                           | 状态                                          |
+| -------- | ----------------------------------------------------------- | ---------------------------------- | --------------------------------------------- |
+| **PR0**  | 形成 PR A 的直接指导；不追求写完整个工程方法                | **Spec Change**                    | **已完成**（`demo-slice-react-basic-pr0`）    |
+| **PR A** | `react-basic` 成为可摸到的最小 GFM demo                     | **Spec Change**（必要时升级 Full） | **已完成**（`demo-slice-react-basic`）        |
+| **PR B** | 把 PR0+PR A 验证过的结论写回 roadmap / workflow / retention | **Full Change**                    | **已完成**（`demo-slice-workflow-retention`） |
 
 ### 原则
 
@@ -82,14 +82,14 @@ flowchart LR
 
 ### 允许改动范围（PR A 默认上限；PR0 可收紧不可无故放宽）
 
-| 区域 | 说明 |
-| --- | --- |
-| `examples/react-basic/**` | 首选改动面 |
-| `packages/react/**` | Shell 行为、GateLock、挂载修复 |
-| `packages/plugins/plugin-prosemirror/**` | 仅当 demo 所需 view/edit 行为 |
-| `packages/preset-gfm/**` | 仅当 demo 所需 GFM 路径 |
-| 必要测试 | smoke / integration / example typecheck |
-| 必要文档 | example README、本计划状态行 |
+| 区域                                     | 说明                                    |
+| ---------------------------------------- | --------------------------------------- |
+| `examples/react-basic/**`                | 首选改动面                              |
+| `packages/react/**`                      | Shell 行为、GateLock、挂载修复          |
+| `packages/plugins/plugin-prosemirror/**` | 仅当 demo 所需 view/edit 行为           |
+| `packages/preset-gfm/**`                 | 仅当 demo 所需 GFM 路径                 |
+| 必要测试                                 | smoke / integration / example typecheck |
+| 必要文档                                 | example README、本计划状态行            |
 
 **PR0 应列出 Forbidden Files**（至少包含无关 packages、workflow skills、无关 openspec main spec）。
 
@@ -161,16 +161,16 @@ flowchart LR
 
 ### 预期改动面（PR B 启动前可微调）
 
-| 区域 | 内容 |
-| --- | --- |
-| `docs/architecture/roadmap.md` | 补充纵向 **Slice** 叙事（与 M1–M6 并存） |
-| `docs/project-status.md` | 近期重点、M7 触发条件 |
-| `docs/engineering/mvp-implementation-plan.md` | Slice 验收与 M7 关系 |
-| `AI_NATIVE_ENGINEERING_WORKFLOW.md` | demo/example 类变更的路径与 retention |
-| `openspec/specs/engineering-workflow/spec.md` | 经验证的 workflow requirements |
-| `.skills/aether-workflow/` | Discover 降档、archive retention（若 PR A 证明必要） |
-| `.superpowers/` | retention 规则落地；可选压缩已归档 change |
-| `essays/product-delivery/` | 可选 `02-…` 复盘 PR A（非必须） |
+| 区域                                          | 内容                                                 |
+| --------------------------------------------- | ---------------------------------------------------- |
+| `docs/architecture/roadmap.md`                | 补充纵向 **Slice** 叙事（与 M1–M6 并存）             |
+| `docs/project-status.md`                      | 近期重点、M7 触发条件                                |
+| `docs/engineering/mvp-implementation-plan.md` | Slice 验收与 M7 关系                                 |
+| `AI_NATIVE_ENGINEERING_WORKFLOW.md`           | demo/example 类变更的路径与 retention                |
+| `openspec/specs/engineering-workflow/spec.md` | 经验证的 workflow requirements                       |
+| `.skills/aether-workflow/`                    | Discover 降档、archive retention（若 PR A 证明必要） |
+| `.superpowers/`                               | retention 规则落地；可选压缩已归档 change            |
+| `essays/product-delivery/`                    | 可选 `02-…` 复盘 PR A（非必须）                      |
 
 ### PR B 完成定义
 
@@ -182,24 +182,24 @@ flowchart LR
 
 ## 明确后置（本程序期间不做）
 
-| 项 | 后置至 |
-| --- | --- |
-| M7 npm publish、O1/O2、Release CI | PR B 之后；且需 **demo + 维护者 sign-off**（见 [ADR 009](../adr/009-release-governance.md)） |
-| History / Selection / Clipboard | PR B 之后独立 Slice |
+| 项                                                                         | 后置至                                                                                                                              |
+| -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| M7 npm publish、O1/O2、Release CI                                          | PR B 之后；且需 **demo + 维护者 sign-off**（见 [ADR 009](../adr/009-release-governance.md)）                                        |
+| History / Selection / Clipboard                                            | PR B 之后独立 Slice                                                                                                                 |
 | **真实打字同步**（`view-bridge` + `engine`；列表/块级 PM 输入 → markdown） | **已完成**（`demo-slice-typing-sync`，2026-07-06 归档）；CI `insertText` 路径已覆盖；**浏览器 sign-off** 仍为合并前/M7 前维护者责任 |
-| compile-layer、完整 Guard 链 | demo 驱动；非本程序 |
-| workflow 全面重写 | 禁止；仅 PR B 增量沉淀 |
+| compile-layer、完整 Guard 链                                               | demo 驱动；非本程序                                                                                                                 |
+| workflow 全面重写                                                          | 禁止；仅 PR B 增量沉淀                                                                                                              |
 
 ## 产物归属（避免重复与漂移）
 
-| 内容 | 权威位置 | 说明 |
-| --- | --- | --- |
-| **三阶段计划与阶段状态** | **本页** | 活跃执行计划 |
-| PR0 / PR A 的 capability 与验收 | `openspec/changes/<change>/` | 薄 delta；PR A 实施后 archive |
-| PR B 的 workflow 要求 | `openspec/specs/engineering-workflow/spec.md` | PR B 同步 |
-| 为什么这样拆（复盘） | `essays/product-delivery/`、`essays/ai-native-workflow/` | 不替代本页 |
-| 长期架构事实 | `docs/architecture/`、`docs/sdk/` | PR B 按需更新 |
-| 执行记录 | `.superpowers/` | Spec Change 单 task；PR B 后 retention |
+| 内容                            | 权威位置                                                 | 说明                                   |
+| ------------------------------- | -------------------------------------------------------- | -------------------------------------- |
+| **三阶段计划与阶段状态**        | **本页**                                                 | 活跃执行计划                           |
+| PR0 / PR A 的 capability 与验收 | `openspec/changes/<change>/`                             | 薄 delta；PR A 实施后 archive          |
+| PR B 的 workflow 要求           | `openspec/specs/engineering-workflow/spec.md`            | PR B 同步                              |
+| 为什么这样拆（复盘）            | `essays/product-delivery/`、`essays/ai-native-workflow/` | 不替代本页                             |
+| 长期架构事实                    | `docs/architecture/`、`docs/sdk/`                        | PR B 按需更新                          |
+| 执行记录                        | `.superpowers/`                                          | Spec Change 单 task；PR B 后 retention |
 
 **规则：** PR0/PR A 不把长篇方法论写入 `essays/` 或 `AI_NATIVE_ENGINEERING_WORKFLOW.md`；PR B 之前不改 workflow 主规范正文。
 
@@ -217,13 +217,13 @@ flowchart LR
 
 ## 进度日志
 
-| 日期 | 阶段 | 事件 |
-| --- | --- | --- |
-| 2026-07-06 | — | 采纳 PR0→PR A→PR B 方案；本页创建 |
-| 2026-07-06 | PR0 | Spec Change `demo-slice-react-basic-pr0` 创建；baseline-record；PR A 边界冻结 |
-| 2026-07-06 | PR B | `demo-slice-workflow-retention`：Discover 降档、Superpowers retention、归档 PR0/PR A |
+| 日期       | 阶段      | 事件                                                                                                                                              |
+| ---------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-07-06 | —         | 采纳 PR0→PR A→PR B 方案；本页创建                                                                                                                 |
+| 2026-07-06 | PR0       | Spec Change `demo-slice-react-basic-pr0` 创建；baseline-record；PR A 边界冻结                                                                     |
+| 2026-07-06 | PR B      | `demo-slice-workflow-retention`：Discover 降档、Superpowers retention、归档 PR0/PR A                                                              |
 | 2026-07-06 | follow-up | `demo-slice-typing-sync`：PM `insertText` → markdown CI 覆盖（paragraph/heading/list）；浏览器 sign-off 清单写入 `examples/react-basic/README.md` |
-| 2026-07-06 | follow-up | `demo-slice-typing-sync` **归档**；typing-sync 完成；下一项：**History slice** 或 **维护者 `pnpm dev` demo sign-off**（M7 前） |
+| 2026-07-06 | follow-up | `demo-slice-typing-sync` **归档**；typing-sync 完成；下一项：**History slice** 或 **维护者 `pnpm dev` demo sign-off**（M7 前）                    |
 
 ---
 

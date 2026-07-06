@@ -184,9 +184,7 @@ describe("Handler error isolation", () => {
     assert.equal(received[0]?.name, "pluginError");
     assert.equal(received[0]?.source, "plugin");
     assert.ok(received[0]?.payload && typeof received[0].payload === "object");
-    assert.ok(
-      "error" in (received[0]?.payload as Record<string, unknown>),
-    );
+    assert.ok("error" in (received[0]?.payload as Record<string, unknown>));
   });
 });
 

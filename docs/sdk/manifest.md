@@ -17,7 +17,7 @@ ExtensionManifest
 ### 完整类型定义
 
 ```typescript
-import type { CapabilityId, PermissionId, PluginName } from '@aether-md/core';
+import type { CapabilityId, PermissionId, PluginName } from "@aether-md/core";
 
 /** 根契约：四层分离 */
 export interface ExtensionManifest {
@@ -82,23 +82,23 @@ export interface SecurityManifest {
 ```typescript
 /** Core 导出 — 内核当前支持的 Manifest 版本列表 */
 export const SUPPORTED_MANIFEST_VERSIONS = [1] as const;
-export type SupportedManifestVersion = typeof SUPPORTED_MANIFEST_VERSIONS[number];
+export type SupportedManifestVersion = (typeof SUPPORTED_MANIFEST_VERSIONS)[number];
 
 /** 校验逻辑（RECOMMENDED） */
 function validateManifestVersion(version: number): void {
   if (!SUPPORTED_MANIFEST_VERSIONS.includes(version as SupportedManifestVersion)) {
     throw new CoreError({
-      code: 'MANIFEST_VERSION_UNSUPPORTED',
-      message: `manifestVersion ${version} not in [${SUPPORTED_MANIFEST_VERSIONS.join(', ')}]`,
+      code: "MANIFEST_VERSION_UNSUPPORTED",
+      message: `manifestVersion ${version} not in [${SUPPORTED_MANIFEST_VERSIONS.join(", ")}]`,
     });
   }
 }
 ```
 
-| manifestVersion | 状态 | 说明 |
-| --- | --- | --- |
-| `1` | **Stable** | 分层 Manifest；类型化 CapabilityId |
-| `2` | *Reserved* | 预留给 schema 结构重组 |
+| manifestVersion | 状态       | 说明                               |
+| --------------- | ---------- | ---------------------------------- |
+| `1`             | **Stable** | 分层 Manifest；类型化 CapabilityId |
+| `2`             | _Reserved_ | 预留给 schema 结构重组             |
 
 ## M1 Core Bootstrap implementation
 

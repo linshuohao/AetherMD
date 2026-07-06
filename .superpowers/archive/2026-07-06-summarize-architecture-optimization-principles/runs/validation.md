@@ -9,11 +9,11 @@
 
 ## Commands
 
-| Command | Result | Notes |
-| --- | --- | --- |
-| `openspec validate --change "summarize-architecture-optimization-principles"` | Failed | CLI option was invalid; command reported `unknown option '--change'` and suggested `--changes`. |
-| `openspec validate --changes "summarize-architecture-optimization-principles"` | Passed | Validated the active OpenSpec change before main spec sync. |
-| `pnpm check` | Passed | Ran workspace skill drift checks, workflow PR traceability check, builds, typechecks, and tests. |
+| Command                                                                        | Result | Notes                                                                                            |
+| ------------------------------------------------------------------------------ | ------ | ------------------------------------------------------------------------------------------------ |
+| `openspec validate --change "summarize-architecture-optimization-principles"`  | Failed | CLI option was invalid; command reported `unknown option '--change'` and suggested `--changes`.  |
+| `openspec validate --changes "summarize-architecture-optimization-principles"` | Passed | Validated the active OpenSpec change before main spec sync.                                      |
+| `pnpm check`                                                                   | Passed | Ran workspace skill drift checks, workflow PR traceability check, builds, typechecks, and tests. |
 
 ## Evidence
 

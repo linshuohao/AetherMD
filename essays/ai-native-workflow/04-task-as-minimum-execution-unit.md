@@ -12,13 +12,13 @@ OpenSpec **change** 仍然太大：它描述意图与验收，但不限定「这
 
 **Task** 是我们认定的最小执行单元，因为它同时满足：
 
-| 属性 | 含义 |
-| --- | --- |
-| 单一目标 | 一句话说清完成态 |
-| 文件边界 | Allowed / Forbidden files |
-| Spec 绑定 | 对应 capability / requirement |
-| 验证方式 | 命令、测试或 design-stage check |
-| 可回滚 | 失败时不拖垮整个 change |
+| 属性      | 含义                            |
+| --------- | ------------------------------- |
+| 单一目标  | 一句话说清完成态                |
+| 文件边界  | Allowed / Forbidden files       |
+| Spec 绑定 | 对应 capability / requirement   |
+| 验证方式  | 命令、测试或 design-stage check |
+| 可回滚    | 失败时不拖垮整个 change         |
 
 M1–M6 的实现计划被拆成 `.superpowers/tasks/<change>/01-*.md` 这样的文件，不是形式主义——而是让 **Codex 每次只处理一个工作单**，human 也可以只 review 一个工作单的 diff。
 
@@ -56,7 +56,7 @@ Step 6.5 引入 `aether-workflow-execute-task-loop` 后，默认是 sequential l
 
 对 `add-validation-suite`（9 个 task）、`add-react-shell`（10 个 task）这类 change，串行意味着：
 
--  wall-clock 时间线性增长
+- wall-clock 时间线性增长
 - coordinator Agent 上下文反复加载相似 material
 
 但**不能**为了快而让两个 implementer 同时改同一文件，也不能让单个 Agent session 一次「顺便」做 task 03 和 04。

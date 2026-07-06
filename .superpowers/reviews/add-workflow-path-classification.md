@@ -10,25 +10,25 @@
 
 ## Artifact Coverage
 
-| Artifact | Present | Notes |
-| --- | --- | --- |
-| Proposal | yes | |
-| Design | yes | |
-| Delta specs | yes | engineering-workflow |
-| Plan | yes | `.superpowers/plans/` |
-| Tasks | implicit in implementation | single-session delivery |
-| Validation | yes | |
+| Artifact    | Present                    | Notes                   |
+| ----------- | -------------------------- | ----------------------- |
+| Proposal    | yes                        |                         |
+| Design      | yes                        |                         |
+| Delta specs | yes                        | engineering-workflow    |
+| Plan        | yes                        | `.superpowers/plans/`   |
+| Tasks       | implicit in implementation | single-session delivery |
+| Validation  | yes                        |                         |
 
 ## Requirement Compliance
 
-| Requirement | Evidence | Result |
-| --- | --- | --- |
-| Discover classifies workflow execution path | discover-context SKILL.md | pass |
-| Maintenance path skips workflow artifacts | discover-context + git-workflow | pass |
-| Quick change uses structured PR traceability | quick-change skill + git-workflow | pass |
-| Spec change lightweight OpenSpec | create/execute-spec-change skills | pass |
-| Spec change escalation | execute-spec-change guardrails | pass |
-| Full change preserved | existing skills unchanged in behavior | pass |
+| Requirement                                  | Evidence                              | Result |
+| -------------------------------------------- | ------------------------------------- | ------ |
+| Discover classifies workflow execution path  | discover-context SKILL.md             | pass   |
+| Maintenance path skips workflow artifacts    | discover-context + git-workflow       | pass   |
+| Quick change uses structured PR traceability | quick-change skill + git-workflow     | pass   |
+| Spec change lightweight OpenSpec             | create/execute-spec-change skills     | pass   |
+| Spec change escalation                       | execute-spec-change guardrails        | pass   |
+| Full change preserved                        | existing skills unchanged in behavior | pass   |
 
 ## Blockers
 

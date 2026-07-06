@@ -4,11 +4,7 @@ export interface AetherDoc {
   meta?: Record<string, unknown>;
 }
 
-export type AetherBlock =
-  | ParagraphBlock
-  | HeadingBlock
-  | ListBlock
-  | CustomBlock;
+export type AetherBlock = ParagraphBlock | HeadingBlock | ListBlock | CustomBlock;
 
 export type AetherInline = TextInline | LinkInline | MarkedInline;
 

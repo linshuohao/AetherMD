@@ -129,9 +129,7 @@ describe("createProseMirrorView", () => {
       },
     });
 
-    handle.view.dispatch(
-      handle.view.state.tr.insertText("!", handle.view.state.selection.from),
-    );
+    handle.view.dispatch(handle.view.state.tr.insertText("!", handle.view.state.selection.from));
 
     assert.ok(capturedRequest);
     const request = capturedRequest as AdapterCommandRequest;
@@ -204,9 +202,7 @@ describe("createProseMirrorView", () => {
     });
 
     const before = engine.getDocument(session);
-    handle.view.dispatch(
-      handle.view.state.tr.insertText("!", handle.view.state.selection.from),
-    );
+    handle.view.dispatch(handle.view.state.tr.insertText("!", handle.view.state.selection.from));
 
     assert.equal(dispatchCount, 1);
     assert.deepEqual(engine.getDocument(session), before);

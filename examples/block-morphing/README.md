@@ -2,10 +2,10 @@
 
 **L2 product north star demo** — GFM list block morphing + paragraph inline marks + multi-block Block Focus for AetherMD.
 
-| | |
-| --- | --- |
-| **Proves** | List blocks morph `ul`/`li` ↔ `- item` source; preset `interactiveRenderers`; Block Focus across paragraph + list blocks |
-| **Does not prove** | M7 publish, nested lists, tables |
+|                    |                                                                                                                          |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------ |
+| **Proves**         | List blocks morph `ul`/`li` ↔ `- item` source; preset `interactiveRenderers`; Block Focus across paragraph + list blocks |
+| **Does not prove** | M7 publish, nested lists, tables                                                                                         |
 
 For the L1 architecture pipeline demo, see [`examples/react-basic`](../react-basic/README.md).
 

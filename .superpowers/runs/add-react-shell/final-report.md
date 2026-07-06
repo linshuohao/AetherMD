@@ -23,88 +23,88 @@
 
 ## Specs Updated
 
-| Spec | Action | Path |
-| --- | --- | --- |
-| `react-shell` | ADDED | `openspec/specs/react-shell/spec.md` |
+| Spec                   | Action   | Path                                          |
+| ---------------------- | -------- | --------------------------------------------- |
+| `react-shell`          | ADDED    | `openspec/specs/react-shell/spec.md`          |
 | `editor-orchestration` | MODIFIED | `openspec/specs/editor-orchestration/spec.md` |
 
 Delta specs synced from change archive via `aether-workflow-update-docs-spec`. `openspec validate add-react-shell --strict` — pass (pre-archive).
 
 ## Tasks Completed
 
-| Task | Status | Validation | Deviation |
-| --- | --- | --- | --- |
-| 01 — define React public API + boundary tests | completed | `@aether-md/react` boundary PASS | — |
-| 02 — scaffold React package workspace | completed | build + turbo check PASS | — |
-| 03 — implement GateLock utility | completed | unit tests PASS | — |
-| 04 — implement `useAetherEditor` hook | completed | change bridge tests PASS | — |
-| 05 — implement plugin-prosemirror view-bridge | completed | view-bridge tests PASS | D1–D2, D7 |
-| 06 — implement Root + Content | completed | integration mount PASS | D6 `pluginsKey` |
-| 07 — React Shell integration tests | completed | happy-dom integration PASS | D3 dispatch not DOM type |
-| 08 — GateLock integration tests | completed | `gate-lock.integration.test.tsx` PASS | — |
-| 09 — GFM React smoke + boundary reinforcement | completed | 3 smoke tests PASS | D4 render-only paragraph |
-| 10 — full validation (Barrier) | completed | `pnpm check` + `openspec validate --strict` PASS | — |
+| Task                                          | Status    | Validation                                       | Deviation                |
+| --------------------------------------------- | --------- | ------------------------------------------------ | ------------------------ |
+| 01 — define React public API + boundary tests | completed | `@aether-md/react` boundary PASS                 | —                        |
+| 02 — scaffold React package workspace         | completed | build + turbo check PASS                         | —                        |
+| 03 — implement GateLock utility               | completed | unit tests PASS                                  | —                        |
+| 04 — implement `useAetherEditor` hook         | completed | change bridge tests PASS                         | —                        |
+| 05 — implement plugin-prosemirror view-bridge | completed | view-bridge tests PASS                           | D1–D2, D7                |
+| 06 — implement Root + Content                 | completed | integration mount PASS                           | D6 `pluginsKey`          |
+| 07 — React Shell integration tests            | completed | happy-dom integration PASS                       | D3 dispatch not DOM type |
+| 08 — GateLock integration tests               | completed | `gate-lock.integration.test.tsx` PASS            | —                        |
+| 09 — GFM React smoke + boundary reinforcement | completed | 3 smoke tests PASS                               | D4 render-only paragraph |
+| 10 — full validation (Barrier)                | completed | `pnpm check` + `openspec validate --strict` PASS | —                        |
 
 OpenSpec high-level `tasks.md` checkboxes remain unchecked (planning artifact; Superpowers tasks 01–10 are the execution source of truth).
 
 ## Files Changed
 
-| File | Task / Reason | Notes |
-| --- | --- | --- |
-| `packages/react/package.json` | 02 | new `@aether-md/react` workspace package |
-| `packages/react/tsconfig.json` | 02 | production compile |
-| `packages/react/tsconfig.test.json` | 02, 07 | happy-dom test compile |
-| `packages/react/src/types.ts` | 01 | public props / result types |
-| `packages/react/src/index.ts` | 01 | public exports |
-| `packages/react/src/context.tsx` | 06 | Root context provider |
-| `packages/react/src/gate-lock.ts` | 03 | GateLock utility |
-| `packages/react/src/gate-lock.test.ts` | 03 | GateLock unit tests |
-| `packages/react/src/use-aether-editor.ts` | 04 | `useAetherEditor` hook |
-| `packages/react/src/use-aether-editor.test.ts` | 04 | change bridge without Core store |
-| `packages/react/src/aether-editor-root.tsx` | 06 | `createEditor` lifecycle + GateLock |
-| `packages/react/src/aether-editor-content.tsx` | 05, 06 | view-bridge mount + dispatch bridge |
-| `packages/react/src/package-boundary.test.ts` | 01, 09 | boundary + no ShellAdapter |
-| `packages/react/src/test-setup.ts` | 07 | happy-dom registrator |
-| `packages/react/src/test-helpers.ts` | 07, 09 | GFM preset fixtures |
-| `packages/react/src/react-shell.integration.test.tsx` | 07 | mount / onChange / dispose |
-| `packages/react/src/gate-lock.integration.test.tsx` | 08 | GateLock CI scenario (#41) |
-| `packages/react/src/gfm-react-smoke.test.tsx` | 09 | paragraph / strong / list smoke |
-| `packages/plugins/plugin-prosemirror/src/view-bridge.ts` | 05 | `createProseMirrorView` additive export |
-| `packages/plugins/plugin-prosemirror/src/view-bridge.test.ts` | 05 | view ↔ `getDocument()` contract |
-| `packages/plugins/plugin-prosemirror/src/engine.ts` | 05 | `readSessionEditorState` (internal) |
-| `packages/plugins/plugin-prosemirror/src/conversion.ts` | 05 | `toDOM` / `parseDOM` for EditorView |
-| `packages/plugins/plugin-prosemirror/src/index.ts` | 05 | export view-bridge API |
-| `packages/plugins/plugin-prosemirror/package.json` | 05 | `prosemirror-view` + happy-dom devDeps |
-| `packages/plugins/plugin-prosemirror/tsconfig.test.json` | 05 | `skipLibCheck` for happy-dom types |
-| `pnpm-lock.yaml` | 02, 05, 10 | workspace lockfile |
-| `.changeset/add-react-shell.md` | 02 | version hook (not yet consumed) |
-| `docs/architecture/ci-checklist.md` | A7 | GateLock #41 checked |
-| `docs/architecture/package-layout.md` | A7 | M5 react package row |
-| `docs/engineering/mvp-implementation-plan.md` | A7 | M5 status |
-| `docs/engineering/test-strategy.md` | A7 | M5 validation baseline |
-| `docs/project-status.md` | A7 | milestone update |
-| `README.md` | A7 | status summary |
-| `openspec/specs/react-shell/spec.md` | A7 | ADDED main spec |
-| `openspec/specs/editor-orchestration/spec.md` | A7 | MODIFIED main spec |
-| `openspec/changes/archive/2026-07-05-add-react-shell/**` | archive | proposal, design, delta specs, tasks |
-| `.superpowers/plans/add-react-shell.md` | workflow | implementation plan |
-| `.superpowers/tasks/add-react-shell/01`–`10` | workflow | scoped tasks |
-| `.superpowers/runs/add-react-shell/validation.md` | workflow | validation record |
-| `.superpowers/reviews/add-react-shell.md` | workflow | compliance review |
+| File                                                          | Task / Reason | Notes                                    |
+| ------------------------------------------------------------- | ------------- | ---------------------------------------- |
+| `packages/react/package.json`                                 | 02            | new `@aether-md/react` workspace package |
+| `packages/react/tsconfig.json`                                | 02            | production compile                       |
+| `packages/react/tsconfig.test.json`                           | 02, 07        | happy-dom test compile                   |
+| `packages/react/src/types.ts`                                 | 01            | public props / result types              |
+| `packages/react/src/index.ts`                                 | 01            | public exports                           |
+| `packages/react/src/context.tsx`                              | 06            | Root context provider                    |
+| `packages/react/src/gate-lock.ts`                             | 03            | GateLock utility                         |
+| `packages/react/src/gate-lock.test.ts`                        | 03            | GateLock unit tests                      |
+| `packages/react/src/use-aether-editor.ts`                     | 04            | `useAetherEditor` hook                   |
+| `packages/react/src/use-aether-editor.test.ts`                | 04            | change bridge without Core store         |
+| `packages/react/src/aether-editor-root.tsx`                   | 06            | `createEditor` lifecycle + GateLock      |
+| `packages/react/src/aether-editor-content.tsx`                | 05, 06        | view-bridge mount + dispatch bridge      |
+| `packages/react/src/package-boundary.test.ts`                 | 01, 09        | boundary + no ShellAdapter               |
+| `packages/react/src/test-setup.ts`                            | 07            | happy-dom registrator                    |
+| `packages/react/src/test-helpers.ts`                          | 07, 09        | GFM preset fixtures                      |
+| `packages/react/src/react-shell.integration.test.tsx`         | 07            | mount / onChange / dispose               |
+| `packages/react/src/gate-lock.integration.test.tsx`           | 08            | GateLock CI scenario (#41)               |
+| `packages/react/src/gfm-react-smoke.test.tsx`                 | 09            | paragraph / strong / list smoke          |
+| `packages/plugins/plugin-prosemirror/src/view-bridge.ts`      | 05            | `createProseMirrorView` additive export  |
+| `packages/plugins/plugin-prosemirror/src/view-bridge.test.ts` | 05            | view ↔ `getDocument()` contract          |
+| `packages/plugins/plugin-prosemirror/src/engine.ts`           | 05            | `readSessionEditorState` (internal)      |
+| `packages/plugins/plugin-prosemirror/src/conversion.ts`       | 05            | `toDOM` / `parseDOM` for EditorView      |
+| `packages/plugins/plugin-prosemirror/src/index.ts`            | 05            | export view-bridge API                   |
+| `packages/plugins/plugin-prosemirror/package.json`            | 05            | `prosemirror-view` + happy-dom devDeps   |
+| `packages/plugins/plugin-prosemirror/tsconfig.test.json`      | 05            | `skipLibCheck` for happy-dom types       |
+| `pnpm-lock.yaml`                                              | 02, 05, 10    | workspace lockfile                       |
+| `.changeset/add-react-shell.md`                               | 02            | version hook (not yet consumed)          |
+| `docs/architecture/ci-checklist.md`                           | A7            | GateLock #41 checked                     |
+| `docs/architecture/package-layout.md`                         | A7            | M5 react package row                     |
+| `docs/engineering/mvp-implementation-plan.md`                 | A7            | M5 status                                |
+| `docs/engineering/test-strategy.md`                           | A7            | M5 validation baseline                   |
+| `docs/project-status.md`                                      | A7            | milestone update                         |
+| `README.md`                                                   | A7            | status summary                           |
+| `openspec/specs/react-shell/spec.md`                          | A7            | ADDED main spec                          |
+| `openspec/specs/editor-orchestration/spec.md`                 | A7            | MODIFIED main spec                       |
+| `openspec/changes/archive/2026-07-05-add-react-shell/**`      | archive       | proposal, design, delta specs, tasks     |
+| `.superpowers/plans/add-react-shell.md`                       | workflow      | implementation plan                      |
+| `.superpowers/tasks/add-react-shell/01`–`10`                  | workflow      | scoped tasks                             |
+| `.superpowers/runs/add-react-shell/validation.md`             | workflow      | validation record                        |
+| `.superpowers/reviews/add-react-shell.md`                     | workflow      | compliance review                        |
 
 **Not modified (correct per non-goals):** `packages/core/**`, Vue Shell, Playwright CI, `examples/react-basic`, Core Guard/Permission/store code.
 
 ## Validation Results
 
-| Command | Result |
-| --- | --- |
-| `pnpm check` | PASS (15/15 turbo tasks) |
-| `openspec validate add-react-shell --strict` | PASS |
-| `pnpm --filter @aether-md/react test` | PASS (14 tests) |
-| `pnpm --filter @aether-md/plugin-prosemirror test` | PASS (20 tests) |
-| `pnpm core:test` | PASS (20 tests) |
-| Package tests (remark / preset-gfm) | PASS (21 / 12) |
-| Boundary rg guards | PASS |
+| Command                                            | Result                   |
+| -------------------------------------------------- | ------------------------ |
+| `pnpm check`                                       | PASS (15/15 turbo tasks) |
+| `openspec validate add-react-shell --strict`       | PASS                     |
+| `pnpm --filter @aether-md/react test`              | PASS (14 tests)          |
+| `pnpm --filter @aether-md/plugin-prosemirror test` | PASS (20 tests)          |
+| `pnpm core:test`                                   | PASS (20 tests)          |
+| Package tests (remark / preset-gfm)                | PASS (21 / 12)           |
+| Boundary rg guards                                 | PASS                     |
 
 Compliance review: **PASS WITH DEVIATIONS** — no blockers (`.superpowers/reviews/add-react-shell.md`).
 

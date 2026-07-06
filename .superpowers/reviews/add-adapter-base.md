@@ -12,47 +12,47 @@
 
 ## Artifact Coverage
 
-| Artifact | Present | Notes |
-| --- | --- | --- |
-| Proposal | yes | `openspec/changes/add-adapter-base/proposal.md` |
-| Design | yes | `openspec/changes/add-adapter-base/design.md` |
-| Delta specs | yes | `document-model`, `adapter-base` ADDED; `core-bootstrap` MODIFIED |
-| OpenSpec tasks | yes | `openspec/changes/add-adapter-base/tasks.md` (checkboxes still open — expected pre-archive) |
-| Plan | yes | `.superpowers/plans/add-adapter-base.md` |
-| Superpowers tasks | yes | `.superpowers/tasks/add-adapter-base/01`–`08`, all marked complete |
-| Validation | yes | `.superpowers/runs/add-adapter-base/validation.md` — 64/64 tests, guards pass |
-| Review | yes | this file |
+| Artifact          | Present | Notes                                                                                       |
+| ----------------- | ------- | ------------------------------------------------------------------------------------------- |
+| Proposal          | yes     | `openspec/changes/add-adapter-base/proposal.md`                                             |
+| Design            | yes     | `openspec/changes/add-adapter-base/design.md`                                               |
+| Delta specs       | yes     | `document-model`, `adapter-base` ADDED; `core-bootstrap` MODIFIED                           |
+| OpenSpec tasks    | yes     | `openspec/changes/add-adapter-base/tasks.md` (checkboxes still open — expected pre-archive) |
+| Plan              | yes     | `.superpowers/plans/add-adapter-base.md`                                                    |
+| Superpowers tasks | yes     | `.superpowers/tasks/add-adapter-base/01`–`08`, all marked complete                          |
+| Validation        | yes     | `.superpowers/runs/add-adapter-base/validation.md` — 64/64 tests, guards pass               |
+| Review            | yes     | this file                                                                                   |
 
 ## Changed-file Mapping
 
-| File | Task | Requirement / Source Doc | Status |
-| --- | --- | --- | --- |
-| `packages/core/src/document-model.ts` | 01 | `AetherDoc public types`; `Minimal AetherSchema`; extended types | mapped |
-| `packages/core/src/document-model.test.ts` | 01 | JSON serializable shape; schema `{ version: 1 }` | mapped |
-| `packages/core/src/adapter-types.ts` | 02 | `Adapter protocol types are exported from core` | mapped |
-| `packages/core/src/adapter-types.test.ts` | 02 | protocol + error shape smoke; core deps guard | mapped |
-| `packages/core/src/errors.ts` | 02 | `AdapterError and SerializationError are exported` | mapped |
-| `packages/core/src/index.ts` | 01, 02 | public exports for document-model + adapter-base | mapped |
-| `packages/core/src/package-boundary.test.ts` | 02, 07 | `core-bootstrap` MODIFIED boundary; M4/M5 exclusion | mapped |
-| `packages/plugins/plugin-remark/package.json` | 03 | workspace package scaffold | mapped |
-| `packages/plugins/plugin-remark/tsconfig*.json` | 03 | build/typecheck/test scripts | mapped |
-| `packages/plugins/plugin-remark/src/parser.ts` | 03 | `Remark parser returns AetherDoc` | mapped |
-| `packages/plugins/plugin-remark/src/parser.test.ts` | 03 | paragraph, heading, unknown-syntax degradation | mapped |
-| `packages/plugins/plugin-remark/src/serializer.ts` | 04 | `Remark serializer produces deterministic Markdown` | mapped |
-| `packages/plugins/plugin-remark/src/serializer.test.ts` | 04 | deterministic paragraph + heading output | mapped |
-| `packages/plugins/plugin-remark/src/index.ts` | 03, 04 | factory exports | mapped |
-| `packages/plugins/plugin-prosemirror/package.json` | 05, 06 | workspace package; devDep remark for integration | mapped |
-| `packages/plugins/plugin-prosemirror/tsconfig*.json` | 05 | build/typecheck/test scripts | mapped |
-| `packages/plugins/plugin-prosemirror/src/conversion.ts` | 05 | AetherDoc ↔ ProseMirror (adapter-private) | mapped |
-| `packages/plugins/plugin-prosemirror/src/engine.ts` | 05 | `EngineAdapter` create/apply/getDocument/dispose | mapped |
-| `packages/plugins/plugin-prosemirror/src/engine.test.ts` | 05 | success/failure snapshot, dispose, AdapterError | mapped |
-| `packages/plugins/plugin-prosemirror/src/round-trip.test.ts` | 06 | M3 round-trip paragraph + heading; no editor wiring | mapped |
-| `packages/plugins/plugin-prosemirror/src/index.ts` | 05 | factory export | mapped |
-| `pnpm-lock.yaml` | 03–06 | Remark/ProseMirror dependency lock | mapped |
-| `.superpowers/runs/add-adapter-base/validation.md` | 08 | verification evidence | mapped |
-| `.superpowers/tasks/add-adapter-base/*.md` | 01–08 | task execution records | mapped |
-| `.superpowers/plans/add-adapter-base.md` | plan | implementation plan | mapped |
-| `openspec/changes/add-adapter-base/**` | OpenSpec | proposal/design/specs/tasks delta | mapped (pre-existing untracked) |
+| File                                                         | Task     | Requirement / Source Doc                                         | Status                          |
+| ------------------------------------------------------------ | -------- | ---------------------------------------------------------------- | ------------------------------- |
+| `packages/core/src/document-model.ts`                        | 01       | `AetherDoc public types`; `Minimal AetherSchema`; extended types | mapped                          |
+| `packages/core/src/document-model.test.ts`                   | 01       | JSON serializable shape; schema `{ version: 1 }`                 | mapped                          |
+| `packages/core/src/adapter-types.ts`                         | 02       | `Adapter protocol types are exported from core`                  | mapped                          |
+| `packages/core/src/adapter-types.test.ts`                    | 02       | protocol + error shape smoke; core deps guard                    | mapped                          |
+| `packages/core/src/errors.ts`                                | 02       | `AdapterError and SerializationError are exported`               | mapped                          |
+| `packages/core/src/index.ts`                                 | 01, 02   | public exports for document-model + adapter-base                 | mapped                          |
+| `packages/core/src/package-boundary.test.ts`                 | 02, 07   | `core-bootstrap` MODIFIED boundary; M4/M5 exclusion              | mapped                          |
+| `packages/plugins/plugin-remark/package.json`                | 03       | workspace package scaffold                                       | mapped                          |
+| `packages/plugins/plugin-remark/tsconfig*.json`              | 03       | build/typecheck/test scripts                                     | mapped                          |
+| `packages/plugins/plugin-remark/src/parser.ts`               | 03       | `Remark parser returns AetherDoc`                                | mapped                          |
+| `packages/plugins/plugin-remark/src/parser.test.ts`          | 03       | paragraph, heading, unknown-syntax degradation                   | mapped                          |
+| `packages/plugins/plugin-remark/src/serializer.ts`           | 04       | `Remark serializer produces deterministic Markdown`              | mapped                          |
+| `packages/plugins/plugin-remark/src/serializer.test.ts`      | 04       | deterministic paragraph + heading output                         | mapped                          |
+| `packages/plugins/plugin-remark/src/index.ts`                | 03, 04   | factory exports                                                  | mapped                          |
+| `packages/plugins/plugin-prosemirror/package.json`           | 05, 06   | workspace package; devDep remark for integration                 | mapped                          |
+| `packages/plugins/plugin-prosemirror/tsconfig*.json`         | 05       | build/typecheck/test scripts                                     | mapped                          |
+| `packages/plugins/plugin-prosemirror/src/conversion.ts`      | 05       | AetherDoc ↔ ProseMirror (adapter-private)                        | mapped                          |
+| `packages/plugins/plugin-prosemirror/src/engine.ts`          | 05       | `EngineAdapter` create/apply/getDocument/dispose                 | mapped                          |
+| `packages/plugins/plugin-prosemirror/src/engine.test.ts`     | 05       | success/failure snapshot, dispose, AdapterError                  | mapped                          |
+| `packages/plugins/plugin-prosemirror/src/round-trip.test.ts` | 06       | M3 round-trip paragraph + heading; no editor wiring              | mapped                          |
+| `packages/plugins/plugin-prosemirror/src/index.ts`           | 05       | factory export                                                   | mapped                          |
+| `pnpm-lock.yaml`                                             | 03–06    | Remark/ProseMirror dependency lock                               | mapped                          |
+| `.superpowers/runs/add-adapter-base/validation.md`           | 08       | verification evidence                                            | mapped                          |
+| `.superpowers/tasks/add-adapter-base/*.md`                   | 01–08    | task execution records                                           | mapped                          |
+| `.superpowers/plans/add-adapter-base.md`                     | plan     | implementation plan                                              | mapped                          |
+| `openspec/changes/add-adapter-base/**`                       | OpenSpec | proposal/design/specs/tasks delta                                | mapped (pre-existing untracked) |
 
 **Not modified (correct per non-goals):** `packages/core/src/bootstrap.ts`, `capabilities.ts`, `command-event-runtime.ts`, `lifecycle.ts`, `manifest.ts`.
 
@@ -60,27 +60,27 @@
 
 ## Requirement Compliance
 
-| Requirement | Evidence | Result | Notes |
-| --- | --- | --- | --- |
-| AetherDoc public types exported from core | `document-model.ts`, `index.ts`, `document-model.test.ts` | pass | M3 block/inline subset + extended types (`ListBlock`, `LinkInline`, etc.) |
-| Document types framework-independent | `JSON.stringify` shape test | pass | no function/DOM/engine leaks asserted |
-| Minimal AetherSchema exported | `{ version: 1 }` test | pass | no compile-layer merge |
-| Extended types without M3 round-trip | types exported; tests scoped to paragraph/heading | pass | |
-| Adapter protocol types exported | `adapter-types.ts`, `adapter-types.test.ts` | pass | includes `ReplaceTextCommand` as M3 `AdapterCommandRequest` |
-| AdapterError / SerializationError exported | `errors.ts`, boundary + adapter tests | pass | `source`/`severity` match error-model |
-| Core has no remark/prosemirror/react deps | `core/package.json`, adapter-types + boundary tests | pass | |
-| Remark plugin Parser + Serializer | `plugin-remark` parser/serializer + 7 tests | pass | |
-| ProseMirror EngineAdapter | `plugin-prosemirror/engine` + 5 contract tests | pass | |
-| Successful apply returns updated doc | `engine.test.ts` replaceText success | pass | |
-| Failed apply preserves snapshot | `engine.test.ts` invalid blockIndex | pass | |
-| Engine session dispose safe | repeated dispose test | pass | |
-| M3 minimal Markdown round-trip | `round-trip.test.ts` 2 scenarios | pass | `"Hello world\n"`, `"## Title\n\nBody\n"` |
-| Round-trip without createEditor/Shell | import-line guard in integration test | pass | |
-| Adapter packages in workspace verification | `pnpm check` 3 packages | pass | |
-| M3 no Command Bus auto rollback | `command-event-runtime.ts` unchanged; rg no `transactionFailed` | pass | |
-| core-bootstrap boundary updated | `package-boundary.test.ts` M3 allow + M4/M5 forbid | pass | |
-| No bootstrap silent provide core:engine/parser | `M1_CORE_CAPABILITIES` + capabilities.ts unchanged | pass | |
-| Explicit non-goals (§8) | validation.md checklist | pass | GFM/Shell/createEditor/bootstrap adapter loading/M1 follow-up excluded |
+| Requirement                                    | Evidence                                                        | Result | Notes                                                                     |
+| ---------------------------------------------- | --------------------------------------------------------------- | ------ | ------------------------------------------------------------------------- |
+| AetherDoc public types exported from core      | `document-model.ts`, `index.ts`, `document-model.test.ts`       | pass   | M3 block/inline subset + extended types (`ListBlock`, `LinkInline`, etc.) |
+| Document types framework-independent           | `JSON.stringify` shape test                                     | pass   | no function/DOM/engine leaks asserted                                     |
+| Minimal AetherSchema exported                  | `{ version: 1 }` test                                           | pass   | no compile-layer merge                                                    |
+| Extended types without M3 round-trip           | types exported; tests scoped to paragraph/heading               | pass   |                                                                           |
+| Adapter protocol types exported                | `adapter-types.ts`, `adapter-types.test.ts`                     | pass   | includes `ReplaceTextCommand` as M3 `AdapterCommandRequest`               |
+| AdapterError / SerializationError exported     | `errors.ts`, boundary + adapter tests                           | pass   | `source`/`severity` match error-model                                     |
+| Core has no remark/prosemirror/react deps      | `core/package.json`, adapter-types + boundary tests             | pass   |                                                                           |
+| Remark plugin Parser + Serializer              | `plugin-remark` parser/serializer + 7 tests                     | pass   |                                                                           |
+| ProseMirror EngineAdapter                      | `plugin-prosemirror/engine` + 5 contract tests                  | pass   |                                                                           |
+| Successful apply returns updated doc           | `engine.test.ts` replaceText success                            | pass   |                                                                           |
+| Failed apply preserves snapshot                | `engine.test.ts` invalid blockIndex                             | pass   |                                                                           |
+| Engine session dispose safe                    | repeated dispose test                                           | pass   |                                                                           |
+| M3 minimal Markdown round-trip                 | `round-trip.test.ts` 2 scenarios                                | pass   | `"Hello world\n"`, `"## Title\n\nBody\n"`                                 |
+| Round-trip without createEditor/Shell          | import-line guard in integration test                           | pass   |                                                                           |
+| Adapter packages in workspace verification     | `pnpm check` 3 packages                                         | pass   |                                                                           |
+| M3 no Command Bus auto rollback                | `command-event-runtime.ts` unchanged; rg no `transactionFailed` | pass   |                                                                           |
+| core-bootstrap boundary updated                | `package-boundary.test.ts` M3 allow + M4/M5 forbid              | pass   |                                                                           |
+| No bootstrap silent provide core:engine/parser | `M1_CORE_CAPABILITIES` + capabilities.ts unchanged              | pass   |                                                                           |
+| Explicit non-goals (§8)                        | validation.md checklist                                         | pass   | GFM/Shell/createEditor/bootstrap adapter loading/M1 follow-up excluded    |
 
 ## Boundary Review
 
@@ -92,19 +92,19 @@
 
 ## Anticorruption Checklist
 
-| Check | Result | Notes |
-| --- | --- | --- |
-| Every changed file maps to a task | pass | see Changed-file Mapping |
-| Every task maps to spec requirement | pass | tasks 01–08 align with OpenSpec delta specs + `tasks.md` |
-| Public contract changes explicit in OpenSpec | pass | proposal/design/delta specs cover all new exports |
-| Deviations recorded | pass | validation.md + task Run Logs |
-| Core remains business-blind | pass | no Markdown/PM logic in core |
-| UI Shell does not leak into Core | pass | |
-| Third-party engines inside Adapter packages | pass | ADR 003 respected |
-| State changes via Command Bus where required | N/A | M3 explicitly excludes Bus ↔ Adapter integration |
-| Tests not weakened | pass | core 49 (+11 net new), remark 7, prosemirror 8; M1/M2 suites still green |
-| No silent fallback | pass with note | unknown syntax degrades to paragraph/text (explicit, tested) |
-| New ADR required | no | follows ADR 003; no new architecture decision |
+| Check                                        | Result         | Notes                                                                    |
+| -------------------------------------------- | -------------- | ------------------------------------------------------------------------ |
+| Every changed file maps to a task            | pass           | see Changed-file Mapping                                                 |
+| Every task maps to spec requirement          | pass           | tasks 01–08 align with OpenSpec delta specs + `tasks.md`                 |
+| Public contract changes explicit in OpenSpec | pass           | proposal/design/delta specs cover all new exports                        |
+| Deviations recorded                          | pass           | validation.md + task Run Logs                                            |
+| Core remains business-blind                  | pass           | no Markdown/PM logic in core                                             |
+| UI Shell does not leak into Core             | pass           |                                                                          |
+| Third-party engines inside Adapter packages  | pass           | ADR 003 respected                                                        |
+| State changes via Command Bus where required | N/A            | M3 explicitly excludes Bus ↔ Adapter integration                         |
+| Tests not weakened                           | pass           | core 49 (+11 net new), remark 7, prosemirror 8; M1/M2 suites still green |
+| No silent fallback                           | pass with note | unknown syntax degrades to paragraph/text (explicit, tested)             |
+| New ADR required                             | no             | follows ADR 003; no new architecture decision                            |
 
 ## Validation Review
 
@@ -142,37 +142,37 @@
 
 ## Accepted Deviations
 
-| Deviation | Task | Assessment |
-| --- | --- | --- |
-| Unknown Markdown syntax (e.g. list) degrades via mdast JSON stringify → paragraph text, not structured `ListBlock` | 03 | **Accepted.** Within M3 scope; OpenSpec does not require list round-trip; content preserved not silently dropped. |
-| `EngineSession` state stored in adapter-private `Map` keyed by `session.id` | 05 | **Accepted.** Protocol requires opaque session handle; Core cannot read internals. |
-| Round-trip import guard checks `import` lines only (test description contains forbidden strings) | 06 | **Accepted.** Guard purpose is wiring detection, not string-literal ban in comments. |
-| Task 07 reinforcement largely overlapped Task 02 boundary; added M1 capability + deps guards | 07 | **Accepted.** Net positive; no scope creep. |
-| `SerializationError` exported and instantiable but not yet thrown in serializer failure paths | 04 | **Accepted.** OpenSpec requires export + shape; M3 serializer happy-path only; failure path deferred to M4 placeholder strategy per error-model. |
+| Deviation                                                                                                          | Task | Assessment                                                                                                                                       |
+| ------------------------------------------------------------------------------------------------------------------ | ---- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Unknown Markdown syntax (e.g. list) degrades via mdast JSON stringify → paragraph text, not structured `ListBlock` | 03   | **Accepted.** Within M3 scope; OpenSpec does not require list round-trip; content preserved not silently dropped.                                |
+| `EngineSession` state stored in adapter-private `Map` keyed by `session.id`                                        | 05   | **Accepted.** Protocol requires opaque session handle; Core cannot read internals.                                                               |
+| Round-trip import guard checks `import` lines only (test description contains forbidden strings)                   | 06   | **Accepted.** Guard purpose is wiring detection, not string-literal ban in comments.                                                             |
+| Task 07 reinforcement largely overlapped Task 02 boundary; added M1 capability + deps guards                       | 07   | **Accepted.** Net positive; no scope creep.                                                                                                      |
+| `SerializationError` exported and instantiable but not yet thrown in serializer failure paths                      | 04   | **Accepted.** OpenSpec requires export + shape; M3 serializer happy-path only; failure path deferred to M4 placeholder strategy per error-model. |
 
 ## Required Updates (Step 8 — do not sync in this review)
 
 ### Docs
 
-| Path | Reason |
-| --- | --- |
-| `docs/engineering/error-model.md` | Still states `AdapterError`/`SerializationError` are future milestones; M3 now exports instantiable classes |
-| `docs/engineering/adapter-protocol.md` | Mark M3 implemented subset; note Bus rollback still deferred |
-| `docs/architecture/document-model.md` | Update status from design draft → M3 baseline implemented |
-| `docs/architecture/core-api.md` | Document new public exports; keep `createEditor` deferred |
-| `docs/architecture/package-layout.md` | Record `plugin-remark` / `plugin-prosemirror` packages now exist |
-| `docs/architecture/compatibility.md` | Version/export compatibility notes for new packages |
-| `docs/engineering/test-strategy.md` | Adapter contract + round-trip test matrix |
-| `docs/engineering/mvp-implementation-plan.md` | M3 acceptance criteria cross-reference |
-| `docs/glossary.md` | Confirm `AetherDoc`, `AetherSchema`, Adapter terms align with implementation |
-| `README.md` | Project status / package list |
+| Path                                          | Reason                                                                                                      |
+| --------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `docs/engineering/error-model.md`             | Still states `AdapterError`/`SerializationError` are future milestones; M3 now exports instantiable classes |
+| `docs/engineering/adapter-protocol.md`        | Mark M3 implemented subset; note Bus rollback still deferred                                                |
+| `docs/architecture/document-model.md`         | Update status from design draft → M3 baseline implemented                                                   |
+| `docs/architecture/core-api.md`               | Document new public exports; keep `createEditor` deferred                                                   |
+| `docs/architecture/package-layout.md`         | Record `plugin-remark` / `plugin-prosemirror` packages now exist                                            |
+| `docs/architecture/compatibility.md`          | Version/export compatibility notes for new packages                                                         |
+| `docs/engineering/test-strategy.md`           | Adapter contract + round-trip test matrix                                                                   |
+| `docs/engineering/mvp-implementation-plan.md` | M3 acceptance criteria cross-reference                                                                      |
+| `docs/glossary.md`                            | Confirm `AetherDoc`, `AetherSchema`, Adapter terms align with implementation                                |
+| `README.md`                                   | Project status / package list                                                                               |
 
 ### Specs (main OpenSpec sync on archive)
 
-| Path | Action |
-| --- | --- |
-| `openspec/specs/document-model/spec.md` | ADD from change delta |
-| `openspec/specs/adapter-base/spec.md` | ADD from change delta |
+| Path                                    | Action                                    |
+| --------------------------------------- | ----------------------------------------- |
+| `openspec/specs/document-model/spec.md` | ADD from change delta                     |
+| `openspec/specs/adapter-base/spec.md`   | ADD from change delta                     |
 | `openspec/specs/core-bootstrap/spec.md` | MODIFY package boundary from change delta |
 
 ### ADR

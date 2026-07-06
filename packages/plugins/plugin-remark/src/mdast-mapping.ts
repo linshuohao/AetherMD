@@ -27,13 +27,11 @@ import remarkGfm from "remark-gfm";
 import remarkStringify from "remark-stringify";
 import { unified } from "unified";
 
-const stringifyProcessor = unified()
-  .use(remarkGfm)
-  .use(remarkStringify, {
-    bullet: "-",
-    emphasis: "*",
-    strong: "*",
-  });
+const stringifyProcessor = unified().use(remarkGfm).use(remarkStringify, {
+  bullet: "-",
+  emphasis: "*",
+  strong: "*",
+});
 
 function textInline(value: string): TextInline {
   return { type: "text", text: value };

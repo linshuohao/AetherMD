@@ -155,6 +155,4 @@ if (problems.length > 0) {
   process.exit(1);
 }
 
-console.log(
-  `Aether workflow skill mirrors are in sync (${sourceSkills.length} skills).`,
-);
+console.log(`Aether workflow skill mirrors are in sync (${sourceSkills.length} skills).`);

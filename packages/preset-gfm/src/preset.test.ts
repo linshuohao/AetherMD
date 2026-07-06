@@ -22,16 +22,9 @@ describe("@aether-md/preset-gfm Manifest and factory", () => {
   });
 
   it("does not require createEditor or bootstrapCore in factory imports", () => {
-    const sourcePath = join(
-      dirname(fileURLToPath(import.meta.url)),
-      "..",
-      "src",
-      "index.ts",
-    );
+    const sourcePath = join(dirname(fileURLToPath(import.meta.url)), "..", "src", "index.ts");
     const source = readFileSync(sourcePath, "utf8");
-    const importLines = source
-      .split("\n")
-      .filter((line) => line.trimStart().startsWith("import "));
+    const importLines = source.split("\n").filter((line) => line.trimStart().startsWith("import "));
 
     for (const line of importLines) {
       assert.doesNotMatch(line, /createEditor|bootstrapCore|@aether-md\/react|AetherEditor/);
@@ -39,11 +32,7 @@ describe("@aether-md/preset-gfm Manifest and factory", () => {
   });
 
   it("depends on plugin packages rather than inlining remark or prosemirror syntax", () => {
-    const packagePath = join(
-      dirname(fileURLToPath(import.meta.url)),
-      "..",
-      "package.json",
-    );
+    const packagePath = join(dirname(fileURLToPath(import.meta.url)), "..", "package.json");
     const pkg = JSON.parse(readFileSync(packagePath, "utf8")) as {
       dependencies: Record<string, string>;
     };

@@ -27,12 +27,12 @@ AetherMD 的 AI-native workflow 在 Step 1 已允许跳过 OpenSpec，但缺少 
 
 ### Decision 2: OpenSpec 必要性与产物厚度分离
 
-| Path | OpenSpec | 产物厚度 |
-| --- | --- | --- |
-| Maintenance | 否 | PR 最小 traceability |
-| Quick Change | 否 | scoped branch + 结构化 PR + validation |
-| Spec Change | 是（轻量） | change-brief + delta + 单 task |
-| Full Change | 是（完整） | proposal + design + delta + tasks + plan + 多 task |
+| Path         | OpenSpec   | 产物厚度                                           |
+| ------------ | ---------- | -------------------------------------------------- |
+| Maintenance  | 否         | PR 最小 traceability                               |
+| Quick Change | 否         | scoped branch + 结构化 PR + validation             |
+| Spec Change  | 是（轻量） | change-brief + delta + 单 task                     |
+| Full Change  | 是（完整） | proposal + design + delta + tasks + plan + 多 task |
 
 ### Decision 3: Spec Change 轻量 OpenSpec 产物
 
@@ -83,14 +83,14 @@ Spec Change 使用 `change-brief.md`（合并 proposal/design 摘要）+ delta s
 
 ## Workflow Semantics 判例
 
-| 场景 | Path |
-| --- | --- |
-| 修复 README typo | Maintenance |
-| 修复 docs 段落表述（有语义） | Quick Change |
-| 单包单文件 bug + 测试 | Quick Change |
-| 更新 `engineering-workflow` 一条 requirement（单 task） | Spec Change |
-| 新增 workflow skill 并改路由 | Full Change |
-| 本 change（四 path 体系） | Full Change |
+| 场景                                                    | Path         |
+| ------------------------------------------------------- | ------------ |
+| 修复 README typo                                        | Maintenance  |
+| 修复 docs 段落表述（有语义）                            | Quick Change |
+| 单包单文件 bug + 测试                                   | Quick Change |
+| 更新 `engineering-workflow` 一条 requirement（单 task） | Spec Change  |
+| 新增 workflow skill 并改路由                            | Full Change  |
+| 本 change（四 path 体系）                               | Full Change  |
 
 ## PR Traceability 模板
 

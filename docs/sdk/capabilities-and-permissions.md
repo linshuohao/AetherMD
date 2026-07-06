@@ -8,10 +8,10 @@
 
 初始设计将框架服务依赖与运行时权限拆成两条独立轨道，避免把依赖声明和浏览器 API 许可混在同一概念平面：
 
-| 术语 | 用途 | 插件声明 | 宿主配置 | 类型 |
-| --- | --- | --- | --- | --- |
-| **Service Capability** | 框架级功能依赖（选区、引擎、历史栈） | `metadata.provides` / `metadata.requires` | — | `CapabilityId` |
-| **Runtime Permission** | 浏览器 / OS API 访问（网络、存储、Worker） | `security.requests` | `EditorConfig.security.grantedPermissions` | `PermissionId` |
+| 术语                   | 用途                                       | 插件声明                                  | 宿主配置                                   | 类型           |
+| ---------------------- | ------------------------------------------ | ----------------------------------------- | ------------------------------------------ | -------------- |
+| **Service Capability** | 框架级功能依赖（选区、引擎、历史栈）       | `metadata.provides` / `metadata.requires` | —                                          | `CapabilityId` |
+| **Runtime Permission** | 浏览器 / OS API 访问（网络、存储、Worker） | `security.requests`                       | `EditorConfig.security.grantedPermissions` | `PermissionId` |
 
 ```text
 Service Capability              Runtime Permission
@@ -32,12 +32,12 @@ metadata.provides:              EditorConfig.security.grantedPermissions:
 ```typescript
 /** 内核内置服务能力（由 Core / 官方 Adapter 注册） */
 export type CoreCapabilityId =
-  | 'core:history'
-  | 'core:selection'
-  | 'core:clipboard'
-  | 'core:engine'
-  | 'core:parser'
-  | 'core:assets';
+  | "core:history"
+  | "core:selection"
+  | "core:clipboard"
+  | "core:engine"
+  | "core:parser"
+  | "core:assets";
 
 /** 插件服务能力（命名空间隔离） */
 export type PluginCapabilityId = `plugin:${string}`;
@@ -46,10 +46,7 @@ export type PluginCapabilityId = `plugin:${string}`;
 export type VendorCapabilityId = `${string}:${string}`;
 
 /** 联合类型 — 编译期校验 */
-export type CapabilityId =
-  | CoreCapabilityId
-  | PluginCapabilityId
-  | VendorCapabilityId;
+export type CapabilityId = CoreCapabilityId | PluginCapabilityId | VendorCapabilityId;
 
 /** 运行时 branded type（可选，用于严格模式） */
 declare const CapabilityIdBrand: unique symbol;
@@ -58,25 +55,25 @@ export type BrandedCapabilityId = CapabilityId & { [CapabilityIdBrand]: true };
 
 **命名约定（RECOMMENDED）：**
 
-| 前缀 | 示例 | 说明 |
-| --- | --- | --- |
-| `core:` | `core:selection` | 内核或官方 Adapter 提供 |
-| `plugin:` | `plugin:bold` | 官方语法插件提供 |
-| `vendor:` | `acme:poll-card` | 第三方厂商扩展 |
+| 前缀      | 示例             | 说明                    |
+| --------- | ---------------- | ----------------------- |
+| `core:`   | `core:selection` | 内核或官方 Adapter 提供 |
+| `plugin:` | `plugin:bold`    | 官方语法插件提供        |
+| `vendor:` | `acme:poll-card` | 第三方厂商扩展          |
 
 ### PermissionId（Runtime Permission 类型）
 
 ```typescript
 /** Runtime Permission（宿主根据 security.requests 与 grantedPermissions 交集授予） */
 export type PermissionId =
-  | 'perm:dom'        // 创建/操作 DOM
-  | 'perm:clipboard'  // 剪贴板读写
-  | 'perm:network'    // fetch / XHR
-  | 'perm:storage'    // localStorage / IndexedDB
-  | 'perm:worker'     // Web Worker
-  | 'perm:timer'      // setTimeout / setInterval
-  | 'perm:async'      // Promise / async handler
-  | 'perm:global';    // window / globalThis
+  | "perm:dom" // 创建/操作 DOM
+  | "perm:clipboard" // 剪贴板读写
+  | "perm:network" // fetch / XHR
+  | "perm:storage" // localStorage / IndexedDB
+  | "perm:worker" // Web Worker
+  | "perm:timer" // setTimeout / setInterval
+  | "perm:async" // Promise / async handler
+  | "perm:global"; // window / globalThis
 ```
 
 ### 解析与校验流程
@@ -103,12 +100,12 @@ flowchart TB
 ```typescript
 /** Core 启动时自动 provides 的服务能力 */
 export const CORE_SERVICE_REGISTRY: readonly CoreCapabilityId[] = [
-  'core:history',
-  'core:selection',
-  'core:clipboard',
-  'core:engine',    // 需 plugin-prosemirror Adapter
-  'core:parser',    // 需 plugin-remark Adapter
-  'core:assets',
+  "core:history",
+  "core:selection",
+  "core:clipboard",
+  "core:engine", // 需 plugin-prosemirror Adapter
+  "core:parser", // 需 plugin-remark Adapter
+  "core:assets",
 ] as const;
 ```
 
@@ -118,10 +115,10 @@ export const CORE_SERVICE_REGISTRY: readonly CoreCapabilityId[] = [
 
 ```typescript
 export const M1_CORE_CAPABILITIES = [
-  'core:history',
-  'core:selection',
-  'core:clipboard',
-  'core:assets',
+  "core:history",
+  "core:selection",
+  "core:clipboard",
+  "core:assets",
 ] as const;
 ```
 

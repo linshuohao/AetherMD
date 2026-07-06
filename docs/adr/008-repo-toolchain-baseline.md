@@ -1,11 +1,11 @@
 # ADR 008: 采用轻量统一仓库工具底座
 
-| Field | Value |
-| --- | --- |
-| **Status** | Accepted |
-| **Date** | 2026-07-04 |
-| **Supersedes** | — |
-| **Related** | [ADR 009](009-release-governance.md)（M7 发布与 canary 执行策略） |
+| Field          | Value                                                             |
+| -------------- | ----------------------------------------------------------------- |
+| **Status**     | Accepted                                                          |
+| **Date**       | 2026-07-04                                                        |
+| **Supersedes** | —                                                                 |
+| **Related**    | [ADR 009](009-release-governance.md)（M7 发布与 canary 执行策略） |
 
 **Context**
 AetherMD 已进入 M1 Core Bootstrap 阶段，当前仓库已经包含 `@aether-md/core` 的最小实现、根级 pnpm workspace、基础验证脚本和 Git 规范检查。项目后续会演进为 NPM 包型 Monorepo，但 React、Vue、preset、plugin、example 等未来包尚未具备最小可验证职责。
@@ -15,6 +15,7 @@ AetherMD 已进入 M1 Core Bootstrap 阶段，当前仓库已经包含 `@aether-
 因此，仓库需要先建立轻量、可替换、以根命令为中心的工具底座，用于保护 M1 边界并为未来多包扩展保留一致入口。
 
 **Decision**
+
 1. 从 M1 开始建立稳定根命令：`pnpm build`、`pnpm typecheck`、`pnpm test`、`pnpm check`。
 2. 引入 task orchestration 工具统一多包脚本入口。具体工具选择属于实现细节，可以在不改变本 ADR 治理契约的前提下替换。
 3. 引入版本影响记录工具底座，用于记录 public API、package metadata、workspace package 边界和 SemVer 影响；但不启用正式 npm publish。
@@ -23,9 +24,10 @@ AetherMD 已进入 M1 Core Bootstrap 阶段，当前仓库已经包含 `@aether-
 6. 工具选择是仓库实现细节，不进入产品 spec、SDK spec 或 Core public API。
 
 **Trade-offs**
-* *优点*：CI、Codex 和贡献者共享同一组根命令；未来新增 package 可以接入统一入口；工具可替换而不改变治理契约；避免过早发布和空包带来的维护成本。
-* *代价*：M1 阶段需要维护少量仓库级配置；部分长期门禁仍需后续增量启用；版本影响记录在正式发布前仍以治理记录为主，而不是 npm 发布事实。
-* *放弃的方案*：暂不引入完整 release automation、canary release、examples matrix，也不把未来业务包提前落成空目录或空 package。
+
+- _优点_：CI、Codex 和贡献者共享同一组根命令；未来新增 package 可以接入统一入口；工具可替换而不改变治理契约；避免过早发布和空包带来的维护成本。
+- _代价_：M1 阶段需要维护少量仓库级配置；部分长期门禁仍需后续增量启用；版本影响记录在正式发布前仍以治理记录为主，而不是 npm 发布事实。
+- _放弃的方案_：暂不引入完整 release automation、canary release、examples matrix，也不把未来业务包提前落成空目录或空 package。
 
 **Consequences**
 后续新增 package 必须提供同名 `build`、`typecheck`、`test` 脚本，或在对应文档中说明为什么该 package 暂不适用某个根命令。

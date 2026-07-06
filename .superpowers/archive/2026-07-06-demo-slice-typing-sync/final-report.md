@@ -22,23 +22,23 @@
 
 ## Task Completed
 
-| Task | Status | Validation | Deviation |
-| --- | --- | --- | --- |
+| Task                          | Status    | Validation                 | Deviation                                                         |
+| ----------------------------- | --------- | -------------------------- | ----------------------------------------------------------------- |
 | `01-implement-pm-typing-sync` | completed | PASS (see `validation.md`) | List index in `text` + `children`; mark assertion structural only |
 
 ## Files Changed
 
-| File | Task / Reason |
-| --- | --- |
-| `packages/react/src/demo-slice-typing-sync.integration.test.tsx` | PM `insertText` CI acceptance |
-| `packages/react/src/aether-editor-content.tsx` | Dual-field dispatch payload for list sync |
-| `packages/plugins/plugin-prosemirror/src/view-bridge.ts` | List item resolution + test helpers |
-| `packages/plugins/plugin-prosemirror/src/engine.ts` | List item paragraph replace |
-| `packages/plugins/plugin-prosemirror/src/*.test.ts`, `index.ts` | Unit coverage + exports |
-| `openspec/specs/validation-suite/spec.md` | Main spec sync |
-| `openspec/changes/archive/.../baseline-record.md` | Typing scenario CI pass |
-| `docs/engineering/demo-slice-delivery-program.md` | Progress log |
-| `examples/react-basic/README.md` | Browser sign-off checklist |
+| File                                                             | Task / Reason                             |
+| ---------------------------------------------------------------- | ----------------------------------------- |
+| `packages/react/src/demo-slice-typing-sync.integration.test.tsx` | PM `insertText` CI acceptance             |
+| `packages/react/src/aether-editor-content.tsx`                   | Dual-field dispatch payload for list sync |
+| `packages/plugins/plugin-prosemirror/src/view-bridge.ts`         | List item resolution + test helpers       |
+| `packages/plugins/plugin-prosemirror/src/engine.ts`              | List item paragraph replace               |
+| `packages/plugins/plugin-prosemirror/src/*.test.ts`, `index.ts`  | Unit coverage + exports                   |
+| `openspec/specs/validation-suite/spec.md`                        | Main spec sync                            |
+| `openspec/changes/archive/.../baseline-record.md`                | Typing scenario CI pass                   |
+| `docs/engineering/demo-slice-delivery-program.md`                | Progress log                              |
+| `examples/react-basic/README.md`                                 | Browser sign-off checklist                |
 
 ## Validation Results
 

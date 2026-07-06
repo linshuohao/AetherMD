@@ -17,17 +17,11 @@ import { createGfmEditorPlugins } from "./test-helpers.js";
 
 const SLICE_A_FIXTURE = "Hello **world**\n";
 
-const SLICE_B_FIXTURE =
-  "Hello **bold** and *emphasis* with [link](https://example.com).\n";
+const SLICE_B_FIXTURE = "Hello **bold** and *emphasis* with [link](https://example.com).\n";
 
-const SLICE_C_FIXTURE =
-  "First **one**\n\nSecond **two**\n\nThird plain\n";
+const SLICE_C_FIXTURE = "First **one**\n\nSecond **two**\n\nThird plain\n";
 
-function EditorCapture({
-  onReady,
-}: {
-  onReady: (editor: AetherEditor) => void;
-}) {
+function EditorCapture({ onReady }: { onReady: (editor: AetherEditor) => void }) {
   const { editor, ready } = useAetherEditor();
   React.useEffect(() => {
     if (ready && editor) {
@@ -65,9 +59,7 @@ describe("Slice A block morphing (block-morphing-slice-1)", () => {
       assert.ok(document.querySelector('[data-testid="morphing-rendered"]'));
     });
 
-    const rendered = document.querySelector(
-      '[data-testid="morphing-rendered"]',
-    ) as HTMLElement;
+    const rendered = document.querySelector('[data-testid="morphing-rendered"]') as HTMLElement;
 
     await act(async () => {
       fireEvent.focus(rendered);
@@ -109,9 +101,7 @@ describe("Slice A block morphing (block-morphing-slice-1)", () => {
       assert.ok(document.querySelector('[data-testid="morphing-rendered"]'));
     });
 
-    const rendered = document.querySelector(
-      '[data-testid="morphing-rendered"]',
-    ) as HTMLElement;
+    const rendered = document.querySelector('[data-testid="morphing-rendered"]') as HTMLElement;
 
     await act(async () => {
       fireEvent.focus(rendered);
@@ -121,9 +111,7 @@ describe("Slice A block morphing (block-morphing-slice-1)", () => {
       assert.ok(document.querySelector('[data-testid="morphing-source"]'));
     });
 
-    const source = document.querySelector(
-      '[data-testid="morphing-source"]',
-    ) as HTMLTextAreaElement;
+    const source = document.querySelector('[data-testid="morphing-source"]') as HTMLTextAreaElement;
 
     await act(async () => {
       fireEvent.change(source, {
@@ -140,9 +128,7 @@ describe("Slice A block morphing (block-morphing-slice-1)", () => {
     });
 
     await waitFor(() => {
-      const renderedAfter = document.querySelector(
-        '[data-testid="morphing-rendered"]',
-      );
+      const renderedAfter = document.querySelector('[data-testid="morphing-rendered"]');
       assert.ok(renderedAfter);
       assert.ok(renderedAfter.querySelector("strong"));
       assert.equal(renderedAfter.textContent, "Hello universe");
@@ -204,9 +190,7 @@ describe("Slice A block morphing (block-morphing-slice-1)", () => {
 
     const editorBefore = capturedEditor;
 
-    const rendered = document.querySelector(
-      '[data-testid="morphing-rendered"]',
-    ) as HTMLElement;
+    const rendered = document.querySelector('[data-testid="morphing-rendered"]') as HTMLElement;
 
     await act(async () => {
       fireEvent.focus(rendered);
@@ -216,9 +200,7 @@ describe("Slice A block morphing (block-morphing-slice-1)", () => {
       assert.ok(document.querySelector('[data-testid="morphing-source"]'));
     });
 
-    const source = document.querySelector(
-      '[data-testid="morphing-source"]',
-    ) as HTMLTextAreaElement;
+    const source = document.querySelector('[data-testid="morphing-source"]') as HTMLTextAreaElement;
 
     await act(async () => {
       fireEvent.change(source, {
@@ -264,9 +246,7 @@ describe("Slice B GFM inline marks (block-morphing-slice-b)", () => {
       assert.ok(document.querySelector('[data-testid="morphing-rendered"]'));
     });
 
-    const rendered = document.querySelector(
-      '[data-testid="morphing-rendered"]',
-    ) as HTMLElement;
+    const rendered = document.querySelector('[data-testid="morphing-rendered"]') as HTMLElement;
 
     await act(async () => {
       fireEvent.focus(rendered);
@@ -328,9 +308,7 @@ describe("Slice B GFM inline marks (block-morphing-slice-b)", () => {
       assert.ok(document.querySelector('[data-testid="morphing-rendered"]'));
     });
 
-    const rendered = document.querySelector(
-      '[data-testid="morphing-rendered"]',
-    ) as HTMLElement;
+    const rendered = document.querySelector('[data-testid="morphing-rendered"]') as HTMLElement;
 
     await act(async () => {
       fireEvent.focus(rendered);
@@ -340,15 +318,12 @@ describe("Slice B GFM inline marks (block-morphing-slice-b)", () => {
       assert.ok(document.querySelector('[data-testid="morphing-source"]'));
     });
 
-    const source = document.querySelector(
-      '[data-testid="morphing-source"]',
-    ) as HTMLTextAreaElement;
+    const source = document.querySelector('[data-testid="morphing-source"]') as HTMLTextAreaElement;
 
     await act(async () => {
       fireEvent.change(source, {
         target: {
-          value:
-            "Hello **bold** and *universe* with [link](https://example.com).",
+          value: "Hello **bold** and *universe* with [link](https://example.com).",
         },
       });
     });
@@ -368,16 +343,12 @@ describe("Slice B GFM inline marks (block-morphing-slice-b)", () => {
       ) as HTMLElement | null;
       assert.ok(renderedAfter);
       assert.ok(renderedAfter.querySelector("em"));
-      assert.equal(
-        renderedAfter.querySelector("em")?.textContent,
-        "universe",
-      );
+      assert.equal(renderedAfter.querySelector("em")?.textContent, "universe");
     });
   });
 
   it("multi-block smoke: emphasis paragraph in AetherMorphingDocument", async () => {
-    const fixture =
-      "Plain intro\n\nA line with *emphasis* here\n\nThird plain\n";
+    const fixture = "Plain intro\n\nA line with *emphasis* here\n\nThird plain\n";
 
     render(
       React.createElement(
@@ -393,16 +364,12 @@ describe("Slice B GFM inline marks (block-morphing-slice-b)", () => {
 
     await waitFor(() => {
       assert.ok(
-        document.querySelector(
-          '[data-testid="aether-morphing-document"][data-ready="true"]',
-        ),
+        document.querySelector('[data-testid="aether-morphing-document"][data-ready="true"]'),
       );
     });
 
     const blockB = queryBlock(1);
-    const renderedB = blockB.querySelector(
-      '[data-testid="morphing-rendered"]',
-    ) as HTMLElement;
+    const renderedB = blockB.querySelector('[data-testid="morphing-rendered"]') as HTMLElement;
     assert.ok(renderedB.querySelector("em"));
     assert.equal(renderedB.textContent, "A line with emphasis here");
   });
@@ -428,17 +395,13 @@ describe("Slice C multi-block Block Focus (block-morphing-slice-c)", () => {
 
     await waitFor(() => {
       assert.ok(
-        document.querySelector(
-          '[data-testid="aether-morphing-document"][data-ready="true"]',
-        ),
+        document.querySelector('[data-testid="aether-morphing-document"][data-ready="true"]'),
       );
       assert.ok(document.querySelector('[data-testid="morphing-block-1"]'));
     });
 
     const blockB = queryBlock(1);
-    const renderedB = blockB.querySelector(
-      '[data-testid="morphing-rendered"]',
-    ) as HTMLElement;
+    const renderedB = blockB.querySelector('[data-testid="morphing-rendered"]') as HTMLElement;
 
     await act(async () => {
       fireEvent.focus(renderedB);
@@ -449,10 +412,7 @@ describe("Slice C multi-block Block Focus (block-morphing-slice-c)", () => {
       assert.equal(sources.length, 1);
       const sourceB = blockB.querySelector('[data-testid="morphing-source"]');
       assert.ok(sourceB);
-      assert.match(
-        (sourceB as HTMLTextAreaElement).value,
-        /\*\*two\*\*/,
-      );
+      assert.match((sourceB as HTMLTextAreaElement).value, /\*\*two\*\*/);
     });
 
     const blockA = queryBlock(0);
@@ -478,17 +438,13 @@ describe("Slice C multi-block Block Focus (block-morphing-slice-c)", () => {
 
     await waitFor(() => {
       assert.ok(
-        document.querySelector(
-          '[data-testid="aether-morphing-document"][data-ready="true"]',
-        ),
+        document.querySelector('[data-testid="aether-morphing-document"][data-ready="true"]'),
       );
       assert.ok(document.querySelector('[data-testid="morphing-block-0"]'));
     });
 
     const blockA = queryBlock(0);
-    const renderedA = blockA.querySelector(
-      '[data-testid="morphing-rendered"]',
-    ) as HTMLElement;
+    const renderedA = blockA.querySelector('[data-testid="morphing-rendered"]') as HTMLElement;
 
     await act(async () => {
       fireEvent.focus(renderedA);
@@ -499,19 +455,14 @@ describe("Slice C multi-block Block Focus (block-morphing-slice-c)", () => {
     });
 
     const blockB = queryBlock(1);
-    const renderedB = blockB.querySelector(
-      '[data-testid="morphing-rendered"]',
-    ) as HTMLElement;
+    const renderedB = blockB.querySelector('[data-testid="morphing-rendered"]') as HTMLElement;
 
     await act(async () => {
       fireEvent.focus(renderedB);
     });
 
     await waitFor(() => {
-      assert.equal(
-        document.querySelectorAll('[data-testid="morphing-source"]').length,
-        1,
-      );
+      assert.equal(document.querySelectorAll('[data-testid="morphing-source"]').length, 1);
       assert.ok(blockB.querySelector('[data-testid="morphing-source"]'));
       assert.ok(blockA.querySelector('[data-testid="morphing-rendered"]'));
       assert.equal(blockA.querySelector('[data-testid="morphing-source"]'), null);
@@ -537,17 +488,13 @@ describe("Slice C multi-block Block Focus (block-morphing-slice-c)", () => {
 
     await waitFor(() => {
       assert.ok(
-        document.querySelector(
-          '[data-testid="aether-morphing-document"][data-ready="true"]',
-        ),
+        document.querySelector('[data-testid="aether-morphing-document"][data-ready="true"]'),
       );
       assert.ok(document.querySelector('[data-testid="morphing-block-1"]'));
     });
 
     const blockB = queryBlock(1);
-    const renderedB = blockB.querySelector(
-      '[data-testid="morphing-rendered"]',
-    ) as HTMLElement;
+    const renderedB = blockB.querySelector('[data-testid="morphing-rendered"]') as HTMLElement;
 
     await act(async () => {
       fireEvent.focus(renderedB);
@@ -557,9 +504,7 @@ describe("Slice C multi-block Block Focus (block-morphing-slice-c)", () => {
       assert.ok(blockB.querySelector('[data-testid="morphing-source"]'));
     });
 
-    const sourceB = blockB.querySelector(
-      '[data-testid="morphing-source"]',
-    ) as HTMLTextAreaElement;
+    const sourceB = blockB.querySelector('[data-testid="morphing-source"]') as HTMLTextAreaElement;
 
     await act(async () => {
       fireEvent.change(sourceB, {
@@ -573,9 +518,7 @@ describe("Slice C multi-block Block Focus (block-morphing-slice-c)", () => {
     });
 
     const blockA = queryBlock(0);
-    const renderedA = blockA.querySelector(
-      '[data-testid="morphing-rendered"]',
-    ) as HTMLElement;
+    const renderedA = blockA.querySelector('[data-testid="morphing-rendered"]') as HTMLElement;
     assert.ok(renderedA.querySelector("strong"));
     assert.equal(renderedA.textContent, "First one");
   });
@@ -609,21 +552,15 @@ describe("Slice C multi-block Block Focus (block-morphing-slice-c)", () => {
 
     const blockA = queryBlock(0);
     await act(async () => {
-      fireEvent.focus(
-        blockA.querySelector('[data-testid="morphing-rendered"]') as HTMLElement,
-      );
+      fireEvent.focus(blockA.querySelector('[data-testid="morphing-rendered"]') as HTMLElement);
     });
 
     const blockB = queryBlock(1);
     await act(async () => {
-      fireEvent.focus(
-        blockB.querySelector('[data-testid="morphing-rendered"]') as HTMLElement,
-      );
+      fireEvent.focus(blockB.querySelector('[data-testid="morphing-rendered"]') as HTMLElement);
     });
 
-    const sourceB = blockB.querySelector(
-      '[data-testid="morphing-source"]',
-    ) as HTMLTextAreaElement;
+    const sourceB = blockB.querySelector('[data-testid="morphing-source"]') as HTMLTextAreaElement;
 
     await act(async () => {
       fireEvent.change(sourceB, {
@@ -635,8 +572,7 @@ describe("Slice C multi-block Block Focus (block-morphing-slice-c)", () => {
   });
 });
 
-const SLICE_D_FIXTURE =
-  "Intro paragraph\n\n- alpha\n- beta\n\n[link](https://example.com) tail\n";
+const SLICE_D_FIXTURE = "Intro paragraph\n\n- alpha\n- beta\n\n[link](https://example.com) tail\n";
 
 describe("Slice D list block morphing (block-morphing-slice-d)", () => {
   afterEach(() => {
@@ -775,16 +711,11 @@ describe("Slice D list block morphing (block-morphing-slice-d)", () => {
 
     const listBlock = queryBlock(1);
     await act(async () => {
-      fireEvent.focus(
-        listBlock.querySelector('[data-testid="morphing-rendered"]') as HTMLElement,
-      );
+      fireEvent.focus(listBlock.querySelector('[data-testid="morphing-rendered"]') as HTMLElement);
     });
 
     await waitFor(() => {
-      assert.equal(
-        document.querySelectorAll('[data-testid="morphing-source"]').length,
-        1,
-      );
+      assert.equal(document.querySelectorAll('[data-testid="morphing-source"]').length, 1);
     });
   });
 });

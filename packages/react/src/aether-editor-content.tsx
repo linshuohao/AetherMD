@@ -38,17 +38,11 @@ export function AetherEditorContent() {
           })
           .then((result) => {
             if (!result.ok) {
-              pendingLocalEditsRef.current = Math.max(
-                0,
-                pendingLocalEditsRef.current - 1,
-              );
+              pendingLocalEditsRef.current = Math.max(0, pendingLocalEditsRef.current - 1);
             }
           })
           .catch(() => {
-            pendingLocalEditsRef.current = Math.max(
-              0,
-              pendingLocalEditsRef.current - 1,
-            );
+            pendingLocalEditsRef.current = Math.max(0, pendingLocalEditsRef.current - 1);
           });
       },
     });

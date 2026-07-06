@@ -12,15 +12,15 @@
 
 ## Change
 
-| 字段 | 值 |
-| --- | --- |
-| OpenSpec change | `add-gfm-preset` |
-| Branch | `feat/add-gfm-preset`（从 `main` 创建；plan 时工作树仅含 OpenSpec artifacts） |
-| OpenSpec status | **complete**（4/4 artifacts：`proposal` / `design` / `specs` / `tasks`）；`openspec validate add-gfm-preset --strict` 待 implementation 后确认 |
-| Apply readiness | `isComplete: true`；OpenSpec high-level tasks 0/31 complete |
-| Version impact | `@aether-md/core` **无 breaking change**（类型面 additive-only 或不变）；新建 `@aether-md/preset-gfm`（`0.0.0`）；`@aether-md/plugin-remark` / `@aether-md/plugin-prosemirror` **minor-level behavior extension**；`SUPPORTED_MANIFEST_VERSIONS` / `manifestVersion` **不变**（`[1]`）；`pnpm-lock.yaml` **预期变更**（`remark-gfm`、preset workspace 链接） |
-| Expected commit scope | `feat(preset-gfm)`、`feat(plugin-remark)`、`feat(plugin-prosemirror)`、`test(...)`、`chore(core)`（boundary）；OpenSpec 产物 `docs(openspec)` |
-| Commit strategy | 每个 Superpowers task 可单独 commit（Conventional Commits）；PR body 须追踪 OpenSpec change id 与 task id；whole-change squash 留 PR merge 时决定 |
+| 字段                  | 值                                                                                                                                                                                                                                                                                                                                                           |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| OpenSpec change       | `add-gfm-preset`                                                                                                                                                                                                                                                                                                                                             |
+| Branch                | `feat/add-gfm-preset`（从 `main` 创建；plan 时工作树仅含 OpenSpec artifacts）                                                                                                                                                                                                                                                                                |
+| OpenSpec status       | **complete**（4/4 artifacts：`proposal` / `design` / `specs` / `tasks`）；`openspec validate add-gfm-preset --strict` 待 implementation 后确认                                                                                                                                                                                                               |
+| Apply readiness       | `isComplete: true`；OpenSpec high-level tasks 0/31 complete                                                                                                                                                                                                                                                                                                  |
+| Version impact        | `@aether-md/core` **无 breaking change**（类型面 additive-only 或不变）；新建 `@aether-md/preset-gfm`（`0.0.0`）；`@aether-md/plugin-remark` / `@aether-md/plugin-prosemirror` **minor-level behavior extension**；`SUPPORTED_MANIFEST_VERSIONS` / `manifestVersion` **不变**（`[1]`）；`pnpm-lock.yaml` **预期变更**（`remark-gfm`、preset workspace 链接） |
+| Expected commit scope | `feat(preset-gfm)`、`feat(plugin-remark)`、`feat(plugin-prosemirror)`、`test(...)`、`chore(core)`（boundary）；OpenSpec 产物 `docs(openspec)`                                                                                                                                                                                                                |
+| Commit strategy       | 每个 Superpowers task 可单独 commit（Conventional Commits）；PR body 须追踪 OpenSpec change id 与 task id；whole-change squash 留 PR merge 时决定                                                                                                                                                                                                            |
 
 范围边界：
 
@@ -70,23 +70,23 @@ OpenSpec artifacts：
 
 ## File Map
 
-| 路径 | 职责 |
-| --- | --- |
-| `packages/core/src/document-model.ts` | 已有 `ListBlock` / `LinkInline` / `MarkedInline` / `CustomBlock`；M4 **不修改** public shape（仅必要时补 contract tests） |
-| `packages/core/src/document-model.test.ts` | 可选：GFM 类型 shape smoke tests（JSON 可序列化） |
-| `packages/core/src/package-boundary.test.ts` | 确认 preset 不在 core exports；workspace 允许 preset package |
-| `packages/plugins/plugin-remark/src/parser.ts` | GFM parse：`list` / `link` / `strong` / `emphasis` → structured `AetherDoc` |
-| `packages/plugins/plugin-remark/src/serializer.ts` | GFM serialize + golden strings + `SerializationError`/占位符 |
-| `packages/plugins/plugin-remark/src/parser.test.ts` | 更新 list 结构化 parse；保留非 GFM 语法降级 |
-| `packages/plugins/plugin-remark/src/serializer.test.ts` | GFM 六类 + CustomBlock 占位符 + unsupported rejection |
-| `packages/plugins/plugin-prosemirror/src/conversion.ts` | `aetherDocToPm` / `pmToAetherDoc` GFM 结构往返 |
-| `packages/plugins/plugin-prosemirror/src/engine.ts` | PM schema 扩展（list nodes、link/strong/emphasis marks） |
-| `packages/plugins/plugin-prosemirror/src/engine.test.ts` | apply 成功/失败时 GFM 快照保留 |
-| `packages/plugins/plugin-prosemirror/src/round-trip.test.ts` | M3 paragraph/heading round-trip 保持 green |
-| `packages/preset-gfm/package.json` | 新 workspace package、`exports`、scripts |
-| `packages/preset-gfm/src/manifest.ts` | GFM preset Manifest（`manifestVersion: 1`，`metadata.name: gfm`） |
-| `packages/preset-gfm/src/index.ts` | 公开 factory（如 `createGfmPreset()`） |
-| `packages/preset-gfm/src/round-trip.test.ts` | 六类 GFM integration matrix（parse → apply → serialize） |
+| 路径                                                         | 职责                                                                                                                      |
+| ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| `packages/core/src/document-model.ts`                        | 已有 `ListBlock` / `LinkInline` / `MarkedInline` / `CustomBlock`；M4 **不修改** public shape（仅必要时补 contract tests） |
+| `packages/core/src/document-model.test.ts`                   | 可选：GFM 类型 shape smoke tests（JSON 可序列化）                                                                         |
+| `packages/core/src/package-boundary.test.ts`                 | 确认 preset 不在 core exports；workspace 允许 preset package                                                              |
+| `packages/plugins/plugin-remark/src/parser.ts`               | GFM parse：`list` / `link` / `strong` / `emphasis` → structured `AetherDoc`                                               |
+| `packages/plugins/plugin-remark/src/serializer.ts`           | GFM serialize + golden strings + `SerializationError`/占位符                                                              |
+| `packages/plugins/plugin-remark/src/parser.test.ts`          | 更新 list 结构化 parse；保留非 GFM 语法降级                                                                               |
+| `packages/plugins/plugin-remark/src/serializer.test.ts`      | GFM 六类 + CustomBlock 占位符 + unsupported rejection                                                                     |
+| `packages/plugins/plugin-prosemirror/src/conversion.ts`      | `aetherDocToPm` / `pmToAetherDoc` GFM 结构往返                                                                            |
+| `packages/plugins/plugin-prosemirror/src/engine.ts`          | PM schema 扩展（list nodes、link/strong/emphasis marks）                                                                  |
+| `packages/plugins/plugin-prosemirror/src/engine.test.ts`     | apply 成功/失败时 GFM 快照保留                                                                                            |
+| `packages/plugins/plugin-prosemirror/src/round-trip.test.ts` | M3 paragraph/heading round-trip 保持 green                                                                                |
+| `packages/preset-gfm/package.json`                           | 新 workspace package、`exports`、scripts                                                                                  |
+| `packages/preset-gfm/src/manifest.ts`                        | GFM preset Manifest（`manifestVersion: 1`，`metadata.name: gfm`）                                                         |
+| `packages/preset-gfm/src/index.ts`                           | 公开 factory（如 `createGfmPreset()`）                                                                                    |
+| `packages/preset-gfm/src/round-trip.test.ts`                 | 六类 GFM integration matrix（parse → apply → serialize）                                                                  |
 
 不得出现在 `@aether-md/core` 生产代码：`remark`、`prosemirror*`、`createEditor`、`presetGfm`、GFM 实现逻辑。
 
@@ -94,15 +94,15 @@ OpenSpec artifacts：
 
 每个 Phase / Task 结束前，实现者 **MUST** 确认：
 
-| 禁止项 | Guard |
-| --- | --- |
-| Core → Remark | `packages/core/package.json` 与 `packages/core/src/**` 无 `remark` import/dependency |
-| Core → ProseMirror | 同上，无 `prosemirror*` import/dependency |
-| Core → React / Vue | 无 UI 框架依赖或 import |
-| Core → GFM preset | 无 `@aether-md/preset-gfm` re-export 或 GFM 实现 |
-| Editor 入口 | `@aether-md/core` exports 不含 `createEditor`、`AetherEditor`、`EditorContext` |
-| bootstrap Adapter 加载 | `bootstrap.ts` / `capabilities.ts` 不 silent provide `core:engine` / `core:parser` |
-| Command Bus 集成 | `command-event-runtime.ts` 不调用 Adapter、不 emit 自动 `transactionFailed` |
+| 禁止项                 | Guard                                                                                |
+| ---------------------- | ------------------------------------------------------------------------------------ |
+| Core → Remark          | `packages/core/package.json` 与 `packages/core/src/**` 无 `remark` import/dependency |
+| Core → ProseMirror     | 同上，无 `prosemirror*` import/dependency                                            |
+| Core → React / Vue     | 无 UI 框架依赖或 import                                                              |
+| Core → GFM preset      | 无 `@aether-md/preset-gfm` re-export 或 GFM 实现                                     |
+| Editor 入口            | `@aether-md/core` exports 不含 `createEditor`、`AetherEditor`、`EditorContext`       |
+| bootstrap Adapter 加载 | `bootstrap.ts` / `capabilities.ts` 不 silent provide `core:engine` / `core:parser`   |
+| Command Bus 集成       | `command-event-runtime.ts` 不调用 Adapter、不 emit 自动 `transactionFailed`          |
 
 **Core package guard（Phase 7 / Task 07 必跑）：**
 
@@ -206,15 +206,15 @@ rg -i "remark|prosemirror|react|vue|gfm|createEditor|AetherEditor|EditorContext|
 
 **GFM golden strings（design Decision 3，integration 断言以此为准）：**
 
-| 结构 | Serializer 输出 |
-| --- | --- |
-| Strong | `**text**` |
-| Emphasis | `*text*` |
-| Unordered list | `- item\n`（单层，item 内单 paragraph） |
-| Ordered list | `1. item\n`（建议至少 2 items single-level） |
-| Link | `[text](href)`（`title` 为空时 omit） |
-| Heading | M3：`#` repeat + space + text |
-| Paragraph | M3：text + `\n`，块间 `\n\n` |
+| 结构           | Serializer 输出                              |
+| -------------- | -------------------------------------------- |
+| Strong         | `**text**`                                   |
+| Emphasis       | `*text*`                                     |
+| Unordered list | `- item\n`（单层，item 内单 paragraph）      |
+| Ordered list   | `1. item\n`（建议至少 2 items single-level） |
+| Link           | `[text](href)`（`title` 为空时 omit）        |
+| Heading        | M3：`#` repeat + space + text                |
+| Paragraph      | M3：text + `\n`，块间 `\n\n`                 |
 
 **产出：** 六类 GFM round-trip + M3 regression 绿。
 
@@ -273,74 +273,74 @@ rg -i "remark|prosemirror|react|vue|gfm|createEditor|AetherEditor|EditorContext|
 
 ## Boundary Risks
 
-| 风险 | 触发点 | 处理方式 |
-| --- | --- | --- |
-| Core 直接依赖 Remark/PM | 在 core 内 parse/serialize 图省事 | 仅 plugin package 引入引擎；Phase 7 guard |
-| 误实现 `createEditor` | 为 round-trip 加宿主入口 | integration test 显式 wiring；boundary 禁止 export |
-| GFM 变体 vs golden string 争议 | Parser/Serializer 不一致 | design Decision 3：Parser 宽容、Serializer 固定；测试 assert golden |
-| Engine schema 映射不一致 | list/link/mark 编辑后丢失 | 共享 GFM fixture `AetherDoc` JSON 作 contract 中间断言 |
-| M3 list 降级测试与 M4 冲突 | 保留旧 parser test | Phase 2 更新 list test；M3 paragraph/heading 保持 |
-| SerializationError rejection vs 占位符混淆 | 同一 serializer 路径 | Phase 6 分场景测试；CustomBlock 不 throw，unknown reject |
-| preset 复制 Remark/PM 逻辑 | factory 内联 parse | preset 仅 Manifest + wiring；语法在 plugin packages |
-| scope creep 到 M5/M6 | compile-layer、Command rollback | Phase 7 non-goals checklist |
-| lockfile/依赖污染 Core | workspace hoisting 误配 | 检查 `packages/core/package.json` dependencies |
-| 无关文件 commit | OpenSpec 与实现混 unrelated dirty | Code-Management 区 |
+| 风险                                       | 触发点                            | 处理方式                                                            |
+| ------------------------------------------ | --------------------------------- | ------------------------------------------------------------------- |
+| Core 直接依赖 Remark/PM                    | 在 core 内 parse/serialize 图省事 | 仅 plugin package 引入引擎；Phase 7 guard                           |
+| 误实现 `createEditor`                      | 为 round-trip 加宿主入口          | integration test 显式 wiring；boundary 禁止 export                  |
+| GFM 变体 vs golden string 争议             | Parser/Serializer 不一致          | design Decision 3：Parser 宽容、Serializer 固定；测试 assert golden |
+| Engine schema 映射不一致                   | list/link/mark 编辑后丢失         | 共享 GFM fixture `AetherDoc` JSON 作 contract 中间断言              |
+| M3 list 降级测试与 M4 冲突                 | 保留旧 parser test                | Phase 2 更新 list test；M3 paragraph/heading 保持                   |
+| SerializationError rejection vs 占位符混淆 | 同一 serializer 路径              | Phase 6 分场景测试；CustomBlock 不 throw，unknown reject            |
+| preset 复制 Remark/PM 逻辑                 | factory 内联 parse                | preset 仅 Manifest + wiring；语法在 plugin packages                 |
+| scope creep 到 M5/M6                       | compile-layer、Command rollback   | Phase 7 non-goals checklist                                         |
+| lockfile/依赖污染 Core                     | workspace hoisting 误配           | 检查 `packages/core/package.json` dependencies                      |
+| 无关文件 commit                            | OpenSpec 与实现混 unrelated dirty | Code-Management 区                                                  |
 
 ## Validation Matrix
 
-| Phase | OpenSpec Requirement | Validation 入口 | Intuitive Verification | Notes |
-| --- | --- | --- | --- | --- |
-| 1 | GFM built-in types have structured round-trip coverage | `pnpm core:test` | `document-model.test.ts` GFM fixture JSON 纯净 | 类型前提；round-trip 在 Phase 5 |
-| 1 | Extended document types exported without M3 round-trip coverage (MODIFIED) | `pnpm core:test` | M3 tests 不要求 extended types round-trip | export smoke |
-| 1 | CustomBlock remains outside M4 GFM round-trip matrix | `pnpm core:test` + review | GFM integration 不含 CustomBlock structured round-trip | 占位符在 Phase 6 |
-| 2 | Remark adapters support GFM subset parse and serialize | `pnpm --filter @aether-md/plugin-remark test` | parser/serializer GFM unit tests | golden strings |
-| 2 | Remark plugin provides Parser and Serializer adapters (MODIFIED) | `pnpm --filter @aether-md/plugin-remark test` | M3 + GFM samples；非 GFM 不静默丢失 | 更新 list test |
-| 3 | ProseMirror engine preserves GFM structures through edit leg | `pnpm --filter @aether-md/plugin-prosemirror test` | apply 成功/失败 GFM snapshot tests | conversion + engine |
-| 4 | GFM preset package exists in workspace | `pnpm check` | preset build/typecheck/test scripts 执行 | workspace 图含 preset |
-| 4 | GFM preset exposes Manifest and public factory entry | `pnpm --filter @aether-md/preset-gfm test` | Manifest `manifestVersion: 1`, `name: gfm` | 无 createEditor |
-| 4 | Workspace includes GFM preset without core re-export | `pnpm core:test` | `package-boundary.test.ts` 无 presetGfm export | Core 无新引擎依赖 |
-| 5 | GFM preset owns GFM round-trip integration test matrix | `pnpm test` | preset `round-trip.test.ts` 六类语法 | parse → apply → serialize |
-| 5 | GFM Markdown round-trip verified across adapter packages | `pnpm test` | cross-package integration 绿 | 无 createEditor/Shell |
-| 5 | M3 minimal Markdown round-trip is verified (MODIFIED) | `pnpm test` | `round-trip.test.ts` paragraph/heading 仍 pass | regression |
-| 6 | SerializationError and placeholder strategy (Serializer paths) | `pnpm --filter @aether-md/plugin-remark test` | CustomBlock 占位符 + unsupported rejection | `SerializationError` shape |
-| 7 | M1 excludes later milestone behavior (MODIFIED) | `pnpm core:test` | M1 bootstrap tests 不被 GFM 默认拉入 | intentional only |
-| 7 | Core package boundary excludes editor and GFM preset in core | `pnpm core:test` + `rg` guard | 无 createEditor/presetGfm/remark in core | Phase 7 checklist |
-| 7 | Adapter packages + preset in workspace verification | `pnpm check` | 全 workspace build/typecheck/test 绿 | 汇总 gate |
-| 7 | Non-goals guard | review + `openspec validate add-gfm-preset --strict` | §7 Explicit non-goals | 无 scope creep |
+| Phase | OpenSpec Requirement                                                       | Validation 入口                                      | Intuitive Verification                                 | Notes                           |
+| ----- | -------------------------------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------ | ------------------------------- |
+| 1     | GFM built-in types have structured round-trip coverage                     | `pnpm core:test`                                     | `document-model.test.ts` GFM fixture JSON 纯净         | 类型前提；round-trip 在 Phase 5 |
+| 1     | Extended document types exported without M3 round-trip coverage (MODIFIED) | `pnpm core:test`                                     | M3 tests 不要求 extended types round-trip              | export smoke                    |
+| 1     | CustomBlock remains outside M4 GFM round-trip matrix                       | `pnpm core:test` + review                            | GFM integration 不含 CustomBlock structured round-trip | 占位符在 Phase 6                |
+| 2     | Remark adapters support GFM subset parse and serialize                     | `pnpm --filter @aether-md/plugin-remark test`        | parser/serializer GFM unit tests                       | golden strings                  |
+| 2     | Remark plugin provides Parser and Serializer adapters (MODIFIED)           | `pnpm --filter @aether-md/plugin-remark test`        | M3 + GFM samples；非 GFM 不静默丢失                    | 更新 list test                  |
+| 3     | ProseMirror engine preserves GFM structures through edit leg               | `pnpm --filter @aether-md/plugin-prosemirror test`   | apply 成功/失败 GFM snapshot tests                     | conversion + engine             |
+| 4     | GFM preset package exists in workspace                                     | `pnpm check`                                         | preset build/typecheck/test scripts 执行               | workspace 图含 preset           |
+| 4     | GFM preset exposes Manifest and public factory entry                       | `pnpm --filter @aether-md/preset-gfm test`           | Manifest `manifestVersion: 1`, `name: gfm`             | 无 createEditor                 |
+| 4     | Workspace includes GFM preset without core re-export                       | `pnpm core:test`                                     | `package-boundary.test.ts` 无 presetGfm export         | Core 无新引擎依赖               |
+| 5     | GFM preset owns GFM round-trip integration test matrix                     | `pnpm test`                                          | preset `round-trip.test.ts` 六类语法                   | parse → apply → serialize       |
+| 5     | GFM Markdown round-trip verified across adapter packages                   | `pnpm test`                                          | cross-package integration 绿                           | 无 createEditor/Shell           |
+| 5     | M3 minimal Markdown round-trip is verified (MODIFIED)                      | `pnpm test`                                          | `round-trip.test.ts` paragraph/heading 仍 pass         | regression                      |
+| 6     | SerializationError and placeholder strategy (Serializer paths)             | `pnpm --filter @aether-md/plugin-remark test`        | CustomBlock 占位符 + unsupported rejection             | `SerializationError` shape      |
+| 7     | M1 excludes later milestone behavior (MODIFIED)                            | `pnpm core:test`                                     | M1 bootstrap tests 不被 GFM 默认拉入                   | intentional only                |
+| 7     | Core package boundary excludes editor and GFM preset in core               | `pnpm core:test` + `rg` guard                        | 无 createEditor/presetGfm/remark in core               | Phase 7 checklist               |
+| 7     | Adapter packages + preset in workspace verification                        | `pnpm check`                                         | 全 workspace build/typecheck/test 绿                   | 汇总 gate                       |
+| 7     | Non-goals guard                                                            | review + `openspec validate add-gfm-preset --strict` | §7 Explicit non-goals                                  | 无 scope creep                  |
 
 **汇总命令映射：**
 
-| 命令 | 覆盖 |
-| --- | --- |
-| `pnpm core:test` | Phase 1 document-model；Phase 4/7 core boundary；M1/M2 回归 |
-| `pnpm test` | Phase 2–6 plugin + preset unit/integration；Phase 5 cross-package |
-| `pnpm check` | Phase 4–7 全 workspace gate（build + typecheck + test + skills check） |
+| 命令             | 覆盖                                                                   |
+| ---------------- | ---------------------------------------------------------------------- |
+| `pnpm core:test` | Phase 1 document-model；Phase 4/7 core boundary；M1/M2 回归            |
+| `pnpm test`      | Phase 2–6 plugin + preset unit/integration；Phase 5 cross-package      |
+| `pnpm check`     | Phase 4–7 全 workspace gate（build + typecheck + test + skills check） |
 
 ## Task Breakdown
 
 高层 Task（Step 4 `aether-workflow-create-task` 将拆为 `.superpowers/tasks/add-gfm-preset/*.md`；每 task **MUST** 以失败测试开头）：
 
-| Task | Outcome | Allowed Area | Maps to OpenSpec tasks | Version Impact |
-| --- | --- | --- | --- | --- |
-| **01** Document-model contract | GFM 类型 export 确认 + optional contract tests | `packages/core/src/document-model*.ts` | §1（types 前提） | core 无 breaking |
-| **02** plugin-remark GFM | GFM parse/serialize + parser test 迁移 | `packages/plugins/plugin-remark/**` | §2.1–2.2, 2.4 | remark minor + lockfile |
-| **03** plugin-prosemirror GFM | PM schema/conversion + engine contract tests | `packages/plugins/plugin-prosemirror/**` | §3.1–3.5 | prosemirror minor |
-| **04** preset-gfm scaffold | workspace package + Manifest + factory | `packages/preset-gfm/**` | §1.1–1.3 | 新 package `0.0.0` |
-| **05** GFM round-trip integration | 六类语法 matrix + M3 regression | `packages/preset-gfm/src/round-trip.test.ts`；确认 M3 `round-trip.test.ts` | §4.1–4.4 | 无新 public API beyond factory |
-| **06** SerializationError / placeholder | CustomBlock 占位符 + unsupported rejection | `packages/plugins/plugin-remark/src/serializer*.ts` | §2.3, 2.5 | 使用已有 `SerializationError` class |
-| **07** Boundary + full verification | core boundary + `pnpm check` + openspec validate + non-goals | `packages/core/src/package-boundary.test.ts`；全 change | §5–§7, §8 | 确认 lockfile；manifestVersion 不变 |
+| Task                                    | Outcome                                                      | Allowed Area                                                               | Maps to OpenSpec tasks | Version Impact                      |
+| --------------------------------------- | ------------------------------------------------------------ | -------------------------------------------------------------------------- | ---------------------- | ----------------------------------- |
+| **01** Document-model contract          | GFM 类型 export 确认 + optional contract tests               | `packages/core/src/document-model*.ts`                                     | §1（types 前提）       | core 无 breaking                    |
+| **02** plugin-remark GFM                | GFM parse/serialize + parser test 迁移                       | `packages/plugins/plugin-remark/**`                                        | §2.1–2.2, 2.4          | remark minor + lockfile             |
+| **03** plugin-prosemirror GFM           | PM schema/conversion + engine contract tests                 | `packages/plugins/plugin-prosemirror/**`                                   | §3.1–3.5               | prosemirror minor                   |
+| **04** preset-gfm scaffold              | workspace package + Manifest + factory                       | `packages/preset-gfm/**`                                                   | §1.1–1.3               | 新 package `0.0.0`                  |
+| **05** GFM round-trip integration       | 六类语法 matrix + M3 regression                              | `packages/preset-gfm/src/round-trip.test.ts`；确认 M3 `round-trip.test.ts` | §4.1–4.4               | 无新 public API beyond factory      |
+| **06** SerializationError / placeholder | CustomBlock 占位符 + unsupported rejection                   | `packages/plugins/plugin-remark/src/serializer*.ts`                        | §2.3, 2.5              | 使用已有 `SerializationError` class |
+| **07** Boundary + full verification     | core boundary + `pnpm check` + openspec validate + non-goals | `packages/core/src/package-boundary.test.ts`；全 change                    | §5–§7, §8              | 确认 lockfile；manifestVersion 不变 |
 
 **M4 GFM 六类语法测试矩阵（implementation task 内固定）：**
 
-| 样例 | Markdown fixture | 必测 |
-| --- | --- | --- |
-| Paragraph | `"Hello world\n"` | parse → apply → serialize（M3 regression） |
-| Heading + paragraph | `"## Title\n\nBody\n"` | 同上（M3 regression） |
-| Strong | `"**bold**\n"` | structured round-trip |
-| Emphasis | `"*italic*\n"` | structured round-trip |
-| Unordered list | `"- item one\n- item two\n"` | `ListBlock` round-trip |
-| Ordered list | `"1. first\n2. second\n"` | `ListBlock` ordered round-trip |
-| Link | `"[label](https://example.com)\n"` | `LinkInline` round-trip |
+| 样例                | Markdown fixture                   | 必测                                       |
+| ------------------- | ---------------------------------- | ------------------------------------------ |
+| Paragraph           | `"Hello world\n"`                  | parse → apply → serialize（M3 regression） |
+| Heading + paragraph | `"## Title\n\nBody\n"`             | 同上（M3 regression）                      |
+| Strong              | `"**bold**\n"`                     | structured round-trip                      |
+| Emphasis            | `"*italic*\n"`                     | structured round-trip                      |
+| Unordered list      | `"- item one\n- item two\n"`       | `ListBlock` round-trip                     |
+| Ordered list        | `"1. first\n2. second\n"`          | `ListBlock` ordered round-trip             |
+| Link                | `"[label](https://example.com)\n"` | `LinkInline` round-trip                    |
 
 ## Review Focus
 
@@ -359,13 +359,13 @@ rg -i "remark|prosemirror|react|vue|gfm|createEditor|AetherEditor|EditorContext|
 
 ## Open Questions
 
-| 问题 | Plan 阶段处理 | 阻塞？ |
-| --- | --- | --- |
-| `createGfmPreset()` 精确 API（仅 manifest vs bundled adapters） | Task 04 在 preset package 内定稿；须满足 boundary tests 与 integration wiring | 否 |
-| Ordered list 多 item 最小矩阵 | Task 05 建议至少 2 items single-level（design 建议） | 否 |
-| `LinkInline.title` 非空时 Serializer 行为 | M4 round-trip 矩阵 omit title；title parse-only | 否 |
-| `remark-gfm` vs 手写 mdast 映射 | Task 02 优先 `remark-gfm`；体积监控 principles Gzip budget | 否 |
-| Shared contract test package | 默认 preset 内 integration test（与 M3 模式一致） | 否 |
+| 问题                                                            | Plan 阶段处理                                                                 | 阻塞？ |
+| --------------------------------------------------------------- | ----------------------------------------------------------------------------- | ------ |
+| `createGfmPreset()` 精确 API（仅 manifest vs bundled adapters） | Task 04 在 preset package 内定稿；须满足 boundary tests 与 integration wiring | 否     |
+| Ordered list 多 item 最小矩阵                                   | Task 05 建议至少 2 items single-level（design 建议）                          | 否     |
+| `LinkInline.title` 非空时 Serializer 行为                       | M4 round-trip 矩阵 omit title；title parse-only                               | 否     |
+| `remark-gfm` vs 手写 mdast 映射                                 | Task 02 优先 `remark-gfm`；体积监控 principles Gzip budget                    | 否     |
+| Shared contract test package                                    | 默认 preset 内 integration test（与 M3 模式一致）                             | 否     |
 
 实现中若需偏离 OpenSpec design 决定，**MUST** 先更新 OpenSpec change，再改代码。
 
@@ -386,14 +386,14 @@ rg -i "remark|prosemirror|react|vue|gfm|createEditor|AetherEditor|EditorContext|
 
 **Commit 策略：**
 
-| 类型 | scope 示例 | 时机 |
-| --- | --- | --- |
-| `docs(openspec)` | OpenSpec artifacts | 已完成 |
-| `feat(preset-gfm)` | Manifest、factory、integration tests | Task 04–05 |
-| `feat(plugin-remark)` | GFM parse/serialize、SerializationError | Task 02, 06 |
-| `feat(plugin-prosemirror)` | PM schema/conversion | Task 03 |
-| `test(core)` | boundary / document-model contract | Task 01, 07 |
-| `chore(core)` | boundary-only 微调 | Task 07 |
+| 类型                       | scope 示例                              | 时机        |
+| -------------------------- | --------------------------------------- | ----------- |
+| `docs(openspec)`           | OpenSpec artifacts                      | 已完成      |
+| `feat(preset-gfm)`         | Manifest、factory、integration tests    | Task 04–05  |
+| `feat(plugin-remark)`      | GFM parse/serialize、SerializationError | Task 02, 06 |
+| `feat(plugin-prosemirror)` | PM schema/conversion                    | Task 03     |
+| `test(core)`               | boundary / document-model contract      | Task 01, 07 |
+| `chore(core)`              | boundary-only 微调                      | Task 07     |
 
 - 推荐 **一 Superpowers task 一 commit**；PR 描述链接 OpenSpec change id 与各 task id。
 - Archive 前使用 `aether-workflow-update-docs-spec` sync main specs（`gfm-preset`、`document-model`、`adapter-base`、`core-bootstrap`）。

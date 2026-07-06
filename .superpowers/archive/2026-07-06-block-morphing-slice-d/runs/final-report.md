@@ -10,8 +10,8 @@
 
 ## Task Completed
 
-| Task | Status | Validation |
-| --- | --- | --- |
+| Task                               | Status   | Validation         |
+| ---------------------------------- | -------- | ------------------ |
 | 01-implement-slice-d-list-morphing | Complete | `pnpm check` green |
 
 ## Validation Results

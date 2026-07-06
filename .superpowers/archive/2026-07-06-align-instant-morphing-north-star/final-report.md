@@ -22,31 +22,31 @@
 
 ## Tasks Completed
 
-| Task | Status | Validation | Deviation |
-| --- | --- | --- | --- |
-| 1.1 Product experience spec | complete | doc review | — |
-| 1.2 Principles link | complete | link check | — |
-| 1.3 Glossary entries | complete | glossary review | — |
-| 2.1 Project status L1/L2 | complete | doc review | — |
-| 2.2 Roadmap slices | complete | doc review | — |
-| 2.3 README reading path | complete | doc review | — |
-| 2.4 react-basic README | complete | doc review | — |
-| 3.1 openspec validate | complete | CLI pass | — |
-| 3.2 Archive + spec sync | complete | this report | — |
+| Task                        | Status   | Validation      | Deviation |
+| --------------------------- | -------- | --------------- | --------- |
+| 1.1 Product experience spec | complete | doc review      | —         |
+| 1.2 Principles link         | complete | link check      | —         |
+| 1.3 Glossary entries        | complete | glossary review | —         |
+| 2.1 Project status L1/L2    | complete | doc review      | —         |
+| 2.2 Roadmap slices          | complete | doc review      | —         |
+| 2.3 README reading path     | complete | doc review      | —         |
+| 2.4 react-basic README      | complete | doc review      | —         |
+| 3.1 openspec validate       | complete | CLI pass        | —         |
+| 3.2 Archive + spec sync     | complete | this report     | —         |
 
 ## Files Changed
 
-| File | Task / Reason | Notes |
-| --- | --- | --- |
-| `docs/architecture/product-experience-spec.md` | 1.1 | new authoritative UX spec |
-| `docs/architecture/principles.md` | 1.2 | link to product experience spec |
-| `docs/glossary.md` | 1.3 | morphing terminology |
-| `docs/project-status.md` | 2.1 | L1/L2 narrative |
-| `docs/architecture/roadmap.md` | 2.2 | Slice A–D pointers |
-| `docs/README.md` | 2.3 | reading path |
-| `docs/architecture/design-doc-map.md` | 1.1 | map entry |
-| `examples/react-basic/README.md` | 2.4 | L1 demo clarification |
-| `openspec/specs/*` | 3.2 | main spec sync |
+| File                                           | Task / Reason | Notes                           |
+| ---------------------------------------------- | ------------- | ------------------------------- |
+| `docs/architecture/product-experience-spec.md` | 1.1           | new authoritative UX spec       |
+| `docs/architecture/principles.md`              | 1.2           | link to product experience spec |
+| `docs/glossary.md`                             | 1.3           | morphing terminology            |
+| `docs/project-status.md`                       | 2.1           | L1/L2 narrative                 |
+| `docs/architecture/roadmap.md`                 | 2.2           | Slice A–D pointers              |
+| `docs/README.md`                               | 2.3           | reading path                    |
+| `docs/architecture/design-doc-map.md`          | 1.1           | map entry                       |
+| `examples/react-basic/README.md`               | 2.4           | L1 demo clarification           |
+| `openspec/specs/*`                             | 3.2           | main spec sync                  |
 
 ## Validation Results
 

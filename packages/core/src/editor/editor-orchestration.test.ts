@@ -48,13 +48,10 @@ function createMockPreset(overrides?: {
     },
     engine: {
       name: "mock-engine",
-      async create(initialDoc: AetherDoc) {
+      async create(_initialDoc: AetherDoc) {
         return { id: "session-1" };
       },
-      async apply(
-        _session: { id: string },
-        request: AdapterCommandRequest,
-      ) {
+      async apply(_session: { id: string }, request: AdapterCommandRequest) {
         if (request.type !== "replaceText") {
           return { ok: false };
         }
@@ -102,8 +99,7 @@ describe("createEditor orchestration", () => {
     await assert.rejects(
       () => createEditor({ plugins: [plugin] }),
       (error: unknown) =>
-        error instanceof CoreError &&
-        error.code === "MANIFEST_VERSION_UNSUPPORTED",
+        error instanceof CoreError && error.code === "MANIFEST_VERSION_UNSUPPORTED",
     );
   });
 
@@ -133,8 +129,7 @@ describe("createEditor orchestration", () => {
 
     assert.equal(parseSpy.called, false);
     assert.equal(
-      (editor.getDocument().children[0] as { children: { text: string }[] })
-        .children[0]?.text,
+      (editor.getDocument().children[0] as { children: { text: string }[] }).children[0]?.text,
       "direct",
     );
     await editor.dispose();
@@ -189,9 +184,7 @@ describe("createEditor orchestration", () => {
     assert.equal(result.ok, true);
     assert.equal(changes.length, 1);
     assert.equal(
-      (
-        editor.getDocument().children[0] as { children: { text: string }[] }
-      ).children[0]?.text,
+      (editor.getDocument().children[0] as { children: { text: string }[] }).children[0]?.text,
       "updated",
     );
     await editor.dispose();
@@ -231,9 +224,7 @@ describe("createEditor orchestration", () => {
     assert.equal(result.ok, false);
     assert.equal(failures.length, 1);
     assert.equal(
-      (
-        editor.getDocument().children[0] as { children: { text: string }[] }
-      ).children[0]?.text,
+      (editor.getDocument().children[0] as { children: { text: string }[] }).children[0]?.text,
       "before",
     );
     await editor.dispose();
@@ -269,7 +260,10 @@ describe("createEditor orchestration", () => {
     await editor.dispose();
     assert.equal(disposedEvents.length, 1);
 
-    const result = await editor.dispatch({ id: ENGINE_REPLACE_TEXT_COMMAND, payload: { blockIndex: 0, text: "x" } });
+    const result = await editor.dispatch({
+      id: ENGINE_REPLACE_TEXT_COMMAND,
+      payload: { blockIndex: 0, text: "x" },
+    });
     assert.equal(result.ok, false);
     assert.equal(result.error?.code, "EDITOR_DISPOSED");
   });

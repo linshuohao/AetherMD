@@ -5,10 +5,10 @@ Date: 2026-07-06
 
 ## Commands
 
-| Command | Result |
-| --- | --- |
-| `openspec validate align-instant-morphing-north-star --strict` | pass |
-| `pnpm check` | not required (docs-only change; no package code touched) |
+| Command                                                        | Result                                                   |
+| -------------------------------------------------------------- | -------------------------------------------------------- |
+| `openspec validate align-instant-morphing-north-star --strict` | pass                                                     |
+| `pnpm check`                                                   | not required (docs-only change; no package code touched) |
 
 ## Scope
 

@@ -1,8 +1,4 @@
-import type {
-  EngineAdapter,
-  ParserAdapter,
-  SerializerAdapter,
-} from "../adapter-types.js";
+import type { EngineAdapter, ParserAdapter, SerializerAdapter } from "../adapter-types.js";
 import { CoreError } from "../errors.js";
 import type { ExtensionManifest, ExtensionPlugin } from "../manifest.js";
 

@@ -16,24 +16,24 @@ M1–M6 期间，11 个 Full Change 走完整九步（proposal → plan → 7–
 
 按 2026-07 当前仓库的粗略统计，口径为：只看工作区内 `.md`、排除 `node_modules`、代码只计 `packages/` 与 `examples/` 下的 `ts/tsx`。单看 workflow 产物时，粗算 `.superpowers/` 与 `openspec/changes/archive/`：
 
-| 区域 | 行数量级 | 状态 |
-| --- | --- | --- |
-| `.superpowers/tasks/` | ~9,800 | 11 个 change，各 7–11 个 task |
-| `.superpowers/plans/` | ~3,800 | 每 change 一份 plan |
-| `.superpowers/reviews/` + `runs/` | ~4,500 | review + validation + final-report |
-| `openspec/changes/archive/` | ~5,700 | 已全部归档 |
-| `openspec/specs/` | ~2,200 | 当前契约真相（应保留） |
+| 区域                              | 行数量级 | 状态                               |
+| --------------------------------- | -------- | ---------------------------------- |
+| `.superpowers/tasks/`             | ~9,800   | 11 个 change，各 7–11 个 task      |
+| `.superpowers/plans/`             | ~3,800   | 每 change 一份 plan                |
+| `.superpowers/reviews/` + `runs/` | ~4,500   | review + validation + final-report |
+| `openspec/changes/archive/`       | ~5,700   | 已全部归档                         |
+| `openspec/specs/`                 | ~2,200   | 当前契约真相（应保留）             |
 
 OpenSpec 有 archive 目录；Superpowers **长期缺少压缩/归档步骤**，执行记录一直堆在根目录。Agent 和人类打开 `.superpowers/` 时，signal-to-noise 比很低。
 
 ## 三个诊断问题
 
-| 问题 | 答案 |
-| --- | --- |
-| 是工作流设计错了？ | **不完全是。** 四层模型与 task 边界仍然有效（见 [02](./02-layered-artifacts-and-boundaries.md)、[04](./04-task-as-minimum-execution-unit.md)）。 |
-| 是 **使用方式** 错了？ | **主要是。** Full Change 被过度使用；Discover 将「MVP 首次实现」默认映射为 Full Change。 |
-| 是任务粒度错了？ | **部分是。** 7–11 task/change 尚可；单 task 文件 100–160 行，metadata 对 **archive 后** 过厚。 |
-| 该不该清理？ | **应该。** 真相已在 `openspec/specs/` 与 final-report；中间 task/plan 应可压缩。 |
+| 问题                   | 答案                                                                                                                                             |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 是工作流设计错了？     | **不完全是。** 四层模型与 task 边界仍然有效（见 [02](./02-layered-artifacts-and-boundaries.md)、[04](./04-task-as-minimum-execution-unit.md)）。 |
+| 是 **使用方式** 错了？ | **主要是。** Full Change 被过度使用；Discover 将「MVP 首次实现」默认映射为 Full Change。                                                         |
+| 是任务粒度错了？       | **部分是。** 7–11 task/change 尚可；单 task 文件 100–160 行，metadata 对 **archive 后** 过厚。                                                   |
+| 该不该清理？           | **应该。** 真相已在 `openspec/specs/` 与 final-report；中间 task/plan 应可压缩。                                                                 |
 
 ## 四条路径：设计了，几乎没用上
 
@@ -109,12 +109,12 @@ Git history 已保存完整 task diff；archive 后不必让 **活跃工作区**
 
 ### 1. 重新定义 Full Change 门槛
 
-| 应 Full Change | 应 Spec / Quick Change |
-| --- | --- |
+| 应 Full Change                             | 应 Spec / Quick Change                              |
+| ------------------------------------------ | --------------------------------------------------- |
 | public SDK / Manifest / Command·Event 变更 | 新增或完善 **example / demo**（不改 public export） |
-| 新 capability 进 main spec | 文档澄清、测试补强（语义不变） |
-| workflow semantics 变更 | 纵向 slice（浏览器能打字） |
-| 多 task、多包、架构边界 | 单文件 GateLock demo 接线 |
+| 新 capability 进 main spec                 | 文档澄清、测试补强（语义不变）                      |
+| workflow semantics 变更                    | 纵向 slice（浏览器能打字）                          |
+| 多 task、多包、架构边界                    | 单文件 GateLock demo 接线                           |
 
 如果后续要继续调整 Discover，我会优先区分 **「首次实现 runtime 行为」** 与 **「首次可运行 demo」**：前者更像契约实现，后者更像交付切片，不必天然落到同样厚的路径。
 

@@ -5,10 +5,10 @@
 
 ## Commands
 
-| Command | Result |
-| --- | --- |
-| `openspec validate block-morphing-slice-b --strict` | ✅ pass |
-| `pnpm check` | ✅ pass (34 react tests, 15 preset-gfm tests) |
+| Command                                             | Result                                        |
+| --------------------------------------------------- | --------------------------------------------- |
+| `openspec validate block-morphing-slice-b --strict` | ✅ pass                                       |
+| `pnpm check`                                        | ✅ pass (34 react tests, 15 preset-gfm tests) |
 
 ## Acceptance
 

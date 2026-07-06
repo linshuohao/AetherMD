@@ -134,4 +134,3 @@ Run Log:
 Deviation:
 
 - 无新增失败测试：Task 01–06 已覆盖 Validation Matrix；以全绿 `pnpm check` 与 boundary guard 作为验证入口。
-

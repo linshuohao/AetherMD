@@ -8,11 +8,7 @@ import { createGfmPreset } from "./index.js";
 
 const schema = { version: 1 as const };
 
-async function roundTrip(
-  markdown: string,
-  blockIndex: number,
-  text: string,
-): Promise<string> {
+async function roundTrip(markdown: string, blockIndex: number, text: string): Promise<string> {
   const { parser, serializer, engine } = createGfmPreset();
   const doc = await parser.parse(markdown, schema);
   const session = await engine.create(doc);
@@ -50,29 +46,17 @@ describe("GFM preset cross-package round-trip matrix", () => {
   });
 
   it("round-trips unordered list with golden string output", async () => {
-    const result = await roundTrip(
-      "- item one\n- item two\n\nTail\n",
-      1,
-      "Updated tail",
-    );
+    const result = await roundTrip("- item one\n- item two\n\nTail\n", 1, "Updated tail");
     assert.equal(result, "- item one\n- item two\n\nUpdated tail\n");
   });
 
   it("round-trips ordered list with golden string output", async () => {
-    const result = await roundTrip(
-      "1. first\n2. second\n\nTail\n",
-      1,
-      "Updated tail",
-    );
+    const result = await roundTrip("1. first\n2. second\n\nTail\n", 1, "Updated tail");
     assert.equal(result, "1. first\n2. second\n\nUpdated tail\n");
   });
 
   it("round-trips link inline while editing an adjacent paragraph", async () => {
-    const result = await roundTrip(
-      "[label](https://example.com)\n\nTail\n",
-      1,
-      "Updated tail",
-    );
+    const result = await roundTrip("[label](https://example.com)\n\nTail\n", 1, "Updated tail");
     assert.equal(result, "[label](https://example.com)\n\nUpdated tail\n");
   });
 
@@ -84,9 +68,7 @@ describe("GFM preset cross-package round-trip matrix", () => {
       "round-trip.test.ts",
     );
     const source = readFileSync(sourcePath, "utf8");
-    const importLines = source
-      .split("\n")
-      .filter((line) => line.trimStart().startsWith("import "));
+    const importLines = source.split("\n").filter((line) => line.trimStart().startsWith("import "));
 
     for (const line of importLines) {
       assert.doesNotMatch(line, /createEditor|bootstrapCore|@aether-md\/react|AetherEditor/);

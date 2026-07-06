@@ -7,18 +7,10 @@ import React, { useState } from "react";
 
 import type { AetherEditor } from "@aether-md/core";
 
-import {
-  AetherEditorContent,
-  AetherEditorRoot,
-  useAetherEditor,
-} from "./index.js";
+import { AetherEditorContent, AetherEditorRoot, useAetherEditor } from "./index.js";
 import { createGfmEditorPlugins } from "./test-helpers.js";
 
-function EditorProbe({
-  onReady,
-}: {
-  onReady: (editor: AetherEditor) => void;
-}) {
+function EditorProbe({ onReady }: { onReady: (editor: AetherEditor) => void }) {
   const { editor, ready, markdown } = useAetherEditor();
 
   React.useEffect(() => {
@@ -27,11 +19,7 @@ function EditorProbe({
     }
   }, [ready, editor, onReady]);
 
-  return React.createElement(
-    "div",
-    { "data-testid": "markdown-probe" },
-    markdown,
-  );
+  return React.createElement("div", { "data-testid": "markdown-probe" }, markdown);
 }
 
 describe("GateLock integration (ci-checklist #41)", () => {

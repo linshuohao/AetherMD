@@ -20,22 +20,22 @@
 
 ## Task Completed
 
-| Task | Status | Validation | Deviation |
-| --- | --- | --- | --- |
+| Task                                      | Status   | Validation         | Deviation                                          |
+| ----------------------------------------- | -------- | ------------------ | -------------------------------------------------- |
 | 01-implement-mdast-serializer-convergence | Complete | `pnpm check` green | CustomBlock uses MDAST `html` node for placeholder |
 
 ## Files Changed
 
-| File | Reason |
-| --- | --- |
+| File                                                  | Reason                                         |
+| ----------------------------------------------------- | ---------------------------------------------- |
 | `packages/plugins/plugin-remark/src/mdast-mapping.ts` | Shared bidirectional MDAST mapping + stringify |
-| `packages/plugins/plugin-remark/src/parser.ts` | Use shared mapping |
-| `packages/plugins/plugin-remark/src/serializer.ts` | MDAST stringifier pipeline |
-| `packages/plugins/plugin-remark/src/index.ts` | Export mapping helpers |
-| `packages/plugins/plugin-remark/package.json` | `remark-stringify` dependency |
-| `packages/preset-gfm/src/gfm-inline-morphing.ts` | Re-export from plugin-remark |
-| `pnpm-lock.yaml` | Lockfile update |
-| `openspec/specs/adapter-base/spec.md` | Main spec sync |
+| `packages/plugins/plugin-remark/src/parser.ts`        | Use shared mapping                             |
+| `packages/plugins/plugin-remark/src/serializer.ts`    | MDAST stringifier pipeline                     |
+| `packages/plugins/plugin-remark/src/index.ts`         | Export mapping helpers                         |
+| `packages/plugins/plugin-remark/package.json`         | `remark-stringify` dependency                  |
+| `packages/preset-gfm/src/gfm-inline-morphing.ts`      | Re-export from plugin-remark                   |
+| `pnpm-lock.yaml`                                      | Lockfile update                                |
+| `openspec/specs/adapter-base/spec.md`                 | Main spec sync                                 |
 
 ## Validation Results
 

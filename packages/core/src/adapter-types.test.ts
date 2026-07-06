@@ -27,7 +27,7 @@ describe("adapter protocol types", () => {
     };
     const engine: EngineAdapter = {
       name: "test-engine",
-      create: async () => ({ id: "session-1" } as EngineSession),
+      create: async () => ({ id: "session-1" }) as EngineSession,
       apply: async (): Promise<AdapterTransactionResult> => ({ ok: true }),
       getDocument: () => ({ type: "doc", children: [] }),
       dispose: async () => {},
@@ -76,22 +76,14 @@ describe("adapter protocol types", () => {
   });
 
   it("does not add remark or prosemirror runtime dependencies to core", () => {
-    const packageJsonPath = join(
-      dirname(fileURLToPath(import.meta.url)),
-      "..",
-      "package.json",
-    );
+    const packageJsonPath = join(dirname(fileURLToPath(import.meta.url)), "..", "package.json");
     const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf8")) as {
       dependencies?: Record<string, string>;
     };
     const deps = Object.keys(packageJson.dependencies ?? {});
 
     for (const dep of deps) {
-      assert.doesNotMatch(
-        dep,
-        /remark|prosemirror|react|vue/i,
-        `unexpected dependency: ${dep}`,
-      );
+      assert.doesNotMatch(dep, /remark|prosemirror|react|vue/i, `unexpected dependency: ${dep}`);
     }
   });
 });

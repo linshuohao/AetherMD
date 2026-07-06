@@ -9,25 +9,25 @@
 
 ## Host Capability Probe
 
-| Capability | Available | Selected driver |
-| --- | --- | --- |
-| Task/subagent dispatch | no | sequential loop in coordinator session |
-| `subagent-driven-development` | no | `executing-plans` fallback |
-| `dispatching-parallel-agents` | no | sequential loop |
-| `executing-plans` | yes | used |
-| Superpowers TDD / verification | yes | per-task |
+| Capability                     | Available | Selected driver                        |
+| ------------------------------ | --------- | -------------------------------------- |
+| Task/subagent dispatch         | no        | sequential loop in coordinator session |
+| `subagent-driven-development`  | no        | `executing-plans` fallback             |
+| `dispatching-parallel-agents`  | no        | sequential loop                        |
+| `executing-plans`              | yes       | used                                   |
+| Superpowers TDD / verification | yes       | per-task                               |
 
 ## Commands
 
-| Command | Purpose | Result | Notes |
-| --- | --- | --- | --- |
-| `pnpm --filter @aether-md/react test` | Tasks 01–09 react contract/integration | PASS | 14 tests |
-| `pnpm --filter @aether-md/plugin-prosemirror test` | Task 05 view-bridge | PASS | 20 tests |
-| `pnpm --filter @aether-md/react build` | Task 02 scaffold | PASS | |
-| `pnpm core:test` | M1–M4.5 regression | PASS | via turbo check |
-| `pnpm check` | Task 10 barrier | PASS | 15 turbo tasks |
-| `openspec validate add-react-shell --strict` | Task 10 barrier | PASS | |
-| Core/React `rg` guards | Task 09/10 boundary | PASS | no production violations |
+| Command                                            | Purpose                                | Result | Notes                    |
+| -------------------------------------------------- | -------------------------------------- | ------ | ------------------------ |
+| `pnpm --filter @aether-md/react test`              | Tasks 01–09 react contract/integration | PASS   | 14 tests                 |
+| `pnpm --filter @aether-md/plugin-prosemirror test` | Task 05 view-bridge                    | PASS   | 20 tests                 |
+| `pnpm --filter @aether-md/react build`             | Task 02 scaffold                       | PASS   |                          |
+| `pnpm core:test`                                   | M1–M4.5 regression                     | PASS   | via turbo check          |
+| `pnpm check`                                       | Task 10 barrier                        | PASS   | 15 turbo tasks           |
+| `openspec validate add-react-shell --strict`       | Task 10 barrier                        | PASS   |                          |
+| Core/React `rg` guards                             | Task 09/10 boundary                    | PASS   | no production violations |
 
 ## TDD Integrity
 

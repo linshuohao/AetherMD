@@ -18,18 +18,18 @@ flowchart TB
   main -- "任务派发" --> serializer
 ```
 
-| 模块 | Worker 化 | 约束 |
-| --- | --- | --- |
-| Markdown Parser | **RECOMMENDED** | 纯文本 / AetherDoc 进出 |
-| Serializer | **RECOMMENDED** | 脏节点增量 |
-| Diff / Lint / Search | **MAY** | 只读；结果经 Event 回传 |
-| Command Pipeline | **MUST NOT** | 同步访问选区与 DOM |
-| NodeView Render | **MUST NOT** | 直接操作 DOM |
+| 模块                 | Worker 化       | 约束                    |
+| -------------------- | --------------- | ----------------------- |
+| Markdown Parser      | **RECOMMENDED** | 纯文本 / AetherDoc 进出 |
+| Serializer           | **RECOMMENDED** | 脏节点增量              |
+| Diff / Lint / Search | **MAY**         | 只读；结果经 Event 回传 |
+| Command Pipeline     | **MUST NOT**    | 同步访问选区与 DOM      |
+| NodeView Render      | **MUST NOT**    | 直接操作 DOM            |
 
 **跨线程契约：**
 
-* Worker **MUST** 通过 `Structured Clone` 传递 AetherDoc
-* Worker **MUST NOT** 传递 DOM 或 PM 原生对象
-* 结果 **SHOULD** 经 `ctx.events.emit('worker:result', payload)` 回传
+- Worker **MUST** 通过 `Structured Clone` 传递 AetherDoc
+- Worker **MUST NOT** 传递 DOM 或 PM 原生对象
+- 结果 **SHOULD** 经 `ctx.events.emit('worker:result', payload)` 回传
 
 ---

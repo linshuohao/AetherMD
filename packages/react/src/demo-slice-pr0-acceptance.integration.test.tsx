@@ -7,11 +7,7 @@ import React, { useState } from "react";
 
 import type { AetherEditor } from "@aether-md/core";
 
-import {
-  AetherEditorContent,
-  AetherEditorRoot,
-  useAetherEditor,
-} from "./index.js";
+import { AetherEditorContent, AetherEditorRoot, useAetherEditor } from "./index.js";
 import { createGfmEditorPlugins } from "./test-helpers.js";
 
 const GFM_FIXTURE = `# Demo Title
@@ -25,9 +21,7 @@ Visit [example](https://example.com).
 
 function MarkdownPreview() {
   const { markdown, ready } = useAetherEditor();
-  return (
-    <pre data-testid="markdown-preview">{ready ? markdown : "Loading…"}</pre>
-  );
+  return <pre data-testid="markdown-preview">{ready ? markdown : "Loading…"}</pre>;
 }
 
 describe("Demo slice PR0 acceptance (react-basic mirror)", () => {
@@ -169,11 +163,7 @@ describe("Demo slice PR0 acceptance (react-basic mirror)", () => {
       );
     }
 
-    function EditorCapture({
-      onReady,
-    }: {
-      onReady: (editor: AetherEditor) => void;
-    }) {
+    function EditorCapture({ onReady }: { onReady: (editor: AetherEditor) => void }) {
       const { editor, ready } = useAetherEditor();
       React.useEffect(() => {
         if (ready && editor) {

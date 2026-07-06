@@ -9,25 +9,25 @@
 
 ## Commands
 
-| Command | Purpose | Result | Notes |
-| --- | --- | --- | --- |
-| `pnpm --filter @aether-md/core test` | unit/contract tests | pass | 38 tests |
-| `pnpm --filter @aether-md/core exec tsc --noEmit` | typecheck | pass | per-task |
-| `pnpm --filter @aether-md/core build` | build | pass | Task 07 |
-| `pnpm check` | full workspace check | pass | Task 07 / post-loop |
-| `rg -i "react\|prosemirror\|remark\|gfm\|createEditor\|parseMarkdown\|serializeMarkdown\|getMarkdown\|getDocument"` | package boundary guard | pass | 仅 boundary 测试禁止导出名字符串命中 |
+| Command                                                                                                             | Purpose                | Result | Notes                                |
+| ------------------------------------------------------------------------------------------------------------------- | ---------------------- | ------ | ------------------------------------ |
+| `pnpm --filter @aether-md/core test`                                                                                | unit/contract tests    | pass   | 38 tests                             |
+| `pnpm --filter @aether-md/core exec tsc --noEmit`                                                                   | typecheck              | pass   | per-task                             |
+| `pnpm --filter @aether-md/core build`                                                                               | build                  | pass   | Task 07                              |
+| `pnpm check`                                                                                                        | full workspace check   | pass   | Task 07 / post-loop                  |
+| `rg -i "react\|prosemirror\|remark\|gfm\|createEditor\|parseMarkdown\|serializeMarkdown\|getMarkdown\|getDocument"` | package boundary guard | pass   | 仅 boundary 测试禁止导出名字符串命中 |
 
 ## TDD Integrity
 
-| Task | Red signal | Green result |
-| --- | --- | --- |
-| 01 | missing `createCommandEventRuntime` / `PluginError` exports | types + factory stub + boundary tests |
-| 02 | Event Hub delivery / unsubscribe / JSON payload fail | `on` / `emit` / `Unsubscribe` |
-| 03 | handler not invoked | registry `Map` |
-| 04 | CommandResult mapping fail | success / `false` / unknown / ignore priority |
-| 05 | throw escapes / no pluginError | PluginError + emit |
-| 06 | dispose still accepts dispatch/emit | disposed fail-closed |
-| 07 | no new red (matrix covered) | `pnpm check` + guard |
+| Task | Red signal                                                  | Green result                                  |
+| ---- | ----------------------------------------------------------- | --------------------------------------------- |
+| 01   | missing `createCommandEventRuntime` / `PluginError` exports | types + factory stub + boundary tests         |
+| 02   | Event Hub delivery / unsubscribe / JSON payload fail        | `on` / `emit` / `Unsubscribe`                 |
+| 03   | handler not invoked                                         | registry `Map`                                |
+| 04   | CommandResult mapping fail                                  | success / `false` / unknown / ignore priority |
+| 05   | throw escapes / no pluginError                              | PluginError + emit                            |
+| 06   | dispose still accepts dispatch/emit                         | disposed fail-closed                          |
+| 07   | no new red (matrix covered)                                 | `pnpm check` + guard                          |
 
 ## Intuitive Verification
 
@@ -39,11 +39,11 @@
 
 Implementation files（按 task 归属）：
 
-| Task | Files |
-| --- | --- |
-| 01 | `command-event-types.ts`, `errors.ts`, `command-event-runtime.ts` (stub), `index.ts`, `package-boundary.test.ts`, `command-event-runtime.test.ts` (surface) |
-| 02–06 | `command-event-runtime.ts`, `command-event-runtime.test.ts` |
-| 07 | validation record only（无 runtime 缺口修复） |
+| Task  | Files                                                                                                                                                       |
+| ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 01    | `command-event-types.ts`, `errors.ts`, `command-event-runtime.ts` (stub), `index.ts`, `package-boundary.test.ts`, `command-event-runtime.test.ts` (surface) |
+| 02–06 | `command-event-runtime.ts`, `command-event-runtime.test.ts`                                                                                                 |
+| 07    | validation record only（无 runtime 缺口修复）                                                                                                               |
 
 - Boundary result: 未修改 `bootstrap.ts`；未引入 Adapter/React/Remark/ProseMirror/GFM/Markdown
 - Unrelated files: `AGENTS.md` 仍为无关脏文件，未纳入本 change 实现

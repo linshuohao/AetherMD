@@ -9,7 +9,11 @@ import type {
   ParagraphBlock,
   TextInline,
 } from "@aether-md/core";
-import { Schema, type Mark as ProseMirrorMark, type Node as ProseMirrorNode } from "prosemirror-model";
+import {
+  Schema,
+  type Mark as ProseMirrorMark,
+  type Node as ProseMirrorNode,
+} from "prosemirror-model";
 
 export const aetherSchema = new Schema({
   nodes: {
@@ -88,10 +92,7 @@ function textNode(text: string, marks: ProseMirrorMark[] = []): ProseMirrorNode 
   return aetherSchema.text(text, marks);
 }
 
-function inlineToPm(
-  inline: AetherInline,
-  marks: ProseMirrorMark[] = [],
-): ProseMirrorNode[] {
+function inlineToPm(inline: AetherInline, marks: ProseMirrorMark[] = []): ProseMirrorNode[] {
   if (inline.type === "text") {
     const node = textNode((inline as TextInline).text, marks);
     return node ? [node] : [];
@@ -151,9 +152,7 @@ function blockToPm(block: AetherBlock): ProseMirrorNode {
     return listType.create(null, items);
   }
 
-  return aetherSchema.nodes.paragraph.create(null, [
-    aetherSchema.text(JSON.stringify(block)),
-  ]);
+  return aetherSchema.nodes.paragraph.create(null, [aetherSchema.text(JSON.stringify(block))]);
 }
 
 export function aetherDocToPm(doc: AetherDoc): ProseMirrorNode {
@@ -228,18 +227,12 @@ function mergeInlineSiblings(inlines: AetherInline[]): AetherInline[] {
 
     if (previous && canMergeInline(previous, normalized)) {
       if (previous.type === "mark" && normalized.type === "mark") {
-        previous.children = mergeInlineSiblings([
-          ...previous.children,
-          ...normalized.children,
-        ]);
+        previous.children = mergeInlineSiblings([...previous.children, ...normalized.children]);
         continue;
       }
 
       if (previous.type === "link" && normalized.type === "link") {
-        previous.children = mergeInlineSiblings([
-          ...previous.children,
-          ...normalized.children,
-        ]);
+        previous.children = mergeInlineSiblings([...previous.children, ...normalized.children]);
         continue;
       }
     }

@@ -72,22 +72,14 @@ describe("@aether-md/core package boundary", () => {
   });
 
   it("does not declare remark, prosemirror, react, or vue runtime dependencies", () => {
-    const packageJsonPath = join(
-      dirname(fileURLToPath(import.meta.url)),
-      "..",
-      "package.json",
-    );
+    const packageJsonPath = join(dirname(fileURLToPath(import.meta.url)), "..", "package.json");
     const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf8")) as {
       dependencies?: Record<string, string>;
     };
     const deps = Object.keys(packageJson.dependencies ?? {});
 
     for (const dep of deps) {
-      assert.doesNotMatch(
-        dep,
-        /remark|prosemirror|react|vue/i,
-        `unexpected dependency: ${dep}`,
-      );
+      assert.doesNotMatch(dep, /remark|prosemirror|react|vue/i, `unexpected dependency: ${dep}`);
     }
   });
 });

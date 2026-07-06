@@ -6,13 +6,13 @@
 
 ## Spec compliance
 
-| Requirement | Status |
-| --- | --- |
-| List block source/render morphing | ✅ preset strategies + Shell orchestration |
-| `interactiveRenderers` on gfmManifest | ✅ paragraph + list |
-| Whole-block `replacement` on replaceText | ✅ backward compatible |
-| Slice A/B/C regression | ✅ 38 react tests pass |
-| Core syntax-agnostic | ✅ morphing in preset/react only |
+| Requirement                              | Status                                     |
+| ---------------------------------------- | ------------------------------------------ |
+| List block source/render morphing        | ✅ preset strategies + Shell orchestration |
+| `interactiveRenderers` on gfmManifest    | ✅ paragraph + list                        |
+| Whole-block `replacement` on replaceText | ✅ backward compatible                     |
+| Slice A/B/C regression                   | ✅ 38 react tests pass                     |
+| Core syntax-agnostic                     | ✅ morphing in preset/react only           |
 
 ## Deviations
 

@@ -18,39 +18,32 @@
 
 ```typescript
 export interface AetherDoc {
-  type: 'doc';
+  type: "doc";
   children: AetherBlock[];
   meta?: Record<string, unknown>;
 }
 
-export type AetherBlock =
-  | ParagraphBlock
-  | HeadingBlock
-  | ListBlock
-  | CustomBlock;
+export type AetherBlock = ParagraphBlock | HeadingBlock | ListBlock | CustomBlock;
 
-export type AetherInline =
-  | TextInline
-  | LinkInline
-  | MarkedInline;
+export type AetherInline = TextInline | LinkInline | MarkedInline;
 ```
 
 ## v1.0 内置块
 
 ```typescript
 export interface ParagraphBlock {
-  type: 'paragraph';
+  type: "paragraph";
   children: AetherInline[];
 }
 
 export interface HeadingBlock {
-  type: 'heading';
+  type: "heading";
   level: 1 | 2 | 3 | 4 | 5 | 6;
   children: AetherInline[];
 }
 
 export interface ListBlock {
-  type: 'list';
+  type: "list";
   ordered: boolean;
   items: AetherBlock[][];
 }
@@ -60,20 +53,20 @@ export interface ListBlock {
 
 ```typescript
 export interface TextInline {
-  type: 'text';
+  type: "text";
   text: string;
 }
 
 export interface LinkInline {
-  type: 'link';
+  type: "link";
   href: string;
   title?: string;
   children: AetherInline[];
 }
 
 export interface MarkedInline {
-  type: 'mark';
-  mark: 'strong' | 'emphasis' | string;
+  type: "mark";
+  mark: "strong" | "emphasis" | string;
   children: AetherInline[];
 }
 ```
@@ -82,7 +75,7 @@ export interface MarkedInline {
 
 ```typescript
 export interface CustomBlock {
-  type: 'custom';
+  type: "custom";
   name: string;
   attrs?: Record<string, unknown>;
   children?: AetherBlock[] | AetherInline[];
@@ -93,12 +86,12 @@ export interface CustomBlock {
 
 ## 映射要求
 
-| 方向 | 要求 |
-| --- | --- |
-| Markdown -> AetherDoc | Parser Adapter **MUST** 保留 v1.0 内置块语义 |
-| AetherDoc -> Markdown | Serializer Adapter **MUST** 对内置结构提供稳定输出；M4 覆盖 paragraph、heading、strong、emphasis、list、link；`CustomBlock` 输出 `[unsupported:block:<name>]` 占位符 |
-| AetherDoc -> ProseMirror | Engine Adapter **MUST** 负责私有结构转换；M4 保留 GFM list、link、mark 结构通过 edit leg |
-| ProseMirror -> AetherDoc | Engine Adapter **MUST** 产出框架无关快照 |
+| 方向                     | 要求                                                                                                                                                                 |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Markdown -> AetherDoc    | Parser Adapter **MUST** 保留 v1.0 内置块语义                                                                                                                         |
+| AetherDoc -> Markdown    | Serializer Adapter **MUST** 对内置结构提供稳定输出；M4 覆盖 paragraph、heading、strong、emphasis、list、link；`CustomBlock` 输出 `[unsupported:block:<name>]` 占位符 |
+| AetherDoc -> ProseMirror | Engine Adapter **MUST** 负责私有结构转换；M4 保留 GFM list、link、mark 结构通过 edit leg                                                                             |
+| ProseMirror -> AetherDoc | Engine Adapter **MUST** 产出框架无关快照                                                                                                                             |
 
 ## 开放问题
 

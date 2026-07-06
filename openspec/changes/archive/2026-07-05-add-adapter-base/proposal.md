@@ -81,13 +81,13 @@ M1 Core Bootstrap 与 M2 Command/Event Runtime 已在 `@aether-md/core` 验证 M
 
 本 change 实现长期 Docs 的 **M3 可执行子集**，不是完整 v1.0 目标面：
 
-| Docs | M3 采用 | M3 明确延后 |
-| --- | --- | --- |
-| `docs/architecture/document-model.md` | v1.0 内置块/行内最小子集（paragraph、heading、text）；`CustomBlock` 类型存在但 M3 不测 fallback | 稳定 `id`、自定义块 Markdown fallback、`meta` 命名空间 |
-| `docs/engineering/adapter-protocol.md` | 三类 Adapter 接口、`AdapterTransactionResult`、失败不改变 Core 可见快照 | Adapter 能力矩阵、`SelectionAdapter`、调试私有快照 |
-| `docs/engineering/error-model.md` | `AdapterError` recoverable + 回滚语义；`SerializationError` 最小形状 | `RenderError`、完整占位符策略 |
-| `docs/engineering/test-strategy.md` | Adapter contract tests、apply 失败保留快照 | GFM round-trip、Permission 拒绝、Command handler 自动 rollback |
-| `docs/architecture/core-api.md` | 类型面为后续 `createEditor` 奠基 | `createEditor`、`AetherEditor`、Guard 链、Promise dispatch |
+| Docs                                   | M3 采用                                                                                         | M3 明确延后                                                    |
+| -------------------------------------- | ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| `docs/architecture/document-model.md`  | v1.0 内置块/行内最小子集（paragraph、heading、text）；`CustomBlock` 类型存在但 M3 不测 fallback | 稳定 `id`、自定义块 Markdown fallback、`meta` 命名空间         |
+| `docs/engineering/adapter-protocol.md` | 三类 Adapter 接口、`AdapterTransactionResult`、失败不改变 Core 可见快照                         | Adapter 能力矩阵、`SelectionAdapter`、调试私有快照             |
+| `docs/engineering/error-model.md`      | `AdapterError` recoverable + 回滚语义；`SerializationError` 最小形状                            | `RenderError`、完整占位符策略                                  |
+| `docs/engineering/test-strategy.md`    | Adapter contract tests、apply 失败保留快照                                                      | GFM round-trip、Permission 拒绝、Command handler 自动 rollback |
+| `docs/architecture/core-api.md`        | 类型面为后续 `createEditor` 奠基                                                                | `createEditor`、`AetherEditor`、Guard 链、Promise dispatch     |
 
 ## 风险
 

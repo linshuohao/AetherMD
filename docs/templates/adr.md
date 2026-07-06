@@ -1,11 +1,11 @@
 # ADR NNN: 标题
 
-| Field | Value |
-| --- | --- |
-| Status | Proposed |
-| Date | YYYY-MM-DD |
-| Supersedes | ADR-XXX |
-| Superseded by | ADR-YYY |
+| Field         | Value      |
+| ------------- | ---------- |
+| Status        | Proposed   |
+| Date          | YYYY-MM-DD |
+| Supersedes    | ADR-XXX    |
+| Superseded by | ADR-YYY    |
 
 ## Context
 

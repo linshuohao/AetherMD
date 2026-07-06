@@ -64,13 +64,13 @@ examples/headless-gfm/
 
 **选择：**
 
-| 字段 | 五包统一值 |
-| --- | --- |
-| `license` | `"MIT"` |
-| `repository` | monorepo git URL + `directory` 指向各 package 路径 |
-| `files` | `["dist"]`（或各包现有 publish 惯例） |
-| `publishConfig` | `{ "access": "public" }` |
-| `private` | **保持 `true`**（M7 前不去除） |
+| 字段            | 五包统一值                                         |
+| --------------- | -------------------------------------------------- |
+| `license`       | `"MIT"`                                            |
+| `repository`    | monorepo git URL + `directory` 指向各 package 路径 |
+| `files`         | `["dist"]`（或各包现有 publish 惯例）              |
+| `publishConfig` | `{ "access": "public" }`                           |
+| `private`       | **保持 `true`**（M7 前不去除）                     |
 
 Changesets `.changeset/config.json`：
 
@@ -123,9 +123,9 @@ MVP 未实现 compile-layer Schema 合并（`createEditor` 不合并插件 `comp
 
 M6 **SHALL** 交付以下**可测路径**，闭合 ci-checklist 行为回归 intent：
 
-| 层级 | 内容 |
-| --- | --- |
-| 单元（已有） | `createDefaultConflictResolver` 对 `type: "schema"` 返回 `strategy: "abort"`（`conflict-resolver.test.ts`） |
+| 层级         | 内容                                                                                                                                                                                                                                         |
+| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 单元（已有） | `createDefaultConflictResolver` 对 `type: "schema"` 返回 `strategy: "abort"`（`conflict-resolver.test.ts`）                                                                                                                                  |
 | 集成（新增） | `createEditor` **启动中止**集成测试文件（如 `startup-abort.integration.test.ts`），覆盖**已接线** fatal 路径：`metadata.manifestVersion` 不在 `SUPPORTED_MANIFEST_VERSIONS`；duplicate `metadata.name`；**不**要求 compile-layer schema 合并 |
 
 若 implementation 发现 duplicate command + forced abort 可在**不修改公开 API** 下通过内部 test hook 覆盖，**MAY** 追加场景；否则 **MUST NOT** 为凑 coverage 扩展 Core 公开面。
@@ -152,13 +152,13 @@ M6 **SHALL** 交付以下**可测路径**，闭合 ci-checklist 行为回归 int
 
 ## Risks / Trade-offs
 
-| 风险 | 缓解 |
-| --- | --- |
-| examples 与 integration tests 重复 | 示例侧重可运行叙事与文档引用；测试侧重断言与 CI 回归 |
-| G11 解析 markdown 脆弱 | 优先快照常量或从 `manifest.ts` 生成单一 truth；避免手写双份 |
-| Schema 冲突 checklist 与实现差距 | Decision 6 冻结可测路径 + validation 记录注明 deferred compile-layer |
-| linked 五包版本策略错误 | implementation 运行 `changeset status`；文档化于 `release-process.md` |
-| 元数据变更被误认为 publish ready | `private: true` 保持；release-process 标明 M6 不 publish |
+| 风险                               | 缓解                                                                  |
+| ---------------------------------- | --------------------------------------------------------------------- |
+| examples 与 integration tests 重复 | 示例侧重可运行叙事与文档引用；测试侧重断言与 CI 回归                  |
+| G11 解析 markdown 脆弱             | 优先快照常量或从 `manifest.ts` 生成单一 truth；避免手写双份           |
+| Schema 冲突 checklist 与实现差距   | Decision 6 冻结可测路径 + validation 记录注明 deferred compile-layer  |
+| linked 五包版本策略错误            | implementation 运行 `changeset status`；文档化于 `release-process.md` |
+| 元数据变更被误认为 publish ready   | `private: true` 保持；release-process 标明 M6 不 publish              |
 
 ## Migration Plan
 
@@ -174,12 +174,12 @@ M6 **SHALL** 交付以下**可测路径**，闭合 ci-checklist 行为回归 int
 
 以下问题在本 design **已冻结**（implementation 不得偏离，除非新 OpenSpec deviation 记录）：
 
-| # | 问题 | 冻结决策 |
-| --- | --- | --- |
-| 1 | G6 主路径 | `examples/headless-gfm` `tsc --noEmit` |
-| 2 | Changesets linked 范围 | 五包：`core`、`plugin-remark`、`plugin-prosemirror`、`preset-gfm`、`react` |
-| 3 | Schema 冲突集成 scope | 不实现 compile-layer merge；单元 schema abort + createEditor fatal startup 集成 |
-| 4 | G12 主落点 | `docs/project-status.md` + `roadmap.md` 交叉引用 |
+| #   | 问题                   | 冻结决策                                                                        |
+| --- | ---------------------- | ------------------------------------------------------------------------------- |
+| 1   | G6 主路径              | `examples/headless-gfm` `tsc --noEmit`                                          |
+| 2   | Changesets linked 范围 | 五包：`core`、`plugin-remark`、`plugin-prosemirror`、`preset-gfm`、`react`      |
+| 3   | Schema 冲突集成 scope  | 不实现 compile-layer merge；单元 schema abort + createEditor fatal startup 集成 |
+| 4   | G12 主落点             | `docs/project-status.md` + `roadmap.md` 交叉引用                                |
 
 **Implementation 阶段待定形（不阻塞 OpenSpec）：**
 

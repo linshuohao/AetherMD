@@ -37,8 +37,7 @@ export function createDefaultConflictResolver(
           warn: true,
         };
       }
-      const winner =
-        strategy === "first-wins" ? ctx.existing.value : ctx.incoming.value;
+      const winner = strategy === "first-wins" ? ctx.existing.value : ctx.incoming.value;
       return { strategy, winner, warn: true };
     },
   };

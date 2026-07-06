@@ -7,14 +7,14 @@ Reviewer: agent (Spec Change lightweight mode)
 
 ## Acceptance
 
-| Criterion | Status |
-| --- | --- |
-| Single task only | pass |
-| Allowed files respected | pass |
-| PR0 non-goals not violated | pass |
-| Delta scenarios covered | pass |
-| `pnpm --filter @aether-md/react test` | pass |
-| Main spec synced | pass (`validation-suite`) |
+| Criterion                             | Status                    |
+| ------------------------------------- | ------------------------- |
+| Single task only                      | pass                      |
+| Allowed files respected               | pass                      |
+| PR0 non-goals not violated            | pass                      |
+| Delta scenarios covered               | pass                      |
+| `pnpm --filter @aether-md/react test` | pass                      |
+| Main spec synced                      | pass (`validation-suite`) |
 
 ## Blockers
 

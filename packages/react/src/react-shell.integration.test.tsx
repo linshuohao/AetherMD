@@ -7,18 +7,10 @@ import React from "react";
 
 import type { AetherEditor } from "@aether-md/core";
 
-import {
-  AetherEditorContent,
-  AetherEditorRoot,
-  useAetherEditor,
-} from "./index.js";
+import { AetherEditorContent, AetherEditorRoot, useAetherEditor } from "./index.js";
 import { createGfmEditorPlugins } from "./test-helpers.js";
 
-function EditorProbe({
-  onReady,
-}: {
-  onReady: (editor: AetherEditor) => void;
-}) {
+function EditorProbe({ onReady }: { onReady: (editor: AetherEditor) => void }) {
   const { editor, ready } = useAetherEditor();
 
   React.useEffect(() => {

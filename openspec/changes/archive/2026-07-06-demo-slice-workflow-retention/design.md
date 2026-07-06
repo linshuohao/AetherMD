@@ -16,12 +16,12 @@
 
 ### Discover 门槛调整
 
-| 变更类型 | 默认路径 |
-| --- | --- |
-| `examples/**` demo slice，无 public export / main spec 语义变更 | **Spec Change** |
-| example README、样式、初始 markdown | **Quick Change** |
-| 新 package、public SDK/Core API、workflow semantics | **Full Change** |
-| 多 capability / 多 task 且无法单 task 完成 | **Full Change** |
+| 变更类型                                                        | 默认路径         |
+| --------------------------------------------------------------- | ---------------- |
+| `examples/**` demo slice，无 public export / main spec 语义变更 | **Spec Change**  |
+| example README、样式、初始 markdown                             | **Quick Change** |
+| 新 package、public SDK/Core API、workflow semantics             | **Full Change**  |
+| 多 capability / 多 task 且无法单 task 完成                      | **Full Change**  |
 
 Protected boundaries 将原「MVP package or runtime behavior first implementation」细化为 **「MVP public contract 或新 publishable package 首次实现」**。
 

@@ -15,14 +15,14 @@
 
 ## Change
 
-| 项 | 值 |
-| --- | --- |
-| OpenSpec change | `harden-core-bootstrap-lifecycle` |
-| Status | 4/4 planning artifacts `done`；`openspec validate` passed |
-| Version impact | `@aether-md/core` patch-level；`CoreErrorCode` 新增 `PLUGIN_NAME_DUPLICATE`；`SUPPORTED_MANIFEST_VERSIONS` / export 形状不变 |
+| 项                    | 值                                                                                                                                |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| OpenSpec change       | `harden-core-bootstrap-lifecycle`                                                                                                 |
+| Status                | 4/4 planning artifacts `done`；`openspec validate` passed                                                                         |
+| Version impact        | `@aether-md/core` patch-level；`CoreErrorCode` 新增 `PLUGIN_NAME_DUPLICATE`；`SUPPORTED_MANIFEST_VERSIONS` / export 形状不变      |
 | Expected commit scope | `fix(core): harden bootstrap lifecycle validation and cleanup`（实现 tasks）；OpenSpec artifacts 可单独 `spec(core-bootstrap): …` |
-| 范围 | 仅 `packages/core` bootstrap/manifest/lifecycle/errors + tests |
-| 排除 | M2 Command/Event 代码、M3 Adapter、M4 GFM、M5 Shell、`createEditor`、长期 Docs（Step 8） |
+| 范围                  | 仅 `packages/core` bootstrap/manifest/lifecycle/errors + tests                                                                    |
+| 排除                  | M2 Command/Event 代码、M3 Adapter、M4 GFM、M5 Shell、`createEditor`、长期 Docs（Step 8）                                          |
 
 ---
 
@@ -118,34 +118,34 @@ Forbidden（除非 deviation 并更新 OpenSpec）：
 
 ## Boundary Risks
 
-| 风险 | 触发点 | 缓解 |
-| --- | --- | --- |
-| 范围膨胀到 M2/M3 | 修改 `command-event-runtime.ts` 或 Adapter 包 | Forbidden files；Phase 4 checklist |
-| duplicate 检测放错位置 | 在 `dependencies.ts` Map 内顺带处理 | Phase 1 明确 `validateUniquePluginNames` + `bootstrapCore` 调用点 |
+| 风险                                       | 触发点                                                 | 缓解                                                                                        |
+| ------------------------------------------ | ------------------------------------------------------ | ------------------------------------------------------------------------------------------- |
+| 范围膨胀到 M2/M3                           | 修改 `command-event-runtime.ts` 或 Adapter 包          | Forbidden files；Phase 4 checklist                                                          |
+| duplicate 检测放错位置                     | 在 `dependencies.ts` Map 内顺带处理                    | Phase 1 明确 `validateUniquePluginNames` + `bootstrapCore` 调用点                           |
 | startup cleanup 与 normal dispose 语义混淆 | 共用 `runDestroyLifecycle` 未区分 fatal vs best-effort | Phase 2 引入 `continueOnDestroyFailure` 或独立 `runStartupFailureCleanup`；Phase 3 对照测试 |
-| primary error 被 cleanup error 覆盖 | cleanup onDestroy throw 后丢失原始 hook failure | delta spec 要求 rethrow primary `LIFECYCLE_HOOK_FAILED`；测试断言 `error.code` |
-| dispose 幂等仅实现未契约化 | 缺 no-throw 断言 | Phase 3 显式 `assert.doesNotReject` |
-| Docs/spec drift | 实现完成但未 Step 8 | OpenSpec tasks 5.3 / plan 外 workflow；implementation 不改 `docs/` |
-| `CoreErrorCode` 扩展影响类型消费者 | 新增 `PLUGIN_NAME_DUPLICATE` | patch-level；boundary test 可选断言 code 存在 |
+| primary error 被 cleanup error 覆盖        | cleanup onDestroy throw 后丢失原始 hook failure        | delta spec 要求 rethrow primary `LIFECYCLE_HOOK_FAILED`；测试断言 `error.code`              |
+| dispose 幂等仅实现未契约化                 | 缺 no-throw 断言                                       | Phase 3 显式 `assert.doesNotReject`                                                         |
+| Docs/spec drift                            | 实现完成但未 Step 8                                    | OpenSpec tasks 5.3 / plan 外 workflow；implementation 不改 `docs/`                          |
+| `CoreErrorCode` 扩展影响类型消费者         | 新增 `PLUGIN_NAME_DUPLICATE`                           | patch-level；boundary test 可选断言 code 存在                                               |
 
 ---
 
 ## Validation Matrix
 
-| Phase | Delta spec / Requirement | 验证类型 | 核心场景 | 命令 | 预期 |
-| --- | --- | --- | --- | --- | --- |
-| 1 | Duplicate name aborts startup | contract | 两个 plugin 同名 | `pnpm --filter @aether-md/core test -- --run` | `CoreError` code `PLUGIN_NAME_DUPLICATE`；onInit/onReady/onDestroy = 0 |
-| 1 | Unique names pass | contract | distinct names | 同上 | bootstrap 继续 |
-| 2 | Startup hook failure cleans up | contract | 第二 plugin onInit throw | lifecycle/bootstrap tests | reverse onDestroy for first plugin；then reject |
-| 2 | onReady failure cleans up all onInit-success | contract | 第二 plugin onReady throw | 同上 | 所有 onInit-success plugins destroyed |
-| 2 | No onInit → no onDestroy | contract | 第一 plugin onInit throw | 同上 | destroy calls = 0 |
-| 2 | Cleanup continues after onDestroy failure | contract | cleanup 中某 onDestroy throw | 同上 | 其余仍 attempt；primary `LIFECYCLE_HOOK_FAILED` |
-| 2 | Hook failure aborts startup | contract | any hook failure | bootstrap test | `bootstrapCore` rejects；no runtime |
-| 3 | Repeated dispose no-op public contract | contract | dispose ×2 | lifecycle.test.ts | destroyCalls = 1；第二次不 throw |
-| 3 | Normal dispose onDestroy failure fatal | contract | onDestroy throw during dispose | lifecycle.test.ts | reject；后续 plugin destroy 不继续 |
-| 4 | M1 excludes later milestones | boundary | export / rg guard | package-boundary.test.ts + rg | 无 createEditor/Shell/Adapter 泄漏 |
-| 4 | No Command/Event code change | diff review | git diff scope | manual / checklist | command-event 文件无改动 |
-| 5 | Full workspace check | integration | all packages | `pnpm check` | green |
+| Phase | Delta spec / Requirement                     | 验证类型    | 核心场景                       | 命令                                          | 预期                                                                   |
+| ----- | -------------------------------------------- | ----------- | ------------------------------ | --------------------------------------------- | ---------------------------------------------------------------------- |
+| 1     | Duplicate name aborts startup                | contract    | 两个 plugin 同名               | `pnpm --filter @aether-md/core test -- --run` | `CoreError` code `PLUGIN_NAME_DUPLICATE`；onInit/onReady/onDestroy = 0 |
+| 1     | Unique names pass                            | contract    | distinct names                 | 同上                                          | bootstrap 继续                                                         |
+| 2     | Startup hook failure cleans up               | contract    | 第二 plugin onInit throw       | lifecycle/bootstrap tests                     | reverse onDestroy for first plugin；then reject                        |
+| 2     | onReady failure cleans up all onInit-success | contract    | 第二 plugin onReady throw      | 同上                                          | 所有 onInit-success plugins destroyed                                  |
+| 2     | No onInit → no onDestroy                     | contract    | 第一 plugin onInit throw       | 同上                                          | destroy calls = 0                                                      |
+| 2     | Cleanup continues after onDestroy failure    | contract    | cleanup 中某 onDestroy throw   | 同上                                          | 其余仍 attempt；primary `LIFECYCLE_HOOK_FAILED`                        |
+| 2     | Hook failure aborts startup                  | contract    | any hook failure               | bootstrap test                                | `bootstrapCore` rejects；no runtime                                    |
+| 3     | Repeated dispose no-op public contract       | contract    | dispose ×2                     | lifecycle.test.ts                             | destroyCalls = 1；第二次不 throw                                       |
+| 3     | Normal dispose onDestroy failure fatal       | contract    | onDestroy throw during dispose | lifecycle.test.ts                             | reject；后续 plugin destroy 不继续                                     |
+| 4     | M1 excludes later milestones                 | boundary    | export / rg guard              | package-boundary.test.ts + rg                 | 无 createEditor/Shell/Adapter 泄漏                                     |
+| 4     | No Command/Event code change                 | diff review | git diff scope                 | manual / checklist                            | command-event 文件无改动                                               |
+| 5     | Full workspace check                         | integration | all packages                   | `pnpm check`                                  | green                                                                  |
 
 ---
 
@@ -382,13 +382,13 @@ openspec validate harden-core-bootstrap-lifecycle
 
 ### Task Breakdown Summary Table
 
-| Task | Outcome | Allowed Area | Validation | Version Impact |
-| --- | --- | --- | --- | --- |
-| 01 Duplicate name | `PLUGIN_NAME_DUPLICATE` + validation | errors, manifest, bootstrap, tests | bootstrap/manifest contract tests | `CoreErrorCode` +1 |
-| 02 Startup cleanup | reverse onDestroy on failure | lifecycle, bootstrap, tests | lifecycle/bootstrap cleanup tests | behavior only |
-| 03 Dispose idempotency | contract tests + asymmetry | bootstrap, lifecycle, tests | dispose tests | docs contract（代码已基本具备） |
-| 04 Boundary guard | non-goals checklist | package-boundary, review | rg + boundary test | none |
-| 05 Full validation | `pnpm check` green | validation.md | tsc + test + check | none |
+| Task                   | Outcome                              | Allowed Area                       | Validation                        | Version Impact                  |
+| ---------------------- | ------------------------------------ | ---------------------------------- | --------------------------------- | ------------------------------- |
+| 01 Duplicate name      | `PLUGIN_NAME_DUPLICATE` + validation | errors, manifest, bootstrap, tests | bootstrap/manifest contract tests | `CoreErrorCode` +1              |
+| 02 Startup cleanup     | reverse onDestroy on failure         | lifecycle, bootstrap, tests        | lifecycle/bootstrap cleanup tests | behavior only                   |
+| 03 Dispose idempotency | contract tests + asymmetry           | bootstrap, lifecycle, tests        | dispose tests                     | docs contract（代码已基本具备） |
+| 04 Boundary guard      | non-goals checklist                  | package-boundary, review           | rg + boundary test                | none                            |
+| 05 Full validation     | `pnpm check` green                   | validation.md                      | tsc + test + check                | none                            |
 
 ---
 
@@ -409,13 +409,13 @@ openspec validate harden-core-bootstrap-lifecycle
 
 （OpenSpec design 已裁决；implementation 按下列执行，无需重开 requirements）
 
-| # |  topic | 裁决 | Plan 落地 |
-| --- | --- | --- | --- |
-| 1 | Duplicate error code | `PLUGIN_NAME_DUPLICATE` | Task 01 Step 1.1 |
-| 2 | Cleanup onDestroy failure | best-effort + primary startup error | Task 02 Step 2.4–2.5 |
-| 3 | Normal dispose onDestroy failure | fatal abort，不 continue | Task 03 Step 3.2 |
-| 4 | `createEditor` cleanup | out of scope | 不添加代码 |
-| 5 | Docs sync | Step 8 only | Task 05 不修改 docs |
+| #   | topic                            | 裁决                                | Plan 落地            |
+| --- | -------------------------------- | ----------------------------------- | -------------------- |
+| 1   | Duplicate error code             | `PLUGIN_NAME_DUPLICATE`             | Task 01 Step 1.1     |
+| 2   | Cleanup onDestroy failure        | best-effort + primary startup error | Task 02 Step 2.4–2.5 |
+| 3   | Normal dispose onDestroy failure | fatal abort，不 continue            | Task 03 Step 3.2     |
+| 4   | `createEditor` cleanup           | out of scope                        | 不添加代码           |
+| 5   | Docs sync                        | Step 8 only                         | Task 05 不修改 docs  |
 
 无阻塞 open questions。若 implementation 发现必须新增 exported helper（例如 public `validateUniquePluginNames`），默认 **不 export**；仅 internal module 使用，除非 review 要求公开。
 

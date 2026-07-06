@@ -5,28 +5,28 @@
 ## ConflictResolver 默认实现参考
 
 ```typescript
-const DEFAULT_STRATEGIES: Record<ConflictContext['type'], ConflictStrategy> = {
-  command: 'last-wins',
-  keymap: 'first-wins',
-  schema: 'abort',
-  capability: 'first-wins',
+const DEFAULT_STRATEGIES: Record<ConflictContext["type"], ConflictStrategy> = {
+  command: "last-wins",
+  keymap: "first-wins",
+  schema: "abort",
+  capability: "first-wins",
 };
 
 export function createDefaultConflictResolver(
-  overrides?: Partial<typeof DEFAULT_STRATEGIES>
+  overrides?: Partial<typeof DEFAULT_STRATEGIES>,
 ): ConflictResolver {
   const strategies = { ...DEFAULT_STRATEGIES, ...overrides };
 
   return {
     resolve(ctx) {
       const strategy = strategies[ctx.type];
-      if (strategy === 'abort') {
+      if (strategy === "abort") {
         return {
           strategy,
           warn: true,
         };
       }
-      const winner = strategy === 'first-wins' ? ctx.existing : ctx.incoming;
+      const winner = strategy === "first-wins" ? ctx.existing : ctx.incoming;
       return { strategy, winner: winner.value, warn: true };
     },
   };

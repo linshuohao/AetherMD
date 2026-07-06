@@ -30,43 +30,43 @@
 
 ## Tasks Completed
 
-| Task | Status | Validation | Deviation |
-| --- | --- | --- | --- |
-| 01 scaffold-react-basic-workspace-package | completed | `pnpm install` PASS; typecheck FAIL (no src/) as expected | none |
-| 02 add-vite-react-entry-for-react-basic | completed | `tsc --noEmit`; `vite build` PASS | none |
-| 03 wire-react-shell-and-gfm-preset | completed | typecheck; vite build; no test-helpers/prosemirror-view | none |
-| 04 add-gate-lock-controlled-demo | completed | typecheck; vite build; manual dev smoke deferred | none |
-| 05 wire-react-basic-typecheck-into-check-pipeline | completed | turbo check react-basic; negative TS probe FAIL→revert | `allowBuilds.esbuild`; `build` vs `build:app` split |
-| 06 document-react-basic-example-delivery | completed | `rg react-basic docs/` aligned | none |
-| 07 run-full-validation-barrier | completed | `pnpm check` + `openspec validate --strict` PASS | none |
+| Task                                              | Status    | Validation                                                | Deviation                                           |
+| ------------------------------------------------- | --------- | --------------------------------------------------------- | --------------------------------------------------- |
+| 01 scaffold-react-basic-workspace-package         | completed | `pnpm install` PASS; typecheck FAIL (no src/) as expected | none                                                |
+| 02 add-vite-react-entry-for-react-basic           | completed | `tsc --noEmit`; `vite build` PASS                         | none                                                |
+| 03 wire-react-shell-and-gfm-preset                | completed | typecheck; vite build; no test-helpers/prosemirror-view   | none                                                |
+| 04 add-gate-lock-controlled-demo                  | completed | typecheck; vite build; manual dev smoke deferred          | none                                                |
+| 05 wire-react-basic-typecheck-into-check-pipeline | completed | turbo check react-basic; negative TS probe FAIL→revert    | `allowBuilds.esbuild`; `build` vs `build:app` split |
+| 06 document-react-basic-example-delivery          | completed | `rg react-basic docs/` aligned                            | none                                                |
+| 07 run-full-validation-barrier                    | completed | `pnpm check` + `openspec validate --strict` PASS          | none                                                |
 
 ## Files Changed
 
-| File | Task / Reason | Notes |
-| --- | --- | --- |
-| `examples/react-basic/package.json` | 01, 05 | `@aether-md/example-react-basic`, `private: true`; typecheck/check scripts |
-| `examples/react-basic/tsconfig.json` | 01 | G6 `tsc --noEmit` scaffold |
-| `examples/react-basic/index.html` | 02 | Vite entry |
-| `examples/react-basic/vite.config.ts` | 02 | Vite + React dedupe |
-| `examples/react-basic/src/vite-env.d.ts` | 02 | Vite types |
-| `examples/react-basic/src/main.tsx` | 02 | `ReactDOM.createRoot` |
-| `examples/react-basic/src/App.tsx` | 03, 04 | Shell + GateLock demo UI |
-| `examples/react-basic/src/plugins.ts` | 03 | GFM preset + adapter wiring |
-| `examples/react-basic/README.md` | 06 | optional delivery note |
-| `pnpm-lock.yaml` | 01, 02 | workspace install lockfile |
-| `pnpm-workspace.yaml` | 05 | `allowBuilds.esbuild: true` fix |
-| `docs/project-status.md` | 06 | react-basic delivered |
-| `docs/community/release-process.md` | 06 | examples publish matrix |
-| `docs/architecture/ci-checklist.md` | 06 | G6 extension |
-| `docs/engineering/test-strategy.md` | 06 | M6 coverage wording |
-| `openspec/specs/validation-suite/spec.md` | archive sync | delta → main |
-| `openspec/specs/engineering-workflow/spec.md` | archive sync | delta → main |
-| `openspec/changes/archive/2026-07-05-add-react-basic-example/**` | workflow | OpenSpec traceability (archived) |
-| `.superpowers/plans/add-react-basic-example.md` | workflow | implementation plan |
-| `.superpowers/tasks/add-react-basic-example/**` | 01–07 | scoped task records |
-| `.superpowers/runs/add-react-basic-example/validation.md` | 07 | barrier validation record |
-| `.superpowers/reviews/add-react-basic-example.md` | review | compliance review |
-| `.superpowers/runs/add-react-basic-example/final-report.md` | archive | this report |
+| File                                                             | Task / Reason | Notes                                                                      |
+| ---------------------------------------------------------------- | ------------- | -------------------------------------------------------------------------- |
+| `examples/react-basic/package.json`                              | 01, 05        | `@aether-md/example-react-basic`, `private: true`; typecheck/check scripts |
+| `examples/react-basic/tsconfig.json`                             | 01            | G6 `tsc --noEmit` scaffold                                                 |
+| `examples/react-basic/index.html`                                | 02            | Vite entry                                                                 |
+| `examples/react-basic/vite.config.ts`                            | 02            | Vite + React dedupe                                                        |
+| `examples/react-basic/src/vite-env.d.ts`                         | 02            | Vite types                                                                 |
+| `examples/react-basic/src/main.tsx`                              | 02            | `ReactDOM.createRoot`                                                      |
+| `examples/react-basic/src/App.tsx`                               | 03, 04        | Shell + GateLock demo UI                                                   |
+| `examples/react-basic/src/plugins.ts`                            | 03            | GFM preset + adapter wiring                                                |
+| `examples/react-basic/README.md`                                 | 06            | optional delivery note                                                     |
+| `pnpm-lock.yaml`                                                 | 01, 02        | workspace install lockfile                                                 |
+| `pnpm-workspace.yaml`                                            | 05            | `allowBuilds.esbuild: true` fix                                            |
+| `docs/project-status.md`                                         | 06            | react-basic delivered                                                      |
+| `docs/community/release-process.md`                              | 06            | examples publish matrix                                                    |
+| `docs/architecture/ci-checklist.md`                              | 06            | G6 extension                                                               |
+| `docs/engineering/test-strategy.md`                              | 06            | M6 coverage wording                                                        |
+| `openspec/specs/validation-suite/spec.md`                        | archive sync  | delta → main                                                               |
+| `openspec/specs/engineering-workflow/spec.md`                    | archive sync  | delta → main                                                               |
+| `openspec/changes/archive/2026-07-05-add-react-basic-example/**` | workflow      | OpenSpec traceability (archived)                                           |
+| `.superpowers/plans/add-react-basic-example.md`                  | workflow      | implementation plan                                                        |
+| `.superpowers/tasks/add-react-basic-example/**`                  | 01–07         | scoped task records                                                        |
+| `.superpowers/runs/add-react-basic-example/validation.md`        | 07            | barrier validation record                                                  |
+| `.superpowers/reviews/add-react-basic-example.md`                | review        | compliance review                                                          |
+| `.superpowers/runs/add-react-basic-example/final-report.md`      | archive       | this report                                                                |
 
 **Not modified (correct per non-goals):** `packages/**` (zero production/runtime diffs); `.github/workflows/**`; five-package public API; `NPM_TOKEN` / Release workflow; Playwright / browser CI.
 
