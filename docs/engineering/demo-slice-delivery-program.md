@@ -227,7 +227,11 @@ flowchart LR
 
 ---
 
-**程序已闭合（2026-07-06）。** Demo slice 程序 PR0→PR B 已闭合；**typing-sync follow-up 已归档（2026-07-06）**。下一 backlog：**History / Selection / Clipboard** 独立 slice，或先完成 **`examples/react-basic` 浏览器 sign-off**（M7 前）。详见 [项目状态](../project-status.md)。
+**程序已闭合（2026-07-06）。** Demo slice 程序 PR0→PR B 已闭合；**typing-sync follow-up 已归档（2026-07-06）**。
+
+**L1 已完成。** 下一 backlog（**M7 前置**）：L2 **Slice A** — 单段落 Instant Morphing MVP（Full Change `block-morphing-slice-1`）。详见 [MVP 实施计划 — Block Morphing](mvp-implementation-plan.md#m6-之后纵向-block-morphing活跃)、[产品交互体验规范](../architecture/product-experience-spec.md)、[项目状态](../project-status.md)。
+
+**后置（非 M7 前置）：** History / Selection / Clipboard 独立 slice。
 
 归档索引：
 

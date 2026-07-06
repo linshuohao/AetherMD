@@ -20,8 +20,9 @@ aether-md/
 │       ├── plugin-remark/
 │       └── ...
 ├── examples/                        # 规划：不发布 npm（ADR 009）
-│   ├── headless-gfm/                # M6：Node 可运行示例
-│   └── react-basic/                 # M6 末 / M7：Vite + React 示例
+│   ├── headless-gfm/                # M6：Node headless GFM 集成（L1 管线）
+│   ├── react-basic/                 # M6：L1 架构管线 browser demo（Phase 0 interim shell）
+│   └── block-morphing/              # 规划：L2 产品 north star demo（Slice A 起，待 `block-morphing-slice-1`）
 ```
 
 当前实现状态：
@@ -30,7 +31,7 @@ aether-md/
 - `packages/plugins/plugin-remark` 已建立为 `@aether-md/plugin-remark`（M3 Parser/Serializer；M4 GFM 扩展）。
 - `packages/plugins/plugin-prosemirror` 已建立为 `@aether-md/plugin-prosemirror`（M3 EngineAdapter；M4 GFM 扩展）。
 - `packages/preset-gfm` 已建立为 `@aether-md/preset-gfm`（M4 `createGfmPreset()` 工厂与六语法 round-trip 集成测试）。
-- `packages/react` 已建立为 `@aether-md/react`（M5 React Shell：Root / Content / hook、GateLock、happy-dom 集成测试）。
+- `packages/react` 已建立为 `@aether-md/react`（M5 React Shell：Root / Content / hook、GateLock、happy-dom 集成测试；**Phase 0 interim integration shell**）。
 - `packages/vue` 仍是规划项，尚未建立实现边界。
 
 ## 当前最小工程架子
