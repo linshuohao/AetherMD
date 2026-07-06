@@ -6,8 +6,8 @@
 
 | 读者 | 先读 | 再读 |
 | --- | --- | --- |
-| 新贡献者 | [项目状态](project-status.md) | [架构原则](architecture/principles.md)、[ADR](adr/README.md) |
-| 架构审查者 | [设计文档映射](architecture/design-doc-map.md)、[架构总览](architecture/overview.md) | [兼容策略](architecture/compatibility.md)、[路线图](architecture/roadmap.md) |
+| 新贡献者 | [项目状态](project-status.md) | [架构原则](architecture/principles.md)、[产品交互体验规范](architecture/product-experience-spec.md)、[ADR](adr/README.md) |
+| 架构审查者 | [设计文档映射](architecture/design-doc-map.md)、[架构总览](architecture/overview.md) | [产品交互体验规范](architecture/product-experience-spec.md)、[兼容策略](architecture/compatibility.md)、[路线图](architecture/roadmap.md) |
 | 插件作者 | [SDK 概述](sdk/overview.md) | [Manifest](sdk/manifest.md)、[生命周期](sdk/lifecycle.md)、[Command/Event 协议](sdk/command-event-protocol.md)、[示例](sdk/examples.md) |
 | Core 实现者 | [项目状态](project-status.md)、[**Demo Slice 交付计划**](engineering/demo-slice-delivery-program.md) | [MVP 实施计划](engineering/mvp-implementation-plan.md)、[Core API](architecture/core-api.md)、[文档模型](architecture/document-model.md)、[Adapter 协议](engineering/adapter-protocol.md)、[测试策略](engineering/test-strategy.md) |
 | 维护者 | [文档维护规则](maintenance.md) | [组件库治理规范](engineering/component-library-governance.md)、[AI-native Engineering Workflow](../AI_NATIVE_ENGINEERING_WORKFLOW.md)、[ADR 模板](templates/adr.md)、[CI 校验计划](architecture/ci-checklist.md) |

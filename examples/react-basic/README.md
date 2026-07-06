@@ -1,5 +1,9 @@
 # @aether-md/example-react-basic
 
+**L1 架构管线 demo** — workspace-private Vite + React 集成证明：`@aether-md/react` + GFM preset + GateLock + 连续编辑 + markdown preview 同步。
+
+> **不是**产品 north star（Instant Morphing / Block Focus）。产品交互目标见 [产品交互体验设计规范](../../docs/architecture/product-experience-spec.md)。
+
 Workspace-private Vite + React demo for `@aether-md/react` with GFM preset wiring and GateLock controlled `value` / `onChange`.
 
 ## PR A acceptance checklist (frozen in PR0)
