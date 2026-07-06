@@ -12,7 +12,7 @@ import type {
   EngineSession,
   ParserAdapter,
   SerializerAdapter,
-} from "./adapter-types.js";
+} from "./document/adapter-types.js";
 import { AdapterError, SerializationError } from "./errors.js";
 
 describe("adapter protocol types", () => {

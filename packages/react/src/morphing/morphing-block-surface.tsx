@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef, type ChangeEvent } from "react";
 import type { AetherBlock, MorphingBlockStrategy } from "@aether-md/core";
 import { PARSE_BLOCK_MARKDOWN_COMMAND } from "@aether-md/core";
 
-import { useAetherEditor } from "../use-aether-editor.js";
+import { useAetherEditor } from "../shell/use-aether-editor.js";
 import { RenderedBlockHost } from "./rendered-block-host.js";
 import { useMorphingFocus } from "./morphing-focus-context.js";
 

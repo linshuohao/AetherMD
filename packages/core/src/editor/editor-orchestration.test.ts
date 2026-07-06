@@ -2,11 +2,11 @@ import assert from "node:assert/strict";
 import { describe, it } from "vitest";
 
 import { CoreError, AdapterError } from "../errors.js";
-import type { AdapterCommandRequest } from "../adapter-types.js";
-import type { AetherDoc } from "../document-model.js";
-import type { EventEnvelope } from "../command-event-types.js";
-import type { MorphingBlockStrategy } from "../morphing-types.js";
-import { PARSE_BLOCK_MARKDOWN_COMMAND } from "../morphing-types.js";
+import type { AdapterCommandRequest } from "../document/adapter-types.js";
+import type { AetherDoc } from "../document/model.js";
+import type { EventEnvelope } from "../command-event/types.js";
+import type { MorphingBlockStrategy } from "../morphing/types.js";
+import { PARSE_BLOCK_MARKDOWN_COMMAND } from "../morphing/types.js";
 import type { ExtensionPluginWithAdapters } from "../editor/adapter-wiring.js";
 import { toExtensionPluginFromPreset, type PresetBundle } from "../editor/adapter-wiring.js";
 import { createEditor } from "../editor/create-editor.js";

@@ -1,8 +1,8 @@
 import type { AetherBlock } from "@aether-md/core";
 
-import { useAetherEditor } from "./use-aether-editor.js";
-import { MorphingBlockSurface } from "./morphing/morphing-block-surface.js";
-import { MorphingFocusProvider } from "./morphing/morphing-focus-context.js";
+import { useAetherEditor } from "../shell/use-aether-editor.js";
+import { MorphingBlockSurface } from "./morphing-block-surface.js";
+import { MorphingFocusProvider } from "./morphing-focus-context.js";
 
 export function AetherMorphingDocument() {
   const { ready, doc, editor } = useAetherEditor();

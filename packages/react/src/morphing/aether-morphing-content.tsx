@@ -2,8 +2,8 @@ import { useState } from "react";
 
 import type { AetherBlock } from "@aether-md/core";
 
-import { useAetherEditor } from "./use-aether-editor.js";
-import { MorphingBlockSurface } from "./morphing/morphing-block-surface.js";
+import { useAetherEditor } from "../shell/use-aether-editor.js";
+import { MorphingBlockSurface } from "./morphing-block-surface.js";
 
 export interface AetherMorphingContentProps {
   /** Document block index; Slice A defaults to single paragraph at 0. */

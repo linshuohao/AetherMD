@@ -6,7 +6,7 @@ export type {
   PluginName,
   VendorCapabilityId,
 } from "./types.js";
-export { M1_CORE_CAPABILITIES } from "./capabilities.js";
+export { M1_CORE_CAPABILITIES } from "./manifest/capabilities.js";
 export type {
   CoreErrorCode,
   CoreErrorOptions,
@@ -22,8 +22,8 @@ export {
   bootstrapCore,
   type BootstrapCoreOptions,
   type CoreBootstrapRuntime,
-} from "./bootstrap.js";
-export { resolvePluginDependencyOrder } from "./dependencies.js";
+} from "./bootstrap/bootstrap.js";
+export { resolvePluginDependencyOrder } from "./manifest/dependencies.js";
 export {
   SUPPORTED_MANIFEST_VERSIONS,
   type CompileManifest,
@@ -33,7 +33,7 @@ export {
   type RuntimeManifest,
   type SecurityManifest,
   type SupportedManifestVersion,
-} from "./manifest.js";
+} from "./manifest/manifest.js";
 export type {
   AetherError,
   CommandHandler,
@@ -48,8 +48,8 @@ export type {
   EventName,
   EventSource,
   Unsubscribe,
-} from "./command-event-types.js";
-export { createCommandEventRuntime, type CommandEventRuntime } from "./command-event-runtime.js";
+} from "./command-event/types.js";
+export { createCommandEventRuntime, type CommandEventRuntime } from "./command-event/runtime.js";
 export type {
   AetherBlock,
   AetherDoc,
@@ -62,14 +62,14 @@ export type {
   MarkedInline,
   ParagraphBlock,
   TextInline,
-} from "./document-model.js";
+} from "./document/model.js";
 export type {
   CustomBlockRenderer,
   MorphingBlockStrategy,
   MorphingStrategyRegistry,
   ParseBlockMarkdownPayload,
-} from "./morphing-types.js";
-export { PARSE_BLOCK_MARKDOWN_COMMAND, createMorphingStrategyRegistry } from "./morphing-types.js";
+} from "./morphing/types.js";
+export { PARSE_BLOCK_MARKDOWN_COMMAND, createMorphingStrategyRegistry } from "./morphing/types.js";
 export {
   createBlockId,
   ensureBlockId,
@@ -77,7 +77,7 @@ export {
   findBlockIndexById,
   moveBlockInDocument,
   withPreservedBlockId,
-} from "./block-ids.js";
+} from "./document/block-ids.js";
 export type {
   AdapterCommandRequest,
   AdapterEvent,
@@ -87,7 +87,7 @@ export type {
   ParserAdapter,
   ReplaceTextCommand,
   SerializerAdapter,
-} from "./adapter-types.js";
+} from "./document/adapter-types.js";
 export { createEditor } from "./editor/create-editor.js";
 export type {
   AetherEditor,

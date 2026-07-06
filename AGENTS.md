@@ -2,19 +2,22 @@
 
 ## Project Structure & Module Organization
 
-AetherMD is currently in the design draft + M1 Core Bootstrap + M2 Command/Event Runtime + M3 Adapter baseline + M4 GFM Preset + M4.5 Editor Orchestration + M5 React Shell + M6 Validation Suite stage, with **active L2 Block Morphing Slice A** planning before M7 publish. The repository now includes `@aether-md/core`, `@aether-md/plugin-remark` / `@aether-md/plugin-prosemirror` adapter plugin packages, `@aether-md/preset-gfm`, `@aether-md/react`, `examples/headless-gfm`, and `examples/react-basic` (L1 architecture pipeline demo) alongside the design documents. The main entry points are:
+AetherMD is currently in the design draft + M1 Core Bootstrap + M2 Command/Event Runtime + M3 Adapter baseline + M4 GFM Preset + M4.5 Editor Orchestration + M5 React Shell + M6 Validation Suite + L2 Block Morphing (Slice A–D delivered) stage before M7 publish. The repository now includes `@aether-md/core`, `@aether-md/plugin-remark` / `@aether-md/plugin-prosemirror` adapter plugin packages, `@aether-md/preset-gfm`, `@aether-md/react`, `@aether-md/adapter-contract-tests` (dev-only contract harness), `examples/headless-gfm`, `examples/react-basic`, `examples/block-morphing`, and `examples/shared` (`@aether-md/example-shared` GFM wiring helper) alongside the design documents. The main entry points are:
 
 - `README.md`: project status, goals, and recommended reading paths.
 - `CONTRIBUTING.md`: contribution scope and review expectations.
 - `package.json`: root workspace scripts for build, typecheck, tests, checks, Changesets, and Git workflow validation.
 - `pnpm-workspace.yaml`: workspace boundary for current and future packages.
 - `turbo.json`: Turborepo task orchestration for package-level scripts.
-- `packages/core/`: M1–M4.5 baseline package with Manifest validation, Service Capability validation, dependency ordering, lifecycle startup, dispose, Command/Event runtime, document-model / adapter-base types, headless `createEditor` / `AetherEditor` orchestration, and tests.
-- `packages/plugins/plugin-remark/` and `packages/plugins/plugin-prosemirror/`: M3 minimal Parser/Serializer and EngineAdapter implementations (M4 GFM extensions; M5 `createProseMirrorView` view-bridge) with cross-package round-trip tests.
-- `packages/preset-gfm/`: M4 `createGfmPreset()` factory and six-syntax GFM round-trip integration tests.
-- `packages/react/`: M5 React Shell (`AetherEditorRoot` / `AetherEditorContent` / `useAetherEditor`, GateLock, happy-dom integration tests).
-- `examples/headless-gfm/`: M6 private headless GFM integration demo (`createEditor` + `createGfmPreset()` + explicit adapter wiring; Node-only, no React/DOM).
-- `examples/react-basic/`: M6 L1 architecture pipeline browser demo (Phase 0 interim React Shell + GateLock; not product north star).
+- `packages/core/`: M1–M4.5 microkernel — `src/bootstrap/`, `src/manifest/`, `src/command-event/`, `src/document/`, `src/morphing/` (contracts), `src/editor/` (orchestration).
+- `packages/plugins/plugin-remark/` and `packages/plugins/plugin-prosemirror/`: M3 Parser/Serializer and EngineAdapter (flat `src/` at current size).
+- `packages/preset-gfm/`: M4 factory — `src/morphing/` (strategies), `src/serialization/` (remark re-export outlet).
+- `packages/react/`: M5+L2 Shell — `src/shell/` (Root/Content/hook/GateLock), `src/morphing/` (Instant Morphing surfaces).
+- `packages/adapter-contract-tests/`: dev-only shared Parser/Serializer/Engine contract test harness.
+- `examples/headless-gfm/`: M6 Node headless GFM demo.
+- `examples/react-basic/`: M6 L1 React Shell + GateLock demo.
+- `examples/block-morphing/`: L2 product north star demo (Slice A–D).
+- `examples/shared/`: `@aether-md/example-shared` — `createGfmEditorPlugins()` wiring shared by examples.
 - `docs/architecture/product-experience-spec.md`: authoritative L2 product north star (Instant Morphing / Block Focus); M7 requires Slice A demo sign-off before publish.
 - `.skills/aether-workflow/`: authoritative source for Aether workflow skills.
 - `.codex/skills/` and `.cursor/skills/`: generated host-specific skill mirrors; do not edit Aether workflow mirrors directly.

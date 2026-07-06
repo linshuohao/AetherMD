@@ -1,4 +1,4 @@
-import type { AetherBlock, AetherDoc } from "./document-model.js";
+import type { AetherBlock, AetherDoc } from "./model.js";
 
 export function createBlockId(): string {
   return `blk_${crypto.randomUUID()}`;

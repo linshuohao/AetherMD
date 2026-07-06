@@ -1,8 +1,8 @@
-import { CoreError } from "./errors.js";
+import { CoreError } from "../errors.js";
 import type { LoadedPlugin } from "./manifest.js";
-import type { CapabilityId, CoreCapabilityId } from "./types.js";
+import type { CapabilityId, CoreCapabilityId } from "../types.js";
 
-export type { CapabilityId, CoreCapabilityId } from "./types.js";
+export type { CapabilityId, CoreCapabilityId } from "../types.js";
 
 export const M1_CORE_CAPABILITIES = [
   "core:history",

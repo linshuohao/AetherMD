@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import { describe, it } from "vitest";
 
-import { validateServiceCapabilities } from "./capabilities.js";
+import { validateServiceCapabilities } from "./manifest/capabilities.js";
 import { CoreError } from "./errors.js";
-import { loadPluginManifests } from "./manifest.js";
+import { loadPluginManifests } from "./manifest/manifest.js";
 
 describe("validateServiceCapabilities", () => {
   it("accepts capabilities provided by the M1 Core set", () => {

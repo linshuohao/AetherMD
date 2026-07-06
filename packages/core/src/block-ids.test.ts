@@ -8,7 +8,7 @@ import {
   findBlockIndexById,
   moveBlockInDocument,
   withPreservedBlockId,
-} from "./block-ids.js";
+} from "./document/block-ids.js";
 
 describe("block ids", () => {
   it("createBlockId returns blk_ prefixed ids", () => {

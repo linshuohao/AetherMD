@@ -1,4 +1,4 @@
-import type { PluginName } from "./types.js";
+import type { PluginName } from "../types.js";
 
 export type CommandId = `${string}:${string}`;
 

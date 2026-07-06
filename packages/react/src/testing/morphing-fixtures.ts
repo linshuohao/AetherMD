@@ -3,7 +3,7 @@ import React from "react";
 
 import type { AetherEditor } from "@aether-md/core";
 
-import { useAetherEditor } from "../use-aether-editor.js";
+import { useAetherEditor } from "../shell/use-aether-editor.js";
 
 export const SLICE_A_FIXTURE = "Hello **world**\n";
 

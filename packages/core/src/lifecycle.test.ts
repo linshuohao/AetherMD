@@ -1,10 +1,10 @@
 import assert from "node:assert/strict";
 import { describe, it } from "vitest";
 
-import { bootstrapCore } from "./bootstrap.js";
+import { bootstrapCore } from "./bootstrap/bootstrap.js";
 import { CoreError } from "./errors.js";
-import { runDestroyLifecycle } from "./lifecycle.js";
-import { loadPluginManifests } from "./manifest.js";
+import { runDestroyLifecycle } from "./bootstrap/lifecycle.js";
+import { loadPluginManifests } from "./manifest/manifest.js";
 
 describe("dispose lifecycle", () => {
   it("runs onDestroy in reverse successful lifecycle order", async () => {

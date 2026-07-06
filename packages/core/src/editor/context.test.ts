@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import { describe, it } from "vitest";
 
-import { createCommandEventRuntime } from "../command-event-runtime.js";
-import type { AetherDoc } from "../document-model.js";
+import { createCommandEventRuntime } from "../command-event/runtime.js";
+import type { AetherDoc } from "../document/model.js";
 import { createEditorContext } from "../editor/context.js";
 
 describe("EditorContext", () => {

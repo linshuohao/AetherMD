@@ -7,8 +7,8 @@ import type {
   EventListener,
   EventName,
   Unsubscribe,
-} from "./command-event-types.js";
-import { CoreError, PluginError } from "./errors.js";
+} from "./types.js";
+import { CoreError, PluginError } from "../errors.js";
 
 export interface CommandEventRuntime {
   register(id: CommandId, handler: CommandHandler): void;

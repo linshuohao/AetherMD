@@ -1,8 +1,12 @@
-import type { AetherBlock, AetherDoc, AetherInline, AetherSchema } from "../document-model.js";
-import { findBlockIndexById, withPreservedBlockId } from "../block-ids.js";
-import type { AdapterCommandRequest, EngineAdapter, EngineSession } from "../adapter-types.js";
-import type { CommandId, CommandRequest } from "../command-event-types.js";
-import type { CommandEventRuntime } from "../command-event-runtime.js";
+import type { AetherBlock, AetherDoc, AetherInline, AetherSchema } from "../document/model.js";
+import { findBlockIndexById, withPreservedBlockId } from "../document/block-ids.js";
+import type {
+  AdapterCommandRequest,
+  EngineAdapter,
+  EngineSession,
+} from "../document/adapter-types.js";
+import type { CommandId, CommandRequest } from "../command-event/types.js";
+import type { CommandEventRuntime } from "../command-event/runtime.js";
 
 export const ENGINE_REPLACE_TEXT_COMMAND = "core:replaceText" as CommandId;
 export const ENGINE_MOVE_BLOCK_COMMAND = "core:moveBlock" as CommandId;

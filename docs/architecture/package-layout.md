@@ -7,32 +7,36 @@
 ```text
 aether-md/
 ├── docs/
-│   ├── architecture/                # 架构文档
-│   ├── sdk/                         # Plugin SDK
-│   └── engineering/                 # 工程文档
+│   ├── architecture/
+│   ├── sdk/
+│   └── engineering/
 ├── packages/
-│   ├── core/
-│   ├── preset-gfm/
-│   ├── react/
-│   ├── vue/
+│   ├── core/                        # src/bootstrap|manifest|command-event|document|morphing|editor/
+│   ├── preset-gfm/                  # src/morphing/, src/serialization/
+│   ├── react/                       # src/shell/, src/morphing/
+│   ├── adapter-contract-tests/      # dev-only contract harness
+│   ├── vue/                         # 规划
 │   └── plugins/
 │       ├── plugin-prosemirror/
 │       ├── plugin-remark/
 │       └── ...
-├── examples/                        # 规划：不发布 npm（ADR 009）
-│   ├── headless-gfm/                # M6：Node headless GFM 集成（L1 管线）
-│   ├── react-basic/                 # M6：L1 架构管线 browser demo（Phase 0 interim shell）
-│   └── block-morphing/              # 规划：L2 产品 north star demo（Slice A 起，待 `block-morphing-slice-1`）
+├── examples/                        # 不发布 npm（ADR 009）
+│   ├── shared/                      # @aether-md/example-shared
+│   ├── headless-gfm/
+│   ├── react-basic/
+│   └── block-morphing/              # L2 north star demo（Slice A–D 已交付）
 ```
 
 当前实现状态：
 
-- `packages/core` 已建立为 `@aether-md/core`（M1 + M2 + M3 类型 export）。
-- `packages/plugins/plugin-remark` 已建立为 `@aether-md/plugin-remark`（M3 Parser/Serializer；M4 GFM 扩展）。
-- `packages/plugins/plugin-prosemirror` 已建立为 `@aether-md/plugin-prosemirror`（M3 EngineAdapter；M4 GFM 扩展）。
-- `packages/preset-gfm` 已建立为 `@aether-md/preset-gfm`（M4 `createGfmPreset()` 工厂与六语法 round-trip 集成测试）。
-- `packages/react` 已建立为 `@aether-md/react`（M5 React Shell：Root / Content / hook、GateLock、happy-dom 集成测试；**Phase 0 interim integration shell**）。
-- `packages/vue` 仍是规划项，尚未建立实现边界。
+- `packages/core` — `@aether-md/core`：按里程碑分子目录（`bootstrap/`、`manifest/`、`command-event/`、`document/`、`morphing/` 契约、`editor/` 编排）。
+- `packages/plugins/plugin-remark` / `plugin-prosemirror` — M3 Adapter（当前规模保持 flat `src/`）。
+- `packages/preset-gfm` — `createGfmPreset()`；`morphing/` 策略 + `serialization/` 作为 remark 序列化单一出口。
+- `packages/react` — `shell/`（Root/Content/hook/GateLock）+ `morphing/`（L2 产品面）；公开 export 含 `shouldApplyControlledValue`。
+- `packages/adapter-contract-tests` — dev-only；Parser/Serializer/Engine 契约测试 harness，**非**运行时产品包。
+- `examples/shared` — `@aether-md/example-shared`：`createGfmEditorPlugins()` 供各 example 复用。
+- `examples/block-morphing` — L2 Instant Morphing / Block Focus 演示（已交付）。
+- `packages/vue` — 规划项。
 
 ## 当前最小工程架子
 

@@ -1,4 +1,4 @@
-import type { AetherError, ErrorSeverity } from "./command-event-types.js";
+import type { AetherError, ErrorSeverity } from "./command-event/types.js";
 import type { PluginName } from "./types.js";
 
 export type CoreErrorCode =

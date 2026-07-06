@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "vitest";
 
-import type { AetherDoc } from "../document-model.js";
+import type { AetherDoc } from "../document/model.js";
 import {
   resolveReplaceTextBlockIndex,
   toAdapterCommand,

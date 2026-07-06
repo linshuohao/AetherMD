@@ -1,5 +1,5 @@
-import { CoreError } from "./errors.js";
-import type { LoadedPlugin } from "./manifest.js";
+import { CoreError } from "../errors.js";
+import type { LoadedPlugin } from "../manifest/manifest.js";
 
 export interface LifecycleStartupResult {
   successfulLifecycleOrder: LoadedPlugin[];

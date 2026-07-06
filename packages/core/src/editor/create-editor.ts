@@ -1,14 +1,14 @@
-import { bootstrapCore } from "../bootstrap.js";
-import { ensureDocumentBlockIds } from "../block-ids.js";
-import type { AetherDoc } from "../document-model.js";
+import { bootstrapCore } from "../bootstrap/bootstrap.js";
+import { ensureDocumentBlockIds } from "../document/block-ids.js";
+import type { AetherDoc } from "../document/model.js";
 import { CoreError } from "../errors.js";
 import {
   loadPluginManifests,
   validateUniquePluginNames,
   type ExtensionPlugin,
-} from "../manifest.js";
-import { validateServiceCapabilities } from "../capabilities.js";
-import { resolvePluginDependencyOrder } from "../dependencies.js";
+} from "../manifest/manifest.js";
+import { validateServiceCapabilities } from "../manifest/capabilities.js";
+import { resolvePluginDependencyOrder } from "../manifest/dependencies.js";
 import {
   resolveMorphingRegistry,
   resolveWiredAdapters,
