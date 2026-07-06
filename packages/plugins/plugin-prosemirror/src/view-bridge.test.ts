@@ -8,6 +8,8 @@ import type { AdapterCommandRequest, AetherDoc } from "@aether-md/core";
 import { createProseMirrorEngineAdapter } from "./engine.js";
 import {
   createProseMirrorView,
+  dispatchProseMirrorInsertText,
+  findProseMirrorTextEnd,
   refreshProseMirrorViewFromSession,
 } from "./view-bridge.js";
 
@@ -137,6 +139,51 @@ describe("createProseMirrorView", () => {
     assert.equal(request.blockIndex, 0);
     assert.ok(request.children);
     assert.match(JSON.stringify(request.children), /strong/);
+
+    handle.destroy();
+    dom.remove();
+  });
+
+  it("dispatches list item paragraph children with list item index in text", async () => {
+    const session = await engine.create({
+      type: "doc",
+      children: [
+        {
+          type: "list",
+          ordered: false,
+          items: [
+            [
+              {
+                type: "paragraph",
+                children: [{ type: "text", text: "item one" }],
+              },
+            ],
+          ],
+        },
+      ],
+    });
+    const dom = document.createElement("div");
+    document.body.appendChild(dom);
+
+    let capturedRequest: AdapterCommandRequest | null = null;
+    const handle = createProseMirrorView({
+      session,
+      dom,
+      dispatchInput(request) {
+        capturedRequest = request;
+      },
+    });
+
+    const endPos = findProseMirrorTextEnd(handle.view, "item one");
+    dispatchProseMirrorInsertText(handle.view, endPos, " updated");
+
+    assert.ok(capturedRequest);
+    const request = capturedRequest as AdapterCommandRequest;
+    assert.equal(request.type, "replaceText");
+    assert.equal(request.blockIndex, 0);
+    assert.equal(request.text, "0");
+    assert.ok(request.children);
+    assert.match(JSON.stringify(request.children), /item one updated/);
 
     handle.destroy();
     dom.remove();

@@ -28,9 +28,12 @@ export function AetherEditorContent() {
             id: "core:replaceText",
             payload: {
               blockIndex: request.blockIndex,
-              ...(request.children !== undefined
-                ? { children: request.children }
-                : { text: request.text ?? "" }),
+              ...(request.children !== undefined ? { children: request.children } : {}),
+              ...(request.text !== undefined
+                ? { text: request.text }
+                : request.children === undefined
+                  ? { text: "" }
+                  : {}),
             },
           })
           .then((result) => {

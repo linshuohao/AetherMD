@@ -106,6 +106,27 @@ describe("ProseMirror EngineAdapter", () => {
     assert.deepEqual(engine.getDocument(session), before);
   });
 
+  it("updates list item paragraph when replaceText includes list item index", async () => {
+    const initial = gfmFixtureDoc();
+    const session = await engine.create(initial);
+
+    const result = await engine.apply(session, {
+      type: "replaceText",
+      blockIndex: 2,
+      text: "0",
+      children: [{ type: "text", text: "item updated" }],
+    });
+
+    assert.equal(result.ok, true);
+    const list = result.doc!.children[2] as ListBlock;
+    assert.equal(list.type, "list");
+    assert.equal((list.items[0]![0] as ParagraphBlock).children[0]?.type, "text");
+    assert.equal(
+      ((list.items[0]![0] as ParagraphBlock).children[0] as TextInline).text,
+      "item updated",
+    );
+  });
+
   it("returns ok false when replaceText targets a non-text block", async () => {
     const initial = gfmFixtureDoc();
     const session = await engine.create(initial);
