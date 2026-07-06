@@ -75,6 +75,7 @@ export {
   ensureBlockId,
   ensureDocumentBlockIds,
   findBlockIndexById,
+  moveBlockInDocument,
   withPreservedBlockId,
 } from "./block-ids.js";
 export type {

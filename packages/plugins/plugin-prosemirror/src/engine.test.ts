@@ -9,7 +9,7 @@ import type {
   ParagraphBlock,
   TextInline,
 } from "@aether-md/core";
-import { AdapterError } from "@aether-md/core";
+import { AdapterError, ensureDocumentBlockIds } from "@aether-md/core";
 import { runEngineAdapterContractTests } from "@aether-md/adapter-contract-tests";
 
 import { gfmFixtureDoc } from "./fixtures/gfm-doc.js";
@@ -191,5 +191,30 @@ describe("ProseMirror EngineAdapter GFM structures", () => {
     assert.equal(list.type, "list");
     const linkParagraph = after.children[3] as ParagraphBlock;
     assert.equal((linkParagraph.children[0] as LinkInline).type, "link");
+  });
+
+  it("moveBlock reorders top-level blocks while preserving ids", async () => {
+    const initial = ensureDocumentBlockIds({
+      type: "doc",
+      children: [
+        { type: "paragraph", children: [{ type: "text", text: "A" }] },
+        { type: "paragraph", children: [{ type: "text", text: "B" }] },
+        { type: "paragraph", children: [{ type: "text", text: "C" }] },
+      ],
+    });
+    const session = await engine.create(initial);
+    const blockBId = initial.children[1]!.id!;
+
+    const result = await engine.apply(session, {
+      type: "moveBlock",
+      blockId: blockBId,
+      toIndex: 2,
+    });
+
+    assert.equal(result.ok, true);
+    const snapshot = engine.getDocument(session);
+    assert.equal(snapshot.children[2]?.id, blockBId);
+    const moved = snapshot.children[2] as ParagraphBlock;
+    assert.equal((moved.children[0] as TextInline).text, "B");
   });
 });

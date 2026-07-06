@@ -14,7 +14,13 @@ export interface ReplaceTextCommand {
   replacement?: AetherBlock;
 }
 
-export type AdapterCommandRequest = ReplaceTextCommand;
+export interface MoveBlockCommand {
+  type: "moveBlock";
+  blockId: string;
+  toIndex: number;
+}
+
+export type AdapterCommandRequest = ReplaceTextCommand | MoveBlockCommand;
 
 export interface AdapterEvent {
   name: string;
