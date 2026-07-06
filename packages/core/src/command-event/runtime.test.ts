@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import { describe, it } from "vitest";
 
-import { createCommandEventRuntime } from "./index.js";
-import type { EventEnvelope } from "./command-event/types.js";
+import { createCommandEventRuntime } from "../index.js";
+import type { EventEnvelope } from "./types.js";
 
 describe("createCommandEventRuntime public surface", () => {
   it("exports a factory that returns register, dispatch, on, emit, and dispose", () => {

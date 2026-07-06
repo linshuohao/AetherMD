@@ -11,7 +11,7 @@ import type {
   MarkedInline,
   ParagraphBlock,
   TextInline,
-} from "./index.js";
+} from "../index.js";
 
 describe("document model public types", () => {
   it("exports AetherDoc, block, inline, and AetherSchema types from core", () => {

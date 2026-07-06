@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "vitest";
 
-import { shouldApplyControlledValue } from "./shell/gate-lock.js";
+import { shouldApplyControlledValue } from "./gate-lock.js";
 
 describe("shouldApplyControlledValue", () => {
   it("returns false when prev and next markdown strings are equal", () => {

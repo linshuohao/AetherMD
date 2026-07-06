@@ -2,7 +2,7 @@
 
 感谢你关注 AetherMD。
 
-项目当前处于设计到最小实现过渡阶段，`@aether-md/core`、两个 Adapter plugin packages、`@aether-md/preset-gfm`、`@aether-md/react` 与 `examples/headless-gfm` 已提供 M1–M6 最小基线。因此，现阶段最有价值的贡献是文档审查、架构质疑、SDK 契约反馈、已实现边界验证、ADR 讨论和实现计划拆解。
+项目当前处于设计到最小实现过渡阶段，`@aether-md/core`、两个 Adapter plugin packages、`@aether-md/preset-gfm`、`@aether-md/react` 与 `examples/headless-gfm`、`examples/react-basic`、`examples/block-morphing`（及共享 `@aether-md/example-shared`）已提供 M1–M6 最小基线。因此，现阶段最有价值的贡献是文档审查、架构质疑、SDK 契约反馈、已实现边界验证、ADR 讨论和实现计划拆解。
 
 ## 现在适合贡献什么
 

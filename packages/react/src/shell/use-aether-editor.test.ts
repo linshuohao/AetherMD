@@ -6,8 +6,8 @@ import React from "react";
 import type { AetherDoc, AetherEditor, EventListener, Unsubscribe } from "@aether-md/core";
 import { createMorphingStrategyRegistry } from "@aether-md/core";
 
-import { AetherEditorContext } from "./shell/context.js";
-import { useAetherEditor } from "./shell/use-aether-editor.js";
+import { AetherEditorContext } from "./context.js";
+import { useAetherEditor } from "./use-aether-editor.js";
 
 function createMockEditor(options: {
   markdown?: string;

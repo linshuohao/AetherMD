@@ -5,8 +5,8 @@ import React, { useState } from "react";
 
 import type { AetherEditor } from "@aether-md/core";
 
-import { AetherEditorContent, AetherEditorRoot, useAetherEditor } from "./index.js";
-import { createGfmEditorPlugins } from "./testing/gfm-plugins.js";
+import { AetherEditorContent, AetherEditorRoot, useAetherEditor } from "../index.js";
+import { createGfmEditorPlugins } from "../testing/gfm-plugins.js";
 
 function EditorProbe({ onReady }: { onReady: (editor: AetherEditor) => void }) {
   const { editor, ready, markdown } = useAetherEditor();

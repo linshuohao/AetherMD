@@ -12,8 +12,8 @@ import type {
   EngineSession,
   ParserAdapter,
   SerializerAdapter,
-} from "./document/adapter-types.js";
-import { AdapterError, SerializationError } from "./errors.js";
+} from "./adapter-types.js";
+import { AdapterError, SerializationError } from "../errors.js";
 
 describe("adapter protocol types", () => {
   it("exports ParserAdapter, SerializerAdapter, and EngineAdapter interfaces", () => {
@@ -76,7 +76,12 @@ describe("adapter protocol types", () => {
   });
 
   it("does not add remark or prosemirror runtime dependencies to core", () => {
-    const packageJsonPath = join(dirname(fileURLToPath(import.meta.url)), "..", "package.json");
+    const packageJsonPath = join(
+      dirname(fileURLToPath(import.meta.url)),
+      "..",
+      "..",
+      "package.json",
+    );
     const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf8")) as {
       dependencies?: Record<string, string>;
     };
