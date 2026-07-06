@@ -9,6 +9,7 @@
 | [设计文档映射](design-doc-map.md) | 传统概要设计、详细设计等交付物与本仓库文档体系的映射 |
 | [文档约定](conventions.md) | RFC 关键词与文档规则 |
 | [架构原则与边界](principles.md) | 愿景、架构宪章、范围、非目标、质量目标 |
+| [架构优化原则与设计模式](architecture-optimization-principles.md) | 桥接层优化方向、语法所有权、设计原则、批准使用的架构模式 |
 | [产品交互体验规范](product-experience-spec.md) | L2 产品 north star：Instant Morphing、Block Focus、L1/L2 分层 |
 | [架构总览](overview.md) | 系统总览、确定性数据流、适配器容器模型 |
 | [Core API](core-api.md) | 宿主应用调用 `@aether-md/core` 的最小公开入口 |
