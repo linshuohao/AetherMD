@@ -1,11 +1,11 @@
-# Block Morphing Example (L2 Slice B)
+# Block Morphing Example (L2 Slice D)
 
-**L2 product north star demo** — GFM inline mark morphing fidelity + multi-paragraph Block Focus for AetherMD.
+**L2 product north star demo** — GFM list block morphing + paragraph inline marks + multi-block Block Focus for AetherMD.
 
 | | |
 | --- | --- |
-| **Proves** | Rendered `<strong>` / `<em>` / `<a>` from `AetherInline` tree; focus shows Markdown sigils; source edits preserve marks via parser-backed dispatch; only one block in source state; GateLock |
-| **Does not prove** | List/link **blocks** (Slice D), M7 publish |
+| **Proves** | List blocks morph `ul`/`li` ↔ `- item` source; preset `interactiveRenderers`; Block Focus across paragraph + list blocks |
+| **Does not prove** | M7 publish, nested lists, tables |
 
 For the L1 architecture pipeline demo, see [`examples/react-basic`](../react-basic/README.md).
 
@@ -28,22 +28,18 @@ Open the URL Vite prints (typically `http://localhost:5173`).
 
 ## What to try
 
-1. Click paragraph A — source shows `**one**` and `*emphasis*` sigils; other paragraphs stay rendered.
-2. Click paragraph B — only B shows source with `[link](https://example.com)`; A morphs back to rendered typography.
-3. Edit emphasis or link text in source — blurred render and serialized markdown must keep marks.
+1. Click the list block — source shows `- alpha` / `- beta` markers; paragraphs stay rendered.
+2. Edit list items in source — blur restores `ul`/`li` typography; serialized markdown updates.
+3. Click paragraph blocks — inline marks (strong, link) still morph per Slice B.
 4. Use **Force parent rerender** — content should not reset (GateLock).
 
-## Slice B scope
+## Slice D scope
 
-- GFM inline marks: strong, emphasis, link within paragraph blocks.
-- Serialize contract lives in `@aether-md/preset-gfm` (`serializeParagraphInlines`); React renders from block tree.
-- `AetherMorphingContent` for single-block; this demo uses `AetherMorphingDocument` (Slice C Block Focus).
-
-## Follow-up (Slice D)
-
-- List/link **block** morphing and `interactiveRenderers` DOM registration.
+- GFM `list` block morphing via `@aether-md/preset-gfm` strategies + `interactiveRenderers`.
+- Shell (`@aether-md/react`) orchestrates focus; preset owns syntax-specific source/render.
 
 ## Related docs
 
 - [Product Experience Specification](../../docs/architecture/product-experience-spec.md)
+- [Architecture Optimization Principles](../../docs/architecture/architecture-optimization-principles.md)
 - [MVP Implementation Plan — Block Morphing](../../docs/engineering/mvp-implementation-plan.md)

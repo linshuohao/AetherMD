@@ -9,14 +9,14 @@ AetherMD 当前是设计到最小实现过渡阶段的开源项目。
 | 阶段 | 设计草案 + M1 Core Bootstrap + M2 Command/Event Runtime + M3 Adapter 基座 + M4 GFM Preset + M4.5 Editor Orchestration + M5 React Shell + **M6 验证套件** |
 | 实现 | `@aether-md/core` 已提供 M1 bootstrap、M2 Command/Event、M3 document/adapter 类型与 M4.5 `createEditor` / `AetherEditor` headless 编排；`@aether-md/plugin-remark` 与 `@aether-md/plugin-prosemirror` 提供 Adapter 实现；`@aether-md/preset-gfm` 提供 GFM preset 与 round-trip 集成测试；`@aether-md/react` 提供 M5 React Shell（Root / Content / hook、GateLock、happy-dom 集成测试）；**M6** 交付 `examples/headless-gfm` headless GFM 集成证明、G11 manifest 文档一致性、G6 example `typecheck` 门禁、`createEditor` 启动中止行为回归、五包 publish 预备元数据与 Changesets `linked` 配置 |
 | 主要产物 | 文档、OpenSpec 规格、`packages/core`、两个 Adapter plugin packages、`packages/preset-gfm`、`packages/react`、`examples/headless-gfm`、`examples/react-basic`、`examples/block-morphing` |
-| 当前目标 | **L1 已闭合**；**L2 Slice A + B + C 已交付**（`block-morphing-slice-1`、`block-morphing-slice-b`、`block-morphing-slice-c`）。**M7** 前置：L1 + L2 可演示 + 维护者 sign-off（见 [ADR 009](adr/009-release-governance.md)） |
+| 当前目标 | **L1 已闭合**；**L2 Slice A + B + C + D 已交付**（`block-morphing-slice-1` … `block-morphing-slice-d`）。**M7** 前置：L1 + L2 可演示 + 维护者 sign-off（见 [ADR 009](adr/009-release-governance.md)） |
 
 ## North star 分层
 
 | 层级 | 载体 | 状态 | 证明 |
 | --- | --- | --- | --- |
 | **L1 架构管线 demo** | `examples/react-basic` | ✅ Demo Slice 已闭合 | React Shell + GFM + GateLock + 连续编辑 + preview 同步 |
-| **L2 产品交互 north star** | `examples/block-morphing` | ✅ Slice A + B + C 已交付 | Instant Morphing + GFM inline marks + multi-block Block Focus |
+| **L2 产品交互 north star** | `examples/block-morphing` | ✅ Slice A + B + C + D 已交付 | Instant Morphing + GFM inline marks + multi-block Block Focus + list block morphing |
 
 L1 通过 **不得** 解释为 L2 已满足。
 
@@ -93,9 +93,9 @@ L1 通过 **不得** 解释为 L2 已满足。
 
 **L1 Demo Slice 程序（PR0→PR B + typing-sync）已于 2026-07-06 闭合。** 见 [Demo Slice 交付计划](engineering/demo-slice-delivery-program.md)。
 
-1. **下一 slice：** L2 **Slice D** — 列表/链接块 morphing + `interactiveRenderers` 实装；见 [产品交互体验规范](architecture/product-experience-spec.md) 与 [MVP 实施计划 — Block Morphing](engineering/mvp-implementation-plan.md#m6-之后纵向-block-morphing活跃)。
-2. **M7 发布条件（方案 B）：** L1 `react-basic` 可演示 **且** L2（Slice A + B + C + D）可演示 **且** 维护者 sign-off；闭合 ADR 009 O1/O2 后再启动 Release CI / `NPM_TOKEN`。
-3. **后置 backlog：** History / Selection / Clipboard — Slice D 之后独立 Spec Change。
+1. **下一重点：** M7 发布准备 — 维护者 sign-off、ADR O1/O2 决议、Release CI（见 [ADR 009](adr/009-release-governance.md)）。
+2. **M7 发布条件（方案 B）：** L1 `react-basic` 可演示 **且** L2（Slice A–D）可演示 **且** 维护者 sign-off；闭合 ADR 009 O1/O2 后再启动 Release CI / `NPM_TOKEN`。
+3. **后置 backlog：** History / Selection / Clipboard — 独立 Spec Change。
 4. 新 demo/example 改动默认 **Spec Change**；public contract 变更仍 **Full Change**（见 `AI_NATIVE_ENGINEERING_WORKFLOW.md`）。
 5. 归档 change 时执行 Superpowers retention（`aether-workflow-archive-change`）。
 6. 继续保持 `pnpm check` 绿。

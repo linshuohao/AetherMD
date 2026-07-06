@@ -1,42 +1,27 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, type ChangeEvent } from "react";
 
-import type { AetherInline, ParagraphBlock } from "@aether-md/core";
+import type { AetherBlock } from "@aether-md/core";
+import type { GfmMorphingBlockStrategy } from "@aether-md/preset-gfm";
 
 import { useAetherEditor } from "../use-aether-editor.js";
-import {
-  paragraphSourceFromBlock,
-  renderParagraphFromBlock,
-} from "./paragraph-render.js";
+import { RenderedBlockHost } from "./rendered-block-host.js";
 import { useMorphingFocus } from "./morphing-focus-context.js";
 
 const PARSER_SCHEMA = { version: 1 as const };
 
 export interface MorphingBlockSurfaceProps {
   blockIndex: number;
-  block: ParagraphBlock;
+  block: AetherBlock;
+  strategy: GfmMorphingBlockStrategy;
   /** Local focus mode when not inside MorphingFocusProvider. */
   localFocus?: boolean;
   onLocalFocusChange?: (focused: boolean) => void;
 }
 
-async function parseParagraphChildren(
-  editor: NonNullable<ReturnType<typeof useAetherEditor>["editor"]>,
-  rawSource: string,
-): Promise<AetherInline[]> {
-  const parsed = await editor.context.services.parser.adapter.parse(
-    `${rawSource}\n`,
-    PARSER_SCHEMA,
-  );
-  const firstBlock = parsed.children[0];
-  if (firstBlock?.type === "paragraph") {
-    return firstBlock.children;
-  }
-  return [{ type: "text", text: rawSource }];
-}
-
 export function MorphingBlockSurface({
   blockIndex,
   block,
+  strategy,
   localFocus = false,
   onLocalFocusChange,
 }: MorphingBlockSurfaceProps) {
@@ -48,7 +33,7 @@ export function MorphingBlockSurface({
     focusContext !== null && focusContext.focusedBlockIndex === blockIndex;
   const focused = focusContext !== null ? documentFocused : localFocus;
 
-  const sourceText = paragraphSourceFromBlock(block);
+  const sourceText = strategy.serializeSource(block);
 
   const focusTextarea = useCallback(() => {
     requestAnimationFrame(() => {
@@ -82,26 +67,34 @@ export function MorphingBlockSurface({
   }, [focused, focusTextarea]);
 
   const handleChange = useCallback(
-    (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    (event: ChangeEvent<HTMLTextAreaElement>) => {
       if (!editor) {
         return;
       }
 
       const rawSource = event.target.value;
       void (async () => {
-        const children = await parseParagraphChildren(editor, rawSource);
+        const replacement = await strategy.parseSource(rawSource, async (markdown) => {
+          const parsed = await editor.context.services.parser.adapter.parse(
+            markdown,
+            PARSER_SCHEMA,
+          );
+          return parsed.children[0];
+        });
+
         await editor.dispatch({
           id: "core:replaceText",
-          payload: { blockIndex, text: rawSource, children },
+          payload: { blockIndex, replacement },
         });
       })();
     },
-    [editor, blockIndex],
+    [editor, blockIndex, strategy],
   );
 
   return (
     <div
       data-testid={`morphing-block-${blockIndex}`}
+      data-block-type={block.type}
       data-focused={focused ? "true" : "false"}
       className="aether-morphing-block"
     >
@@ -114,22 +107,15 @@ export function MorphingBlockSurface({
           onFocus={handleFocus}
           onBlur={handleBlur}
           onChange={handleChange}
-          rows={3}
+          rows={strategy.blockType === "list" ? 4 : 3}
           spellCheck={false}
         />
       ) : (
-        <div
-          data-testid="morphing-rendered"
-          className="aether-morphing-rendered"
-          tabIndex={0}
+        <RenderedBlockHost
+          block={block}
+          renderer={strategy.interactiveRenderer}
           onFocus={handleFocus}
-          onMouseDown={(event) => {
-            event.preventDefault();
-            handleFocus();
-          }}
-        >
-          {renderParagraphFromBlock(block)}
-        </div>
+        />
       )}
     </div>
   );

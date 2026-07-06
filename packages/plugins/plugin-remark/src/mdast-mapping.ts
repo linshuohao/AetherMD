@@ -256,3 +256,11 @@ export function serializeInlineToMarkdown(inline: AetherInline): string {
   const wrapped: Root = { type: "root", children: [paragraph] };
   return stringifyMdast(wrapped).replace(/\n+$/, "");
 }
+
+export function serializeListBlock(block: ListBlock): string {
+  const root = aetherDocToMdast({
+    type: "doc",
+    children: [block],
+  });
+  return stringifyMdast(root).replace(/\n+$/, "");
+}

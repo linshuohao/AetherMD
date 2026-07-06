@@ -98,12 +98,19 @@ References:
 - **WHEN** the inline morphing module is imported
 - **THEN** no React peer or dependency is required
 
-### Requirement: GFM manifest documents interactiveRenderers reservation
+### Requirement: GFM manifest registers interactiveRenderers for morphing
 
-The `gfmManifest` SHALL document that `interactiveRenderers` is reserved for future Slice D block-level DOM render registration. Full renderer registration MAY be deferred; a manifest-level stub or comment SHALL cross-link to `docs/sdk/manifest.md`.
+The `gfmManifest` SHALL register `runtime.interactiveRenderers` for GFM `paragraph` and `list` block-level DOM morphing renderers. Inline morphing serialize remains headless in `@aether-md/plugin-remark` / preset helpers.
 
-#### Scenario: Manifest references interactive renderers extension point
+References:
 
-- **GIVEN** `gfmManifest` in `@aether-md/preset-gfm`
-- **WHEN** a plugin author reads manifest metadata
-- **THEN** they find documentation pointing to `interactiveRenderers` for future block morphing renderers
+- `docs/sdk/manifest.md`
+- `docs/sdk/custom-block-renderer.md`
+- `docs/architecture/architecture-optimization-principles.md`
+
+#### Scenario: GFM manifest exposes interactive renderers
+
+- **GIVEN** `createGfmPreset()` is called
+- **WHEN** a maintainer inspects `manifest.runtime.interactiveRenderers`
+- **THEN** `paragraph` and `list` renderer entries are present
+- **AND** entries implement mount/unmount for block-level rendered surfaces

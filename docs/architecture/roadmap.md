@@ -67,7 +67,7 @@ M1–M6 按架构层的里程碑叙事仍保留于上表。L1 [Demo Slice 交付
 | **Slice A** | 单段落块 rendered ↔ source morphing MVP | ✅ 已完成（`block-morphing-slice-1`，2026-07-06） |
 | **Slice B** | GFM inline marks 在 source 态保真 | ✅ 已完成（`block-morphing-slice-b`，2026-07-06） |
 | **Slice C** | 多块 + Block Focus 切换 | ✅ 已完成（`block-morphing-slice-c`） |
-| **Slice D** | 列表 / 链接块插件化 | 未开始 |
+| **Slice D** | 列表 / 链接块插件化 | ✅ 已完成（`block-morphing-slice-d`） |
 
 M5 React Shell（常驻 ProseMirror）= **Phase 0 interim shell**，保留至 Slice A 可替代编辑体验。
 

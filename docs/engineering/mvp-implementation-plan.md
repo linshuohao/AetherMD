@@ -138,7 +138,7 @@ M1–M6 横向里程碑与 L1 Demo Slice 程序均已闭合。**当前主叙事*
 | **Slice A** | 单段落块 rendered ↔ source morphing MVP | ✅ 已完成（`block-morphing-slice-1`） |
 | **Slice B** | GFM inline marks 在 source 态保真 | ✅ 已完成（`block-morphing-slice-b`） |
 | **Slice C** | 多块 + Block Focus 切换 | ✅ 已完成（`block-morphing-slice-c`） |
-| **Slice D** | 列表 / 链接块插件化 | 未开始 |
+| **Slice D** | 列表 / 链接块插件化 | ✅ 已完成（`block-morphing-slice-d`） |
 
 L1 历史执行记录见 [Demo Slice 交付计划](demo-slice-delivery-program.md)（PR0 → PR A → PR B，已闭合）。
 

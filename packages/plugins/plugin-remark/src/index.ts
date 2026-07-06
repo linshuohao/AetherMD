@@ -4,6 +4,7 @@ export {
   aetherDocToMdast,
   mdastToAetherDoc,
   serializeInlineToMarkdown,
+  serializeListBlock,
   serializeParagraphInlines,
   stringifyMdast,
 } from "./mdast-mapping.js";
