@@ -102,7 +102,7 @@ M5 `@aether-md/react` + 常驻 ProseMirror `EditorView` + 下方 Markdown previe
 - **不是**本规范定义的产品终态
 - 保留至 L2 Slice A 可替代编辑体验
 
-详见 [MVP 实施计划](../engineering/mvp-implementation-plan.md)、[Demo Slice 交付计划](../engineering/demo-slice-delivery-program.md)。
+详见 [MVP 实施计划](../engineering/mvp-implementation-plan.md)（**当前活跃**：Block Morphing Slice A–D）、[Demo Slice 交付计划](../engineering/demo-slice-delivery-program.md)（L1 历史记录，已闭合）。
 
 ## 实现切片（规划，非本页范围）
 

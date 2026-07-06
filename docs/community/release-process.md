@@ -26,7 +26,17 @@ M6 仅完成 ADR 009 publish **预备**；五包仍为 `private: true`；**未**
 | **根 `changeset:publish`** | 根 `package.json` 脚本 `"changeset:publish": "changeset publish"`（M7 前仅预留，维护者 **禁止** 本地 `npm publish`） |
 | **`LICENSE`** | 根目录 MIT 许可证；与各 package `license` 字段一致 |
 | **`examples/headless-gfm`** | `private: true`；**不**纳入 npm 发布矩阵 |
-| **`examples/react-basic`** | `private: true`；**不**纳入 npm 发布矩阵 |
+| **`examples/react-basic`** | `private: true`；**不**纳入 npm 发布矩阵（**L1** 架构管线 demo） |
+
+## M7 启动前置（方案 B）
+
+在配置 `NPM_TOKEN` 或 `changeset pre enter` **之前**，维护者 **MUST** 确认：
+
+1. **L1**：`examples/react-basic` 可演示；Demo Slice + typing-sync CI 绿；浏览器 sign-off 已记录（若适用）。
+2. **L2 Slice A**：单段落 Instant Morphing MVP 可演示（由 `block-morphing-slice-1` 定义载体与验收）。
+3. **工程**：ADR 009 G1–G12 就绪；`pnpm check` 绿；O1/O2 已决议。
+
+详见 [MVP 实施计划 — M7 发布触发条件](../engineering/mvp-implementation-plan.md#m7-发布触发条件已拍板方案-b)、[产品交互体验规范](../architecture/product-experience-spec.md)。
 
 ## 发布包矩阵（M7 目标）
 
@@ -53,7 +63,7 @@ M6 仅完成 ADR 009 publish **预备**；五包仍为 `private: true`；**未**
 
 | ID | 问题 | 状态 | 决议 |
 | --- | --- | --- | --- |
-| O1 | 首次 npm 版本号（`0.x` vs `1.0.0` + 能力子集） | **延后** | Demo 完善且维护者满意后再议；M7 预备阶段不锁定版本号 |
+| O1 | 首次 npm 版本号（`0.x` vs `1.0.0` + 能力子集） | **延后** | L1 + L2 Slice A demo sign-off 后再议；M7 预备阶段不锁定版本号 |
 | O2 | Canary dist-tag（`canary` vs `next`） | **延后** | 与 O1 同批决定；启用 Release workflow 前再确认 |
 | O3 | Changelog（`changelog: false` vs `@changesets/changelog-github`） | **已闭合** | M7 之前延续 `.changeset/config.json` 的 `changelog: false`；真正首次 promote 至 `latest` 前再选手写根 `CHANGELOG.md` 或 `@changesets/changelog-github` |
 | O4 | MIT 许可证复核 | **已闭合** | 维持 MIT；无需为此单独开 ADR 改评 Apache-2.0 |

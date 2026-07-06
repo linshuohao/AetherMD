@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-AetherMD is currently in the design draft + M1 Core Bootstrap + M2 Command/Event Runtime + M3 Adapter baseline + M4 GFM Preset + M4.5 Editor Orchestration + M5 React Shell + M6 Validation Suite stage for a framework-independent, plugin-oriented Markdown editor engine. The repository now includes `@aether-md/core`, `@aether-md/plugin-remark` / `@aether-md/plugin-prosemirror` adapter plugin packages, `@aether-md/preset-gfm`, `@aether-md/react`, and `examples/headless-gfm` alongside the design documents. The main entry points are:
+AetherMD is currently in the design draft + M1 Core Bootstrap + M2 Command/Event Runtime + M3 Adapter baseline + M4 GFM Preset + M4.5 Editor Orchestration + M5 React Shell + M6 Validation Suite stage, with **active L2 Block Morphing Slice A** planning before M7 publish. The repository now includes `@aether-md/core`, `@aether-md/plugin-remark` / `@aether-md/plugin-prosemirror` adapter plugin packages, `@aether-md/preset-gfm`, `@aether-md/react`, `examples/headless-gfm`, and `examples/react-basic` (L1 architecture pipeline demo) alongside the design documents. The main entry points are:
 
 - `README.md`: project status, goals, and recommended reading paths.
 - `CONTRIBUTING.md`: contribution scope and review expectations.
@@ -14,6 +14,8 @@ AetherMD is currently in the design draft + M1 Core Bootstrap + M2 Command/Event
 - `packages/preset-gfm/`: M4 `createGfmPreset()` factory and six-syntax GFM round-trip integration tests.
 - `packages/react/`: M5 React Shell (`AetherEditorRoot` / `AetherEditorContent` / `useAetherEditor`, GateLock, happy-dom integration tests).
 - `examples/headless-gfm/`: M6 private headless GFM integration demo (`createEditor` + `createGfmPreset()` + explicit adapter wiring; Node-only, no React/DOM).
+- `examples/react-basic/`: M6 L1 architecture pipeline browser demo (Phase 0 interim React Shell + GateLock; not product north star).
+- `docs/architecture/product-experience-spec.md`: authoritative L2 product north star (Instant Morphing / Block Focus); M7 requires Slice A demo sign-off before publish.
 - `.skills/aether-workflow/`: authoritative source for Aether workflow skills.
 - `.codex/skills/` and `.cursor/skills/`: generated host-specific skill mirrors; do not edit Aether workflow mirrors directly.
 - `openspec/specs/`: synced main OpenSpec specs, including Core Bootstrap, Command/Event Runtime, Document Model, Adapter Base, GFM Preset, Editor Orchestration, React Shell, Validation Suite, and engineering workflow specs.

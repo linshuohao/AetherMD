@@ -49,6 +49,7 @@ M5 React Shell 已落地，项目即将进入 M6 验证套件。`docs/project-st
 
 5. **v1.0 发布门禁**
    - **必须在首次 `latest` 前完成（G1–G12）**：见 [Consequences](#consequences) 门禁表。
+   - **M7 canary 产品 demo 前置（2026-07-06 拍板，方案 B）**：除工程门禁外，维护者 **MUST** sign-off **L1** `examples/react-basic`（架构管线）**与** **L2 Slice A**（单段落 Instant Morphing MVP，见 [产品交互体验规范](../architecture/product-experience-spec.md)）均可演示后，方可启用 Release CI / `NPM_TOKEN`。L1 通过不得解释为 L2 已满足。
    - **可延后（P1–P10）**：Playwright CI、markdown-link-check 自动化、PR 追踪自动化、完整 Guard 链、Vue Shell、`bootstrapCore` silent provide、examples matrix、Telemetry/Worker、独立 `@aether-md/sdk`、Changesets 自动 changelog（可改用手写 CHANGELOG）。
    - 路线图 v1.0「必须实现」与当前实现仍有差距（ConflictResolver 全套、History/Selection/Clipboard、完整 EditorContext、PermissionGuard）。首次 npm **MAY** 使用 `0.x` 预稳定系列或在 `1.0.0` 文档中明确「能力子集」——维护者在 M7 预备阶段从开放问题 O1 二选一。
 
@@ -68,6 +69,7 @@ M5 React Shell 已落地，项目即将进入 M6 验证套件。`docs/project-st
 
 **对 M7**
 
+- **产品 demo 前置**：L1 `react-basic` + L2 **Slice A** morphing MVP 维护者 sign-off（方案 B；见 [MVP 实施计划](../engineering/mvp-implementation-plan.md#m7-发布触发条件已拍板方案-b)）。
 - 去除目标 package 的 `private: true`；配置 GitHub Actions release job 与 `NPM_TOKEN`。
 - Consumer smoke：`pnpm pack` 后空项目 `import` 主入口。
 - README 安装说明链接 `examples/`；canary 安装文档化（如 `npm i @aether-md/core@canary`）。
@@ -93,7 +95,7 @@ M5 React Shell 已落地，项目即将进入 M6 验证套件。`docs/project-st
 
 | ID | 问题 | 选项 | 状态 |
 | --- | --- | --- | --- |
-| O1 | 首次 npm 版本号 | `0.x` 预稳定 vs `1.0.0` + 能力子集说明 | **延后**（demo 满意后再议） |
+| O1 | 首次 npm 版本号 | `0.x` 预稳定 vs `1.0.0` + 能力子集说明 | **延后**（L1 + L2 Slice A demo sign-off 后再议） |
 | O2 | Canary dist-tag | `canary` vs `next` | **延后**（与 O1 同批） |
 | O3 | Changelog | 延续 `changelog: false` vs `@changesets/changelog-github` | **已闭合**（M7 前 `changelog: false`；首次 `latest` 前再定工具） |
 | O4 | MIT 复核 | 若有专利顾虑，单独 ADR 改评 Apache-2.0 | **已闭合**（维持 MIT） |
