@@ -64,6 +64,31 @@ describe("ProseMirror EngineAdapter", () => {
     assert.equal((block.children[0] as TextInline).text, "Hello AetherMD");
   });
 
+  it("preserves inline marks when replaceText uses structured children", async () => {
+    const session = await engine.create(paragraphDoc("Hello world"));
+    const result = await engine.apply(session, {
+      type: "replaceText",
+      blockIndex: 0,
+      children: [
+        { type: "text", text: "Hello " },
+        {
+          type: "mark",
+          mark: "strong",
+          children: [{ type: "text", text: "AetherMD" }],
+        },
+      ],
+    });
+
+    assert.equal(result.ok, true);
+    const block = result.doc!.children[0] as ParagraphBlock;
+    assert.equal(block.children.length, 2);
+    assert.equal((block.children[1] as MarkedInline).mark, "strong");
+    assert.equal(
+      ((block.children[1] as MarkedInline).children[0] as TextInline).text,
+      "AetherMD",
+    );
+  });
+
   it("returns ok false with AdapterError and preserves snapshot on failed apply", async () => {
     const initial = headingParagraphDoc("Title", "Body");
     const session = await engine.create(initial);

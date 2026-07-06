@@ -4,7 +4,7 @@ import {
   type AetherEditor,
   type ExtensionPlugin,
 } from "@aether-md/core";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
 
 import { AetherEditorContext } from "./context.js";
 import { shouldApplyControlledValue } from "./gate-lock.js";
@@ -14,6 +14,8 @@ function createChangeHandler(
   editor: AetherEditor,
   setMarkdown: (value: string) => void,
   setDoc: (value: AetherDoc) => void,
+  prevControlledRef: RefObject<string | undefined>,
+  isControlled: boolean,
   onChange?: (markdown: string) => void,
 ) {
   return editor.on("change", async () => {
@@ -21,6 +23,9 @@ function createChangeHandler(
     const nextDoc = editor.getDocument();
     setMarkdown(nextMarkdown);
     setDoc(nextDoc);
+    if (isControlled) {
+      prevControlledRef.current = nextMarkdown;
+    }
     onChange?.(nextMarkdown);
   });
 }
@@ -43,6 +48,7 @@ export function AetherEditorRoot({
   const [error, setError] = useState<Error | null>(null);
 
   const prevControlledRef = useRef<string | undefined>(undefined);
+  const isControlled = controlledValue !== undefined;
   const onChangeRef = useRef(onChange);
   onChangeRef.current = onChange;
   const pluginsKey = plugins
@@ -93,6 +99,8 @@ export function AetherEditorRoot({
         created,
         setShellMarkdown,
         setDoc,
+        prevControlledRef,
+        isControlled,
         (next) => onChangeRef.current?.(next),
       );
     }
@@ -155,6 +163,8 @@ export function AetherEditorRoot({
         recreated,
         setShellMarkdown,
         setDoc,
+        prevControlledRef,
+        isControlled,
         (next) => onChangeRef.current?.(next),
       );
 

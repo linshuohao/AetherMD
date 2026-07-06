@@ -258,7 +258,7 @@ function pmInlineContentToAether(node: ProseMirrorNode): AetherInline[] {
   return mergeInlineSiblings(node.content.content.map(pmInlineToAether));
 }
 
-function pmBlockToAether(node: ProseMirrorNode): AetherBlock {
+export function pmBlockToAether(node: ProseMirrorNode): AetherBlock {
   if (node.type.name === "paragraph") {
     const children = pmInlineContentToAether(node);
     return { type: "paragraph", children };

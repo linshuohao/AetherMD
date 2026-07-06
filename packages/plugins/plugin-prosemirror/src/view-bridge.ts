@@ -1,6 +1,7 @@
 import type { AdapterCommandRequest, EngineSession } from "@aether-md/core";
 import { EditorView } from "prosemirror-view";
 
+import { pmBlockToAether } from "./conversion.js";
 import { readSessionEditorState } from "./engine.js";
 
 export interface CreateProseMirrorViewOptions {
@@ -15,14 +16,14 @@ export interface ProseMirrorViewHandle {
 }
 
 function extractReplaceTextRequest(
-  session: EngineSession,
   blockIndex: number,
-  text: string,
+  request: Pick<AdapterCommandRequest, "children" | "text">,
 ): AdapterCommandRequest {
   return {
     type: "replaceText",
     blockIndex,
-    text,
+    ...(request.children !== undefined ? { children: request.children } : {}),
+    ...(request.text !== undefined ? { text: request.text } : {}),
   };
 }
 
@@ -42,24 +43,29 @@ export function createProseMirrorView(
           return;
         }
 
-        if (dispatchInput) {
-          const nextState = view.state.apply(transaction);
-          view.updateState(nextState);
+        const nextState = view.state.apply(transaction);
+        view.updateState(nextState);
 
-          for (let index = 0; index < transaction.doc.childCount; index += 1) {
-            const block = transaction.doc.child(index);
-            if (block.type.name === "paragraph" || block.type.name === "heading") {
-              dispatchInput(
-                extractReplaceTextRequest(session, index, block.textContent),
-              );
-              return;
-            }
-          }
+        if (!dispatchInput || !transaction.docChanged) {
           return;
         }
 
-        const nextState = view.state.apply(transaction);
-        view.updateState(nextState);
+        const blockIndex = transaction.selection.$from.index(0);
+        const block = transaction.doc.child(blockIndex);
+        if (block.type.name !== "paragraph" && block.type.name !== "heading") {
+          return;
+        }
+
+        const aetherBlock = pmBlockToAether(block);
+        if (aetherBlock.type !== "paragraph" && aetherBlock.type !== "heading") {
+          return;
+        }
+
+        dispatchInput(
+          extractReplaceTextRequest(blockIndex, {
+            children: aetherBlock.children,
+          }),
+        );
       },
     });
   }

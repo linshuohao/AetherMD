@@ -39,6 +39,53 @@ describe("GateLock integration (ci-checklist #41)", () => {
     cleanup();
   });
 
+  it("does not remount editor when onChange echoes edited markdown back to value", async () => {
+    let capturedEditor: AetherEditor | null = null;
+
+    function handleReady(editor: AetherEditor) {
+      capturedEditor = editor;
+    }
+
+    function ControlledShell() {
+      const [markdown, setMarkdown] = useState("Hello world\n");
+
+      return React.createElement(
+        AetherEditorRoot,
+        {
+          plugins: createGfmEditorPlugins(),
+          value: markdown,
+          onChange: setMarkdown,
+        },
+        React.createElement(AetherEditorContent),
+        React.createElement(EditorProbe, { onReady: handleReady }),
+      );
+    }
+
+    render(React.createElement(ControlledShell));
+
+    await waitFor(() => {
+      assert.ok(capturedEditor);
+    });
+
+    const editorBeforeEdit = capturedEditor;
+
+    await act(async () => {
+      assert.ok(capturedEditor);
+      const result = await capturedEditor.dispatch({
+        id: "core:replaceText",
+        payload: { blockIndex: 0, text: "Hello AetherMD" },
+      });
+      assert.equal(result.ok, true);
+    });
+
+    await waitFor(() => {
+      const probe = document.querySelector('[data-testid="markdown-probe"]');
+      assert.match(probe?.textContent ?? "", /Hello AetherMD/);
+      assert.equal(capturedEditor, editorBeforeEdit);
+      assert.ok(document.querySelector(".ProseMirror"));
+    });
+  });
+
   it("does not reset document when controlled value re-renders with the same markdown string", async () => {
     let capturedEditor: AetherEditor | null = null;
 

@@ -1,8 +1,9 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { GlobalRegistrator } from "@happy-dom/global-registrator";
+import { TextSelection } from "prosemirror-state";
 
-import type { AetherDoc } from "@aether-md/core";
+import type { AdapterCommandRequest, AetherDoc } from "@aether-md/core";
 
 import { createProseMirrorEngineAdapter } from "./engine.js";
 import {
@@ -70,6 +71,74 @@ describe("createProseMirrorView", () => {
     handle.destroy();
     assert.doesNotThrow(() => handle.destroy());
 
+    dom.remove();
+  });
+
+  it("does not dispatch input for selection-only transactions", async () => {
+    const session = await engine.create(paragraphDoc("Hello"));
+    const dom = document.createElement("div");
+    document.body.appendChild(dom);
+
+    let dispatchCount = 0;
+    const handle = createProseMirrorView({
+      session,
+      dom,
+      dispatchInput() {
+        dispatchCount += 1;
+      },
+    });
+
+    handle.view.dispatch(
+      handle.view.state.tr.setSelection(TextSelection.create(handle.view.state.doc, 3)),
+    );
+
+    assert.equal(dispatchCount, 0);
+
+    handle.destroy();
+    dom.remove();
+  });
+
+  it("dispatches structured inline children for edited blocks", async () => {
+    const session = await engine.create({
+      type: "doc",
+      children: [
+        {
+          type: "paragraph",
+          children: [
+            { type: "text", text: "Hello " },
+            {
+              type: "mark",
+              mark: "strong",
+              children: [{ type: "text", text: "AetherMD" }],
+            },
+          ],
+        },
+      ],
+    });
+    const dom = document.createElement("div");
+    document.body.appendChild(dom);
+
+    let capturedRequest: AdapterCommandRequest | null = null;
+    const handle = createProseMirrorView({
+      session,
+      dom,
+      dispatchInput(request) {
+        capturedRequest = request;
+      },
+    });
+
+    handle.view.dispatch(
+      handle.view.state.tr.insertText("!", handle.view.state.selection.from),
+    );
+
+    assert.ok(capturedRequest);
+    const request = capturedRequest as AdapterCommandRequest;
+    assert.equal(request.type, "replaceText");
+    assert.equal(request.blockIndex, 0);
+    assert.ok(request.children);
+    assert.match(JSON.stringify(request.children), /strong/);
+
+    handle.destroy();
     dom.remove();
   });
 

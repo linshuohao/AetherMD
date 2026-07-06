@@ -10,6 +10,7 @@ import { useAetherEditor } from "./use-aether-editor.js";
 export function AetherEditorContent() {
   const { editor, ready } = useAetherEditor();
   const containerRef = useRef<HTMLDivElement>(null);
+  const pendingLocalEditsRef = useRef(0);
 
   useEffect(() => {
     if (!editor || !ready || !containerRef.current) {
@@ -21,17 +22,39 @@ export function AetherEditorContent() {
       session,
       dom: containerRef.current,
       dispatchInput: (request: AdapterCommandRequest) => {
-        void editor.dispatch({
-          id: "core:replaceText",
-          payload: {
-            blockIndex: request.blockIndex,
-            text: request.text,
-          },
-        });
+        pendingLocalEditsRef.current += 1;
+        void editor
+          .dispatch({
+            id: "core:replaceText",
+            payload: {
+              blockIndex: request.blockIndex,
+              ...(request.children !== undefined
+                ? { children: request.children }
+                : { text: request.text ?? "" }),
+            },
+          })
+          .then((result) => {
+            if (!result.ok) {
+              pendingLocalEditsRef.current = Math.max(
+                0,
+                pendingLocalEditsRef.current - 1,
+              );
+            }
+          })
+          .catch(() => {
+            pendingLocalEditsRef.current = Math.max(
+              0,
+              pendingLocalEditsRef.current - 1,
+            );
+          });
       },
     });
 
     const unsubscribe = editor.on("change", () => {
+      if (pendingLocalEditsRef.current > 0) {
+        pendingLocalEditsRef.current -= 1;
+        return;
+      }
       refreshProseMirrorViewFromSession(handle, session);
     });
 

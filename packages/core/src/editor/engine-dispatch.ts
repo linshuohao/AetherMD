@@ -1,4 +1,4 @@
-import type { AetherDoc, AetherSchema } from "../document-model.js";
+import type { AetherDoc, AetherInline, AetherSchema } from "../document-model.js";
 import type {
   AdapterCommandRequest,
   EngineAdapter,
@@ -27,15 +27,19 @@ export function toAdapterCommand(request: CommandRequest): AdapterCommandRequest
     return null;
   }
   const payload = request.payload as
-    | { blockIndex?: number; text?: string }
+    | { blockIndex?: number; text?: string; children?: AetherInline[] }
     | undefined;
-  if (payload?.blockIndex === undefined || payload.text === undefined) {
+  if (payload?.blockIndex === undefined) {
+    return null;
+  }
+  if (payload.text === undefined && payload.children === undefined) {
     return null;
   }
   return {
     type: "replaceText",
     blockIndex: payload.blockIndex,
-    text: payload.text,
+    ...(payload.text !== undefined ? { text: payload.text } : {}),
+    ...(payload.children !== undefined ? { children: payload.children } : {}),
   };
 }
 
