@@ -41,7 +41,7 @@ pnpm e2e:install   # 首次运行或 CI
 pnpm e2e:test
 ```
 
-Phase 1 覆盖 `examples/block-morphing` 的 smoke、Block Focus、Instant Morphing 与 GateLock 回归。CI 以独立非阻塞 job `e2e-playwright` 运行同一套用例。详见 [测试策略](docs/engineering/test-strategy.md)。
+Phase 1 覆盖 `examples/block-morphing` 的 smoke、Block Focus、Instant Morphing、GateLock 回归，以及场景 C / Slice B / 编辑隔离等 north star 场景（11 tests）。CI 以独立非阻塞 job `e2e-playwright` 运行同一套用例。详见 [测试策略](docs/engineering/test-strategy.md)。
 
 ## 文档入口
 

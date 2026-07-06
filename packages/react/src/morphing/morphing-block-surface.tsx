@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, type ChangeEvent } from "react";
+import { useCallback, useEffect, useRef, useState, type ChangeEvent } from "react";
 
 import type { AetherBlock, MorphingBlockStrategy } from "@aether-md/core";
 import { PARSE_BLOCK_MARKDOWN_COMMAND } from "@aether-md/core";
@@ -27,17 +27,16 @@ export function MorphingBlockSurface({
   const focusContext = useMorphingFocus();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const blockId = block.id ?? String(blockIndex);
+  const changeRevisionRef = useRef(0);
+  const inFlightEditRef = useRef<Promise<void> | null>(null);
+  const [draftSource, setDraftSource] = useState<string | null>(null);
+  const [pendingEdits, setPendingEdits] = useState(0);
 
   const documentFocused = focusContext !== null && focusContext.focusedBlockId === blockId;
   const focused = focusContext !== null ? documentFocused : localFocus;
 
-  const sourceText = strategy.serializeSource(block);
-
-  const focusTextarea = useCallback(() => {
-    requestAnimationFrame(() => {
-      textareaRef.current?.focus();
-    });
-  }, []);
+  const serializedSource = strategy.serializeSource(block);
+  const sourceText = focused && draftSource !== null ? draftSource : serializedSource;
 
   const handleFocus = useCallback(() => {
     if (focusContext) {
@@ -45,10 +44,9 @@ export function MorphingBlockSurface({
     } else {
       onLocalFocusChange?.(true);
     }
-    focusTextarea();
-  }, [blockId, focusContext, focusTextarea, onLocalFocusChange]);
+  }, [blockId, focusContext, onLocalFocusChange]);
 
-  const handleBlur = useCallback(() => {
+  const clearFocus = useCallback(() => {
     if (focusContext) {
       if (focusContext.focusedBlockId === blockId) {
         focusContext.setFocusedBlockId(null);
@@ -58,11 +56,23 @@ export function MorphingBlockSurface({
     }
   }, [blockId, focusContext, onLocalFocusChange]);
 
+  const handleBlur = useCallback(() => {
+    void (async () => {
+      if (inFlightEditRef.current) {
+        await inFlightEditRef.current;
+      }
+      clearFocus();
+    })();
+  }, [clearFocus]);
+
   useEffect(() => {
     if (focused) {
-      focusTextarea();
+      setDraftSource((previous) => previous ?? serializedSource);
+      textareaRef.current?.focus();
+      return;
     }
-  }, [focused, focusTextarea]);
+    setDraftSource(null);
+  }, [focused, blockId, serializedSource]);
 
   const handleChange = useCallback(
     (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -71,23 +81,42 @@ export function MorphingBlockSurface({
       }
 
       const rawSource = event.target.value;
-      void (async () => {
-        const replacement = await strategy.parseSource(rawSource, async (markdown) => {
-          const result = await editor.dispatch({
-            id: PARSE_BLOCK_MARKDOWN_COMMAND,
-            payload: { markdown },
-          });
-          if (!result.ok) {
-            return undefined;
-          }
-          return result.value as AetherBlock | undefined;
-        });
+      setDraftSource(rawSource);
+      const revision = ++changeRevisionRef.current;
 
-        await editor.dispatch({
-          id: "core:replaceText",
-          payload: { blockId, replacement },
-        });
+      const editPromise = (async () => {
+        setPendingEdits((count) => count + 1);
+        try {
+          const replacement = await strategy.parseSource(rawSource, async (markdown) => {
+            const result = await editor.dispatch({
+              id: PARSE_BLOCK_MARKDOWN_COMMAND,
+              payload: { markdown },
+            });
+            if (!result.ok) {
+              return undefined;
+            }
+            return result.value as AetherBlock | undefined;
+          });
+
+          if (revision !== changeRevisionRef.current) {
+            return;
+          }
+
+          await editor.dispatch({
+            id: "core:replaceText",
+            payload: { blockId, replacement },
+          });
+        } finally {
+          setPendingEdits((count) => Math.max(0, count - 1));
+        }
       })();
+
+      inFlightEditRef.current = editPromise;
+      void editPromise.finally(() => {
+        if (inFlightEditRef.current === editPromise) {
+          inFlightEditRef.current = null;
+        }
+      });
     },
     [editor, blockId, strategy],
   );
@@ -98,6 +127,8 @@ export function MorphingBlockSurface({
       data-block-id={blockId}
       data-block-type={block.type}
       data-focused={focused ? "true" : "false"}
+      data-pending-edits={pendingEdits}
+      data-edit-synced={pendingEdits === 0 ? "true" : "false"}
       className="aether-morphing-block"
     >
       {focused ? (
@@ -105,6 +136,7 @@ export function MorphingBlockSurface({
           ref={textareaRef}
           data-testid="morphing-source"
           className="aether-morphing-source"
+          aria-label={`Edit block ${blockIndex} source`}
           value={sourceText}
           onFocus={handleFocus}
           onBlur={handleBlur}
