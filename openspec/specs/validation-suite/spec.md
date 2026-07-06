@@ -230,7 +230,7 @@ References:
 - **GIVEN** this change is merged
 - **WHEN** a reader opens `docs/project-status.md`
 - **THEN** architecture demo delivery (L1) and product morphing north star (L2) are listed separately
-- **AND** L2 is marked not started or in planning with a link to `product-experience-spec`
+- **AND** L2 is marked Slice A delivered or in progress with a link to `product-experience-spec` and `examples/block-morphing`
 
 #### Scenario: React basic README does not claim product morphing
 
@@ -248,7 +248,7 @@ The repository SHALL treat `examples/react-basic` as the **L1 architecture pipel
 1. **ProseMirror user input path** — keyboard-equivalent edits through mounted `AetherEditorContent` update markdown preview for paragraph, heading, and list-item paragraph surfaces.
 2. **Programmatic dispatch path** — consecutive `core:replaceText` edits and GateLock preservation across parent rerender (existing `demo-slice-pr0-acceptance` coverage).
 
-This requirement validates **L1 only**. Product north star **L2** (Instant Morphing / Block Focus) is specified in `product-experience` and is out of scope for this requirement.
+This requirement validates **L1 only**. Product north star **L2** (Instant Morphing / Block Focus) is specified in `product-experience` and SHALL be demonstrated by `examples/block-morphing` after Slice A.
 
 CI MUST enforce both L1 paths where automatable; browser maintainer sign-off remains required before M7 demo sign-off but is not a CI gate for L1.
 
@@ -257,6 +257,7 @@ References:
 - `docs/engineering/demo-slice-delivery-program.md`
 - `examples/react-basic/README.md`
 - `docs/architecture/product-experience-spec.md`
+- `examples/block-morphing/README.md`
 - `openspec/changes/archive/2026-07-06-demo-slice-react-basic-pr0/baseline-record.md`
 
 #### Scenario: Maintainer can start the browser demo from workspace
@@ -278,3 +279,26 @@ References:
 - **WHEN** tests edit content and trigger a parent rerender without changing `value`
 - **THEN** the document content is preserved
 - **AND** markdown preview still reflects the edited content
+
+### Requirement: Block morphing example is part of the validation suite
+
+The workspace SHALL include `examples/block-morphing` as a private workspace package (`@aether-md/example-block-morphing`) that demonstrates L2 Slice A single-paragraph Instant Morphing. The example SHALL use `@aether-md/react` morphing surfaces with GFM preset wiring. The example `typecheck` task SHALL participate in root `pnpm check` through the workspace turbo pipeline.
+
+References:
+
+- `docs/architecture/product-experience-spec.md`
+- `docs/engineering/mvp-implementation-plan.md`
+- `examples/block-morphing/README.md`
+
+#### Scenario: Block morphing example typechecks in CI
+
+- **GIVEN** `block-morphing-slice-1` implementation is complete
+- **WHEN** `pnpm check` runs at the repository root
+- **THEN** `examples/block-morphing` `typecheck` (`tsc --noEmit`) succeeds
+
+#### Scenario: Maintainer can start block morphing browser demo
+
+- **GIVEN** the workspace is installed and built per `examples/block-morphing/README.md`
+- **WHEN** a maintainer runs `pnpm --filter @aether-md/example-block-morphing dev`
+- **THEN** a browser-rendered morphing editor loads without startup error
+- **AND** the UI demonstrates focus=source / blur=rendered without a separate preview panel

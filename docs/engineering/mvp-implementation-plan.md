@@ -135,7 +135,7 @@ M1–M6 横向里程碑与 L1 Demo Slice 程序均已闭合。**当前主叙事*
 | 切片 | 范围 | 状态 |
 | --- | --- | --- |
 | **纠偏规格** | `product-experience-spec`、L1/L2 分层、Phase 0 定性 | ✅ 已完成（`align-instant-morphing-north-star`） |
-| **Slice A** | 单段落块 rendered ↔ source morphing MVP | ⏳ 未开始（`block-morphing-slice-1` 待开） |
+| **Slice A** | 单段落块 rendered ↔ source morphing MVP | ✅ 已完成（`block-morphing-slice-1`） |
 | **Slice B** | GFM inline marks 在 source 态保真 | 未开始 |
 | **Slice C** | 多块 + Block Focus 切换 | 未开始 |
 | **Slice D** | 列表 / 链接块插件化 | 未开始 |
