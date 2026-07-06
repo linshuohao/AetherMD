@@ -1,4 +1,4 @@
-import type { AdapterCommandRequest, EngineSession } from "@aether-md/core";
+import type { EngineSession, ReplaceTextCommand } from "@aether-md/core";
 import { EditorView } from "prosemirror-view";
 import { TextSelection } from "prosemirror-state";
 
@@ -68,7 +68,7 @@ export function dispatchProseMirrorInsertText(
 export interface CreateProseMirrorViewOptions {
   session: EngineSession;
   dom: HTMLElement;
-  dispatchInput?: (request: AdapterCommandRequest) => void;
+  dispatchInput?: (request: ReplaceTextCommand) => void;
 }
 
 export interface ProseMirrorViewHandle {
@@ -79,7 +79,7 @@ export interface ProseMirrorViewHandle {
 function resolveDispatchInput(
   $from: import("prosemirror-state").Selection["$from"],
   doc: import("prosemirror-model").Node,
-): Pick<AdapterCommandRequest, "children" | "text"> | null {
+): Pick<ReplaceTextCommand, "children" | "text"> | null {
   const blockIndex = $from.index(0);
   const topBlock = doc.child(blockIndex);
 

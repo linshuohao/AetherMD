@@ -31,3 +31,26 @@ export function withPreservedBlockId(
   const id = target?.id ?? replacement.id ?? createBlockId();
   return { ...replacement, id };
 }
+
+export function moveBlockInDocument(
+  doc: AetherDoc,
+  blockId: string,
+  toIndex: number,
+): AetherDoc | undefined {
+  const fromIndex = findBlockIndexById(doc, blockId);
+  if (fromIndex === undefined || toIndex < 0 || toIndex >= doc.children.length) {
+    return undefined;
+  }
+
+  if (fromIndex === toIndex) {
+    return doc;
+  }
+
+  const children = [...doc.children];
+  const [block] = children.splice(fromIndex, 1);
+  if (!block) {
+    return undefined;
+  }
+  children.splice(toIndex, 0, block);
+  return { type: "doc", children };
+}

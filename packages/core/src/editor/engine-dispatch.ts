@@ -5,6 +5,7 @@ import type { CommandId, CommandRequest } from "../command-event-types.js";
 import type { CommandEventRuntime } from "../command-event-runtime.js";
 
 export const ENGINE_REPLACE_TEXT_COMMAND = "core:replaceText" as CommandId;
+export const ENGINE_MOVE_BLOCK_COMMAND = "core:moveBlock" as CommandId;
 
 export interface EngineDispatchDeps {
   engine: EngineAdapter;
@@ -16,7 +17,7 @@ export interface EngineDispatchDeps {
 }
 
 export function isEngineBoundCommand(id: CommandId): boolean {
-  return id === ENGINE_REPLACE_TEXT_COMMAND;
+  return id === ENGINE_REPLACE_TEXT_COMMAND || id === ENGINE_MOVE_BLOCK_COMMAND;
 }
 
 export function resolveReplaceTextBlockIndex(
@@ -41,6 +42,24 @@ export function toAdapterCommand(
   doc: AetherDoc,
   request: CommandRequest,
 ): AdapterCommandRequest | null {
+  if (request.id === ENGINE_MOVE_BLOCK_COMMAND) {
+    const payload = request.payload as { blockId?: string; toIndex?: number } | undefined;
+    if (payload?.blockId === undefined || payload.toIndex === undefined) {
+      return null;
+    }
+    if (findBlockIndexById(doc, payload.blockId) === undefined) {
+      return null;
+    }
+    if (payload.toIndex < 0 || payload.toIndex >= doc.children.length) {
+      return null;
+    }
+    return {
+      type: "moveBlock",
+      blockId: payload.blockId,
+      toIndex: payload.toIndex,
+    };
+  }
+
   if (request.id !== ENGINE_REPLACE_TEXT_COMMAND) {
     return null;
   }

@@ -9,7 +9,7 @@ import type {
   SerializerAdapter,
   TextInline,
 } from "@aether-md/core";
-import { AdapterError } from "@aether-md/core";
+import { AdapterError, ensureDocumentBlockIds } from "@aether-md/core";
 
 const DEFAULT_SCHEMA = { version: 1 as const };
 
@@ -101,6 +101,44 @@ export function runEngineAdapterContractTests(
         type: "replaceText",
         blockIndex: 99,
         text: "invalid",
+      });
+      assert.equal(result.ok, false);
+      assert.ok(result.error instanceof AdapterError);
+      assert.deepEqual(engine.getDocument(session), before);
+    });
+
+    it("apply returns ok true with reordered doc on successful moveBlock", async () => {
+      const initial = ensureDocumentBlockIds({
+        type: "doc",
+        children: [
+          { type: "paragraph", children: [{ type: "text", text: "A" }] },
+          { type: "paragraph", children: [{ type: "text", text: "B" }] },
+        ],
+      });
+      const session = await engine.create(initial);
+      const blockBId = initial.children[1]!.id!;
+
+      const result = await engine.apply(session, {
+        type: "moveBlock",
+        blockId: blockBId,
+        toIndex: 0,
+      });
+
+      assert.equal(result.ok, true);
+      assert.ok(result.doc);
+      assert.equal(result.doc!.children[0]?.id, blockBId);
+      const block = result.doc!.children[0] as ParagraphBlock;
+      assert.equal((block.children[0] as TextInline).text, "B");
+    });
+
+    it("apply returns AdapterError and preserves snapshot on failed moveBlock", async () => {
+      const initial = paragraphDoc("Hello world");
+      const session = await engine.create(initial);
+      const before = engine.getDocument(session);
+      const result = await engine.apply(session, {
+        type: "moveBlock",
+        blockId: "blk_missing",
+        toIndex: 0,
       });
       assert.equal(result.ok, false);
       assert.ok(result.error instanceof AdapterError);

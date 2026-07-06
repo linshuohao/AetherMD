@@ -6,6 +6,7 @@ import {
   ensureBlockId,
   ensureDocumentBlockIds,
   findBlockIndexById,
+  moveBlockInDocument,
   withPreservedBlockId,
 } from "./block-ids.js";
 
@@ -74,5 +75,31 @@ describe("block ids", () => {
     if (merged.type === "paragraph") {
       assert.equal(merged.children[0]?.type === "text" && merged.children[0].text, "new");
     }
+  });
+
+  it("moveBlockInDocument reorders while preserving block ids", () => {
+    const doc = ensureDocumentBlockIds({
+      type: "doc",
+      children: [
+        { type: "paragraph", children: [{ type: "text", text: "A" }] },
+        { type: "paragraph", children: [{ type: "text", text: "B" }] },
+        { type: "paragraph", children: [{ type: "text", text: "C" }] },
+      ],
+    });
+
+    const blockBId = doc.children[1]!.id!;
+    const moved = moveBlockInDocument(doc, blockBId, 2);
+    assert.ok(moved);
+    assert.equal(moved.children[2]?.id, blockBId);
+    assert.equal(findBlockIndexById(moved, blockBId), 2);
+  });
+
+  it("moveBlockInDocument returns undefined for unknown block id", () => {
+    const doc = ensureDocumentBlockIds({
+      type: "doc",
+      children: [{ type: "paragraph", children: [{ type: "text", text: "A" }] }],
+    });
+
+    assert.equal(moveBlockInDocument(doc, "blk_missing", 0), undefined);
   });
 });
