@@ -2,13 +2,14 @@ import { useState } from "react";
 
 import {
   AetherEditorRoot,
-  AetherMorphingContent,
+  AetherMorphingDocument,
 } from "@aether-md/react";
 
 import { createGfmEditorPlugins } from "./plugins.js";
 
-/** Slice A: single paragraph with strong emphasis. */
-const INITIAL_MARKDOWN = "Hello **world**\n";
+/** Slice C: three paragraphs for multi-block Block Focus. */
+const INITIAL_MARKDOWN =
+  "First **one**\n\nSecond **two**\n\nThird plain\n";
 
 export function App() {
   const [markdown, setMarkdown] = useState(INITIAL_MARKDOWN);
@@ -16,11 +17,11 @@ export function App() {
 
   return (
     <main className="app">
-      <h1>AetherMD Block Morphing — Slice A</h1>
+      <h1>AetherMD Block Morphing — Slice C</h1>
       <p className="lede">
-        L2 product north star demo: click the paragraph to see Markdown source
-        with <code>**</code> sigils; click away to see rendered typography. No
-        separate preview panel.
+        L2 product north star demo: click any paragraph to edit its Markdown
+        source with <code>**</code> sigils; click another paragraph to switch
+        Block Focus. Only one block is in source state at a time.
       </p>
       <button
         type="button"
@@ -34,10 +35,10 @@ export function App() {
         value={markdown}
         onChange={setMarkdown}
       >
-        <AetherMorphingContent />
+        <AetherMorphingDocument />
       </AetherEditorRoot>
       <p className="hint">
-        Slice A scope: single paragraph only. See{" "}
+        Slice C scope: paragraph blocks only. See{" "}
         <code>docs/architecture/product-experience-spec.md</code> for full north
         star.
       </p>

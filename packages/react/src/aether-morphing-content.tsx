@@ -1,10 +1,9 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useState } from "react";
+
+import type { ParagraphBlock } from "@aether-md/core";
 
 import { useAetherEditor } from "./use-aether-editor.js";
-import {
-  paragraphSourceFromMarkdown,
-  renderParagraphInline,
-} from "./morphing/paragraph-render.js";
+import { MorphingBlockSurface } from "./morphing/morphing-block-surface.js";
 
 export interface AetherMorphingContentProps {
   /** Document block index; Slice A defaults to single paragraph at 0. */
@@ -14,51 +13,22 @@ export interface AetherMorphingContentProps {
 export function AetherMorphingContent({
   blockIndex = 0,
 }: AetherMorphingContentProps) {
-  const { editor, ready, markdown } = useAetherEditor();
+  const { ready, doc } = useAetherEditor();
   const [focused, setFocused] = useState(false);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const sourceText = paragraphSourceFromMarkdown(markdown);
 
-  const focusTextarea = useCallback(() => {
-    requestAnimationFrame(() => {
-      textareaRef.current?.focus();
-    });
-  }, []);
-
-  const handleFocus = useCallback(() => {
-    setFocused(true);
-    focusTextarea();
-  }, [focusTextarea]);
-
-  const handleBlur = useCallback(() => {
-    setFocused(false);
-  }, []);
-
-  useEffect(() => {
-    if (focused) {
-      focusTextarea();
-    }
-  }, [focused, focusTextarea]);
-
-  const handleChange = useCallback(
-    (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-      if (!editor) {
-        return;
-      }
-
-      const text = event.target.value;
-      void editor.dispatch({
-        id: "core:replaceText",
-        payload: { blockIndex, text },
-      });
-    },
-    [editor, blockIndex],
-  );
-
-  if (!ready) {
+  if (!ready || !doc) {
     return (
       <div data-testid="aether-morphing-content" data-ready="false">
         Loading…
+      </div>
+    );
+  }
+
+  const block = doc.children[blockIndex];
+  if (!block || block.type !== "paragraph") {
+    return (
+      <div data-testid="aether-morphing-content" data-ready="true">
+        <p>Unsupported block at index {blockIndex}</p>
       </div>
     );
   }
@@ -68,34 +38,13 @@ export function AetherMorphingContent({
       data-testid="aether-morphing-content"
       data-ready="true"
       data-focused={focused ? "true" : "false"}
-      className="aether-morphing-block"
     >
-      {focused ? (
-        <textarea
-          ref={textareaRef}
-          data-testid="morphing-source"
-          className="aether-morphing-source"
-          value={sourceText}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          onChange={handleChange}
-          rows={3}
-          spellCheck={false}
-        />
-      ) : (
-        <div
-          data-testid="morphing-rendered"
-          className="aether-morphing-rendered"
-          tabIndex={0}
-          onFocus={handleFocus}
-          onMouseDown={(event) => {
-            event.preventDefault();
-            handleFocus();
-          }}
-        >
-          {renderParagraphInline(markdown)}
-        </div>
-      )}
+      <MorphingBlockSurface
+        blockIndex={blockIndex}
+        block={block as ParagraphBlock}
+        localFocus={focused}
+        onLocalFocusChange={setFocused}
+      />
     </div>
   );
 }

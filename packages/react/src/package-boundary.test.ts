@@ -15,10 +15,11 @@ const FORBIDDEN_CORE_REEXPORTS = [
 ] as const;
 
 describe("@aether-md/react package boundary", () => {
-  it("exports AetherEditorRoot, AetherEditorContent, AetherMorphingContent, and useAetherEditor", () => {
+  it("exports AetherEditorRoot, AetherEditorContent, AetherMorphingContent, AetherMorphingDocument, and useAetherEditor", () => {
     assert.equal(typeof reactShell.AetherEditorRoot, "function");
     assert.equal(typeof reactShell.AetherEditorContent, "function");
     assert.equal(typeof reactShell.AetherMorphingContent, "function");
+    assert.equal(typeof reactShell.AetherMorphingDocument, "function");
     assert.equal(typeof reactShell.useAetherEditor, "function");
   });
 

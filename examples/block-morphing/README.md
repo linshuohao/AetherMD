@@ -1,11 +1,11 @@
-# Block Morphing Example (L2 Slice A)
+# Block Morphing Example (L2 Slice C)
 
-**L2 product north star demo** — single-paragraph Instant Morphing for AetherMD.
+**L2 product north star demo** — multi-paragraph Instant Morphing + Block Focus for AetherMD.
 
 | | |
 | --- | --- |
-| **Proves** | Focus = Markdown source (`**` visible); blur = rendered typography; edits via Command Bus; GateLock |
-| **Does not prove** | Multi-block Block Focus (Slice C), full GFM mark fidelity (Slice B), M7 publish |
+| **Proves** | Focus = Markdown source (`**` visible); blur = rendered typography; only one block in source state; edits via Command Bus; GateLock |
+| **Does not prove** | Full GFM mark fidelity (Slice B), list/link blocks (Slice D), M7 publish |
 
 For the L1 architecture pipeline demo, see [`examples/react-basic`](../react-basic/README.md).
 
@@ -28,15 +28,17 @@ Open the URL Vite prints (typically `http://localhost:5173`).
 
 ## What to try
 
-1. Click the paragraph — you should see `Hello **world**` in a monospace textarea.
-2. Edit the text (e.g. change to `Hello **universe**`) and click outside — bold rendering without `**` sigils.
-3. Use **Force parent rerender** — content should not reset (GateLock).
+1. Click paragraph A — you should see `First **one**` in a monospace textarea; other paragraphs stay rendered.
+2. Click paragraph B — only B shows source; A morphs back to rendered bold text.
+3. Edit paragraph B (e.g. change to `Second **edited**`) — paragraph A content must not reset.
+4. Use **Force parent rerender** — content should not reset (GateLock).
 
-## Slice A limits
+## Slice C limits
 
-- Single paragraph document only (`blockIndex` 0).
+- Paragraph blocks only (three-paragraph fixture).
 - Rendered state supports `**strong**` inline only (MVP).
 - No separate preview panel by design.
+- `AetherMorphingContent` remains available for single-block use; this demo uses `AetherMorphingDocument`.
 
 ## Related docs
 
