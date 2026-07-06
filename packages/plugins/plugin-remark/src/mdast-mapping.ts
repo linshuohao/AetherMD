@@ -8,7 +8,7 @@ import type {
   ParagraphBlock,
   TextInline,
 } from "@aether-md/core";
-import { SerializationError } from "@aether-md/core";
+import { SerializationError, ensureBlockId } from "@aether-md/core";
 import type {
   BlockContent,
   Content,
@@ -142,7 +142,7 @@ function blockFromMdast(node: Content): AetherBlock {
 }
 
 export function mdastToAetherDoc(root: Root): AetherDoc {
-  const children = root.children.map((node) => blockFromMdast(node));
+  const children = root.children.map((node) => ensureBlockId(blockFromMdast(node)));
 
   return {
     type: "doc",

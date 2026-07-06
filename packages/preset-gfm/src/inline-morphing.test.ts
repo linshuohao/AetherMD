@@ -52,7 +52,9 @@ describe("gfm-inline-morphing", () => {
     const reparsed = await preset.parser.parse(`${serialized}\n`, schema);
     const reparsedParagraph = reparsed.children[0];
     assert.equal(reparsedParagraph?.type, "paragraph");
-    assert.deepEqual(reparsedParagraph, paragraph);
+    if (paragraph?.type === "paragraph" && reparsedParagraph?.type === "paragraph") {
+      assert.deepEqual(reparsedParagraph.children, paragraph.children);
+    }
   });
 
   it("serializeInlineToMarkdown handles individual mark types", () => {

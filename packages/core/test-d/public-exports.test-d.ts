@@ -2,8 +2,11 @@ import { expectType } from "tsd";
 
 import {
   PARSE_BLOCK_MARKDOWN_COMMAND,
+  createBlockId,
   createEditor,
   createMorphingStrategyRegistry,
+  ensureDocumentBlockIds,
+  findBlockIndexById,
   type AetherEditor,
   type MorphingBlockStrategy,
   type ParseBlockMarkdownPayload,
@@ -31,3 +34,6 @@ expectType<typeof PARSE_BLOCK_MARKDOWN_COMMAND>("core:parseBlockMarkdown");
 
 void payload;
 void createEditor;
+void createBlockId;
+void ensureDocumentBlockIds;
+void findBlockIndexById;

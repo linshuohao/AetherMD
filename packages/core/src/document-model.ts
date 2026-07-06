@@ -10,23 +10,27 @@ export type AetherInline = TextInline | LinkInline | MarkedInline;
 
 export interface ParagraphBlock {
   type: "paragraph";
+  id?: string;
   children: AetherInline[];
 }
 
 export interface HeadingBlock {
   type: "heading";
+  id?: string;
   level: 1 | 2 | 3 | 4 | 5 | 6;
   children: AetherInline[];
 }
 
 export interface ListBlock {
   type: "list";
+  id?: string;
   ordered: boolean;
   items: AetherBlock[][];
 }
 
 export interface CustomBlock {
   type: "custom";
+  id?: string;
   name: string;
   attrs?: Record<string, unknown>;
   children?: AetherBlock[] | AetherInline[];

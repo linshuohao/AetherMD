@@ -1,4 +1,5 @@
 import type { AetherBlock, AetherDoc, AetherInline, AetherSchema } from "../document-model.js";
+import { findBlockIndexById, withPreservedBlockId } from "../block-ids.js";
 import type { AdapterCommandRequest, EngineAdapter, EngineSession } from "../adapter-types.js";
 import type { CommandId, CommandRequest } from "../command-event-types.js";
 import type { CommandEventRuntime } from "../command-event-runtime.js";
@@ -18,34 +19,65 @@ export function isEngineBoundCommand(id: CommandId): boolean {
   return id === ENGINE_REPLACE_TEXT_COMMAND;
 }
 
-export function toAdapterCommand(request: CommandRequest): AdapterCommandRequest | null {
+export function resolveReplaceTextBlockIndex(
+  doc: AetherDoc,
+  payload: {
+    blockIndex?: number;
+    blockId?: string;
+  },
+): number | undefined {
+  if (payload.blockId !== undefined) {
+    return findBlockIndexById(doc, payload.blockId);
+  }
+
+  if (payload.blockIndex !== undefined) {
+    return payload.blockIndex;
+  }
+
+  return undefined;
+}
+
+export function toAdapterCommand(
+  doc: AetherDoc,
+  request: CommandRequest,
+): AdapterCommandRequest | null {
   if (request.id !== ENGINE_REPLACE_TEXT_COMMAND) {
     return null;
   }
   const payload = request.payload as
     | {
         blockIndex?: number;
+        blockId?: string;
         text?: string;
         children?: AetherInline[];
         replacement?: AetherBlock;
       }
     | undefined;
-  if (payload?.blockIndex === undefined) {
+
+  const blockIndex = payload ? resolveReplaceTextBlockIndex(doc, payload) : undefined;
+  if (blockIndex === undefined) {
     return null;
   }
   if (
-    payload.replacement === undefined &&
-    payload.text === undefined &&
-    payload.children === undefined
+    payload?.replacement === undefined &&
+    payload?.text === undefined &&
+    payload?.children === undefined
   ) {
     return null;
   }
+
+  const target = doc.children[blockIndex];
+  const replacement =
+    payload?.replacement !== undefined
+      ? withPreservedBlockId(target, payload.replacement)
+      : undefined;
+
   return {
     type: "replaceText",
-    blockIndex: payload.blockIndex,
-    ...(payload.text !== undefined ? { text: payload.text } : {}),
-    ...(payload.children !== undefined ? { children: payload.children } : {}),
-    ...(payload.replacement !== undefined ? { replacement: payload.replacement } : {}),
+    blockIndex,
+    ...(payload?.text !== undefined ? { text: payload.text } : {}),
+    ...(payload?.children !== undefined ? { children: payload.children } : {}),
+    ...(replacement !== undefined ? { replacement } : {}),
   };
 }
 
@@ -53,9 +85,9 @@ export async function dispatchEngineCommand(
   deps: EngineDispatchDeps,
   request: CommandRequest,
 ): Promise<{ ok: true; doc: AetherDoc } | { ok: false; restored: AetherDoc }> {
-  const adapterRequest = toAdapterCommand(request);
+  const snapshot = deps.getDoc();
+  const adapterRequest = toAdapterCommand(snapshot, request);
   if (!adapterRequest) {
-    const restored = deps.getDoc();
     deps.runtime.emit({
       name: "transactionFailed",
       source: "core",
@@ -65,10 +97,9 @@ export async function dispatchEngineCommand(
         error: { message: "Invalid engine command payload" },
       },
     });
-    return { ok: false, restored };
+    return { ok: false, restored: snapshot };
   }
 
-  const snapshot = deps.getDoc();
   const result = await deps.engine.apply(deps.session, adapterRequest);
 
   if (!result.ok || !result.doc) {
