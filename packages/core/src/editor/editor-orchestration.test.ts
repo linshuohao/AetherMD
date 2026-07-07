@@ -312,4 +312,31 @@ describe("createEditor orchestration", () => {
     }
     await editor.dispose();
   });
+
+  it("exposes effective grantedPermissions on EditorContext", async () => {
+    const plugin = createMockPreset();
+    const editor = await createEditor({
+      plugins: [plugin],
+      security: { grantedPermissions: ["perm:dom", "perm:clipboard"] },
+    });
+
+    assert.equal(editor.context.grantedPermissions.has("perm:dom"), true);
+    assert.equal(editor.context.grantedPermissions.has("perm:clipboard"), true);
+    assert.equal(editor.context.grantedPermissions.has("perm:network"), false);
+    await editor.dispose();
+  });
+
+  it("denies clipboard service when perm:clipboard is not granted", async () => {
+    const plugin = createMockPreset();
+    const editor = await createEditor({
+      plugins: [plugin],
+      security: { grantedPermissions: ["perm:dom"] },
+    });
+
+    assert.throws(
+      () => editor.context.services.clipboard.copy("blocked"),
+      (error: unknown) => error instanceof CoreError && error.code === "PERMISSION_DENIED",
+    );
+    await editor.dispose();
+  });
 });
