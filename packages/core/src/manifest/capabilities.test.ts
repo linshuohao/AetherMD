@@ -6,7 +6,7 @@ import { CoreError } from "../errors.js";
 import { loadPluginManifests } from "./manifest.js";
 
 describe("validateServiceCapabilities", () => {
-  it("accepts capabilities provided by the M1 Core set", () => {
+  it("accepts capabilities provided by the builtin core set", () => {
     const loaded = loadPluginManifests([
       {
         manifest: {

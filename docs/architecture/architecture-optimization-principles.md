@@ -1,6 +1,5 @@
 # 架构优化原则与设计模式
 
-> 状态：设计护栏 · 2026-07  
 > 适用范围：桥接层、Adapter、Preset、React Shell / Morphing surface、Markdown 往返链路  
 > 非目标：本文不改变运行时代码、公开 API、OpenSpec 主规格或 ADR 结论。
 
@@ -282,9 +281,9 @@ Shell 保留 focus、blur、commit、GateLock 和 dispatch 编排。
 
 ### ProseMirror bridge 承担产品 north star
 
-M5 ProseMirror view bridge 是 Phase 0 集成壳，用于证明 `createEditor -> DOM -> Command -> serialize` 管线。L2 产品 north star 应逐步转向 block-level morphing surface。
+ProseMirror view bridge 是集成壳，用于证明 `createEditor -> DOM -> Command -> serialize` 管线。产品 north star 以 block-level morphing surface 为主。
 
-这不要求删除 ProseMirror bridge；它仍可作为编辑引擎或 L1 pipeline 验证路径存在。
+这不要求删除 ProseMirror bridge；它仍可作为编辑引擎或架构集成验证路径存在。
 
 ## 推荐演进阶段
 

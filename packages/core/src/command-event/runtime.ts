@@ -36,7 +36,7 @@ interface StoredRegistration {
   meta: CommandRegistrationMeta;
 }
 
-/** M2 Command/Event runtime with optional Guard pipeline and priority batch dispatch. */
+/** Command/Event runtime with optional Guard pipeline and priority batch dispatch. */
 export function createCommandEventRuntime(
   options: CommandRuntimeOptions = {},
 ): CommandEventRuntime {

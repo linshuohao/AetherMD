@@ -1,7 +1,5 @@
 # ConflictResolver 默认实现参考
 
-> 状态：设计草案。实现开始前，本页作为对应主题的维护入口。
-
 ## ConflictResolver 默认实现参考
 
 ```typescript

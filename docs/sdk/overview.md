@@ -1,6 +1,6 @@
 # Plugin SDK 概述
 
-> 状态：设计草案 + M1–M5 最小基线已实现（M5 最小 React Shell 集成在 `@aether-md/react`）。本页作为对应主题的维护入口；完整 Command Pipeline 仍属 v1.0 目标。
+> 本页作为 Plugin SDK 主题的维护入口；完整 Command Pipeline 仍属 v1.0 目标。
 
 ## 概述
 

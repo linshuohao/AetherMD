@@ -1,7 +1,5 @@
 # CustomBlockRenderer
 
-> 状态：设计草案。实现开始前，本页作为对应主题的维护入口。
-
 ## CustomBlockRenderer
 
 ```typescript

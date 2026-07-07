@@ -7,13 +7,13 @@
 | Component                | Role                                                                                                 |
 | ------------------------ | ---------------------------------------------------------------------------------------------------- |
 | `AetherEditorRoot`       | Creates an `AetherEditor` via `createEditor`, provides Vue context, GateLock for controlled `value`. |
-| `AetherMorphingDocument` | **Primary — L2 north star** — multi-block Block Focus with preset morphing strategies.               |
-| `AetherMorphingContent`  | Single-block morphing helper (Slice A default: paragraph at index `0`).                              |
+| `AetherMorphingDocument` | **Primary** — multi-block Block Focus with preset morphing strategies (product north star).          |
+| `AetherMorphingContent`  | Single-block morphing helper (default: paragraph at index `0`).                                      |
 | `useAetherEditor`        | Access `editor`, `doc`, `markdown`, and `ready` from context.                                        |
 
-## L2 morphing shell (primary)
+## Morphing shell（产品面）
 
-`AetherMorphingDocument` / `AetherMorphingContent` implement Instant Morphing and Block Focus per [Product Experience Specification](../architecture/product-experience-spec.md). Use them for product UI aligned with the L2 north star.
+`AetherMorphingDocument` / `AetherMorphingContent` implement Instant Morphing and Block Focus per [Product Experience Specification](../architecture/product-experience-spec.md). Use them for product UI aligned with the north star.
 
 ```vue
 <script setup lang="ts">
@@ -36,15 +36,15 @@ Ensure the GFM preset (or your preset) registers `morphingStrategies` on the wir
 
 Use `AetherMorphingContent` with optional `blockIndex` when only one morphing block is on screen.
 
-## Legacy L1 shell
+## 集成壳（`@aether-md/vue/legacy`）
 
-`AetherEditorContent` mounts the ProseMirror view-bridge (`createProseMirrorView`). It validates the `createEditor` → DOM → `dispatch` → serialize pipeline and is the right surface for the L1 architecture demo (`examples/vue`, `AetherShellShowcase` content mode).
+`AetherEditorContent` mounts the ProseMirror view-bridge (`createProseMirrorView`). It validates the `createEditor` → DOM → `dispatch` → serialize pipeline and is the right surface for architecture integration demos (`examples/vue`, `AetherShellShowcase` content mode).
 
 Import from the **`@aether-md/vue/legacy`** subpath. The primary `@aether-md/vue` entry is morphing-first and does not export `AetherEditorContent`. Legacy usage requires `@aether-md/plugin-prosemirror` as an optional peer dependency.
 
-| Component             | Role                                                                                        |
-| --------------------- | ------------------------------------------------------------------------------------------- |
-| `AetherEditorContent` | **Legacy L1** — ProseMirror view-bridge integration; not the L2 product north star surface. |
+| Component             | Role                                                                           |
+| --------------------- | ------------------------------------------------------------------------------ |
+| `AetherEditorContent` | ProseMirror view-bridge integration shell; not the product north star surface. |
 
 ```vue
 <script setup lang="ts">

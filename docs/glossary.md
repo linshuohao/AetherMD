@@ -1,12 +1,8 @@
 # 核心词汇表
 
-> 状态：设计草案 + M1 Core Bootstrap + M2 Command/Event Runtime + M3 Adapter 基座 + M4 GFM Preset。本页作为对应主题的维护入口。
-
-三套文档必须使用本页术语作为共同语言。
+三套文档 **MUST** 使用本页术语作为共同语言。
 
 ## 核心词汇表
-
-三套文档 **MUST** 使用以下统一术语（英文为主键，中文为对照）：
 
 | 术语                                 | 类型           | 插件声明                                  | 宿主配置                                   | 运行时                   |
 | ------------------------------------ | -------------- | ----------------------------------------- | ------------------------------------------ | ------------------------ |
@@ -23,11 +19,11 @@
 - **适配器 (Adapter)**：对 ProseMirror、Remark 等重型依赖的容器化封装层。
 - **预设 (Preset)**：官方语法/能力组合包（如 `@aether-md/preset-gfm`），通过 Manifest 与工厂入口声明 preset 身份，并 wiring 对应 Adapter 实现；Core **MUST NOT** re-export preset 工厂。
 - **文档快照 (AetherDoc)**：Core、SDK 与 Adapter 之间共享的框架无关文档树。
-- **模式声明 (AetherSchema)**：Parser/Serializer Adapter 签名使用的 schema 占位；M3 最小形状 `{ version: 1 }`；compile-layer merge 仍属 M5+ 完整编辑器能力。
+- **模式声明 (AetherSchema)**：Parser/Serializer Adapter 签名使用的 schema 占位；最小形状 `{ version: 1 }`；compile-layer merge 属完整编辑器能力。
 - **契约数据 (AetherDoc / AetherSchema)**：框架无关的中间态数据结构。
 - **Instant Morphing（即时形态转换）**：块在渲染态与 Markdown 源码态之间即时切换的产品体验；详见 [产品交互体验设计规范](architecture/product-experience-spec.md)。
 - **Block Focus（块级独立）**：任意时刻最多一个块处于源码编辑态；详见 [产品交互体验设计规范](architecture/product-experience-spec.md)。
 - **Rendered state（渲染态）** / **Source state（源码态）**：块双态模型的两种呈现；详见 [产品交互体验设计规范](architecture/product-experience-spec.md)。
-- **Phase 0 interim shell（Phase 0 集成壳）**：M5 常驻 ProseMirror 视图 + preview 的集成证明实现，**不是**产品 north star 终态。
+- **集成壳 (integration shell)**：常驻 ProseMirror 视图 + preview 的集成证明实现，**不是**产品 north star 终态。
 
 ---

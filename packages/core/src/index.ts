@@ -6,7 +6,7 @@ export type {
   PluginName,
   VendorCapabilityId,
 } from "./types.js";
-export { M1_CORE_CAPABILITIES } from "./manifest/capabilities.js";
+export { CORE_BUILTIN_CAPABILITIES } from "./manifest/capabilities.js";
 export type {
   CoreErrorCode,
   CoreErrorOptions,
