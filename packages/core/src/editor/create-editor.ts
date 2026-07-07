@@ -9,6 +9,7 @@ import {
 } from "../manifest/manifest.js";
 import { validateServiceCapabilities } from "../manifest/capabilities.js";
 import { resolvePluginDependencyOrder } from "../manifest/dependencies.js";
+import { mergeManifestLayers } from "../manifest/merge.js";
 import {
   resolveMorphingRegistry,
   resolveWiredAdapters,
@@ -20,9 +21,9 @@ import {
   createBuiltinServicesForEditor,
   createEditorRuntime,
 } from "./aether-editor.js";
-import type { EditorConfig, AetherEditor } from "./types.js";
+import { createDefaultConflictResolver } from "./conflict-resolver.js";
 
-const DEFAULT_SCHEMA = { version: 1 as const };
+import type { EditorConfig, AetherEditor } from "./types.js";
 
 const EMPTY_DOC: AetherDoc = {
   type: "doc",
@@ -43,21 +44,25 @@ export async function createEditor(config: EditorConfig): Promise<AetherEditor> 
 
   const loadedPlugins = loadPluginManifests(config.plugins);
   validateUniquePluginNames(loadedPlugins);
+  const conflictResolver = config.conflictResolver ?? createDefaultConflictResolver();
+  const mergedManifest = mergeManifestLayers(loadedPlugins, conflictResolver);
   const capabilityResult = validateServiceCapabilities(loadedPlugins);
   resolvePluginDependencyOrder(loadedPlugins);
 
   const wired = resolveWiredAdapters(config.plugins as ExtensionPluginWithAdapters[]);
   const morphing = resolveMorphingRegistry(config.plugins as ExtensionPluginWithAdapters[]);
+  const editorSchema = mergedManifest.compile.schema;
   const runtime = createEditorRuntime({
     pipeline: {
       readOnly: config.readOnly ?? false,
       providedCapabilities: capabilityResult.provided,
     },
+    conflictResolver,
   });
 
   let initialDoc: AetherDoc;
   if (typeof config.initialValue === "string") {
-    initialDoc = await wired.parser.parse(config.initialValue, DEFAULT_SCHEMA);
+    initialDoc = await wired.parser.parse(config.initialValue, editorSchema);
   } else if (config.initialValue !== undefined) {
     initialDoc = config.initialValue;
   } else {
@@ -99,5 +104,6 @@ export async function createEditor(config: EditorConfig): Promise<AetherEditor> 
     initialDoc,
     readOnly: config.readOnly ?? false,
     morphing,
+    schema: editorSchema,
   });
 }

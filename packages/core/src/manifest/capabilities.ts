@@ -45,6 +45,15 @@ export function collectProvidedCapabilities(
     for (const capability of loadedPlugin.manifest.metadata.provides ?? []) {
       provided.add(capability);
     }
+
+    const adapters = (loadedPlugin.plugin as { adapters?: { parser?: unknown; engine?: unknown } })
+      .adapters;
+    if (adapters?.parser) {
+      provided.add("core:parser");
+    }
+    if (adapters?.engine) {
+      provided.add("core:engine");
+    }
   }
 
   return provided;

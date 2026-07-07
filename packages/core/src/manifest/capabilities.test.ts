@@ -78,22 +78,33 @@ describe("validateServiceCapabilities", () => {
     assert.equal(onInitCalls, 0);
   });
 
-  it("does not silently provide engine or parser capabilities in M1", () => {
+  it("silently provides core:engine and core:parser from adapter wiring", () => {
     const loaded = loadPluginManifests([
       {
         manifest: {
           metadata: {
             manifestVersion: 1,
             name: "engine-consumer",
-            requires: ["core:engine"],
+            requires: ["core:engine", "core:parser"],
           },
+        },
+      },
+      {
+        manifest: {
+          metadata: {
+            manifestVersion: 1,
+            name: "adapter-host",
+          },
+        },
+        adapters: {
+          parser: { name: "mock-parser" },
+          engine: { name: "mock-engine" },
         },
       },
     ]);
 
-    assert.throws(
-      () => validateServiceCapabilities(loaded),
-      (error: unknown) => error instanceof CoreError && error.code === "CAPABILITY_MISSING",
-    );
+    const result = validateServiceCapabilities(loaded);
+    assert.equal(result.provided.has("core:engine"), true);
+    assert.equal(result.provided.has("core:parser"), true);
   });
 });
