@@ -15,7 +15,10 @@ describe("shouldCaptureHistory", () => {
 
   it("returns false when meta.history is skip", () => {
     expect(
-      shouldCaptureHistory({ id: "core:replaceText", meta: { history: "skip" } }, { mutating: true }),
+      shouldCaptureHistory(
+        { id: "core:replaceText", meta: { history: "skip" } },
+        { mutating: true },
+      ),
     ).toBe(false);
   });
 
@@ -63,11 +66,7 @@ describe("HistoryCapture middleware", () => {
   it("does not capture when handler returns failure", () => {
     const onHistoryCapture = vi.fn<(command: CommandRequest) => void>();
     const runtime = createCommandEventRuntime({ onHistoryCapture });
-    runtime.register(
-      "demo:mutate",
-      () => false,
-      { mutating: true },
-    );
+    runtime.register("demo:mutate", () => false, { mutating: true });
 
     const result = runtime.dispatch({ id: "demo:mutate" });
 
