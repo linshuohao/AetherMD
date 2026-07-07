@@ -12,8 +12,8 @@
 | --------- | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
 | M1–M5     | `pnpm changeset` 记录 public API 影响；不 publish                                    | ✅ 已执行                                                                                       |
 | M6 预备   | `linked` 版本组、五包 publish 元数据、`LICENSE`、根 `changeset:publish` 脚本、本文档 | ✅ 已完成                                                                                       |
-| M7 canary | `changeset pre enter canary` → CI `changeset version` → `changeset publish`          | **工程就绪**（`release.yml` + consumer smoke；待 `NPM_TOKEN` + 维护者 sign-off 后首次 publish） |
-| stable    | promote dist-tag 至 `latest`                                                         | 未开始                                                                                          |
+| M7 canary | ~~`changeset pre enter canary`~~ → CI `changeset version` → `changeset publish`      | **推迟至 v1.0.0**（ADR 009 Option C；跳过 canary，Wave 10 直接 `1.0.0` + `latest`）           |
+| stable    | `1.0.0` + dist-tag `latest`                                                          | 未开始（Wave 10）                                                                               |
 
 ## M6 预备完成项（不 publish）
 
@@ -72,6 +72,13 @@ M6 仅完成 ADR 009 publish **预备**；五包仍为 `private: true`；**未**
 
 ## Release CI
 
-`.github/workflows/release.yml` 在 push 至 `main` 时运行 Changesets：若有 pending changeset 则开 version PR；合入后 `changeset publish` 至 npm（需 `NPM_TOKEN`）。**禁止**本地 `npm publish`。
+`.github/workflows/release.yml` 已配置 Changesets version + publish（含 consumer smoke），但 **v1.0.0 正式上线前不自动触发**。
+
+| 阶段 | 触发方式 | 行为 |
+| ---- | -------- | ---- |
+| **当前（Wave 1–9）** | 不触发 | 合入 `main` 不运行 Release workflow；`pnpm changeset` 仍用于记录版本影响 |
+| **v1.0.0 上线（Wave 10）** | 维护者手动 `workflow_dispatch` 或恢复 `push: main` | 若有 pending changeset 则开 version PR；合入后 `changeset publish` 至 npm（需 `NPM_TOKEN`） |
+
+**禁止**：维护者本地 `npm publish`。
 
 ---
