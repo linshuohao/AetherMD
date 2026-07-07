@@ -84,10 +84,31 @@ export type {
   AdapterTransactionResult,
   EngineAdapter,
   EngineSession,
+  EngineSelectionSnapshot,
   ParserAdapter,
   ReplaceTextCommand,
+  SetDocumentCommand,
   SerializerAdapter,
 } from "./document/adapter-types.js";
+export {
+  ENGINE_MOVE_BLOCK_COMMAND,
+  ENGINE_REPLACE_TEXT_COMMAND,
+} from "./editor/engine-dispatch.js";
+export {
+  CORE_REDO_COMMAND,
+  CORE_UNDO_COMMAND,
+  createClipboardService,
+  createDocumentHistory,
+  createHistoryService,
+  createSelectionService,
+  isSelectionCapableEngine,
+  type ClipboardService,
+  type DocumentHistory,
+  type EditorSelection,
+  type HistoryService,
+  type SelectionCapableEngine,
+  type SelectionService,
+} from "./services/index.js";
 export { createEditor } from "./editor/create-editor.js";
 export type {
   AetherEditor,

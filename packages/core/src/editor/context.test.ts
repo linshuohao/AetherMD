@@ -3,6 +3,12 @@ import { describe, it } from "vitest";
 
 import { createCommandEventRuntime } from "../command-event/runtime.js";
 import type { AetherDoc } from "../document/model.js";
+import {
+  createClipboardService,
+  createDocumentHistory,
+  createHistoryService,
+  createSelectionService,
+} from "../services/index.js";
 import { createEditorContext } from "../editor/context.js";
 
 describe("EditorContext", () => {
@@ -38,19 +44,26 @@ describe("EditorContext", () => {
       },
     };
 
+    const documentHistory = createDocumentHistory();
     const context = createEditorContext({
       runtime,
       engine,
       session: { id: "s1" },
       parser,
       serializer,
+      builtin: {
+        documentHistory,
+        history: createHistoryService(documentHistory),
+        selection: createSelectionService(engine, { id: "s1" }),
+        clipboard: createClipboardService(),
+      },
     });
 
     assert.equal(typeof context.commands.dispatch, "function");
     assert.equal(typeof context.events.on, "function");
     assert.equal(context.services.engine.adapter.name, "engine");
     assert.equal(context.services.parser.adapter.name, "parser");
-    assert.equal(typeof context.services.history.undo, "function");
+    assert.equal(context.services.history.canUndo(), false);
     assert.equal(context.services.selection.getSelection(), null);
   });
 });

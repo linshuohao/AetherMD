@@ -6,30 +6,16 @@ import type {
   SerializerAdapter,
 } from "../document/adapter-types.js";
 import type { PermissionId } from "../types.js";
+import type { ClipboardService } from "../services/clipboard.js";
+import type { DocumentHistory, HistoryService } from "../services/history.js";
+import type { SelectionService } from "../services/selection.js";
 
-/** M4.5 stub — full History semantics deferred to a later milestone. */
-export interface HistoryService {
-  undo(): void;
-  redo(): void;
-}
-
-/** M4.5 stub — full Selection semantics deferred. */
-export interface SelectionService {
-  getSelection(): null;
-}
-
-/** M4.5 stub — full Clipboard semantics deferred. */
-export interface ClipboardService {
-  copy(): void;
-  paste(): void;
-}
-
-/** M4.5 stub — Asset interceptor deferred. */
+/** Asset interceptor deferred to later wave. */
 export interface AssetInterceptorService {
   intercept(): void;
 }
 
-/** M4.5 stub — Telemetry deferred. */
+/** Telemetry deferred to Wave 8. */
 export interface TelemetryService {
   track(): void;
 }
@@ -39,28 +25,6 @@ export interface LoggerSink {
   warn(message: string): void;
   error(message: string): void;
 }
-
-const noopLogger: LoggerSink = {
-  info() {},
-  warn() {},
-  error() {},
-};
-
-const noopHistory: HistoryService = {
-  undo() {},
-  redo() {},
-};
-
-const noopSelection: SelectionService = {
-  getSelection() {
-    return null;
-  },
-};
-
-const noopClipboard: ClipboardService = {
-  copy() {},
-  paste() {},
-};
 
 const noopAssets: AssetInterceptorService = {
   intercept() {},
@@ -80,6 +44,13 @@ export interface ParserAdapterService {
   readonly serializer: SerializerAdapter;
 }
 
+export interface BuiltinServices {
+  history: HistoryService;
+  selection: SelectionService;
+  clipboard: ClipboardService;
+  documentHistory: DocumentHistory;
+}
+
 export interface EditorContextOptions {
   runtime: CommandEventRuntime;
   engine: EngineAdapter;
@@ -88,6 +59,7 @@ export interface EditorContextOptions {
   serializer: SerializerAdapter;
   grantedPermissions?: Iterable<PermissionId>;
   logger?: LoggerSink;
+  builtin?: BuiltinServices;
 }
 
 export class EditorContext {
@@ -96,6 +68,7 @@ export class EditorContext {
   public readonly logger: LoggerSink;
   public readonly telemetry: TelemetryService = noopTelemetry;
   public readonly grantedPermissions: ReadonlySet<PermissionId>;
+  public readonly documentHistory: DocumentHistory;
   public readonly services: {
     engine: EngineAdapterService;
     parser: ParserAdapterService;
@@ -106,10 +79,19 @@ export class EditorContext {
   };
 
   constructor(options: EditorContextOptions) {
+    if (!options.builtin) {
+      throw new Error("EditorContext requires builtin services");
+    }
+
     this.commands = options.runtime;
     this.events = options.runtime;
-    this.logger = options.logger ?? noopLogger;
+    this.logger = options.logger ?? {
+      info() {},
+      warn() {},
+      error() {},
+    };
     this.grantedPermissions = new Set(options.grantedPermissions ?? []);
+    this.documentHistory = options.builtin.documentHistory;
     this.services = {
       engine: {
         adapter: options.engine,
@@ -119,9 +101,9 @@ export class EditorContext {
         adapter: options.parser,
         serializer: options.serializer,
       },
-      history: noopHistory,
-      selection: noopSelection,
-      clipboard: noopClipboard,
+      history: options.builtin.history,
+      selection: options.builtin.selection,
+      clipboard: options.builtin.clipboard,
       assets: noopAssets,
     };
   }
@@ -130,3 +112,5 @@ export class EditorContext {
 export function createEditorContext(options: EditorContextOptions): EditorContext {
   return new EditorContext(options);
 }
+
+export type { ClipboardService, HistoryService, SelectionService };

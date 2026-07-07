@@ -25,13 +25,13 @@ M1–M6 与 L2 Slice A–D 已交付。M7 工程轨（Release CI、consumer smok
 
 - **Decision**：首次 publish **`1.0.0`** + dist-tag **`latest`**；不执行 `changeset pre enter canary`。
 - **Rationale**：维护者要求功能完整后再发布；避免 0.x 能力子集语义漂移。
-- **Alternatives**：保留 canary 仅作 RC —  rejected，增加沟通成本。
+- **Alternatives**：保留 canary 仅作 RC — rejected，增加沟通成本。
 
 ### D2 — History 实现策略
 
 - **Decision**：Wave 1 在 `@aether-md/core` 实现 `HistoryService` 编排层 + `core:undo`/`core:redo`；Engine 侧通过 `@aether-md/plugin-prosemirror` 暴露 history plugin 钩子（不将 `prosemirror-history` 依赖泄漏到 Core）。
 - **Rationale**：原则要求 Undo/Redo 内核托管；ProseMirror 已有成熟 history stack。
-- **Alternatives**：纯 Core 文档快照 history —  rejected，与现有 engine adapter 重复。
+- **Alternatives**：纯 Core 文档快照 history — rejected，与现有 engine adapter 重复。
 
 ### D3 — Selection / Clipboard
 

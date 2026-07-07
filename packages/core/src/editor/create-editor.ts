@@ -15,7 +15,11 @@ import {
   type ExtensionPluginWithAdapters,
 } from "./adapter-wiring.js";
 import { createEditorContext } from "./context.js";
-import { AetherEditorImpl, createEditorRuntime } from "./aether-editor.js";
+import {
+  AetherEditorImpl,
+  createBuiltinServicesForEditor,
+  createEditorRuntime,
+} from "./aether-editor.js";
 import type { EditorConfig, AetherEditor } from "./types.js";
 
 const DEFAULT_SCHEMA = { version: 1 as const };
@@ -59,12 +63,15 @@ export async function createEditor(config: EditorConfig): Promise<AetherEditor> 
 
   const session = await wired.engine.create(initialDoc);
 
+  const builtin = createBuiltinServicesForEditor(wired.engine, session);
+
   const context = createEditorContext({
     runtime,
     engine: wired.engine,
     session,
     parser: wired.parser,
     serializer: wired.serializer,
+    builtin,
     ...(config.security?.grantedPermissions !== undefined
       ? { grantedPermissions: config.security.grantedPermissions }
       : {}),

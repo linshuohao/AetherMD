@@ -5,6 +5,12 @@ export interface EngineSession {
   readonly id: string;
 }
 
+export interface EngineSelectionSnapshot {
+  readonly blockIndex: number;
+  readonly anchorOffset: number;
+  readonly headOffset: number;
+}
+
 export interface ReplaceTextCommand {
   type: "replaceText";
   blockIndex: number;
@@ -20,7 +26,12 @@ export interface MoveBlockCommand {
   toIndex: number;
 }
 
-export type AdapterCommandRequest = ReplaceTextCommand | MoveBlockCommand;
+export interface SetDocumentCommand {
+  type: "setDocument";
+  doc: AetherDoc;
+}
+
+export type AdapterCommandRequest = ReplaceTextCommand | MoveBlockCommand | SetDocumentCommand;
 
 export interface AdapterEvent {
   name: string;
@@ -51,6 +62,7 @@ export interface EngineAdapter {
   create(initialDoc: AetherDoc): Promise<EngineSession>;
   apply(session: EngineSession, request: AdapterCommandRequest): Promise<AdapterTransactionResult>;
   getDocument(session: EngineSession): AetherDoc;
+  getSelection?(session: EngineSession): EngineSelectionSnapshot | null;
   dispose(session: EngineSession): Promise<void>;
 }
 

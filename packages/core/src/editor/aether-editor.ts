@@ -18,9 +18,22 @@ import {
   type MorphingStrategyRegistry,
   type ParseBlockMarkdownPayload,
 } from "../morphing/types.js";
+import {
+  CORE_REDO_COMMAND,
+  CORE_UNDO_COMMAND,
+  createClipboardService,
+  createDocumentHistory,
+  createHistoryService,
+  createSelectionService,
+} from "../services/index.js";
 import type { EditorContext } from "./context.js";
 import { createDefaultConflictResolver } from "./conflict-resolver.js";
-import { dispatchEngineCommand, isEngineBoundCommand } from "./engine-dispatch.js";
+import {
+  applyDocumentToEngine,
+  dispatchEngineCommand,
+  isEngineBoundCommand,
+  type EngineDispatchDeps,
+} from "./engine-dispatch.js";
 import type { EditorStateSnapshot, AetherEditor } from "./types.js";
 
 const DEFAULT_SCHEMA = { version: 1 as const };
@@ -35,6 +48,7 @@ export class AetherEditorImpl implements AetherEditor {
   private readonly runtime: CommandEventRuntime;
   private readonly bootstrapRuntime: CoreBootstrapRuntime;
   private readonly session: EngineSession;
+  private readonly engineDispatchDeps: EngineDispatchDeps;
   private docSnapshot: AetherDoc;
   private readonly readOnlyFlag: boolean;
   private disposed = false;
@@ -55,6 +69,17 @@ export class AetherEditorImpl implements AetherEditor {
     this.session = options.session;
     this.docSnapshot = cloneDoc(options.initialDoc);
     this.readOnlyFlag = options.readOnly;
+    this.engineDispatchDeps = {
+      engine: options.context.services.engine.adapter,
+      session: options.session,
+      schema: DEFAULT_SCHEMA,
+      runtime: options.runtime,
+      getDoc: () => this.docSnapshot,
+      setDoc: (doc) => {
+        this.docSnapshot = cloneDoc(doc);
+      },
+      history: options.context.documentHistory,
+    };
   }
 
   get state(): EditorStateSnapshot {
@@ -108,20 +133,26 @@ export class AetherEditorImpl implements AetherEditor {
       return { ok: true, value: block };
     }
 
+    if (command.id === CORE_UNDO_COMMAND) {
+      const restored = this.context.documentHistory.undo(this.docSnapshot);
+      if (!restored) {
+        return { ok: false };
+      }
+      const result = await applyDocumentToEngine(this.engineDispatchDeps, restored);
+      return result.ok ? { ok: true } : { ok: false };
+    }
+
+    if (command.id === CORE_REDO_COMMAND) {
+      const restored = this.context.documentHistory.redo(this.docSnapshot);
+      if (!restored) {
+        return { ok: false };
+      }
+      const result = await applyDocumentToEngine(this.engineDispatchDeps, restored);
+      return result.ok ? { ok: true } : { ok: false };
+    }
+
     if (isEngineBoundCommand(command.id)) {
-      const result = await dispatchEngineCommand(
-        {
-          engine: this.context.services.engine.adapter,
-          session: this.session,
-          schema: DEFAULT_SCHEMA,
-          runtime: this.runtime,
-          getDoc: () => this.docSnapshot,
-          setDoc: (doc) => {
-            this.docSnapshot = cloneDoc(doc);
-          },
-        },
-        command,
-      );
+      const result = await dispatchEngineCommand(this.engineDispatchDeps, command);
       return result.ok ? { ok: true } : { ok: false };
     }
 
@@ -206,4 +237,17 @@ export function registerWithConflictResolution(
   }
   registered.set(id, handler);
   runtime.register(id, handler);
+}
+
+export function createBuiltinServicesForEditor(
+  engine: EditorContext["services"]["engine"]["adapter"],
+  session: EngineSession,
+) {
+  const documentHistory = createDocumentHistory();
+  return {
+    documentHistory,
+    history: createHistoryService(documentHistory),
+    selection: createSelectionService(engine, session),
+    clipboard: createClipboardService(),
+  };
 }
