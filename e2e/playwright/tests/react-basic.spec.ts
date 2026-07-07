@@ -11,7 +11,7 @@ test.describe("react-basic demo e2e (AetherEditorContent shell)", () => {
   test("smoke: ProseMirror shell mounts with showcase markdown", async ({ page }) => {
     await gotoReactBasicDemo(page);
 
-    await expect(page.getByRole("heading", { name: "Shell: AetherEditorContent" })).toBeVisible();
+    await expect(page.getByTestId("aether-shell-showcase")).toBeVisible();
     await expect(page.locator(".ProseMirror")).toBeVisible();
     await expectReactBasicMarkdownContains(page, "**world**");
     await expectReactBasicEditorStable(page);

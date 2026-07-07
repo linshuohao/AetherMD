@@ -10,25 +10,15 @@
 | `AetherMorphingDocument` | **L2 north star** — multi-block Block Focus with preset morphing strategies.                           |
 | `AetherMorphingContent`  | Single-block morphing helper (Slice A default: paragraph at index `0`).                                |
 | `useAetherEditor`        | Access `editor`, `doc`, `markdown`, and `ready` from context.                                          |
-| `AetherEditorContent`    | **Deprecated (Phase 0)** — ProseMirror view-bridge integration shell.                                  |
+| `AetherEditorContent`    | **L1 shell** — ProseMirror view-bridge integration (`examples/react`, `AetherShellShowcase`).          |
 
-## Migrating from `AetherEditorContent`
+## L1 vs L2 shells
 
-`AetherEditorContent` mounted the Phase 0 ProseMirror view-bridge (`createProseMirrorView`). It validated the `createEditor` → DOM → `dispatch` → serialize pipeline for M5, but it is **not** the L2 Instant Morphing product north star documented in [Product Experience Specification](../architecture/product-experience-spec.md).
+`AetherEditorContent` mounts the ProseMirror view-bridge (`createProseMirrorView`). It validates the `createEditor` → DOM → `dispatch` → serialize pipeline and is the right surface for the L1 architecture demo.
 
-### When to keep `AetherEditorContent`
+`AetherMorphingDocument` / `AetherMorphingContent` implement Instant Morphing and Block Focus per [Product Experience Specification](../architecture/product-experience-spec.md). Use them for product UI aligned with the L2 north star.
 
-- Maintaining `examples/react-basic` (L1 architecture pipeline demo).
-- Integrations that intentionally use the ProseMirror document surface until a morphing preset is wired.
-
-### When to adopt morphing components
-
-- New product UI aligned with Block Focus and Instant Morphing.
-- Demos that exercise GFM paragraph/list strategies and preset `interactiveRenderers`.
-
-### Minimal migration
-
-**Before (Phase 0 ProseMirror shell):**
+### L1 ProseMirror shell
 
 ```tsx
 <AetherEditorRoot plugins={plugins} value={markdown} onChange={setMarkdown}>
@@ -36,7 +26,7 @@
 </AetherEditorRoot>
 ```
 
-**After (L2 morphing shell):**
+### L2 morphing shell
 
 ```tsx
 import { AetherEditorRoot, AetherMorphingDocument } from "@aether-md/react";
@@ -46,7 +36,7 @@ import { AetherEditorRoot, AetherMorphingDocument } from "@aether-md/react";
 </AetherEditorRoot>;
 ```
 
-Ensure the GFM preset (or your preset) registers `morphingStrategies` on the wired plugin object so `editor.getMorphingStrategy(blockType)` resolves paragraph/list handlers. See `examples/block-morphing/src/plugins.ts`.
+Ensure the GFM preset (or your preset) registers `morphingStrategies` on the wired plugin object so `editor.getMorphingStrategy(blockType)` resolves paragraph/list handlers. See `@aether-md/example-shared` (`createGfmEditorPlugins()`).
 
 ### Single-block apps
 
