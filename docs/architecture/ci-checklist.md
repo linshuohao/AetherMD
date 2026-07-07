@@ -14,7 +14,7 @@ M6 验证套件已自动化以下门禁（G11、G6、部分行为回归）。**c
 
 - [x] 最小 CI 在 PR 和 push 到 `main` 时运行 `pnpm install --frozen-lockfile`、`pnpm check` 和 `pnpm build`，且不包含 npm publish、canary、release token 或 release 自动化（publish 时间表见 [ADR 009](../adr/009-release-governance.md)）
 - [x] **G11** `SUPPORTED_MANIFEST_VERSIONS` 与 [Manifest 版本](../sdk/manifest.md) Stable 版本表一致（`packages/core/src/manifest-doc-consistency.test.ts`；code truth = `manifest.ts`）
-- [x] **G6** 四个 workspace example（`headless-gfm`、`react-basic`、`vue-basic`、`block-morphing`）通过 `tsc --noEmit` / smoke test，并纳入根 `pnpm check` turbo pipeline（主路径；见 [Examples Matrix](../examples/matrix.md)）
+- [x] **G6** 三个 workspace example（`headless-gfm`、`react`、`vue`）通过 `tsc --noEmit` / smoke test，并纳入根 `pnpm check` turbo pipeline（主路径；见 [Examples Matrix](../examples/matrix.md)）
 - [x] 五包 public API `tsd` 导出快照（`packages/*/test-d/`；根 `pnpm types:check`）
 - [ ] `CORE_SERVICE_REGISTRY` 与 [内置 Service Capability 注册表](../sdk/capabilities-and-permissions.md) 一致
 - [ ] [插件示例](../sdk/examples.md) 可对 `@aether-md/core` 通过 `tsc --noEmit`（G6 次路径；M6 主路径为 headless example）

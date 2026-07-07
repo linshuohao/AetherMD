@@ -5,8 +5,7 @@ const { markdown, ready } = useAetherEditor();
 </script>
 
 <template>
-  <section>
-    <h2>Markdown preview</h2>
+  <section class="markdown-probe" aria-label="Serialized markdown">
     <pre data-testid="markdown-preview">{{ ready ? markdown : "Loading…" }}</pre>
   </section>
 </template>

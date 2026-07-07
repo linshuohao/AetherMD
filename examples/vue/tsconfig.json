@@ -4,11 +4,12 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "jsx": "react-jsx",
+    "jsx": "preserve",
     "noEmit": true,
     "skipLibCheck": true,
     "isolatedModules": true,
     "types": ["vite/client"]
   },
-  "include": ["src/**/*", "src/vite-env.d.ts"]
+  "include": ["src/**/*", "src/vite-env.d.ts"],
+  "exclude": ["**/*.test.ts"]
 }

@@ -5,8 +5,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const MORPHING_PORT = process.env.E2E_PORT ?? "4173";
-const REACT_BASIC_PORT = process.env.E2E_REACT_BASIC_PORT ?? "4174";
+const REACT_PORT = process.env.E2E_PORT ?? "4173";
 
 const children = [];
 
@@ -58,17 +57,12 @@ function shutdown(code = 0) {
 process.on("SIGINT", () => shutdown(0));
 process.on("SIGTERM", () => shutdown(0));
 
-killPort(MORPHING_PORT);
-killPort(REACT_BASIC_PORT);
+killPort(REACT_PORT);
 
-spawnDev("@aether-md/example-block-morphing", MORPHING_PORT);
-spawnDev("@aether-md/example-react-basic", REACT_BASIC_PORT);
+spawnDev("@aether-md/example-react", REACT_PORT);
 
 try {
-  await Promise.all([
-    waitForUrl(`http://127.0.0.1:${MORPHING_PORT}/`, 120_000),
-    waitForUrl(`http://127.0.0.1:${REACT_BASIC_PORT}/`, 120_000),
-  ]);
+  await waitForUrl(`http://127.0.0.1:${REACT_PORT}/`, 120_000);
 } catch (error) {
   console.error(error);
   shutdown(1);

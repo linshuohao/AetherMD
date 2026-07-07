@@ -1,10 +1,8 @@
 import { defineConfig, devices } from "@playwright/test";
 
 const isCI = !!process.env.CI;
-const MORPHING_PORT = Number(process.env.E2E_PORT ?? 4173);
-const MORPHING_URL = `http://127.0.0.1:${MORPHING_PORT}`;
-const REACT_BASIC_PORT = Number(process.env.E2E_REACT_BASIC_PORT ?? 4174);
-const REACT_BASIC_URL = `http://127.0.0.1:${REACT_BASIC_PORT}`;
+const REACT_PORT = Number(process.env.E2E_PORT ?? 4173);
+const REACT_URL = `http://127.0.0.1:${REACT_PORT}`;
 
 export default defineConfig({
   testDir: "./tests",
@@ -29,7 +27,7 @@ export default defineConfig({
   },
   webServer: {
     command: "node ../../scripts/e2e-webservers.mjs",
-    url: `${MORPHING_URL}/`,
+    url: `${REACT_URL}/`,
     timeout: isCI ? 180_000 : 120_000,
     reuseExistingServer: false,
     stdout: "pipe",
@@ -37,19 +35,11 @@ export default defineConfig({
   },
   projects: [
     {
-      name: "block-morphing",
-      testMatch: /block-morphing\.spec\.ts/,
+      name: "react",
+      testMatch: /\.spec\.ts/,
       use: {
         ...devices["Desktop Chrome"],
-        baseURL: MORPHING_URL,
-      },
-    },
-    {
-      name: "react-basic",
-      testMatch: /react-basic\.spec\.ts/,
-      use: {
-        ...devices["Desktop Chrome"],
-        baseURL: REACT_BASIC_URL,
+        baseURL: REACT_URL,
       },
     },
   ],

@@ -5,6 +5,7 @@ export type FocusVia = "focus" | "click";
 
 export async function gotoMorphingDemo(page: Page): Promise<void> {
   await page.goto("/");
+  await page.getByTestId("shell-mode-morphing").click();
   await expect(page.getByTestId("aether-morphing-document")).toHaveAttribute("data-ready", "true");
   await expect(page.getByTestId("morphing-block-0")).toBeVisible();
   await expect(page.getByTestId("morphing-block-1")).toBeVisible();

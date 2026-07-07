@@ -3,13 +3,11 @@ import { afterEach, describe, it } from "vitest";
 import { act, cleanup, fireEvent, render, waitFor } from "@testing-library/react";
 import React from "react";
 
+import { createGfmEditorPlugins } from "@aether-md/example-shared";
+import { SHOWCASE_MARKDOWN } from "@aether-md/example-shared/showcase-markdown";
 import { AetherEditorRoot, AetherMorphingContent } from "@aether-md/react";
 
-import { SHOWCASE_MARKDOWN } from "@aether-md/example-shared/showcase-markdown";
-
-import { createGfmEditorPlugins } from "./plugins.js";
-
-describe("@aether-md/example-block-morphing smoke", () => {
+describe("@aether-md/example-react smoke", () => {
   afterEach(() => {
     cleanup();
   });

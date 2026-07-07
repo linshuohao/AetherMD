@@ -8,13 +8,13 @@
 
 ## 测试分层
 
-| 层级        | 目标           | 示例                                                                                                                 |
-| ----------- | -------------- | -------------------------------------------------------------------------------------------------------------------- |
-| Unit        | 纯函数与小模块 | Manifest 规范化、Capability 校验、ConflictResolver                                                                   |
-| Contract    | 包之间协议     | Adapter 协议、Command/Event 协议、Lifecycle 顺序                                                                     |
-| Integration | 多模块主路径   | Markdown 初始化、命令执行、序列化、React Shell 挂载                                                                  |
-| E2E         | 真实浏览器链路 | `block-morphing`（19）+ `react-basic`（3）：Block Focus、Instant Morphing、场景 A/B/C、逐键打字、moveBlock、GateLock |
-| Regression  | 已知错误       | 插件异常隔离、事务回滚、权限拒绝                                                                                     |
+| 层级        | 目标           | 示例                                                                       |
+| ----------- | -------------- | -------------------------------------------------------------------------- |
+| Unit        | 纯函数与小模块 | Manifest 规范化、Capability 校验、ConflictResolver                         |
+| Contract    | 包之间协议     | Adapter 协议、Command/Event 协议、Lifecycle 顺序                           |
+| Integration | 多模块主路径   | Markdown 初始化、命令执行、序列化、React Shell 挂载                        |
+| E2E         | 真实浏览器链路 | `examples/react`（22）：L1 Content + L2 Morphing via `AetherShellShowcase` |
+| Regression  | 已知错误       | 插件异常隔离、事务回滚、权限拒绝                                           |
 
 ## Package 测试目录布局
 
@@ -34,7 +34,7 @@ Workspace packages 与带测试的 examples **MUST** 使用 **colocated tests + 
 - `src/testing/**` 与 `**/*.test.ts(x)` **MUST** 被 package `tsconfig.json` exclude，不进入 `dist/`。
 - 测试 import 同包实现时使用相对路径（如 `./block-ids.js`）；跨 workspace package 使用 `@aether-md/*`（依赖 Turbo `test` → `build` 保证 dist 可用）。
 - 根目录 `pnpm test` 运行 `vitest run`（workspace projects）；单包 `pnpm --filter <pkg> test` 运行该包 Vitest project。
-- Examples **MUST NOT** import 任意 package 的 `src/testing/`；GFM wiring **SHOULD** 通过 `@aether-md/example-shared`（`examples/shared`）复用，各 example 的 `src/plugins.ts` 仅 re-export 该 helper。
+- Examples **MUST NOT** import 任意 package 的 `src/testing/`；GFM wiring **SHOULD** 通过 `@aether-md/example-shared`（`examples/shared`）复用。
 
 ## E2E 测试目录布局（Playwright）
 
@@ -48,7 +48,7 @@ Workspace packages 与带测试的 examples **MUST** 使用 **colocated tests + 
 
 约定：
 
-- E2E **MUST** 通过外部 webServer 驱动示例应用（Phase 1：`@aether-md/example-block-morphing` + `@aether-md/example-react-basic`），**MUST NOT** 直接 import package `src/testing/`。
+- E2E **MUST** 通过外部 webServer 驱动 `@aether-md/example-react`（`AetherShellShowcase` 内切换 shell），**MUST NOT** 直接 import package `src/testing/`。
 - Vitest 继续负责 unit/contract/integration；Playwright 仅验证真实浏览器渲染、焦点、输入与 Shell 受控更新链路。
 - 根目录 `pnpm e2e:test` 运行 Playwright；`pnpm e2e:install` 安装 Chromium 与系统依赖（CI 与本地首次运行前执行）。
 - v1.0 CI：`e2e-playwright` job 为 **blocking** 门禁（`Playwright E2E`），上传 `playwright-report/` 与 `test-results/` artifact 供排障。
@@ -157,10 +157,10 @@ M6 **不**覆盖：compile-layer schema merge、`EditorConfig.conflictResolver` 
 
 M7 预备（非阻塞 M6）已落地：
 
-- `@aether-md/example-block-morphing` happy-dom smoke（聚焦见 `**`、失焦见 `<strong>`），纳入根 `pnpm check`。
+- `@aether-md/example-react` happy-dom smoke（聚焦见 `**`、失焦见 `<strong>`），纳入根 `pnpm check`。
 - 五包 public export `tsd` 快照（`packages/*/test-d/`；根 `pnpm types:check`）。
 - `scripts/bench-morphing.mjs` 性能 baseline 脚本（**非 CI gate**）；本地 `pnpm bench:morphing`。
-- `AetherEditorContent` JSDoc `@deprecated` + `docs/sdk/react-shell.md` 迁移指南。
+- `docs/sdk/react-shell.md` 记录 L1 `AetherEditorContent` 与 L2 morphing 组件分层。
 
 ### 性能 baseline（本地参考）
 
@@ -193,6 +193,6 @@ Adapter 实现 **SHOULD** 共用同一套 contract tests。M3 各 plugin package
 - 契约测试
 - Markdown 文档链接检查
 - 包导出边界检查
-- Playwright E2E（blocking CI job，22 tests — `block-morphing` + `react-basic`）
+- Playwright E2E（blocking CI job，22 tests — `examples/react`）
 
 ---

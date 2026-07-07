@@ -1,5 +1,6 @@
 import { createEditor, type CommandId } from "@aether-md/core";
-import { createGfmEditorPlugins, SHOWCASE_MARKDOWN } from "@aether-md/example-shared";
+import { createGfmEditorPlugins } from "@aether-md/example-shared";
+import { SHOWCASE_MARKDOWN } from "@aether-md/example-shared/showcase-markdown";
 
 const ENGINE_REPLACE_TEXT_COMMAND = "core:replaceText" as CommandId;
 
