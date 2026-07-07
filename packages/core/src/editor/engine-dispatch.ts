@@ -1,5 +1,9 @@
 import type { AetherBlock, AetherDoc, AetherInline, AetherSchema } from "../document/model.js";
-import { findBlockIndexById, withPreservedBlockId } from "../document/block-ids.js";
+import {
+  ensureDocumentBlockIds,
+  findBlockIndexById,
+  withPreservedBlockId,
+} from "../document/block-ids.js";
 import type {
   AdapterCommandRequest,
   EngineAdapter,
@@ -7,6 +11,7 @@ import type {
 } from "../document/adapter-types.js";
 import type { CommandId, CommandRequest } from "../command-event/types.js";
 import type { CommandEventRuntime } from "../command-event/runtime.js";
+import type { DocumentHistory } from "../services/history.js";
 
 export const ENGINE_REPLACE_TEXT_COMMAND = "core:replaceText" as CommandId;
 export const ENGINE_MOVE_BLOCK_COMMAND = "core:moveBlock" as CommandId;
@@ -18,6 +23,7 @@ export interface EngineDispatchDeps {
   runtime: CommandEventRuntime;
   getDoc: () => AetherDoc;
   setDoc: (doc: AetherDoc) => void;
+  history?: DocumentHistory;
 }
 
 export function isEngineBoundCommand(id: CommandId): boolean {
@@ -123,6 +129,10 @@ export async function dispatchEngineCommand(
     return { ok: false, restored: snapshot };
   }
 
+  if (request.meta?.history === "capture" && deps.history) {
+    deps.history.captureBefore(snapshot);
+  }
+
   const result = await deps.engine.apply(deps.session, adapterRequest);
 
   if (!result.ok || !result.doc) {
@@ -134,6 +144,41 @@ export async function dispatchEngineCommand(
       payload: {
         commandId: request.id,
         error: result.error ?? { message: "Engine apply failed" },
+      },
+    });
+    return { ok: false, restored: snapshot };
+  }
+
+  deps.setDoc(result.doc);
+  deps.runtime.emit({
+    name: "change",
+    source: "core",
+    timestamp: Date.now(),
+    payload: { doc: result.doc },
+  });
+  return { ok: true, doc: result.doc };
+}
+
+export async function applyDocumentToEngine(
+  deps: EngineDispatchDeps,
+  doc: AetherDoc,
+): Promise<{ ok: true; doc: AetherDoc } | { ok: false; restored: AetherDoc }> {
+  const snapshot = deps.getDoc();
+  const normalized = ensureDocumentBlockIds(doc);
+  const result = await deps.engine.apply(deps.session, {
+    type: "setDocument",
+    doc: normalized,
+  });
+
+  if (!result.ok || !result.doc) {
+    deps.setDoc(snapshot);
+    deps.runtime.emit({
+      name: "transactionFailed",
+      source: "adapter",
+      timestamp: Date.now(),
+      payload: {
+        commandId: "core:setDocument",
+        error: result.error ?? { message: "Engine setDocument failed" },
       },
     });
     return { ok: false, restored: snapshot };

@@ -7,6 +7,7 @@ import { createGfmPreset } from "../../../preset-gfm/dist/index.js";
 import type { ExtensionPlugin } from "../manifest/manifest.js";
 import { toExtensionPluginFromPreset } from "../editor/adapter-wiring.js";
 import { createEditor } from "../editor/create-editor.js";
+import { CORE_REDO_COMMAND, CORE_UNDO_COMMAND } from "../services/history.js";
 import {
   ENGINE_MOVE_BLOCK_COMMAND,
   ENGINE_REPLACE_TEXT_COMMAND,
@@ -91,6 +92,33 @@ describe("createEditor GFM headless integration", () => {
   it("round-trips unordered list with golden string output", async () => {
     const result = await editAndSerialize("- item one\n- item two\n\nTail\n", 1, "Updated tail");
     assert.equal(result, "- item one\n- item two\n\nUpdated tail\n");
+  });
+
+  it("undo and redo restore document after captured edit", async () => {
+    const editor = await createEditor({
+      plugins: createGfmEditorPlugins(),
+      initialValue: "Before edit\n",
+    });
+
+    assert.equal(editor.context.services.history.canUndo(), false);
+
+    const edit = await editor.dispatch({
+      id: ENGINE_REPLACE_TEXT_COMMAND,
+      payload: { blockIndex: 0, text: "After edit" },
+      meta: { history: "capture" },
+    });
+    assert.equal(edit.ok, true);
+    assert.equal(editor.context.services.history.canUndo(), true);
+
+    const undo = await editor.dispatch({ id: CORE_UNDO_COMMAND });
+    assert.equal(undo.ok, true);
+    assert.equal((await editor.getMarkdown()).trim(), "Before edit");
+
+    const redo = await editor.dispatch({ id: CORE_REDO_COMMAND });
+    assert.equal(redo.ok, true);
+    assert.equal((await editor.getMarkdown()).trim(), "After edit");
+
+    await editor.dispose();
   });
 
   it("moveBlock reorders blocks in-session while preserving stable ids", async () => {

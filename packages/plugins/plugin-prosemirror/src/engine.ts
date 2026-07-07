@@ -12,6 +12,41 @@ import { EditorState } from "prosemirror-state";
 
 import { aetherDocToPm, pmToAetherDoc } from "./conversion.js";
 
+function selectionFromState(state: EditorState) {
+  const { from, to } = state.selection;
+  const doc = pmToAetherDoc(state.doc);
+  let blockIndex = 0;
+  let offset = 0;
+  let found = false;
+
+  for (let i = 0; i < doc.children.length; i++) {
+    const block = doc.children[i];
+    if (block.type === "paragraph" || block.type === "heading") {
+      const textLen = block.children
+        .filter((child) => child.type === "text")
+        .reduce((sum, child) => sum + (child.type === "text" ? child.text.length : 0), 0);
+      const blockStart = offset;
+      const blockEnd = offset + textLen;
+      if (from >= blockStart && from <= blockEnd) {
+        blockIndex = i;
+        found = true;
+        break;
+      }
+      offset = blockEnd + 1;
+    }
+  }
+
+  if (!found && doc.children.length > 0) {
+    blockIndex = 0;
+  }
+
+  return {
+    blockIndex,
+    anchorOffset: from,
+    headOffset: to,
+  };
+}
+
 interface SessionRecord {
   state: EditorState;
   disposed: boolean;
@@ -250,6 +285,15 @@ export function createProseMirrorEngineAdapter(): EngineAdapter {
           };
         }
 
+        if (request.type === "setDocument") {
+          const pmDoc = aetherDocToPm(request.doc);
+          record.state = EditorState.create({ doc: pmDoc });
+          return {
+            ok: true,
+            doc: pmToAetherDoc(record.state.doc),
+          };
+        }
+
         return {
           ok: false,
           error: new AdapterError({
@@ -276,6 +320,14 @@ export function createProseMirrorEngineAdapter(): EngineAdapter {
       }
 
       return pmToAetherDoc(record.state.doc);
+    },
+
+    getSelection(session: EngineSession) {
+      const record = sessions.get(session.id);
+      if (!record || record.disposed) {
+        return null;
+      }
+      return selectionFromState(record.state);
     },
 
     async dispose(session: EngineSession): Promise<void> {
