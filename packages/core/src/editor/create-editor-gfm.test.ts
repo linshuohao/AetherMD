@@ -3,9 +3,7 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { describe, it } from "vitest";
 
-import { createGfmPreset } from "../../../preset-gfm/dist/index.js";
-import type { ExtensionPlugin } from "../manifest/manifest.js";
-import { toExtensionPluginFromPreset } from "../editor/adapter-wiring.js";
+import { createGfmEditorPlugins } from "../../../preset-gfm/dist/index.js";
 import { createEditor } from "../editor/create-editor.js";
 import { resolveRemarkWorkerEntryPath } from "../testing/worker-entry-paths.js";
 import { CORE_REDO_COMMAND, CORE_UNDO_COMMAND } from "../services/history.js";
@@ -13,50 +11,6 @@ import {
   ENGINE_MOVE_BLOCK_COMMAND,
   ENGINE_REPLACE_TEXT_COMMAND,
 } from "../editor/engine-dispatch.js";
-
-function createBootstrapStubPlugin(): ExtensionPlugin {
-  return {
-    manifest: {
-      metadata: {
-        manifestVersion: 1,
-        name: "core-bootstrap-stub",
-        provides: ["core:bootstrap"],
-      },
-    },
-  };
-}
-
-function createRemarkStubPlugin(): ExtensionPlugin {
-  return {
-    manifest: {
-      metadata: {
-        manifestVersion: 1,
-        name: "remark",
-      },
-    },
-  };
-}
-
-function createProsemirrorStubPlugin(): ExtensionPlugin {
-  return {
-    manifest: {
-      metadata: {
-        manifestVersion: 1,
-        name: "prosemirror",
-      },
-    },
-  };
-}
-
-function createGfmEditorPlugins(): ExtensionPlugin[] {
-  const preset = createGfmPreset();
-  return [
-    createBootstrapStubPlugin(),
-    createRemarkStubPlugin(),
-    createProsemirrorStubPlugin(),
-    toExtensionPluginFromPreset(preset),
-  ];
-}
 
 async function editAndSerialize(
   markdown: string,

@@ -7,7 +7,8 @@ import {
   ParentRerenderButton,
 } from "@aether-md/example-shared/e2e-probes";
 import { SHOWCASE_MARKDOWN } from "@aether-md/example-shared/showcase-markdown";
-import { AetherEditorContent, AetherEditorRoot, AetherMorphingDocument } from "@aether-md/react";
+import { AetherEditorRoot, AetherMorphingDocument } from "@aether-md/react";
+import { AetherEditorContent } from "@aether-md/react/legacy";
 
 export type ReactShellMode = "content" | "morphing";
 

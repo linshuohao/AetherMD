@@ -8,9 +8,12 @@ import { defineComponent, h, inject, nextTick, onUnmounted, ref, watch } from "v
 import { AETHER_EDITOR_CONTEXT_KEY } from "./context.js";
 
 /**
- * L1 ProseMirror integration shell — mounts `createProseMirrorView` for architecture
- * pipeline demos (`examples/vue`). L2 Instant Morphing uses preset morphing strategies
- * in the React Shell (`@aether-md/react`).
+ * Phase 0 ProseMirror integration surface (M5 interim shell).
+ *
+ * @deprecated Prefer {@link AetherMorphingDocument} or {@link AetherMorphingContent} for the L2
+ *   Instant Morphing product north star. `AetherEditorContent` remains available for
+ *   `examples/vue` content mode and legacy ProseMirror view-bridge integrations until M7 publish.
+ *   See `docs/sdk/react-shell.md` for migration guidance.
  */
 export const AetherEditorContent = defineComponent({
   name: "AetherEditorContent",

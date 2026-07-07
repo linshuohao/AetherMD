@@ -2,9 +2,9 @@ import { expectType } from "tsd";
 
 import {
   PARSE_BLOCK_MARKDOWN_COMMAND,
+  createGfmMorphingRegistry,
   createGfmPreset,
   createMorphingStrategyRegistry,
-  getGfmMorphingStrategy,
   type MorphingBlockStrategy,
 } from "@aether-md/preset-gfm";
 
@@ -12,7 +12,8 @@ const preset = createGfmPreset();
 
 expectType<readonly MorphingBlockStrategy[]>(preset.morphingStrategies);
 
-expectType<MorphingBlockStrategy | undefined>(getGfmMorphingStrategy("paragraph"));
+expectType<MorphingBlockStrategy | undefined>(createGfmMorphingRegistry().get("paragraph"));
+expectType<MorphingBlockStrategy | undefined>(preset.morphingRegistry.get("paragraph"));
 
 const strategy: MorphingBlockStrategy = {
   blockType: "paragraph",

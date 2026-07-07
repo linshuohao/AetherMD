@@ -7,26 +7,13 @@
 | Component                | Role                                                                                                   |
 | ------------------------ | ------------------------------------------------------------------------------------------------------ |
 | `AetherEditorRoot`       | Creates an `AetherEditor` via `createEditor`, provides React context, GateLock for controlled `value`. |
-| `AetherMorphingDocument` | **L2 north star** — multi-block Block Focus with preset morphing strategies.                           |
+| `AetherMorphingDocument` | **Primary — L2 north star** — multi-block Block Focus with preset morphing strategies.                 |
 | `AetherMorphingContent`  | Single-block morphing helper (Slice A default: paragraph at index `0`).                                |
 | `useAetherEditor`        | Access `editor`, `doc`, `markdown`, and `ready` from context.                                          |
-| `AetherEditorContent`    | **L1 shell** — ProseMirror view-bridge integration (`examples/react`, `AetherShellShowcase`).          |
 
-## L1 vs L2 shells
-
-`AetherEditorContent` mounts the ProseMirror view-bridge (`createProseMirrorView`). It validates the `createEditor` → DOM → `dispatch` → serialize pipeline and is the right surface for the L1 architecture demo.
+## L2 morphing shell (primary)
 
 `AetherMorphingDocument` / `AetherMorphingContent` implement Instant Morphing and Block Focus per [Product Experience Specification](../architecture/product-experience-spec.md). Use them for product UI aligned with the L2 north star.
-
-### L1 ProseMirror shell
-
-```tsx
-<AetherEditorRoot plugins={plugins} value={markdown} onChange={setMarkdown}>
-  <AetherEditorContent />
-</AetherEditorRoot>
-```
-
-### L2 morphing shell
 
 ```tsx
 import { AetherEditorRoot, AetherMorphingDocument } from "@aether-md/react";
@@ -41,6 +28,25 @@ Ensure the GFM preset (or your preset) registers `morphingStrategies` on the wir
 ### Single-block apps
 
 Use `AetherMorphingContent` with optional `blockIndex` when only one morphing block is on screen.
+
+## Legacy L1 shell
+
+`AetherEditorContent` mounts the ProseMirror view-bridge (`createProseMirrorView`). It validates the `createEditor` → DOM → `dispatch` → serialize pipeline and is the right surface for the L1 architecture demo (`examples/react`, `AetherShellShowcase` content mode).
+
+Import from the **`@aether-md/react/legacy`** subpath. The primary `@aether-md/react` entry is morphing-first and does not export `AetherEditorContent`. Legacy usage requires `@aether-md/plugin-prosemirror` as an optional peer dependency.
+
+| Component             | Role                                                                                        |
+| --------------------- | ------------------------------------------------------------------------------------------- |
+| `AetherEditorContent` | **Legacy L1** — ProseMirror view-bridge integration; not the L2 product north star surface. |
+
+```tsx
+import { AetherEditorRoot } from "@aether-md/react";
+import { AetherEditorContent } from "@aether-md/react/legacy";
+
+<AetherEditorRoot plugins={plugins} value={markdown} onChange={setMarkdown}>
+  <AetherEditorContent />
+</AetherEditorRoot>;
+```
 
 ## Related docs
 

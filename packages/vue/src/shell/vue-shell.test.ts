@@ -6,7 +6,8 @@ import { defineComponent, h, watch } from "vue";
 import type { AetherEditor } from "@aether-md/core";
 import { createEditor } from "@aether-md/core";
 
-import { AetherEditorContent, AetherEditorRoot, useAetherEditor } from "../index.js";
+import { AetherEditorContent } from "../legacy.js";
+import { AetherEditorRoot, useAetherEditor } from "../index.js";
 import { createGfmEditorPlugins } from "../testing/gfm-plugins.js";
 
 describe("Vue Shell integration", () => {

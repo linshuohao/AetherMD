@@ -3,6 +3,7 @@ import { RenderError } from "@aether-md/core";
 import { defineComponent, h, onMounted, onUnmounted, ref, watch, type PropType } from "vue";
 
 import type { CustomBlockRenderer } from "./contracts.js";
+import { RenderFallbackView } from "./render-fallback-view.js";
 
 export const RenderedBlockHost = defineComponent({
   name: "RenderedBlockHost",
@@ -22,20 +23,52 @@ export const RenderedBlockHost = defineComponent({
   },
   setup(props) {
     const containerRef = ref<HTMLDivElement | null>(null);
+    const mountedIdentityRef = ref<{ blockId: string | undefined; blockType: string } | null>(null);
     const renderError = ref<RenderError | null>(null);
 
-    const mountRenderer = () => {
+    const cleanupContainer = () => {
+      const container = containerRef.value;
+      if (!container) {
+        return;
+      }
+      try {
+        props.renderer.unmount?.();
+      } catch {
+        // Best-effort cleanup after a failed mount should not mask the original error.
+      }
+      container.replaceChildren();
+      mountedIdentityRef.value = null;
+    };
+
+    watch(
+      () => [props.block.id, props.block.type, props.renderer] as const,
+      (_value, _oldValue, onCleanup) => {
+        onCleanup(() => {
+          cleanupContainer();
+        });
+      },
+      { flush: "sync" },
+    );
+
+    onUnmounted(() => {
+      cleanupContainer();
+    });
+
+    const mountBlock = () => {
       const container = containerRef.value;
       if (!container) {
         return;
       }
 
-      container.replaceChildren();
       renderError.value = null;
-
       try {
         props.renderer.mount(container, props.block);
+        mountedIdentityRef.value = {
+          blockId: props.block.id,
+          blockType: props.block.type,
+        };
       } catch (cause) {
+        mountedIdentityRef.value = null;
         renderError.value = new RenderError({
           code: "RENDER_MOUNT_FAILED",
           message: cause instanceof Error ? cause.message : "Block renderer mount failed",
@@ -44,37 +77,63 @@ export const RenderedBlockHost = defineComponent({
       }
     };
 
-    onMounted(() => {
-      mountRenderer();
-    });
+    const applyBlockChange = () => {
+      const container = containerRef.value;
+      if (!container) {
+        return;
+      }
 
-    watch(
-      () => [props.block, props.renderer] as const,
-      () => {
-        mountRenderer();
-      },
-    );
+      const mounted = mountedIdentityRef.value;
+      const isMounted =
+        mounted !== null &&
+        mounted.blockId === props.block.id &&
+        mounted.blockType === props.block.type;
 
-    onUnmounted(() => {
+      if (!isMounted) {
+        mountBlock();
+        return;
+      }
+
+      if (props.renderer.update) {
+        renderError.value = null;
+        try {
+          props.renderer.update(props.block);
+        } catch (cause) {
+          renderError.value = new RenderError({
+            code: "RENDER_UPDATE_FAILED",
+            message: cause instanceof Error ? cause.message : "Block renderer update failed",
+            cause,
+          });
+        }
+        return;
+      }
+
       try {
         props.renderer.unmount?.();
       } catch {
-        // Best-effort cleanup.
+        // Best-effort cleanup before remount.
       }
-      containerRef.value?.replaceChildren();
+      container.replaceChildren();
+      mountBlock();
+    };
+
+    onMounted(() => {
+      applyBlockChange();
     });
+
+    watch(
+      () => [props.block, props.block.id, props.block.type, props.renderer] as const,
+      () => {
+        applyBlockChange();
+      },
+    );
 
     return () => {
       if (renderError.value) {
-        return h(
-          "button",
-          {
-            type: "button",
-            "data-testid": "morphing-render-fallback",
-            onClick: () => props.onFocus(),
-          },
-          renderError.value.message,
-        );
+        return h(RenderFallbackView, {
+          error: renderError.value,
+          onFocus: props.onFocus,
+        });
       }
 
       return h("div", {

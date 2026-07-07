@@ -98,9 +98,9 @@ References:
 - **WHEN** the inline morphing module is imported
 - **THEN** no React peer or dependency is required
 
-### Requirement: GFM manifest registers interactiveRenderers for morphing
+### Requirement: GFM morphing renderers registered via plugin runtime fields
 
-The `gfmManifest` SHALL register `runtime.interactiveRenderers` for GFM `paragraph` and `list` block-level DOM morphing renderers. Inline morphing serialize remains headless in `@aether-md/plugin-remark` / preset helpers.
+GFM block-level DOM morphing renderers for `paragraph` and `list` SHALL be registered on the wired preset plugin via `morphingStrategies` and `morphingRegistry`, not via `manifest.runtime.interactiveRenderers`. The `gfmManifest` SHALL NOT include `interactiveRenderers`. Inline morphing serialize remains headless in `@aether-md/plugin-remark` / preset helpers.
 
 References:
 
@@ -108,12 +108,12 @@ References:
 - `docs/sdk/custom-block-renderer.md`
 - `docs/architecture/architecture-optimization-principles.md`
 
-#### Scenario: GFM manifest exposes interactive renderers
+#### Scenario: Morphing resolved from plugin fields at bootstrap
 
 - **GIVEN** `createGfmPreset()` is called
-- **WHEN** a maintainer inspects `manifest.runtime.interactiveRenderers`
-- **THEN** `paragraph` and `list` renderer entries are present
-- **AND** entries implement mount/unmount for block-level rendered surfaces
+- **WHEN** editor bootstrap resolves morphing registry
+- **THEN** `plugin.morphingRegistry` and `plugin.morphingStrategies` supply paragraph and list handlers
+- **AND** `manifest.runtime.interactiveRenderers` is absent
 
 ### Requirement: GFM preset owns morphing strategy contracts
 
@@ -124,3 +124,13 @@ References:
 - **WHEN** maintainers inspect preset and core public exports
 - **THEN** morphing strategy contracts are exported by preset-facing modules
 - **AND** Core public exports do not mirror those contracts
+
+### Requirement: GFM preset owns parse-block command and morphing registry
+
+`createGfmPreset()` SHALL register `core:parseBlockMarkdown` and expose `morphingStrategies` plus `createMorphingStrategyRegistry` from the morphing contracts package. Deprecated APIs (`renderParagraphFromBlock`, `GfmMorphingBlockStrategy`) SHALL be removed.
+
+#### Scenario: Preset registers parse-block without Core builtin
+
+- **WHEN** editor loads GFM preset plugin entry
+- **THEN** `core:parseBlockMarkdown` is available via command bus
+- **AND** `renderParagraphFromBlock` is not part of the public preset API

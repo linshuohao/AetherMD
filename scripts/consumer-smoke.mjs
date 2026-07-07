@@ -14,6 +14,11 @@ const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 const PACKAGES = [
   { name: "@aether-md/core", shortName: "core", exportName: "createEditor" },
   {
+    name: "@aether-md/morphing-contracts",
+    shortName: "morphing-contracts",
+    exportName: "createMorphingStrategyRegistry",
+  },
+  {
     name: "@aether-md/plugin-remark",
     shortName: "plugin-remark",
     exportName: "createRemarkParserAdapter",

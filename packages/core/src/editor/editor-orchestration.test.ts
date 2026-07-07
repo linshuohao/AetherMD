@@ -1,14 +1,17 @@
 import assert from "node:assert/strict";
 import { describe, it } from "vitest";
 
+import {
+  PARSE_BLOCK_MARKDOWN_COMMAND,
+  registerGfmEditorCommands,
+} from "../../../preset-gfm/dist/index.js";
 import { CoreError, AdapterError, SerializationError } from "../errors.js";
 import type { AdapterCommandRequest } from "../document/adapter-types.js";
 import type { AetherDoc } from "../document/model.js";
 import type { EventEnvelope } from "../command-event/types.js";
-import type { MorphingStrategyRecord } from "../morphing/types.js";
-import { PARSE_BLOCK_MARKDOWN_COMMAND } from "../morphing/types.js";
 import type { ExtensionPluginWithAdapters } from "../editor/adapter-wiring.js";
 import { toExtensionPluginFromPreset, type PresetBundle } from "../editor/adapter-wiring.js";
+import type { MorphingStrategyAccessor } from "../editor/types.js";
 import { createEditor } from "../editor/create-editor.js";
 import { ENGINE_REPLACE_TEXT_COMMAND } from "../editor/engine-dispatch.js";
 import type { EditorContext } from "../editor/context.js";
@@ -68,6 +71,7 @@ function createMockPreset(overrides?: {
       },
       async dispose() {},
     },
+    registerEditorCommands: registerGfmEditorCommands,
   };
   return toExtensionPluginFromPreset(preset);
 }
@@ -271,15 +275,15 @@ describe("createEditor orchestration", () => {
   });
 
   it("exposes morphing strategies from preset wiring", async () => {
-    const mockStrategy: MorphingStrategyRecord = {
-      blockType: "paragraph",
+    const mockStrategy = {
+      blockType: "paragraph" as const,
       serializeSource() {
         return "";
       },
-      async parseSource(rawSource) {
+      async parseSource(rawSource: string) {
         return {
-          type: "paragraph",
-          children: [{ type: "text", text: rawSource }],
+          type: "paragraph" as const,
+          children: [{ type: "text" as const, text: rawSource }],
         };
       },
       interactiveRenderer: {
@@ -287,8 +291,17 @@ describe("createEditor orchestration", () => {
       },
     };
 
+    const mockRegistry: MorphingStrategyAccessor = {
+      get(blockType) {
+        return blockType === "paragraph" ? mockStrategy : undefined;
+      },
+      list() {
+        return [mockStrategy];
+      },
+    };
+
     const plugin = createMockPreset();
-    plugin.morphingStrategies = [mockStrategy];
+    plugin.morphingRegistry = mockRegistry;
     const editor = await createEditor({ plugins: [plugin] });
 
     assert.equal(editor.getMorphingStrategy("paragraph"), mockStrategy);

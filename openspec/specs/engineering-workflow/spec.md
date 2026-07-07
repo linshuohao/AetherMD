@@ -505,7 +505,7 @@ References:
 
 ### Requirement: Archive compresses completed Superpowers execution details
 
-`aether-workflow-archive-change` SHALL, after successful OpenSpec archive, move completed Superpowers task files, plan files, and review files for the archived change into `.superpowers/archive/<YYYY-MM-DD>-<change>/` while preserving `final-report.md` and `validation.md` (and optional `deviations.md`) in that archive directory. Active `.superpowers/tasks/`, `.superpowers/plans/`, and `.superpowers/reviews/` SHALL contain only in-progress changes.
+`aether-workflow-archive-change` SHALL, after successful OpenSpec archive, compress completed Superpowers execution details for the archived change into `.superpowers/archive/<YYYY-MM-DD>-<change>/` containing only `final-report.md`, `validation.md`, and optional `deviations.md`. Redundant `tasks/`, `plans/`, `reviews/`, and `runs/` artifacts SHALL be deleted from both active paths and archive subdirectories once preserved summary files are copied. Active `.superpowers/tasks/`, `.superpowers/plans/`, `.superpowers/reviews/`, and `.superpowers/runs/` SHALL contain only in-progress changes.
 
 References:
 
@@ -515,10 +515,10 @@ References:
 #### Scenario: Archived change tasks leave active directories
 
 - **GIVEN** a completed change is archived through the archive workflow step
-- **WHEN** Superpowers retention runs
-- **THEN** `.superpowers/tasks/<change>/` is removed or relocated under `.superpowers/archive/<date>-<change>/`
-- **AND** `.superpowers/plans/<change>.md` and `.superpowers/reviews/<change>.md` are removed or relocated similarly
-- **AND** `final-report.md` remains available under the archive directory
+- **WHEN** Superpowers retention/compression runs
+- **THEN** `.superpowers/tasks/<change>/`, `.superpowers/plans/<change>.md`, `.superpowers/reviews/<change>.md`, and `.superpowers/runs/<change>/` are removed from active paths after summary files are copied
+- **AND** `.superpowers/archive/<date>-<change>/` contains only `final-report.md`, `validation.md`, and optional `deviations.md`
+- **AND** redundant `tasks/`, `plans/`, `reviews/`, and `runs/` subtrees are not retained under the archive directory
 
 #### Scenario: Active changes retain full Superpowers artifacts
 

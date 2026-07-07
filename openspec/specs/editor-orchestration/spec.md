@@ -237,12 +237,18 @@ References:
 
 ### Requirement: Parse-block markdown command is handled via runtime registration
 
-Editor orchestration SHALL resolve parse-block markdown behavior through runtime command registration in the command/event pipeline. Core dispatch SHALL NOT contain a dedicated parse-block bypass branch.
+Editor orchestration SHALL NOT hardcode markdown block parsing in `createEditor`. The `core:parseBlockMarkdown` command SHALL be registered by `@aether-md/preset-gfm` (or successor plugin) and routed through the standard command runtime pipeline. Core dispatch SHALL NOT contain a dedicated parse-block bypass branch.
 
 References:
 
 - `openspec/specs/core-bootstrap/spec.md`
 - `docs/architecture/principles.md`
+
+#### Scenario: Preset provides parse-block command
+
+- **WHEN** GFM preset is loaded
+- **THEN** dispatching `core:parseBlockMarkdown` returns the first parsed block via preset-registered handler
+- **AND** Core does not import parse-block payload types in public API
 
 #### Scenario: Parse command is overrideable through runtime registration
 

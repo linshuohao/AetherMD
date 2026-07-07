@@ -24,11 +24,11 @@ npm install @aether-md/core@latest @aether-md/react@latest @aether-md/vue@latest
 
 三个示例均为 workspace private package，**不发布 npm**。在仓库根目录执行 `pnpm install` 与 `pnpm build` 后：
 
-| 示例                    | 说明                                                              | 本地运行                                                                                                     |
-| ----------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| `examples/headless-gfm` | Node headless 壳（`createEditor` + GFM 插件）                     | `pnpm --filter @aether-md/example-headless-gfm build && pnpm --filter @aether-md/example-headless-gfm start` |
-| `examples/react`        | React Shell — `AetherShellShowcase`（L1 Content + L2 Morphing）   | `pnpm --filter @aether-md/example-react dev`                                                                 |
-| `examples/vue`          | Vue Shell — `AetherShellShowcase`（Content + GateLock + preview） | `pnpm --filter @aether-md/example-vue dev`                                                                   |
+| 示例                    | 说明                                                            | 本地运行                                                                                                     |
+| ----------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `examples/headless-gfm` | Node headless 壳（`createEditor` + GFM 插件）                   | `pnpm --filter @aether-md/example-headless-gfm build && pnpm --filter @aether-md/example-headless-gfm start` |
+| `examples/react`        | React Shell — `AetherShellShowcase`（L1 Content + L2 Morphing） | `pnpm --filter @aether-md/example-react dev`                                                                 |
+| `examples/vue`          | Vue Shell — `AetherShellShowcase`（L1 Content + L2 Morphing）   | `pnpm --filter @aether-md/example-vue dev`                                                                   |
 
 三个示例的 `typecheck`（`tsc --noEmit`）均纳入根 `pnpm check`（G6）。详见 [Examples Matrix](docs/examples/matrix.md) 与各示例目录下的 `README.md`。
 
@@ -41,7 +41,7 @@ pnpm e2e:install   # 首次运行或 CI
 pnpm e2e:test
 ```
 
-Phase 1 覆盖 `examples/react`（22 tests）：通过 `AetherShellShowcase` 切换 L1 `AetherEditorContent` 与 L2 `AetherMorphingDocument`，验证 smoke、Block Focus、Instant Morphing、GateLock、场景 A/B/C、Slice B inline marks、编辑隔离、click/Tab 焦点、逐键打字、序列化探针、`moveBlock` 身份、编辑器稳定性。CI 以 **blocking** job `Playwright E2E` 运行。详见 [测试策略](docs/engineering/test-strategy.md) 与 [Examples Matrix](docs/examples/matrix.md)。
+Playwright 分 `react` 与 `vue` 两个 project：`examples/react`（24 tests — 21 morphing + 3 basic）通过 `AetherShellShowcase` 切换 L1 `AetherEditorContent` 与 L2 `AetherMorphingDocument`，验证 smoke、Block Focus、Instant Morphing、GateLock、场景 A/B/C、Slice B inline marks、编辑隔离、click/Tab 焦点、逐键打字、序列化探针、`moveBlock` 身份、编辑器稳定性；`examples/vue`（3 tests，持续扩展）覆盖 L2 morphing smoke、content/morphing 双模式切换与场景 C Block Focus。CI 以 **blocking** job `Playwright E2E` 运行。详见 [测试策略](docs/engineering/test-strategy.md) 与 [Examples Matrix](docs/examples/matrix.md)。
 
 ## 文档入口
 

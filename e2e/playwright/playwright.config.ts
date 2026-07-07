@@ -2,7 +2,9 @@ import { defineConfig, devices } from "@playwright/test";
 
 const isCI = !!process.env.CI;
 const REACT_PORT = Number(process.env.E2E_PORT ?? 4173);
+const VUE_PORT = Number(process.env.E2E_VUE_PORT ?? 4174);
 const REACT_URL = `http://127.0.0.1:${REACT_PORT}`;
+const VUE_URL = `http://127.0.0.1:${VUE_PORT}`;
 
 export default defineConfig({
   testDir: "./tests",
@@ -36,10 +38,18 @@ export default defineConfig({
   projects: [
     {
       name: "react",
-      testMatch: /\.spec\.ts/,
+      testMatch: ["block-morphing.spec.ts", "react-basic.spec.ts"],
       use: {
         ...devices["Desktop Chrome"],
         baseURL: REACT_URL,
+      },
+    },
+    {
+      name: "vue",
+      testMatch: ["vue-block-morphing.spec.ts"],
+      use: {
+        ...devices["Desktop Chrome"],
+        baseURL: VUE_URL,
       },
     },
   ],

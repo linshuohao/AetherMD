@@ -18,6 +18,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./legacy": {
+      "types": "./dist/legacy.d.ts",
+      "default": "./dist/legacy.js"
     }
   },
   "scripts": {
@@ -25,16 +29,23 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "check": "pnpm typecheck && pnpm test",
-    "types:check": "tsd --typings dist/index.d.ts"
+    "types:check": "tsd --typings dist/index.d.ts && tsd --typings dist/legacy.d.ts"
   },
   "peerDependencies": {
+    "@aether-md/plugin-prosemirror": "workspace:*",
     "react": "^18 || ^19"
+  },
+  "peerDependenciesMeta": {
+    "@aether-md/plugin-prosemirror": {
+      "optional": true
+    }
   },
   "dependencies": {
     "@aether-md/core": "workspace:*",
-    "@aether-md/plugin-prosemirror": "workspace:*"
+    "@aether-md/morphing-contracts": "workspace:*"
   },
   "devDependencies": {
+    "@aether-md/plugin-prosemirror": "workspace:*",
     "@aether-md/plugin-remark": "workspace:*",
     "@aether-md/preset-gfm": "workspace:*",
     "@happy-dom/global-registrator": "^17.4.7",

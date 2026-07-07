@@ -5,12 +5,8 @@ import { defineComponent, h, watch } from "vue";
 
 import type { AetherEditor } from "@aether-md/core";
 
-import {
-  AetherEditorContent,
-  AetherEditorRoot,
-  AetherMorphingContent,
-  useAetherEditor,
-} from "./index.js";
+import { AetherEditorContent } from "./legacy.js";
+import { AetherEditorRoot, AetherMorphingContent, useAetherEditor } from "./index.js";
 import { createGfmEditorPlugins } from "./testing/gfm-plugins.js";
 
 const MarkdownProbe = defineComponent({
@@ -157,6 +153,47 @@ describe("GFM Vue smoke", () => {
       assert.ok(shell);
       assert.equal(shell?.getAttribute("data-ready"), "true");
       assert.ok(document.querySelector('[data-testid="morphing-rendered"]'));
+    });
+
+    wrapper.unmount();
+    await flushPromises();
+  });
+
+  it("focuses morphing source textarea when block enters source state", async () => {
+    const App = defineComponent({
+      setup() {
+        const plugins = createGfmEditorPlugins();
+        return () =>
+          h(
+            AetherEditorRoot,
+            {
+              plugins,
+              initialValue: "**bold**\n",
+            },
+            {
+              default: () => [h(AetherMorphingContent)],
+            },
+          );
+      },
+    });
+
+    const wrapper = mount(App, { attachTo: document.body });
+    await flushPromises();
+
+    await viWaitFor(() => {
+      assert.ok(document.querySelector('[data-testid="morphing-rendered"]'));
+    });
+
+    const rendered = document.querySelector('[data-testid="morphing-rendered"]') as HTMLElement;
+    rendered.focus();
+
+    await viWaitFor(() => {
+      const source = document.querySelector(
+        '[data-testid="morphing-source"]',
+      ) as HTMLTextAreaElement;
+      assert.ok(source);
+      assert.equal(document.activeElement, source);
+      assert.match(source.value, /\*\*bold\*\*/);
     });
 
     wrapper.unmount();

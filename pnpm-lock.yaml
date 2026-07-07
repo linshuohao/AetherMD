@@ -75,6 +75,9 @@ importers:
       '@aether-md/example-shared':
         specifier: workspace:*
         version: link:../shared
+      '@aether-md/plugin-prosemirror':
+        specifier: workspace:*
+        version: link:../../packages/plugins/plugin-prosemirror
       '@aether-md/react':
         specifier: workspace:*
         version: link:../../packages/react
@@ -143,6 +146,9 @@ importers:
       '@aether-md/example-shared':
         specifier: workspace:*
         version: link:../shared
+      '@aether-md/plugin-prosemirror':
+        specifier: workspace:*
+        version: link:../../packages/plugins/plugin-prosemirror
       '@aether-md/vue':
         specifier: workspace:*
         version: link:../../packages/vue
@@ -177,6 +183,19 @@ importers:
         version: 6.0.3
 
   packages/core:
+    devDependencies:
+      '@types/node':
+        specifier: ^26.1.0
+        version: 26.1.0
+      typescript:
+        specifier: ^6.0.3
+        version: 6.0.3
+
+  packages/morphing-contracts:
+    dependencies:
+      '@aether-md/core':
+        specifier: workspace:*
+        version: link:../core
     devDependencies:
       '@types/node':
         specifier: ^26.1.0
@@ -255,6 +274,9 @@ importers:
       '@aether-md/core':
         specifier: workspace:*
         version: link:../core
+      '@aether-md/morphing-contracts':
+        specifier: workspace:*
+        version: link:../morphing-contracts
       '@aether-md/plugin-prosemirror':
         specifier: workspace:*
         version: link:../plugins/plugin-prosemirror
@@ -274,10 +296,13 @@ importers:
       '@aether-md/core':
         specifier: workspace:*
         version: link:../core
+      '@aether-md/morphing-contracts':
+        specifier: workspace:*
+        version: link:../morphing-contracts
+    devDependencies:
       '@aether-md/plugin-prosemirror':
         specifier: workspace:*
         version: link:../plugins/plugin-prosemirror
-    devDependencies:
       '@aether-md/plugin-remark':
         specifier: workspace:*
         version: link:../plugins/plugin-remark
@@ -320,10 +345,13 @@ importers:
       '@aether-md/core':
         specifier: workspace:*
         version: link:../core
+      '@aether-md/morphing-contracts':
+        specifier: workspace:*
+        version: link:../morphing-contracts
+    devDependencies:
       '@aether-md/plugin-prosemirror':
         specifier: workspace:*
         version: link:../plugins/plugin-prosemirror
-    devDependencies:
       '@aether-md/plugin-remark':
         specifier: workspace:*
         version: link:../plugins/plugin-remark

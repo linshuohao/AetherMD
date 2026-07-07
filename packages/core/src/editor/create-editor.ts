@@ -2,7 +2,6 @@ import { bootstrapCore } from "../bootstrap/bootstrap.js";
 import { ensureDocumentBlockIds } from "../document/block-ids.js";
 import type { AetherDoc } from "../document/model.js";
 import { CoreError } from "../errors.js";
-import { PARSE_BLOCK_MARKDOWN_COMMAND, type ParseBlockMarkdownPayload } from "../morphing/types.js";
 import {
   loadPluginManifests,
   validateUniquePluginNames,
@@ -13,7 +12,7 @@ import { resolvePluginDependencyOrder } from "../manifest/dependencies.js";
 import { mergeManifestLayers } from "../manifest/merge.js";
 import { resolveEffectivePermissions } from "../manifest/permissions.js";
 import {
-  resolveMorphingRegistry,
+  resolveMorphingAccessor,
   resolveWiredAdapters,
   type ExtensionPluginWithAdapters,
 } from "./adapter-wiring.js";
@@ -42,29 +41,20 @@ function validateEditorPlugins(plugins: readonly ExtensionPlugin[]): void {
   }
 }
 
-function registerBuiltinEditorCommands(
+function registerPluginEditorCommands(
+  plugins: readonly ExtensionPluginWithAdapters[],
   runtime: ReturnType<typeof createEditorRuntime>,
   options: {
     parser: ReturnType<typeof resolveWiredAdapters>["parser"];
     schema: NonNullable<ReturnType<typeof mergeManifestLayers>["compile"]>["schema"];
   },
 ): void {
-  runtime.register(
-    PARSE_BLOCK_MARKDOWN_COMMAND,
-    (command) => {
-      const payload = command.payload as ParseBlockMarkdownPayload | undefined;
-      if (!payload || typeof payload.markdown !== "string") {
-        return false;
-      }
-
-      return {
-        value: options.parser
-          .parse(payload.markdown, options.schema)
-          .then((parsed) => parsed.children[0]),
-      };
-    },
-    { mutating: false },
-  );
+  for (const plugin of plugins) {
+    plugin.registerEditorCommands?.(runtime, {
+      parser: options.parser,
+      schema: options.schema,
+    });
+  }
 }
 
 export async function createEditor(config: EditorConfig): Promise<AetherEditor> {
@@ -91,7 +81,7 @@ export async function createEditor(config: EditorConfig): Promise<AetherEditor> 
     config.workers,
     grantedPermissions,
   );
-  const morphing = resolveMorphingRegistry(config.plugins as ExtensionPluginWithAdapters[]);
+  const morphing = resolveMorphingAccessor(config.plugins as ExtensionPluginWithAdapters[]);
   const editorSchema = mergedManifest.compile.schema;
   const runtime = createEditorRuntime({
     pipeline: {
@@ -128,7 +118,7 @@ export async function createEditor(config: EditorConfig): Promise<AetherEditor> 
     ...(config.telemetry !== undefined ? { telemetry: config.telemetry } : {}),
   });
 
-  registerBuiltinEditorCommands(runtime, {
+  registerPluginEditorCommands(config.plugins as ExtensionPluginWithAdapters[], runtime, {
     parser: wired.parser,
     schema: editorSchema,
   });

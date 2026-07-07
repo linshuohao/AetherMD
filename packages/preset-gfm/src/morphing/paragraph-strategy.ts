@@ -1,6 +1,6 @@
 import type { ParagraphBlock } from "@aether-md/core";
 
-import type { CustomBlockRenderer, MorphingBlockStrategy } from "./contracts.js";
+import type { CustomBlockRenderer, MorphingBlockStrategy } from "@aether-md/morphing-contracts";
 import { serializeParagraphInlines } from "../serialization/inline.js";
 
 import { appendInlineToDom } from "./dom-inlines.js";
@@ -36,11 +36,3 @@ export const paragraphMorphingStrategy: MorphingBlockStrategy = {
   },
   interactiveRenderer: paragraphInteractiveRenderer,
 };
-
-export function paragraphSourceFromBlock(block: ParagraphBlock): string {
-  return paragraphMorphingStrategy.serializeSource(block);
-}
-
-export function renderParagraphFromBlock(_block: ParagraphBlock): void {
-  throw new Error("renderParagraphFromBlock is DOM-only; use interactiveRenderer.mount in Shell");
-}

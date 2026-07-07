@@ -8,13 +8,13 @@
 
 ## 测试分层
 
-| 层级        | 目标           | 示例                                                                       |
-| ----------- | -------------- | -------------------------------------------------------------------------- |
-| Unit        | 纯函数与小模块 | Manifest 规范化、Capability 校验、ConflictResolver                         |
-| Contract    | 包之间协议     | Adapter 协议、Command/Event 协议、Lifecycle 顺序                           |
-| Integration | 多模块主路径   | Markdown 初始化、命令执行、序列化、React Shell 挂载                        |
-| E2E         | 真实浏览器链路 | `examples/react`（22）：L1 Content + L2 Morphing via `AetherShellShowcase` |
-| Regression  | 已知错误       | 插件异常隔离、事务回滚、权限拒绝                                           |
+| 层级        | 目标           | 示例                                                                          |
+| ----------- | -------------- | ----------------------------------------------------------------------------- |
+| Unit        | 纯函数与小模块 | Manifest 规范化、Capability 校验、ConflictResolver                            |
+| Contract    | 包之间协议     | Adapter 协议、Command/Event 协议、Lifecycle 顺序                              |
+| Integration | 多模块主路径   | Markdown 初始化、命令执行、序列化、React Shell 挂载                           |
+| E2E         | 真实浏览器链路 | `examples/react`（24）：L1 Content + L2 Morphing；`examples/vue`（3，扩展中） |
+| Regression  | 已知错误       | 插件异常隔离、事务回滚、权限拒绝                                              |
 
 ## Package 测试目录布局
 
@@ -40,15 +40,16 @@ Workspace packages 与带测试的 examples **MUST** 使用 **colocated tests + 
 
 仓库根 `e2e/playwright/` 承载真实浏览器 E2E，**不**进入 package `src/**/*.test.ts(x)` colocate 约定：
 
-| 路径                                  | 用途                                           |
-| ------------------------------------- | ---------------------------------------------- |
-| `e2e/playwright/playwright.config.ts` | Playwright 项目配置（webServer、trace、retry） |
-| `e2e/playwright/tests/**/*.spec.ts`   | 浏览器 E2E 用例                                |
-| `e2e/playwright/fixtures/`            | 跨用例 helper（如等待编辑器 ready）            |
+| 路径                                  | 用途                                                                     |
+| ------------------------------------- | ------------------------------------------------------------------------ |
+| `e2e/playwright/playwright.config.ts` | Playwright 项目配置（`react` / `vue` projects、webServer、trace、retry） |
+| `e2e/playwright/tests/**/*.spec.ts`   | 浏览器 E2E 用例                                                          |
+| `e2e/playwright/fixtures/`            | 跨用例 helper（如等待编辑器 ready）                                      |
 
 约定：
 
-- E2E **MUST** 通过外部 webServer 驱动 `@aether-md/example-react`（`AetherShellShowcase` 内切换 shell），**MUST NOT** 直接 import package `src/testing/`。
+- E2E **MUST** 通过外部 webServer 驱动 `@aether-md/example-react` 与 `@aether-md/example-vue`（`AetherShellShowcase` / `AetherShellShowcase.vue` 内切换 shell），**MUST NOT** 直接 import package `src/testing/`。
+- Playwright `projects`：`react`（`block-morphing.spec.ts` 21 + `react-basic.spec.ts` 3 = 24 tests）、`vue`（`vue-block-morphing.spec.ts` 3，持续扩展）。
 - Vitest 继续负责 unit/contract/integration；Playwright 仅验证真实浏览器渲染、焦点、输入与 Shell 受控更新链路。
 - 根目录 `pnpm e2e:test` 运行 Playwright；`pnpm e2e:install` 安装 Chromium 与系统依赖（CI 与本地首次运行前执行）。
 - v1.0 CI：`e2e-playwright` job 为 **blocking** 门禁（`Playwright E2E`），上传 `playwright-report/` 与 `test-results/` artifact 供排障。
@@ -193,6 +194,6 @@ Adapter 实现 **SHOULD** 共用同一套 contract tests。M3 各 plugin package
 - 契约测试
 - Markdown 文档链接检查
 - 包导出边界检查
-- Playwright E2E（blocking CI job，22 tests — `examples/react`）
+- Playwright E2E（blocking CI job — `react` 24 tests + `vue` 3 tests）
 
 ---

@@ -38,32 +38,43 @@ export function MorphingBlockSurface({
   const serializedSource = strategy.serializeSource(block);
   const sourceText = focused && draftSource !== null ? draftSource : serializedSource;
 
+  const commitFocus = useCallback(async () => {
+    if (inFlightEditRef.current) {
+      await inFlightEditRef.current;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!focusContext) {
+      return;
+    }
+    return focusContext.registerFocusCommit(blockId, commitFocus);
+  }, [blockId, commitFocus, focusContext]);
+
   const handleFocus = useCallback(() => {
     if (focusContext) {
-      focusContext.setFocusedBlockId(blockId);
-    } else {
-      onLocalFocusChange?.(true);
-    }
-  }, [blockId, focusContext, onLocalFocusChange]);
-
-  const clearFocus = useCallback(() => {
-    if (focusContext) {
       if (focusContext.focusedBlockId === blockId) {
-        focusContext.setFocusedBlockId(null);
+        return;
       }
-    } else {
-      onLocalFocusChange?.(false);
+      focusContext.requestFocus(blockId);
+      return;
     }
+    onLocalFocusChange?.(true);
   }, [blockId, focusContext, onLocalFocusChange]);
 
   const handleBlur = useCallback(() => {
-    void (async () => {
-      if (inFlightEditRef.current) {
-        await inFlightEditRef.current;
+    if (focusContext) {
+      if (focusContext.focusedBlockId === blockId) {
+        focusContext.releaseFocus();
       }
-      clearFocus();
+      return;
+    }
+
+    void (async () => {
+      await commitFocus();
+      onLocalFocusChange?.(false);
     })();
-  }, [clearFocus]);
+  }, [blockId, commitFocus, focusContext, onLocalFocusChange]);
 
   useEffect(() => {
     if (focused) {

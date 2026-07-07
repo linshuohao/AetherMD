@@ -147,13 +147,13 @@ openspec/
 .superpowers/
   archive/
     YYYY-MM-DD-<change>/
-      final-report.md
-      validation.md
-      tasks/              # optional; moved on archive
+      final-report.md     # required summary after compression
+      validation.md       # preserved when recorded
+      deviations.md       # optional
   plans/                  # active changes only
   tasks/                  # active changes only
   reviews/                # active changes only
-  runs/                   # active changes; copy final-report to archive on retention
+  runs/                   # active changes only; copy summary files to archive on retention
     <change>/
       validation.md
       deviations.md
@@ -704,7 +704,7 @@ AI 自动化：
 5. 检查 Docs、Spec、ADR 是否同步。
 6. 调用已安装的 OpenSpec archive skill 或 command，将 change 移动到 `openspec/changes/archive/YYYY-MM-DD-<change>/`。
 7. 通过全局 Superpowers command 或 skill 写入 `.superpowers/runs/<change>/final-report.md`。
-8. **Superpowers retention：** 将已归档 change 的 `tasks/`、`plans/`、`reviews/` 移入 `.superpowers/archive/YYYY-MM-DD-<change>/`，保留 `final-report.md` 与 `validation.md`；活跃目录仅保留进行中 change（见 `aether-workflow-archive-change` skill）。
+8. **Superpowers retention/compression：** 将 `final-report.md`、`validation.md`（及可选 `deviations.md`）写入 `.superpowers/archive/YYYY-MM-DD-<change>/`，删除已归档 change 的 `tasks/`、`plans/`、`reviews/`、`runs/` 及 archive 内冗余子目录；活跃目录仅保留进行中 change（见 `aether-workflow-archive-change` → `references/superpowers-retention.md`）。
 9. 运行最终版本管理 hook，记录 version impact。
 10. 运行最终代码管理 hook，记录 changed-file summary、task mapping、validation summary 和剩余未暂存/未跟踪文件。
 

@@ -6,6 +6,7 @@
   "linked": [
     [
       "@aether-md/core",
+      "@aether-md/morphing-contracts",
       "@aether-md/plugin-remark",
       "@aether-md/plugin-prosemirror",
       "@aether-md/preset-gfm",
