@@ -10,6 +10,7 @@ import {
 import { validateServiceCapabilities } from "../manifest/capabilities.js";
 import { resolvePluginDependencyOrder } from "../manifest/dependencies.js";
 import { mergeManifestLayers } from "../manifest/merge.js";
+import { resolveEffectivePermissions } from "../manifest/permissions.js";
 import {
   resolveMorphingRegistry,
   resolveWiredAdapters,
@@ -52,10 +53,20 @@ export async function createEditor(config: EditorConfig): Promise<AetherEditor> 
   const wired = resolveWiredAdapters(config.plugins as ExtensionPluginWithAdapters[]);
   const morphing = resolveMorphingRegistry(config.plugins as ExtensionPluginWithAdapters[]);
   const editorSchema = mergedManifest.compile.schema;
+  const grantedPermissions = resolveEffectivePermissions({
+    loadedPlugins,
+    ...(config.security?.grantedPermissions !== undefined
+      ? { hostGranted: config.security.grantedPermissions }
+      : {}),
+    ...(config.security?.defaultDeny !== undefined
+      ? { defaultDeny: config.security.defaultDeny }
+      : {}),
+  });
   const runtime = createEditorRuntime({
     pipeline: {
       readOnly: config.readOnly ?? false,
       providedCapabilities: capabilityResult.provided,
+      grantedPermissions,
     },
     conflictResolver,
   });
@@ -73,7 +84,7 @@ export async function createEditor(config: EditorConfig): Promise<AetherEditor> 
 
   const session = await wired.engine.create(initialDoc);
 
-  const builtin = createBuiltinServicesForEditor(wired.engine, session);
+  const builtin = createBuiltinServicesForEditor(wired.engine, session, grantedPermissions);
 
   const context = createEditorContext({
     runtime,
@@ -82,9 +93,7 @@ export async function createEditor(config: EditorConfig): Promise<AetherEditor> 
     parser: wired.parser,
     serializer: wired.serializer,
     builtin,
-    ...(config.security?.grantedPermissions !== undefined
-      ? { grantedPermissions: config.security.grantedPermissions }
-      : {}),
+    grantedPermissions,
   });
 
   const bootstrapRuntime = await bootstrapCore(config.plugins, { context });

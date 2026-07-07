@@ -43,6 +43,7 @@ export function createCommandEventRuntime(
   const pipelineContext: CommandPipelineContext = options.pipeline ?? {
     readOnly: false,
     providedCapabilities: new Set(),
+    grantedPermissions: new Set(),
   };
   let disposed = false;
 

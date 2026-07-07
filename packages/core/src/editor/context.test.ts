@@ -55,7 +55,7 @@ describe("EditorContext", () => {
         documentHistory,
         history: createHistoryService(documentHistory),
         selection: createSelectionService(engine, { id: "s1" }),
-        clipboard: createClipboardService(),
+        clipboard: createClipboardService({ grantedPermissions: new Set(["perm:clipboard"]) }),
       },
     });
 

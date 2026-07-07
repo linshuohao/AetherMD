@@ -1,4 +1,4 @@
-import type { CapabilityId } from "../types.js";
+import type { CapabilityId, PermissionId } from "../types.js";
 import { CoreError } from "../errors.js";
 import type { CommandId, CommandRequest, CommandResult } from "./types.js";
 
@@ -6,12 +6,14 @@ export const MUTATING_COMMAND_IDS = new Set<CommandId>(["core:replaceText", "cor
 
 export interface CommandRegistrationMeta {
   requires?: readonly CapabilityId[];
+  permissions?: readonly PermissionId[];
   mutating?: boolean;
 }
 
 export interface CommandPipelineContext {
   readOnly: boolean;
   providedCapabilities: ReadonlySet<CapabilityId>;
+  grantedPermissions: ReadonlySet<PermissionId>;
 }
 
 export function isMutatingCommand(
@@ -68,12 +70,37 @@ export function runCapabilityGuard(
   return null;
 }
 
+export function runPermissionGuard(
+  context: CommandPipelineContext,
+  registration?: CommandRegistrationMeta,
+): CommandResult | null {
+  const required = registration?.permissions;
+  if (!required || required.length === 0) {
+    return null;
+  }
+  for (const permission of required) {
+    if (!context.grantedPermissions.has(permission)) {
+      return {
+        ok: false,
+        error: new CoreError({
+          code: "PERMISSION_DENIED",
+          message: `Missing required permission: ${permission}`,
+          severity: "recoverable",
+        }),
+      };
+    }
+  }
+  return null;
+}
+
 export function runCommandPipelineGuards(
   context: CommandPipelineContext,
   command: CommandRequest,
   registration?: CommandRegistrationMeta,
 ): CommandResult | null {
   return (
-    runReadOnlyGuard(context, command, registration) ?? runCapabilityGuard(context, registration)
+    runReadOnlyGuard(context, command, registration) ??
+    runCapabilityGuard(context, registration) ??
+    runPermissionGuard(context, registration)
   );
 }

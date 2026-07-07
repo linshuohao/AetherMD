@@ -46,7 +46,7 @@ describe("Command priority queue batch dispatch", () => {
 describe("Command pipeline guards", () => {
   it("blocks mutating commands when read-only", () => {
     const runtime = createCommandEventRuntime({
-      pipeline: { readOnly: true, providedCapabilities: new Set() },
+      pipeline: { readOnly: true, providedCapabilities: new Set(), grantedPermissions: new Set() },
     });
     let calls = 0;
     runtime.register(
@@ -68,6 +68,7 @@ describe("Command pipeline guards", () => {
       pipeline: {
         readOnly: false,
         providedCapabilities: new Set(["core:history"]),
+        grantedPermissions: new Set(),
       },
     });
     let calls = 0;
@@ -83,5 +84,55 @@ describe("Command pipeline guards", () => {
 
     expect(result.ok).toBe(false);
     expect(calls).toBe(0);
+  });
+
+  it("blocks commands missing required permissions", () => {
+    const runtime = createCommandEventRuntime({
+      pipeline: {
+        readOnly: false,
+        providedCapabilities: new Set(),
+        grantedPermissions: new Set(["perm:dom"]),
+      },
+    });
+    let calls = 0;
+    runtime.register(
+      "demo:needs-clipboard",
+      () => {
+        calls += 1;
+      },
+      { permissions: ["perm:clipboard"] },
+    );
+
+    const result = runtime.dispatch({ id: "demo:needs-clipboard" });
+
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.error?.source).toBe("core");
+      expect(result.error?.code).toBe("PERMISSION_DENIED");
+    }
+    expect(calls).toBe(0);
+  });
+
+  it("allows commands when required permissions are granted", () => {
+    const runtime = createCommandEventRuntime({
+      pipeline: {
+        readOnly: false,
+        providedCapabilities: new Set(),
+        grantedPermissions: new Set(["perm:clipboard"]),
+      },
+    });
+    let calls = 0;
+    runtime.register(
+      "demo:needs-clipboard",
+      () => {
+        calls += 1;
+      },
+      { permissions: ["perm:clipboard"] },
+    );
+
+    const result = runtime.dispatch({ id: "demo:needs-clipboard" });
+
+    expect(result.ok).toBe(true);
+    expect(calls).toBe(1);
   });
 });

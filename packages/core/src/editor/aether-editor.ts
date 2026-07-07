@@ -20,6 +20,7 @@ import {
   type MorphingStrategyRegistry,
   type ParseBlockMarkdownPayload,
 } from "../morphing/types.js";
+import type { PermissionId } from "../types.js";
 import {
   CORE_REDO_COMMAND,
   CORE_UNDO_COMMAND,
@@ -107,9 +108,13 @@ export class AetherEditorImpl implements AetherEditor {
     }
 
     if (this.readOnlyFlag) {
-      const guard = runReadOnlyGuard({ readOnly: true, providedCapabilities: new Set() }, command, {
-        mutating: command.id !== CORE_UNDO_COMMAND && command.id !== CORE_REDO_COMMAND,
-      });
+      const guard = runReadOnlyGuard(
+        { readOnly: true, providedCapabilities: new Set(), grantedPermissions: new Set() },
+        command,
+        {
+          mutating: command.id !== CORE_UNDO_COMMAND && command.id !== CORE_REDO_COMMAND,
+        },
+      );
       if (guard) {
         return guard;
       }
@@ -259,12 +264,13 @@ export function registerWithConflictResolution(
 export function createBuiltinServicesForEditor(
   engine: EditorContext["services"]["engine"]["adapter"],
   session: EngineSession,
+  grantedPermissions: ReadonlySet<PermissionId>,
 ) {
   const documentHistory = createDocumentHistory();
   return {
     documentHistory,
     history: createHistoryService(documentHistory),
     selection: createSelectionService(engine, session),
-    clipboard: createClipboardService(),
+    clipboard: createClipboardService({ grantedPermissions }),
   };
 }
