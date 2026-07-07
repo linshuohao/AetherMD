@@ -1,6 +1,6 @@
 # Examples Matrix
 
-Workspace examples are **private** packages — one per shell runtime. Each example exposes a single integrated showcase component. All three participate in root `pnpm check` via `typecheck` (G6). Browser E2E covers React (L1 + L2 shells) and Vue (L2 morphing, expanding).
+Workspace examples are **private** packages — one per shell runtime. Each example exposes a single integrated showcase component. All three participate in root `pnpm check` via `typecheck` (G6). Browser E2E covers React (content + morphing) and Vue (morphing, expanding).
 
 ## Matrix
 
@@ -20,7 +20,7 @@ Workspace examples are **private** packages — one per shell runtime. Each exam
 | Gate           | Scope                                                                                         |
 | -------------- | --------------------------------------------------------------------------------------------- |
 | G6 `typecheck` | All three examples via turbo `check` in root `pnpm check`                                     |
-| Playwright E2E | `examples/react` (24) — L1 content + L2 morphing; `examples/vue` (3, expanding) — L2 morphing |
+| Playwright E2E | `examples/react` (24) — content + morphing；`examples/vue` (3, expanding) — morphing |
 | Consumer smoke | Six publishable `@aether-md/*` packages (`pnpm consumer:smoke`)                               |
 
 See [测试策略](../engineering/test-strategy.md) and [CI 校验计划](../architecture/ci-checklist.md).

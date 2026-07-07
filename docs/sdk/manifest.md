@@ -1,6 +1,5 @@
 # Manifest 分层契约
 
-> 状态：设计草案 + M1 Core Bootstrap。本页作为对应主题的维护入口。
 
 ## Manifest 分层契约
 
@@ -98,9 +97,9 @@ function validateManifestVersion(version: number): void {
 | `1`             | **Stable** | 分层 Manifest；类型化 CapabilityId |
 | `2`             | _Reserved_ | 预留给 schema 结构重组             |
 
-## M1 Core Bootstrap implementation
+## Core Bootstrap implementation
 
-`@aether-md/core` 当前已实现 M1 所需的最小 Manifest 行为：
+`@aether-md/core` 当前已实现 Core Bootstrap 所需的最小 Manifest 行为：
 
 - 读取 `ExtensionPlugin.manifest`。
 - 校验 `manifest.metadata`、`metadata.name`、`metadata.manifestVersion`、`metadata.provides`、`metadata.requires`、`metadata.dependsOn` 和 `security.requests` 的基本 shape。
@@ -108,7 +107,7 @@ function validateManifestVersion(version: number): void {
 - 使用 `SUPPORTED_MANIFEST_VERSIONS = [1] as const` 拒绝不支持的 Manifest version。
 - 在 lifecycle hooks 运行前以 fatal `CoreError` 拒绝 invalid Manifest。
 
-M1 不实现 compile layer merge、Schema 合并、Command handler 注册、Runtime Permission 授权执行或 Adapter 创建。
+当前不实现 compile layer merge、Schema 合并、Command handler 注册、Runtime Permission 授权执行或 Adapter 创建。
 
 ## Block morphing renderer registration
 

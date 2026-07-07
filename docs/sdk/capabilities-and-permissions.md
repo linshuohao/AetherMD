@@ -1,6 +1,5 @@
 # Service Capability 与 Runtime Permission
 
-> 状态：设计草案 + M1 Core Bootstrap（Service Capability 校验已实现）。本页作为对应主题的维护入口。
 
 ## Service Capability 与 Runtime Permission 双轨模型
 
@@ -109,12 +108,12 @@ export const CORE_SERVICE_REGISTRY: readonly CoreCapabilityId[] = [
 ] as const;
 ```
 
-### M1 Core Bootstrap capability subset
+### Core builtin capability subset
 
-`@aether-md/core` 的 M1 Core Bootstrap 实现只自动提供以下能力：
+`@aether-md/core` bootstrap 在不加载 Adapter 时只自动提供以下内置能力：
 
 ```typescript
-export const M1_CORE_CAPABILITIES = [
+export const CORE_BUILTIN_CAPABILITIES = [
   "core:history",
   "core:selection",
   "core:clipboard",
@@ -122,6 +121,6 @@ export const M1_CORE_CAPABILITIES = [
 ] as const;
 ```
 
-`core:engine` 和 `core:parser` 仍属于 `CoreCapabilityId`，但依赖官方 Adapter。M1 在 Adapter package 存在前不会 silent provide 这两个 capability；如果插件要求它们且没有 loaded plugin 提供，bootstrap 必须以 fatal `CoreError` 中止。
+`core:engine` 和 `core:parser` 仍属于 `CoreCapabilityId`，但依赖官方 Adapter。Core 在 Adapter package 存在前不会 silent provide 这两个 capability；如果插件要求它们且没有 loaded plugin 提供，bootstrap 必须以 fatal `CoreError` 中止。
 
 ---

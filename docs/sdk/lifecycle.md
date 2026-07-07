@@ -1,6 +1,5 @@
 # 扩展生命周期
 
-> 状态：设计草案 + M1 Core Bootstrap。本页作为生命周期主题的维护入口。
 
 ## 扩展生命周期
 
@@ -31,7 +30,7 @@ flowchart TB
 | `running`                   | Command Bus        | 直接调用 Adapter 内部 API |
 | `onDestroy`                 | 资源清理           | 派发新 Command            |
 
-## M1 Core Bootstrap subset
+## Core Bootstrap subset
 
 `@aether-md/core` 当前只实现 lifecycle bootstrap 子集：
 
@@ -43,6 +42,6 @@ flowchart TB
 - startup hook failure 时，对已成功 `runtime.onInit` 的插件子集执行 reverse-order `runtime.onDestroy` cleanup，再以 fatal `CoreError`（primary code `LIFECYCLE_HOOK_FAILED`）中止；cleanup 中单个 `onDestroy` 失败时 best-effort 继续其余插件；无任何成功 `onInit` 时不调用 `onDestroy`。
 - `CoreBootstrapRuntime.dispose()` 逆序调用 `runtime.onDestroy`；重复 `dispose()` 为公开契约 no-op（不重复 hooks、不 throw）；正常 dispose 路径上 `onDestroy` 失败仍 fatal abort，不继续后续 destroy hooks。
 
-M1 不执行 compile layer merge、ConflictResolver、Adapter creation、Command Bus、Event Hub 或 document running state。M2 `createCommandEventRuntime().dispose()` 幂等语义独立于此 bootstrap dispose 契约。
+当前不执行 compile layer merge、ConflictResolver、Adapter creation、Command Bus、Event Hub 或 document running state。`createCommandEventRuntime().dispose()` 幂等语义独立于此 bootstrap dispose 契约。
 
 ---

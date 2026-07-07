@@ -1,14 +1,14 @@
 # v1.0 CI 校验计划
 
-> 状态：设计草案 + M1–M6 基线 CI 门禁已部分启用（`pnpm check` 覆盖 6 个 workspace package，含 `examples/headless-gfm` 与 `examples/react`）。本页作为对应主题的维护入口。
+> 本页记录 v1.0 CI 门禁计划；`pnpm check` 已覆盖 workspace packages 与 examples。
 
 ## CI 校验计划
 
 实现阶段在 CI 中逐项启用，防止文档与代码漂移：
 
-### M6 范围说明
+### 验证套件范围说明
 
-M6 验证套件已自动化以下门禁（G11、G6、部分行为回归）。**compile-layer schema merge 不在 M6 scope**（design Decision 6）：Schema 冲突以 `createDefaultConflictResolver` 单元 abort + `createEditor` fatal startup 回归覆盖，完整 compile-layer 集成 deferred。
+验证套件已自动化以下门禁（G11、G6、部分行为回归）。**compile-layer schema merge 不在当前验证范围**（design Decision 6）：Schema 冲突以 `createDefaultConflictResolver` 单元 abort + `createEditor` fatal startup 回归覆盖，完整 compile-layer 集成 deferred。
 
 ### 契约一致性
 
@@ -17,7 +17,7 @@ M6 验证套件已自动化以下门禁（G11、G6、部分行为回归）。**c
 - [x] **G6** 三个 workspace example（`headless-gfm`、`react`、`vue`）通过 `tsc --noEmit` / smoke test，并纳入根 `pnpm check` turbo pipeline（主路径；见 [Examples Matrix](../examples/matrix.md)）
 - [x] 五包 public API `tsd` 导出快照（`packages/*/test-d/`；根 `pnpm types:check`）
 - [ ] `CORE_SERVICE_REGISTRY` 与 [内置 Service Capability 注册表](../sdk/capabilities-and-permissions.md) 一致
-- [ ] [插件示例](../sdk/examples.md) 可对 `@aether-md/core` 通过 `tsc --noEmit`（G6 次路径；M6 主路径为 headless example）
+- [ ] [插件示例](../sdk/examples.md) 可对 `@aether-md/core` 通过 `tsc --noEmit`（G6 次路径；主路径为 headless example）
 
 ### Manifest 规范
 
@@ -42,7 +42,7 @@ M6 验证套件已自动化以下门禁（G11、G6、部分行为回归）。**c
 ### 行为回归
 
 - [x] ConflictResolver 默认策略与 [默认策略表](../sdk/conflict-resolution.md) 一致（单元测试 — `packages/core/src/editor/conflict-resolver.test.ts`）
-- [x] Schema 冲突 `createDefaultConflictResolver` 对 `type: "schema"` 返回 `abort`（单元测试）；**compile-layer merge deferred** — M6 不要求 compile-layer schema 合并集成测试
+- [x] Schema 冲突 `createDefaultConflictResolver` 对 `type: "schema"` 返回 `abort`（单元测试）；**compile-layer merge deferred** — 不要求 compile-layer schema 合并集成测试
 - [x] `createEditor` fatal startup：`metadata.manifestVersion` unsupported、`metadata.name` duplicate → `CoreError` 启动中止（集成测试 — `startup-abort.integration.test.ts`、`editor-orchestration.test.ts`）
 - [x] React Shell GateLock：`prevValue === nextValue` 时不重设文档（集成测试 — `@aether-md/react` `gate-lock.integration.test.tsx`，happy-dom，无 Playwright）
 

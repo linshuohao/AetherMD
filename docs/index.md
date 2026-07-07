@@ -10,12 +10,12 @@ hero:
       text: 开始阅读
       link: /README
     - theme: alt
-      text: 项目状态
+      text: 能力概览
       link: /project-status
 
 features:
   - title: 架构文档
-    details: 长期原则、系统边界、兼容策略、路线图与 CI 门禁
+    details: 长期原则、系统边界、兼容策略、v1.0 能力范围与 CI 门禁
     link: /architecture/principles
   - title: Plugin SDK
     details: Manifest、生命周期、Command/Event 协议与插件示例

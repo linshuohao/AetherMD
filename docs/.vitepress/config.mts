@@ -23,7 +23,7 @@ export default defineConfig({
           text: "入门",
           items: [
             { text: "文档入口", link: "/README" },
-            { text: "项目状态", link: "/project-status" },
+            { text: "能力概览", link: "/project-status" },
             { text: "核心词汇表", link: "/glossary" },
             { text: "文档维护规则", link: "/maintenance" },
             { text: "Examples Matrix", link: "/examples/matrix" },
@@ -50,7 +50,7 @@ export default defineConfig({
             { text: "文档模型", link: "/architecture/document-model" },
             { text: "兼容策略", link: "/architecture/compatibility" },
             { text: "目录结构", link: "/architecture/package-layout" },
-            { text: "路线图", link: "/architecture/roadmap" },
+            { text: "v1.0 能力范围", link: "/architecture/roadmap" },
             { text: "CI 校验计划", link: "/architecture/ci-checklist" },
           ],
         },
@@ -88,11 +88,11 @@ export default defineConfig({
           items: [
             { text: "工程文档", link: "/engineering/" },
             {
-              text: "MVP 实施计划",
+              text: "实施范围与验收标准",
               link: "/engineering/mvp-implementation-plan",
             },
             {
-              text: "Demo Slice 交付计划",
+              text: "示例与集成验证",
               link: "/engineering/demo-slice-delivery-program",
             },
             { text: "数据流", link: "/engineering/data-flow" },

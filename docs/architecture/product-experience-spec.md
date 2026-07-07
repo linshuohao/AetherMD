@@ -1,6 +1,5 @@
 # 产品交互体验设计规范 (Product Experience Specification)
 
-> 状态：初版 · 2026-07 · 纠偏 change `align-instant-morphing-north-star`  
 > 权威层级：与 [架构原则](principles.md) 同级的产品交互契约；架构与工程文档 **SHOULD** 引用本页，而非重复定义 UX 规范。
 
 ## 目的
@@ -67,7 +66,7 @@
 
 ## 零延迟打字
 
-以下视为 **违背 north star** 的缺陷（Phase 0 壳可存在，但不得标注为已满足本规范）：
+以下视为 **违背 north star** 的缺陷（集成壳可存在，但不得标注为已满足本规范）：
 
 - 每次按键触发整编辑器 remount
 - caret 因全量 `updateState` 漂移
@@ -78,47 +77,45 @@
 
 | 层                    | 职责                                                         | MUST NOT                      |
 | --------------------- | ------------------------------------------------------------ | ----------------------------- |
-| **Core**              | Command Bus、Event Hub、文档快照、块稳定标识（实现切片定形） | Markdown 渲染语义、morph 分支 |
+| **Core**              | Command Bus、Event Hub、文档快照、块稳定标识                 | Markdown 渲染语义、morph 分支 |
 | **Preset / 块插件**   | 块类型 schema、rendered 视图、source 编辑表面                | 绕过 Command Bus 写文档       |
 | **Engine Adapter**    | 事务应用；PM 仅在 Adapter 内部                               | 泄漏 PM 类型到 Core           |
 | **Shell（React 等）** | 块 focus 状态机、挂载块 surface、GateLock                    | 内嵌 GFM 语法逻辑             |
 
 块类型行为 **SHOULD** 通过 Manifest `runtime.interactiveRenderers`（或后继契约）扩展，见 [Manifest](../sdk/manifest.md)、[CustomBlockRenderer](../sdk/custom-block-renderer.md)。
 
-## North star 分层（与 demo 关系）
+## 演示模式与规范关系
 
-| 层级                           | 载体                          | 证明什么                                              | 是否等于本规范          |
-| ------------------------------ | ----------------------------- | ----------------------------------------------------- | ----------------------- |
-| **L1 架构管线 demo（模式）**   | `examples/react` (`content`)  | React Shell + GFM + GateLock + 连续编辑 + probes 同步 | **否** — Phase 0 集成壳 |
-| **L2 产品 north star（模式）** | `examples/react` (`morphing`) | Instant Morphing + Block Focus（Slice A–D）           | **是**                  |
+| 模式 | 载体 | 证明什么 | 是否等于本规范 |
+| ---- | ---- | -------- | -------------- |
+| **架构集成模式** | `examples/react` / `examples/vue`（`content`） | React/Vue Shell + GFM + GateLock + 连续编辑 + probes 同步 | **否** — 集成壳 |
+| **产品交互模式** | `examples/react` / `examples/vue`（`morphing`） | Instant Morphing + Block Focus | **是** |
 
-L1 有价值，**不得**在 README 或对外叙事中冒充 L2。
+架构集成模式有价值，**不得**在对外叙事中冒充产品交互 north star。
 
-## Phase 0 interim shell（当前实现）
+## 集成壳（非终态）
 
-M5 `@aether-md/react` + 常驻 ProseMirror `EditorView` + 下方 Markdown preview 属于 **Phase 0 集成壳**：
+`@aether-md/react` + 常驻 ProseMirror `EditorView` + 下方 Markdown preview 属于 **集成壳**：
 
 - 证明 `createEditor` → DOM → Command → serialize 管线
 - **不是**本规范定义的产品终态
-- 保留至 L2 Slice A 可替代编辑体验
+- 保留至 morphing 编辑体验可完全替代该壳
 
-详见 [MVP 实施计划](../engineering/mvp-implementation-plan.md)（**当前活跃**：Block Morphing Slice A–D）、[Demo Slice 交付计划](../engineering/demo-slice-delivery-program.md)（L1 历史记录，已闭合）。
+详见 [实施范围与验收标准](../engineering/mvp-implementation-plan.md) 与 [示例与集成验证](../engineering/demo-slice-delivery-program.md)。
 
-## 实现切片（规划，非本页范围）
+## Morphing 能力范围（参考）
 
-| 切片    | 范围                                    |
-| ------- | --------------------------------------- |
-| Slice A | 单段落块 rendered ↔ source morphing MVP |
-| Slice B | GFM inline marks 在 source 态保真       |
-| Slice C | 多块 + Block Focus 切换                 |
-| Slice D | 列表 / 链接等块插件化                   |
-
-实现 change：`block-morphing-slice-1`（已归档）、`block-morphing-slice-b`（已归档）、`block-morphing-slice-c`（已归档）、`block-morphing-slice-d`（已归档）。
+| 能力           | 范围                                    |
+| -------------- | --------------------------------------- |
+| 单段落 morphing | 单块 rendered ↔ source 切换 MVP         |
+| Inline marks   | GFM inline marks 在 source 态保真       |
+| 多块 focus     | 多块 + Block Focus 切换                 |
+| 块插件化       | 列表 / 链接等块类型插件化               |
 
 ## 相关文档
 
 - [架构原则](principles.md)
 - [数据流](../engineering/data-flow.md)
-- [路线图 — Slice 叙事](roadmap.md)
-- [项目状态](../project-status.md)
+- [v1.0 能力范围](roadmap.md)
+- [能力概览](../project-status.md)
 - [复盘：MVP 意图 vs 架构证明](../../essays/product-delivery/01-mvp-intent-vs-architecture-proof.md)

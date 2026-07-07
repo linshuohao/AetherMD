@@ -4,7 +4,8 @@ import type { CapabilityId, CoreCapabilityId } from "../types.js";
 
 export type { CapabilityId, CoreCapabilityId } from "../types.js";
 
-export const M1_CORE_CAPABILITIES = [
+/** Core capabilities provided by bootstrap without adapter plugins. */
+export const CORE_BUILTIN_CAPABILITIES = [
   "core:history",
   "core:selection",
   "core:clipboard",
@@ -39,7 +40,7 @@ export function validateServiceCapabilities(
 export function collectProvidedCapabilities(
   loadedPlugins: readonly LoadedPlugin[],
 ): ReadonlySet<CapabilityId> {
-  const provided = new Set<CapabilityId>(M1_CORE_CAPABILITIES);
+  const provided = new Set<CapabilityId>(CORE_BUILTIN_CAPABILITIES);
 
   for (const loadedPlugin of loadedPlugins) {
     for (const capability of loadedPlugin.manifest.metadata.provides ?? []) {

@@ -5,14 +5,14 @@ import { fileURLToPath } from "node:url";
 import { describe, it } from "vitest";
 
 import * as core from "./index.js";
-import { M1_CORE_CAPABILITIES } from "./manifest/capabilities.js";
+import { CORE_BUILTIN_CAPABILITIES } from "./manifest/capabilities.js";
 
 describe("@aether-md/core package boundary", () => {
-  it("exposes the M1 bootstrap runtime surface", () => {
+  it("exposes core bootstrap runtime surface", () => {
     assert.deepEqual(core.SUPPORTED_MANIFEST_VERSIONS, [1]);
     assert.equal(typeof core.CoreError, "function");
     assert.equal(typeof core.bootstrapCore, "function");
-    assert.deepEqual(core.M1_CORE_CAPABILITIES, [
+    assert.deepEqual(core.CORE_BUILTIN_CAPABILITIES, [
       "core:history",
       "core:selection",
       "core:clipboard",
@@ -20,12 +20,12 @@ describe("@aether-md/core package boundary", () => {
     ]);
   });
 
-  it("exposes the M2 command-event runtime surface", () => {
+  it("exposes command-event runtime surface", () => {
     assert.equal(typeof core.createCommandEventRuntime, "function");
     assert.equal(typeof core.PluginError, "function");
   });
 
-  it("exposes the M3 document-model and adapter-base surface", () => {
+  it("exposes document-model and adapter-base surface", () => {
     assert.equal(typeof core.AdapterError, "function");
     assert.equal(typeof core.SerializationError, "function");
     assert.equal(typeof core.RenderError, "function");
@@ -34,7 +34,7 @@ describe("@aether-md/core package boundary", () => {
     assert.equal(typeof core.createNoopTelemetrySpan, "function");
   });
 
-  it("exposes M4.5 editor orchestration entry without Shell or preset re-exports", () => {
+  it("exposes editor orchestration entry without Shell or preset re-exports", () => {
     const exportedKeys = Object.keys(core);
 
     assert.equal(exportedKeys.includes("createEditor"), true);
@@ -70,9 +70,9 @@ describe("@aether-md/core package boundary", () => {
     assert.equal(presetPackage.name, "@aether-md/preset-gfm");
   });
 
-  it("does not silently provide adapter capabilities in M1 core set", () => {
-    assert.equal(M1_CORE_CAPABILITIES.includes("core:engine" as never), false);
-    assert.equal(M1_CORE_CAPABILITIES.includes("core:parser" as never), false);
+  it("does not silently provide adapter capabilities in the builtin core set", () => {
+    assert.equal(CORE_BUILTIN_CAPABILITIES.includes("core:engine" as never), false);
+    assert.equal(CORE_BUILTIN_CAPABILITIES.includes("core:parser" as never), false);
   });
 
   it("does not declare remark, prosemirror, react, or vue runtime dependencies", () => {

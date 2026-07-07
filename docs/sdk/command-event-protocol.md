@@ -1,8 +1,8 @@
 # Command/Event 协议
 
-> 状态：M2 Command/Event Runtime 已在 `@aether-md/core` 实现最小子集。本页定义插件、Core 与宿主之间共享的命令和事件数据结构；未标注为已实现的行为仍属 v1.0 目标或后续里程碑。
+> 本页定义插件、Core 与宿主之间共享的命令和事件数据结构；未标注为已实现的行为仍属 v1.0 目标。
 
-## 已实现子集（M2）
+## 已实现子集
 
 `@aether-md/core` 导出以下类型与运行时：
 
@@ -50,7 +50,7 @@ export interface CommandMeta {
 }
 ```
 
-v1.0 **MAY** 忽略 `priority`，但 **SHOULD** 保留字段以兼容后续 Command Queue。M2 已忽略 `priority`。
+v1.0 **MAY** 忽略 `priority`，但 **SHOULD** 保留字段以兼容后续 Command Queue。当前实现已忽略 `priority`。
 
 ## CommandResult
 
@@ -63,7 +63,7 @@ export interface CommandResult<TValue = unknown> {
 }
 ```
 
-Command handler 返回 `false` 时，Core **SHOULD** 转换为 `ok: false` 且不视为异常。M2 已实现该映射。
+Command handler 返回 `false` 时，Core **SHOULD** 转换为 `ok: false` 且不视为异常。当前实现已覆盖该映射。
 
 ## EventName
 
@@ -86,7 +86,7 @@ export interface EventEnvelope<TPayload = unknown> {
 
 ## 内置事件
 
-| 事件                | 触发时机                  | payload                  | M2 状态                                              |
+| 事件                | 触发时机                  | payload                  | 实现状态                                             |
 | ------------------- | ------------------------- | ------------------------ | ---------------------------------------------------- |
 | `ready`             | 生命周期 `onReady` 完成后 | `{}`                     | 类型已导出；未由 bootstrap 自动发出                  |
 | `change`            | 可见文档快照变化后        | `{ doc, markdown? }`     | 可通过 `emit` 投递；不要求文档快照字段               |

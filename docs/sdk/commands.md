@@ -1,6 +1,5 @@
 # 命令管道
 
-> 状态：设计草案 + M2 Command/Event Runtime（`dispatch` 最小子集）。完整 Command Pipeline 仍属 v1.0 目标。本页作为对应主题的维护入口。
 
 ## 命令管道
 
