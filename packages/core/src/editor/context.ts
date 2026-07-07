@@ -9,16 +9,14 @@ import type { PermissionId } from "../types.js";
 import type { ClipboardService } from "../services/clipboard.js";
 import type { DocumentHistory, HistoryService } from "../services/history.js";
 import type { SelectionService } from "../services/selection.js";
+import { createNoopTelemetryService, type TelemetryService } from "../telemetry/index.js";
 
 /** Asset interceptor deferred to later wave. */
 export interface AssetInterceptorService {
   intercept(): void;
 }
 
-/** Telemetry deferred to Wave 8. */
-export interface TelemetryService {
-  track(): void;
-}
+export type { TelemetryService };
 
 export interface LoggerSink {
   info(message: string): void;
@@ -30,9 +28,7 @@ const noopAssets: AssetInterceptorService = {
   intercept() {},
 };
 
-const noopTelemetry: TelemetryService = {
-  track() {},
-};
+const noopTelemetry = createNoopTelemetryService();
 
 export interface EngineAdapterService {
   readonly adapter: EngineAdapter;
@@ -59,6 +55,7 @@ export interface EditorContextOptions {
   serializer: SerializerAdapter;
   grantedPermissions?: Iterable<PermissionId>;
   logger?: LoggerSink;
+  telemetry?: TelemetryService;
   builtin?: BuiltinServices;
 }
 
@@ -66,7 +63,7 @@ export class EditorContext {
   public readonly commands: CommandEventRuntime;
   public readonly events: CommandEventRuntime;
   public readonly logger: LoggerSink;
-  public readonly telemetry: TelemetryService = noopTelemetry;
+  public readonly telemetry: TelemetryService;
   public readonly grantedPermissions: ReadonlySet<PermissionId>;
   public readonly documentHistory: DocumentHistory;
   public readonly services: {
@@ -90,6 +87,7 @@ export class EditorContext {
       warn() {},
       error() {},
     };
+    this.telemetry = options.telemetry ?? noopTelemetry;
     this.grantedPermissions = new Set(options.grantedPermissions ?? []);
     this.documentHistory = options.builtin.documentHistory;
     this.services = {

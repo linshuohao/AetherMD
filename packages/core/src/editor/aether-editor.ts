@@ -111,6 +111,31 @@ export class AetherEditorImpl implements AetherEditor {
       };
     }
 
+    const started = performance.now();
+    const span = this.context.telemetry.startSpan("command.dispatch", {
+      commandId: command.id,
+      source: command.source ?? "system",
+    });
+
+    const finish = (result: CommandResult): CommandResult => {
+      span.setAttribute("ok", result.ok);
+      if (result.error?.code) {
+        span.setAttribute("errorCode", result.error.code);
+      }
+      span.end();
+      this.context.telemetry.track({
+        name: "command.executed",
+        timestamp: Date.now(),
+        durationMs: performance.now() - started,
+        attributes: {
+          commandId: command.id,
+          ok: result.ok,
+          ...(result.error?.code !== undefined ? { errorCode: result.error.code } : {}),
+        },
+      });
+      return result;
+    };
+
     if (this.readOnlyFlag) {
       const guard = runReadOnlyGuard(
         { readOnly: true, providedCapabilities: new Set(), grantedPermissions: new Set() },
@@ -120,21 +145,21 @@ export class AetherEditorImpl implements AetherEditor {
         },
       );
       if (guard) {
-        return guard;
+        return finish(guard);
       }
     }
 
     if (command.id === PARSE_BLOCK_MARKDOWN_COMMAND) {
       const payload = command.payload as ParseBlockMarkdownPayload | undefined;
       if (!payload || typeof payload.markdown !== "string") {
-        return {
+        return finish({
           ok: false,
           error: new CoreError({
             code: "COMMAND_UNKNOWN",
             message: "Invalid parseBlockMarkdown payload",
             severity: "recoverable",
           }),
-        };
+        });
       }
 
       const parsed = await this.context.services.parser.adapter.parse(
@@ -142,33 +167,33 @@ export class AetherEditorImpl implements AetherEditor {
         this.engineDispatchDeps.schema,
       );
       const block = parsed.children[0] as AetherBlock | undefined;
-      return { ok: true, value: block };
+      return finish({ ok: true, value: block });
     }
 
     if (command.id === CORE_UNDO_COMMAND) {
       const restored = this.context.documentHistory.undo(this.docSnapshot);
       if (!restored) {
-        return { ok: false };
+        return finish({ ok: false });
       }
       const result = await applyDocumentToEngine(this.engineDispatchDeps, restored);
-      return result.ok ? { ok: true } : { ok: false };
+      return finish(result.ok ? { ok: true } : { ok: false });
     }
 
     if (command.id === CORE_REDO_COMMAND) {
       const restored = this.context.documentHistory.redo(this.docSnapshot);
       if (!restored) {
-        return { ok: false };
+        return finish({ ok: false });
       }
       const result = await applyDocumentToEngine(this.engineDispatchDeps, restored);
-      return result.ok ? { ok: true } : { ok: false };
+      return finish(result.ok ? { ok: true } : { ok: false });
     }
 
     if (isEngineBoundCommand(command.id)) {
       const result = await dispatchEngineCommand(this.engineDispatchDeps, command);
-      return result.ok ? { ok: true } : { ok: false };
+      return finish(result.ok ? { ok: true } : { ok: false });
     }
 
-    return Promise.resolve(this.runtime.dispatch(command));
+    return finish(this.runtime.dispatch(command));
   }
 
   on(eventName: EventName, listener: EventListener): Unsubscribe {

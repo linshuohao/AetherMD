@@ -99,9 +99,18 @@ export async function createEditor(config: EditorConfig): Promise<AetherEditor> 
     serializer: wired.serializer,
     builtin,
     grantedPermissions,
+    ...(config.telemetry !== undefined ? { telemetry: config.telemetry } : {}),
   });
 
   const bootstrapRuntime = await bootstrapCore(config.plugins, { context });
+
+  const readyTimestamp = Date.now();
+  context.telemetry.track({
+    name: "editor.ready",
+    timestamp: readyTimestamp,
+    attributes: { pluginCount: config.plugins.length },
+  });
+  context.telemetry.startSpan("editor.lifecycle", { phase: "ready" }).end(readyTimestamp);
 
   runtime.emit({
     name: "ready",

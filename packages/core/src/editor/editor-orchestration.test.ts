@@ -403,4 +403,32 @@ describe("createEditor orchestration", () => {
     );
     await editor.dispose();
   });
+
+  it("tracks editor.ready and command.executed via host telemetry", async () => {
+    const events: Array<{ name: string; attributes?: Record<string, unknown> }> = [];
+    const spans: string[] = [];
+    const plugin = createMockPreset();
+    const telemetry = {
+      track(event: { name: string; attributes?: Record<string, unknown> }) {
+        events.push(event);
+      },
+      startSpan(name: string) {
+        spans.push(name);
+        return { name, setAttribute() {}, end() {} };
+      },
+    };
+
+    const editor = await createEditor({ plugins: [plugin], telemetry });
+    assert.ok(events.some((event) => event.name === "editor.ready"));
+
+    const result = await editor.dispatch({
+      id: "core:replaceText",
+      payload: { blockIndex: 0, text: "tracked" },
+    });
+    assert.equal(result.ok, true);
+    assert.ok(events.some((event) => event.name === "command.executed"));
+    assert.ok(spans.includes("command.dispatch"));
+
+    await editor.dispose();
+  });
 });
