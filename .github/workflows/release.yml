@@ -1,9 +1,9 @@
 name: Release
 
+# Gated until v1.0.0 official launch (ADR 009 Option C / Wave 10).
+# Re-enable `push: branches: [main]` when ready for the first `1.0.0` publish.
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 concurrency:
   group: release
