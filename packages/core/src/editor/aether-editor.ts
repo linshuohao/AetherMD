@@ -1,5 +1,7 @@
 import type { CommandEventRuntime } from "../command-event/runtime.js";
-import { createCommandEventRuntime } from "../command-event/runtime.js";
+import { createCommandEventRuntime, type CommandRuntimeOptions } from "../command-event/runtime.js";
+import { runReadOnlyGuard } from "../command-event/pipeline.js";
+import type { CommandRegistrationMeta } from "../command-event/pipeline.js";
 import type {
   CommandHandler,
   CommandId,
@@ -102,14 +104,12 @@ export class AetherEditorImpl implements AetherEditor {
     }
 
     if (this.readOnlyFlag) {
-      return {
-        ok: false,
-        error: new CoreError({
-          code: "COMMAND_UNKNOWN",
-          message: "Editor is read-only",
-          severity: "recoverable",
-        }),
-      };
+      const guard = runReadOnlyGuard({ readOnly: true, providedCapabilities: new Set() }, command, {
+        mutating: command.id !== CORE_UNDO_COMMAND && command.id !== CORE_REDO_COMMAND,
+      });
+      if (guard) {
+        return guard;
+      }
     }
 
     if (command.id === PARSE_BLOCK_MARKDOWN_COMMAND) {
@@ -192,29 +192,37 @@ export class AetherEditorImpl implements AetherEditor {
   }
 }
 
-export function createEditorRuntime(): CommandEventRuntime {
-  const runtime = createCommandEventRuntime();
+export function createEditorRuntime(options: CommandRuntimeOptions = {}): CommandEventRuntime {
+  const runtime = createCommandEventRuntime(options);
   const registered = new Map<CommandId, CommandHandler>();
   const conflictResolver = createDefaultConflictResolver();
 
   return {
-    register(id, handler) {
-      registerWithConflictResolution(runtime, registered, id, handler, (existing, incoming) => {
-        const resolution = conflictResolver.resolve({
-          type: "command",
-          existing: { value: existing },
-          incoming: { value: incoming },
-        });
-        if (resolution.strategy === "abort") {
-          throw new CoreError({
-            code: "MANIFEST_INVALID",
-            message: "Command registration conflict aborted",
+    register(id, handler, meta) {
+      registerWithConflictResolution(
+        runtime,
+        registered,
+        id,
+        handler,
+        (existing, incoming) => {
+          const resolution = conflictResolver.resolve({
+            type: "command",
+            existing: { value: existing },
+            incoming: { value: incoming },
           });
-        }
-        return (resolution.winner ?? incoming) as CommandHandler;
-      });
+          if (resolution.strategy === "abort") {
+            throw new CoreError({
+              code: "MANIFEST_INVALID",
+              message: "Command registration conflict aborted",
+            });
+          }
+          return (resolution.winner ?? incoming) as CommandHandler;
+        },
+        meta,
+      );
     },
     dispatch: (command) => runtime.dispatch(command),
+    dispatchBatch: (commands) => runtime.dispatchBatch(commands),
     on: (eventName, listener) => runtime.on(eventName, listener),
     emit: (event) => runtime.emit(event),
     dispose: () => runtime.dispose(),
@@ -227,16 +235,17 @@ export function registerWithConflictResolution(
   id: CommandId,
   handler: CommandHandler,
   resolveConflict: (existing: CommandHandler, incoming: CommandHandler) => CommandHandler,
+  meta?: CommandRegistrationMeta,
 ): void {
   const existing = registered.get(id);
   if (existing) {
     const winner = resolveConflict(existing, handler);
     registered.set(id, winner);
-    runtime.register(id, winner);
+    runtime.register(id, winner, meta);
     return;
   }
   registered.set(id, handler);
-  runtime.register(id, handler);
+  runtime.register(id, handler, meta);
 }
 
 export function createBuiltinServicesForEditor(

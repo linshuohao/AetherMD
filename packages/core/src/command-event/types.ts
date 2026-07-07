@@ -6,7 +6,8 @@ export type CommandSource = "user" | "plugin" | "shell" | "system";
 
 export interface CommandMeta {
   history?: "capture" | "skip";
-  priority?: "normal" | "high";
+  /** P0–P3 per concurrency strategy; `high`/`normal` retained for backward compatibility. */
+  priority?: "p0" | "p1" | "p2" | "p3" | "normal" | "high";
   pluginName?: PluginName;
 }
 

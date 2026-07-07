@@ -5,11 +5,12 @@ import { createCommandEventRuntime } from "../index.js";
 import type { EventEnvelope } from "./types.js";
 
 describe("createCommandEventRuntime public surface", () => {
-  it("exports a factory that returns register, dispatch, on, emit, and dispose", () => {
+  it("exports a factory that returns register, dispatch, dispatchBatch, on, emit, and dispose", () => {
     const runtime = createCommandEventRuntime();
 
     assert.equal(typeof runtime.register, "function");
     assert.equal(typeof runtime.dispatch, "function");
+    assert.equal(typeof runtime.dispatchBatch, "function");
     assert.equal(typeof runtime.on, "function");
     assert.equal(typeof runtime.emit, "function");
     assert.equal(typeof runtime.dispose, "function");
@@ -135,7 +136,7 @@ describe("CommandResult mapping", () => {
     assert.equal(result.error?.code, "COMMAND_UNKNOWN");
   });
 
-  it("ignores meta.priority for execution order", () => {
+  it("executes registered handlers in dispatch order for sequential dispatch", () => {
     const runtime = createCommandEventRuntime();
     const order: string[] = [];
 
