@@ -7,10 +7,25 @@
     ".": {
       "types": "./gfm-wiring.ts",
       "default": "./gfm-wiring.ts"
+    },
+    "./showcase-markdown": {
+      "types": "./showcase-markdown.ts",
+      "default": "./showcase-markdown.ts"
+    },
+    "./showcase.css": "./showcase.css",
+    "./e2e-probes": {
+      "types": "./e2e-probes.tsx",
+      "default": "./e2e-probes.tsx"
     }
   },
   "dependencies": {
     "@aether-md/core": "workspace:*",
-    "@aether-md/preset-gfm": "workspace:*"
+    "@aether-md/preset-gfm": "workspace:*",
+    "@aether-md/react": "workspace:*",
+    "react": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.8",
+    "typescript": "^6.0.3"
   }
 }

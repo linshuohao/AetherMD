@@ -15,8 +15,17 @@ export async function expectReactBasicEditorStable(page: Page): Promise<void> {
   await expect(page.getByTestId("e2e-probes")).toHaveAttribute("data-editor-stable", "true");
 }
 
+export async function expectReactBasicMarkdownContains(
+  page: Page,
+  substring: string,
+): Promise<void> {
+  await expect
+    .poll(async () => page.getByTestId("e2e-probes").getAttribute("data-markdown"))
+    .toContain(substring);
+}
+
 export async function forceReactBasicRerender(page: Page): Promise<void> {
-  await page.getByRole("button", { name: /Force parent rerender/ }).click();
+  await page.getByTestId("force-parent-rerender").click();
 }
 
 export { REACT_BASIC_PORT, REACT_BASIC_URL };

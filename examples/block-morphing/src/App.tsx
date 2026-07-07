@@ -1,44 +1,38 @@
 import { useState } from "react";
 
+import {
+  E2EProbes,
+  MoveListBlockButton,
+  ParentRerenderButton,
+} from "@aether-md/example-shared/e2e-probes";
+import { SHOWCASE_MARKDOWN } from "@aether-md/example-shared/showcase-markdown";
 import { AetherEditorRoot, AetherMorphingDocument } from "@aether-md/react";
 
-import { E2EProbes, MoveListBlockButton } from "./e2e-probes.js";
 import { createGfmEditorPlugins } from "./plugins.js";
 
-/** Slice D + Slice B: bold/emphasis paragraph, list block, link paragraph. */
-export const INITIAL_MARKDOWN =
-  "Hello **world** with *emphasis*.\n\n- alpha\n- beta\n\nVisit [docs](https://example.com) for more.\n";
-
 export function App() {
-  const [markdown, setMarkdown] = useState(INITIAL_MARKDOWN);
+  const [markdown, setMarkdown] = useState(SHOWCASE_MARKDOWN);
   const [renderCount, setRenderCount] = useState(0);
 
   return (
-    <main className="app">
-      <h1>AetherMD Block Morphing — Slice D</h1>
-      <p className="lede">
-        L2 product north star demo: GFM list blocks morph between rendered <code>ul</code>/
-        <code>li</code> and Markdown source. Paragraph blocks keep inline mark fidelity (Slice B).
-        Only one block is in source state at a time (Block Focus, Slice C).
-      </p>
-      <div className="demo-actions">
-        <button
-          type="button"
-          className="rerender-button"
-          onClick={() => setRenderCount((count) => count + 1)}
-        >
-          Force parent rerender ({renderCount})
-        </button>
-      </div>
+    <main className="example">
+      <header className="example-header">
+        <h1>Shell: AetherMorphingDocument</h1>
+        <p>Instant Morphing 多块壳 · 预设 GFM 全插件 · 可编辑语法展示文稿</p>
+      </header>
       <AetherEditorRoot plugins={createGfmEditorPlugins()} value={markdown} onChange={setMarkdown}>
-        <MoveListBlockButton />
-        <AetherMorphingDocument />
-        <E2EProbes markdown={markdown} />
+        <section className="example-editor">
+          <AetherMorphingDocument />
+        </section>
+        <div className="e2e-toolbar">
+          <ParentRerenderButton
+            renderCount={renderCount}
+            onRerender={() => setRenderCount((count) => count + 1)}
+          />
+          <MoveListBlockButton />
+        </div>
+        <E2EProbes markdown={markdown} enableMoveBlock />
       </AetherEditorRoot>
-      <p className="hint">
-        Slice D scope: list block morphing + preset <code>interactiveRenderers</code>. See{" "}
-        <code>docs/architecture/product-experience-spec.md</code>.
-      </p>
     </main>
   );
 }

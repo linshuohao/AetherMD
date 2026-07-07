@@ -5,9 +5,9 @@ import React from "react";
 
 import { AetherEditorRoot, AetherMorphingContent } from "@aether-md/react";
 
-import { createGfmEditorPlugins } from "./plugins.js";
+import { SHOWCASE_MARKDOWN } from "@aether-md/example-shared/showcase-markdown";
 
-const FIXTURE = "Hello **world**\n";
+import { createGfmEditorPlugins } from "./plugins.js";
 
 describe("@aether-md/example-block-morphing smoke", () => {
   afterEach(() => {
@@ -20,7 +20,7 @@ describe("@aether-md/example-block-morphing smoke", () => {
         AetherEditorRoot,
         {
           plugins: createGfmEditorPlugins(),
-          value: FIXTURE,
+          value: SHOWCASE_MARKDOWN,
           onChange: () => {},
         },
         React.createElement(AetherMorphingContent),
@@ -52,7 +52,7 @@ describe("@aether-md/example-block-morphing smoke", () => {
         AetherEditorRoot,
         {
           plugins: createGfmEditorPlugins(),
-          value: FIXTURE,
+          value: SHOWCASE_MARKDOWN,
           onChange: () => {},
         },
         React.createElement(AetherMorphingContent),

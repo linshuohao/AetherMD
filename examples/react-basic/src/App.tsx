@@ -1,48 +1,31 @@
 import { useState } from "react";
 
-import { AetherEditorContent, AetherEditorRoot, useAetherEditor } from "@aether-md/react";
+import { E2EProbes, ParentRerenderButton } from "@aether-md/example-shared/e2e-probes";
+import { SHOWCASE_MARKDOWN } from "@aether-md/example-shared/showcase-markdown";
+import { AetherEditorContent, AetherEditorRoot } from "@aether-md/react";
 
-import { E2EProbes } from "./e2e-probes.js";
 import { createGfmEditorPlugins } from "./plugins.js";
 
-const INITIAL_MARKDOWN = `# AetherMD Demo
-
-Hello **bold** text.
-
-- list item
-
-Learn more at [AetherMD](https://github.com/linshuohao/AetherMD).
-`;
-
-function MarkdownPreview() {
-  const { markdown, ready } = useAetherEditor();
-  return (
-    <section>
-      <h2>Markdown preview</h2>
-      <pre data-testid="markdown-preview">{ready ? markdown : "Loading…"}</pre>
-    </section>
-  );
-}
-
 export function App() {
-  const [markdown, setMarkdown] = useState(INITIAL_MARKDOWN);
+  const [markdown, setMarkdown] = useState(SHOWCASE_MARKDOWN);
   const [renderCount, setRenderCount] = useState(0);
 
   return (
-    <main>
-      <h1>AetherMD React Basic Example</h1>
-      <p>
-        GateLock demo: edit below, then force a parent rerender without changing <code>value</code>.
-        The document should not reset.
-      </p>
-      <button type="button" onClick={() => setRenderCount((count) => count + 1)}>
-        Force parent rerender ({renderCount})
-      </button>
+    <main className="example">
+      <header className="example-header">
+        <h1>Shell: AetherEditorContent</h1>
+        <p>Phase 0 ProseMirror 集成壳 · 预设 GFM 全插件 · 可编辑语法展示文稿</p>
+      </header>
       <AetherEditorRoot plugins={createGfmEditorPlugins()} value={markdown} onChange={setMarkdown}>
-        <section data-testid="aether-react-basic-shell">
+        <section className="example-editor" data-testid="aether-react-basic-shell">
           <AetherEditorContent />
-          <MarkdownPreview />
         </section>
+        <div className="e2e-toolbar">
+          <ParentRerenderButton
+            renderCount={renderCount}
+            onRerender={() => setRenderCount((count) => count + 1)}
+          />
+        </div>
         <E2EProbes />
       </AetherEditorRoot>
     </main>

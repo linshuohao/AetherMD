@@ -1,14 +1,12 @@
 import { createEditor, type CommandId } from "@aether-md/core";
-import { createGfmEditorPlugins } from "@aether-md/example-shared";
+import { createGfmEditorPlugins, SHOWCASE_MARKDOWN } from "@aether-md/example-shared";
 
 const ENGINE_REPLACE_TEXT_COMMAND = "core:replaceText" as CommandId;
-
-const FIXTURE_MARKDOWN = "**bold**\n";
 
 async function main(): Promise<void> {
   const editor = await createEditor({
     plugins: createGfmEditorPlugins(),
-    initialValue: FIXTURE_MARKDOWN,
+    initialValue: SHOWCASE_MARKDOWN,
   });
 
   const roundTrip = await editor.getMarkdown();
@@ -16,7 +14,7 @@ async function main(): Promise<void> {
 
   const editResult = await editor.dispatch({
     id: ENGINE_REPLACE_TEXT_COMMAND,
-    payload: { blockIndex: 0, text: "**bold** edited" },
+    payload: { blockIndex: 0, text: "Hello **world** — edited headlessly" },
   });
 
   if (!editResult.ok) {

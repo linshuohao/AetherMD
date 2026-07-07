@@ -73,3 +73,5 @@ export function createGfmEditorPlugins(): ExtensionPluginWithAdapters[] {
     toExtensionPluginFromPreset(preset),
   ];
 }
+
+export { SHOWCASE_MARKDOWN } from "./showcase-markdown.js";

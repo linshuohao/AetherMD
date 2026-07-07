@@ -26,13 +26,13 @@ test.describe("block-morphing demo e2e", () => {
     await gotoMorphingDemo(page);
 
     await expect(
-      page.getByRole("heading", { name: "AetherMD Block Morphing — Slice D" }),
+      page.getByRole("heading", { name: "Shell: AetherMorphingDocument" }),
     ).toBeVisible();
     await expect(page.getByTestId("markdown-preview")).toHaveCount(0);
     await expect(block(page, 0)).toHaveAttribute("data-block-type", "paragraph");
     await expect(block(page, 1)).toHaveAttribute("data-block-type", "list");
     await expect(block(page, 2)).toHaveAttribute("data-block-type", "paragraph");
-    await expectStableBlockIds(page);
+    await expectStableBlockIds(page, 7);
   });
 
   test("block focus: focusing list switches only that block to source", async ({ page }) => {
