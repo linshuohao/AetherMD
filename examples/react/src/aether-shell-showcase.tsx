@@ -12,12 +12,12 @@ import { AetherEditorContent, AetherEditorRoot, AetherMorphingDocument } from "@
 export type ReactShellMode = "content" | "morphing";
 
 const SHELLS: { mode: ReactShellMode; label: string }[] = [
-  { mode: "content", label: "AetherEditorContent" },
   { mode: "morphing", label: "AetherMorphingDocument" },
+  { mode: "content", label: "AetherEditorContent (legacy)" },
 ];
 
 export function AetherShellShowcase() {
-  const [mode, setMode] = useState<ReactShellMode>("content");
+  const [mode, setMode] = useState<ReactShellMode>("morphing");
   const [markdown, setMarkdown] = useState(SHOWCASE_MARKDOWN);
   const [renderCount, setRenderCount] = useState(0);
 

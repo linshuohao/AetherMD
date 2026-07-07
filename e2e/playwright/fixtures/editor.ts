@@ -67,11 +67,14 @@ export async function focusBlock(
 }
 
 export async function focusBlockWithTab(page: Page, blockIndex: number): Promise<void> {
-  // Tab order: shell switcher (2) → morphing rendered surfaces → e2e toolbar.
+  // Start from a deterministic shell control, then tab until target block focuses.
   await page.getByTestId("shell-mode-content").focus();
-  const tabsToBlock = 2 + blockIndex;
-  for (let step = 0; step < tabsToBlock; step += 1) {
+  const maxTabSteps = 12;
+  for (let step = 0; step < maxTabSteps; step += 1) {
     await page.keyboard.press("Tab");
+    if ((await block(page, blockIndex).getAttribute("data-focused")) === "true") {
+      break;
+    }
   }
   await expect(block(page, blockIndex)).toHaveAttribute("data-focused", "true");
   await expect(source(page, blockIndex)).toBeVisible();

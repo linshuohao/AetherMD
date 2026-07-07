@@ -1,4 +1,6 @@
-import type { CustomBlockRenderer, MorphingBlockStrategy, ParagraphBlock } from "@aether-md/core";
+import type { ParagraphBlock } from "@aether-md/core";
+
+import type { CustomBlockRenderer, MorphingBlockStrategy } from "./contracts.js";
 import { serializeParagraphInlines } from "../serialization/inline.js";
 
 import { appendInlineToDom } from "./dom-inlines.js";

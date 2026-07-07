@@ -1,10 +1,10 @@
 import type {
   EngineAdapter,
   ExtensionPlugin,
-  MorphingBlockStrategy,
   ParserAdapter,
   SerializerAdapter,
 } from "@aether-md/core";
+import type { MorphingBlockStrategy } from "@aether-md/preset-gfm";
 import { createGfmPreset } from "@aether-md/preset-gfm";
 
 export interface ExtensionPluginWithAdapters extends ExtensionPlugin {

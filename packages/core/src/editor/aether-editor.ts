@@ -15,11 +15,7 @@ import type { AetherBlock, AetherDoc, AetherSchema } from "../document/model.js"
 import { CoreError, SerializationError, toSerializationError } from "../errors.js";
 import type { EngineSession } from "../document/adapter-types.js";
 import type { CoreBootstrapRuntime } from "../bootstrap/bootstrap.js";
-import {
-  PARSE_BLOCK_MARKDOWN_COMMAND,
-  type MorphingStrategyRegistry,
-  type ParseBlockMarkdownPayload,
-} from "../morphing/types.js";
+import type { MorphingStrategyRegistry } from "../morphing/types.js";
 import type { PermissionId } from "../types.js";
 import {
   CORE_REDO_COMMAND,
@@ -46,6 +42,10 @@ export interface EditorRuntimeFactoryOptions extends CommandRuntimeOptions {
 
 function cloneDoc(doc: AetherDoc): AetherDoc {
   return structuredClone(doc);
+}
+
+function isPromiseLike(value: unknown): value is Promise<unknown> {
+  return typeof value === "object" && value !== null && "then" in value;
 }
 
 export class AetherEditorImpl implements AetherEditor {
@@ -149,27 +149,6 @@ export class AetherEditorImpl implements AetherEditor {
       }
     }
 
-    if (command.id === PARSE_BLOCK_MARKDOWN_COMMAND) {
-      const payload = command.payload as ParseBlockMarkdownPayload | undefined;
-      if (!payload || typeof payload.markdown !== "string") {
-        return finish({
-          ok: false,
-          error: new CoreError({
-            code: "COMMAND_UNKNOWN",
-            message: "Invalid parseBlockMarkdown payload",
-            severity: "recoverable",
-          }),
-        });
-      }
-
-      const parsed = await this.context.services.parser.adapter.parse(
-        payload.markdown,
-        this.engineDispatchDeps.schema,
-      );
-      const block = parsed.children[0] as AetherBlock | undefined;
-      return finish({ ok: true, value: block });
-    }
-
     if (command.id === CORE_UNDO_COMMAND) {
       const restored = this.context.documentHistory.undo(this.docSnapshot);
       if (!restored) {
@@ -193,7 +172,12 @@ export class AetherEditorImpl implements AetherEditor {
       return finish(result.ok ? { ok: true } : { ok: false });
     }
 
-    return finish(this.runtime.dispatch(command));
+    const runtimeResult = this.runtime.dispatch(command);
+    if (runtimeResult.ok && isPromiseLike(runtimeResult.value)) {
+      return finish({ ok: true, value: await runtimeResult.value });
+    }
+
+    return finish(runtimeResult);
   }
 
   on(eventName: EventName, listener: EventListener): Unsubscribe {

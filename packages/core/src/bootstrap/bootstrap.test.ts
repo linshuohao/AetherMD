@@ -220,4 +220,42 @@ describe("bootstrapCore duplicate metadata.name validation", () => {
     assert.equal(runtime.orderedPlugins.length, 2);
     await runtime.dispose();
   });
+
+  it("uses prepared ordered plugins without reloading manifest list", async () => {
+    let onReadyCalls = 0;
+    const runtime = await bootstrapCore([], {
+      preparedOrderedPlugins: [
+        {
+          plugin: {
+            manifest: {
+              metadata: {
+                manifestVersion: 1,
+                name: "prepared",
+              },
+              runtime: {
+                onReady: () => {
+                  onReadyCalls += 1;
+                },
+              },
+            },
+          },
+          manifest: {
+            metadata: {
+              manifestVersion: 1,
+              name: "prepared",
+            },
+            runtime: {
+              onReady: () => {
+                onReadyCalls += 1;
+              },
+            },
+          },
+        },
+      ],
+    });
+
+    assert.equal(runtime.orderedPlugins.length, 1);
+    assert.equal(onReadyCalls, 1);
+    await runtime.dispose();
+  });
 });

@@ -234,3 +234,55 @@ References:
 - **WHEN** plugin Manifests include compile-layer schema or keymap declarations
 - **THEN** M4.5 does not merge compile-layer schema or keymaps
 - **AND** absence of compile-layer merge does not block headless GFM smoke tests
+
+### Requirement: Parse-block markdown command is handled via runtime registration
+
+Editor orchestration SHALL resolve parse-block markdown behavior through runtime command registration in the command/event pipeline. Core dispatch SHALL NOT contain a dedicated parse-block bypass branch.
+
+References:
+
+- `openspec/specs/core-bootstrap/spec.md`
+- `docs/architecture/principles.md`
+
+#### Scenario: Parse command is overrideable through runtime registration
+
+- **GIVEN** a runtime command handler is registered for `core:parseBlockMarkdown`
+- **WHEN** `AetherEditor.dispatch` receives that command
+- **THEN** command execution follows registered runtime routing
+- **AND** runtime conflict/override behavior applies consistently with other commands
+
+### Requirement: Startup manifest validation executes once in canonical editor path
+
+`createEditor` SHALL perform manifest loading, uniqueness validation, capability validation, and dependency ordering once, and pass prepared plugin order into bootstrap lifecycle startup. Lifecycle startup SHALL reuse this prepared order without re-running the same validation stage.
+
+References:
+
+- `openspec/specs/core-bootstrap/spec.md`
+- `docs/engineering/mvp-implementation-plan.md`
+
+#### Scenario: Editor startup reuses prepared ordered plugin set for bootstrap lifecycle
+
+- **GIVEN** `createEditor` has completed manifest/capability/dependency validation
+- **WHEN** bootstrap lifecycle starts
+- **THEN** lifecycle startup consumes prepared ordered plugins from editor orchestration
+- **AND** duplicate manifest validation paths are not executed in both stages
+
+### Requirement: Editor command handling uses unified runtime routing
+
+Editor orchestration SHALL route editor commands through registered command handlers in the command runtime pipeline. Core editor runtime SHALL NOT hardcode markdown block parsing behavior as a dedicated bypass branch in dispatch.
+
+#### Scenario: Block markdown parse command is plugin-registered
+
+- **WHEN** morphing source text requires markdown-to-block parsing
+- **THEN** the parse command is resolved through runtime command registration
+- **AND** Core dispatch does not contain a dedicated hardcoded branch for that command
+
+### Requirement: Startup validation executes through one canonical path
+
+Manifest loading, uniqueness validation, dependency ordering, and capability validation SHALL execute once in the canonical editor startup path and SHALL NOT be duplicated across independent orchestration stages.
+
+#### Scenario: Editor startup does not duplicate manifest validation
+
+- **WHEN** `createEditor` initializes runtime and bootstrap
+- **THEN** manifest validation responsibilities are executed in one canonical stage
+- **AND** duplicated pre-bootstrap validation logic is absent

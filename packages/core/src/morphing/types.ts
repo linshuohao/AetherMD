@@ -1,31 +1,32 @@
 import type { AetherBlock } from "../document/model.js";
 
-/** DOM morphing renderer contract (see `docs/sdk/custom-block-renderer.md`). */
-export interface CustomBlockRenderer {
-  mount(domContainer: HTMLElement, blockData: unknown): void;
-  update?(newBlockData: unknown): void;
-  unmount?(): void;
-}
-
-export interface MorphingBlockStrategy {
+/** Kernel-internal morphing strategy record supplied by plugins; not part of Core public API. */
+export interface MorphingStrategyRecord {
   readonly blockType: AetherBlock["type"];
   serializeSource(block: AetherBlock): string;
   parseSource(
     rawSource: string,
     parseMarkdown: (markdown: string) => Promise<AetherBlock | undefined>,
   ): Promise<AetherBlock>;
-  readonly interactiveRenderer: CustomBlockRenderer;
+  readonly interactiveRenderer: MorphingRendererRecord;
+}
+
+/** Kernel-internal DOM renderer handle; not part of Core public API. */
+export interface MorphingRendererRecord {
+  mount(domContainer: HTMLElement, blockData: unknown): void;
+  update?(newBlockData: unknown): void;
+  unmount?(): void;
 }
 
 export interface MorphingStrategyRegistry {
-  get(blockType: AetherBlock["type"]): MorphingBlockStrategy | undefined;
-  list(): readonly MorphingBlockStrategy[];
+  get(blockType: AetherBlock["type"]): MorphingStrategyRecord | undefined;
+  list(): readonly MorphingStrategyRecord[];
 }
 
 export function createMorphingStrategyRegistry(
-  strategies: readonly MorphingBlockStrategy[],
+  strategies: readonly MorphingStrategyRecord[],
 ): MorphingStrategyRegistry {
-  const byType = new Map<AetherBlock["type"], MorphingBlockStrategy>();
+  const byType = new Map<AetherBlock["type"], MorphingStrategyRecord>();
   for (const strategy of strategies) {
     byType.set(strategy.blockType, strategy);
   }

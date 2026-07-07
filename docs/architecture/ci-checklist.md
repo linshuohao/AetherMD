@@ -1,6 +1,6 @@
 # v1.0 CI 校验计划
 
-> 状态：设计草案 + M1–M6 基线 CI 门禁已部分启用（`pnpm check` 覆盖 6 个 workspace package，含 `examples/headless-gfm` 与 `examples/react-basic`）。本页作为对应主题的维护入口。
+> 状态：设计草案 + M1–M6 基线 CI 门禁已部分启用（`pnpm check` 覆盖 6 个 workspace package，含 `examples/headless-gfm` 与 `examples/react`）。本页作为对应主题的维护入口。
 
 ## CI 校验计划
 

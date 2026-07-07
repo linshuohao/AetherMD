@@ -273,6 +273,23 @@ References:
 - **AND** exports do not include React Shell components or GFM preset factory implementations
 - **AND** `@aether-md/core` does not declare runtime dependencies on Remark, ProseMirror, React, or Vue packages
 
+### Requirement: Core public exports remain morphing-agnostic and DOM-agnostic
+
+`@aether-md/core` SHALL NOT publicly export morphing strategy contracts, DOM renderer interfaces, or parse-block markdown command payload contracts used by shell/preset morphing surfaces. These contracts SHALL be owned by preset or shell-facing packages.
+
+References:
+
+- `docs/architecture/principles.md`
+- `docs/architecture/architecture-optimization-principles.md`
+- `openspec/specs/gfm-preset/spec.md`
+
+#### Scenario: Core export surface excludes morphing contracts
+
+- **GIVEN** maintainers inspect `@aether-md/core` public exports
+- **WHEN** package boundary checks run
+- **THEN** morphing strategy and custom DOM renderer contract symbols are absent from the public API
+- **AND** core exports remain focused on lifecycle, command/event runtime, document model, adapters, and editor orchestration
+
 #### Scenario: GFM preset package is allowed in workspace verification
 
 - **GIVEN** `@aether-md/preset-gfm` exists at `packages/preset-gfm`
@@ -305,3 +322,13 @@ References:
 - **THEN** exports include document-model, adapter-base, and editor-orchestration surfaces allowed by M3, M4, and M4.5
 - **AND** exports do not include React Shell components or GFM preset factory implementations
 - **AND** `@aether-md/core` does not declare runtime dependencies on Remark, ProseMirror, React, or Vue packages
+
+### Requirement: Core public API remains morphing-agnostic and DOM-agnostic
+
+`@aether-md/core` SHALL NOT export morphing strategy contracts, DOM renderer interfaces, or block-type interaction rendering APIs. Morphing strategy and renderer contracts SHALL be owned by preset/plugin or shell-facing packages outside Core.
+
+#### Scenario: Core exports exclude morphing renderer contracts
+
+- **WHEN** a maintainer inspects `@aether-md/core` public exports
+- **THEN** morphing strategy and custom DOM renderer types are absent
+- **AND** Core exports remain focused on lifecycle, command/event, document, adapter, and editor orchestration contracts

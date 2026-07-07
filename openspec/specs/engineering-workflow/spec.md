@@ -474,9 +474,9 @@ References:
 - **WHEN** `pnpm check` runs at the repository root
 - **THEN** the check pipeline fails before merge
 
-#### Scenario: React basic example typecheck gate fails check pipeline
+#### Scenario: React showcase example typecheck gate fails check pipeline
 
-- **GIVEN** `examples/react-basic` has a TypeScript error
+- **GIVEN** `examples/react` has a TypeScript error
 - **WHEN** `pnpm check` runs at the repository root
 - **THEN** the check pipeline fails before merge
 
@@ -489,9 +489,9 @@ References:
 - `docs/engineering/demo-slice-delivery-program.md`
 - `AI_NATIVE_ENGINEERING_WORKFLOW.md`
 
-#### Scenario: React basic demo slice defaults to Spec Change
+#### Scenario: React showcase demo slice defaults to Spec Change
 
-- **GIVEN** a request improves `examples/react-basic` perceivable editing within PR0-frozen boundaries
+- **GIVEN** a request improves `examples/react` perceivable editing within PR0-frozen boundaries
 - **WHEN** Discover classifies the request
 - **THEN** the default path is Spec Change unless escalation triggers apply
 - **AND** the agent does not default to Full Change solely because runtime editor behavior is touched

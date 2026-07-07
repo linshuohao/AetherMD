@@ -41,9 +41,13 @@ function collectProductionSourceFiles(srcDir: string): string[] {
 }
 
 describe("@aether-md/vue package boundary", () => {
-  it("exports AetherEditorRoot, AetherEditorContent, and useAetherEditor", () => {
+  it("exports morphing-first surface and isolates legacy content bridge", () => {
     assert.equal(typeof vueShell.AetherEditorRoot, "object");
+    assert.equal(typeof vueShell.AetherMorphingDocument, "object");
+    assert.equal(typeof vueShell.AetherMorphingContent, "object");
     assert.equal(typeof vueShell.AetherEditorContent, "object");
+    assert.equal(typeof vueShell.AetherLegacyEditorContent, "object");
+    assert.equal(vueShell.AetherLegacyEditorContent, vueShell.AetherEditorContent);
     assert.equal(typeof vueShell.useAetherEditor, "function");
   });
 

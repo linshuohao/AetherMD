@@ -5,7 +5,12 @@ import { defineComponent, h, watch } from "vue";
 
 import type { AetherEditor } from "@aether-md/core";
 
-import { AetherEditorContent, AetherEditorRoot, useAetherEditor } from "./index.js";
+import {
+  AetherEditorContent,
+  AetherEditorRoot,
+  AetherMorphingContent,
+  useAetherEditor,
+} from "./index.js";
 import { createGfmEditorPlugins } from "./testing/gfm-plugins.js";
 
 const MarkdownProbe = defineComponent({
@@ -120,6 +125,38 @@ describe("GFM Vue smoke", () => {
       const probe = document.querySelector('[data-testid="markdown-probe"]');
       assert.ok(probe);
       assert.match(probe?.textContent ?? "", /bold/);
+    });
+
+    wrapper.unmount();
+    await flushPromises();
+  });
+
+  it("renders morphing content surface as supported primary shell", async () => {
+    const App = defineComponent({
+      setup() {
+        const plugins = createGfmEditorPlugins();
+        return () =>
+          h(
+            AetherEditorRoot,
+            {
+              plugins,
+              initialValue: "**bold**\n",
+            },
+            {
+              default: () => [h(AetherMorphingContent), h(MarkdownProbe)],
+            },
+          );
+      },
+    });
+
+    const wrapper = mount(App, { attachTo: document.body });
+    await flushPromises();
+
+    await viWaitFor(() => {
+      const shell = document.querySelector('[data-testid="aether-morphing-content"]');
+      assert.ok(shell);
+      assert.equal(shell?.getAttribute("data-ready"), "true");
+      assert.ok(document.querySelector('[data-testid="morphing-rendered"]'));
     });
 
     wrapper.unmount();

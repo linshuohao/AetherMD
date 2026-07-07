@@ -9,13 +9,14 @@ import { createRemarkParserAdapter, createRemarkSerializerAdapter } from "@aethe
 
 import { gfmManifest } from "./manifest.js";
 import { listMorphingStrategy, paragraphMorphingStrategy } from "./morphing/registry.js";
+import type { MorphingBlockStrategy } from "./morphing/contracts.js";
 
 export interface GfmPreset {
   manifest: ExtensionManifest;
   parser: ParserAdapter;
   serializer: SerializerAdapter;
   engine: EngineAdapter;
-  morphingStrategies: readonly import("@aether-md/core").MorphingBlockStrategy[];
+  morphingStrategies: readonly MorphingBlockStrategy[];
 }
 
 export function createGfmPreset(): GfmPreset {
@@ -38,4 +39,14 @@ export {
   paragraphMorphingStrategy,
 } from "./morphing/registry.js";
 export { paragraphSourceFromBlock } from "./morphing/paragraph-strategy.js";
-export type { CustomBlockRenderer, GfmMorphingBlockStrategy } from "./morphing/types.js";
+export type {
+  CustomBlockRenderer,
+  GfmMorphingBlockStrategy,
+  MorphingBlockStrategy,
+  MorphingStrategyRegistry,
+  ParseBlockMarkdownPayload,
+} from "./morphing/types.js";
+export {
+  PARSE_BLOCK_MARKDOWN_COMMAND,
+  createMorphingStrategyRegistry,
+} from "./morphing/contracts.js";
