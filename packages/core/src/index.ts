@@ -118,6 +118,8 @@ export {
   type SelectionCapableEngine,
   type SelectionService,
 } from "./services/index.js";
+export type { TelemetryEvent, TelemetryService, TelemetrySpan } from "./telemetry/index.js";
+export { createNoopTelemetryService, createNoopTelemetrySpan } from "./telemetry/index.js";
 export { createEditor } from "./editor/create-editor.js";
 export type {
   AetherEditor,

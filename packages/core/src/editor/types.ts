@@ -12,6 +12,7 @@ import type { MorphingStrategyRegistry } from "../morphing/types.js";
 import type { ConflictResolver } from "./conflict-resolver.js";
 import type { EditorContext } from "./context.js";
 import type { SerializationError } from "../errors.js";
+import type { TelemetryService } from "../telemetry/index.js";
 
 export interface EditorSecurityConfig {
   grantedPermissions?: PermissionId[];
@@ -32,6 +33,7 @@ export interface EditorConfig {
   security?: EditorSecurityConfig;
   conflictResolver?: ConflictResolver;
   workers?: EditorWorkerConfig;
+  telemetry?: TelemetryService;
 }
 
 export interface EditorStateSnapshot {

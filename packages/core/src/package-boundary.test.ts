@@ -30,6 +30,8 @@ describe("@aether-md/core package boundary", () => {
     assert.equal(typeof core.SerializationError, "function");
     assert.equal(typeof core.RenderError, "function");
     assert.equal(typeof core.toSerializationError, "function");
+    assert.equal(typeof core.createNoopTelemetryService, "function");
+    assert.equal(typeof core.createNoopTelemetrySpan, "function");
   });
 
   it("exposes M4.5 editor orchestration entry without Shell or preset re-exports", () => {

@@ -143,7 +143,7 @@ export async function expectListItems(
 }
 
 export async function forceParentRerender(page: Page): Promise<void> {
-  await page.getByTestId("force-parent-rerender").click();
+  await page.getByTestId("force-parent-rerender").click({ force: true });
 }
 
 export async function moveListBlockDown(page: Page): Promise<string> {
