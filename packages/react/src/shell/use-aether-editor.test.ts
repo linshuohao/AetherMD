@@ -39,6 +39,7 @@ function createMockEditor(options: {
       }) satisfies Unsubscribe;
     },
     getMarkdown: async () => markdown,
+    tryGetMarkdown: async () => ({ ok: true as const, markdown }),
     getDocument: () => doc,
     dispose: async () => {},
     emitChange(nextMarkdown: string, nextDoc: AetherDoc) {

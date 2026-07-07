@@ -1,6 +1,8 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
-import type { AetherBlock, CustomBlockRenderer } from "@aether-md/core";
+import { RenderError, type AetherBlock, type CustomBlockRenderer } from "@aether-md/core";
+
+import { RenderFallbackView } from "./render-fallback-view.js";
 
 export interface RenderedBlockHostProps {
   block: AetherBlock;
@@ -10,6 +12,7 @@ export interface RenderedBlockHostProps {
 
 export function RenderedBlockHost({ block, renderer, onFocus }: RenderedBlockHostProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [renderError, setRenderError] = useState<RenderError | null>(null);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -17,12 +20,34 @@ export function RenderedBlockHost({ block, renderer, onFocus }: RenderedBlockHos
       return;
     }
 
-    renderer.mount(container, block);
+    setRenderError(null);
+
+    try {
+      renderer.mount(container, block);
+    } catch (cause) {
+      setRenderError(
+        new RenderError({
+          code: "RENDER_MOUNT_FAILED",
+          message: cause instanceof Error ? cause.message : "Block renderer mount failed",
+          cause,
+        }),
+      );
+      return;
+    }
+
     return () => {
-      renderer.unmount?.();
+      try {
+        renderer.unmount?.();
+      } catch {
+        // Best-effort cleanup after a failed mount should not mask the original error.
+      }
       container.replaceChildren();
     };
   }, [block, renderer]);
+
+  if (renderError) {
+    return <RenderFallbackView error={renderError} onFocus={onFocus} />;
+  }
 
   return (
     <div

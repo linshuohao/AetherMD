@@ -16,8 +16,17 @@ export type {
   AdapterErrorOptions,
   SerializationErrorCode,
   SerializationErrorOptions,
+  RenderErrorCode,
+  RenderErrorOptions,
 } from "./errors.js";
-export { CoreError, PluginError, AdapterError, SerializationError } from "./errors.js";
+export {
+  CoreError,
+  PluginError,
+  AdapterError,
+  SerializationError,
+  RenderError,
+  toSerializationError,
+} from "./errors.js";
 export {
   bootstrapCore,
   type BootstrapCoreOptions,
@@ -116,4 +125,5 @@ export type {
   EditorSecurityConfig,
   EditorStateSnapshot,
   EditorWorkerConfig,
+  MarkdownSerializeResult,
 } from "./editor/types.js";

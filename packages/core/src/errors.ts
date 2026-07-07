@@ -120,3 +120,43 @@ export class SerializationError extends Error implements AetherError {
     }
   }
 }
+
+export type RenderErrorCode = "RENDER_MOUNT_FAILED" | "RENDER_UPDATE_FAILED";
+
+export interface RenderErrorOptions {
+  code: RenderErrorCode;
+  message: string;
+  cause?: unknown;
+  pluginName?: PluginName;
+}
+
+export class RenderError extends Error implements AetherError {
+  readonly code: RenderErrorCode;
+  readonly severity = "degraded";
+  readonly source = "render";
+  readonly cause?: unknown;
+  readonly pluginName?: PluginName;
+
+  constructor(options: RenderErrorOptions) {
+    super(options.message);
+    this.name = "RenderError";
+    this.code = options.code;
+    if (options.cause !== undefined) {
+      this.cause = options.cause;
+    }
+    if (options.pluginName !== undefined) {
+      this.pluginName = options.pluginName;
+    }
+  }
+}
+
+export function toSerializationError(error: unknown): SerializationError {
+  if (error instanceof SerializationError) {
+    return error;
+  }
+  return new SerializationError({
+    code: "SERIALIZE_FAILED",
+    message: error instanceof Error ? error.message : "Serialization failed",
+    ...(error !== undefined ? { cause: error } : {}),
+  });
+}
