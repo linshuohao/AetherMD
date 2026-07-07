@@ -14,7 +14,7 @@ M6 验证套件已自动化以下门禁（G11、G6、部分行为回归）。**c
 
 - [x] 最小 CI 在 PR 和 push 到 `main` 时运行 `pnpm install --frozen-lockfile`、`pnpm check` 和 `pnpm build`，且不包含 npm publish、canary、release token 或 release 自动化（publish 时间表见 [ADR 009](../adr/009-release-governance.md)）
 - [x] **G11** `SUPPORTED_MANIFEST_VERSIONS` 与 [Manifest 版本](../sdk/manifest.md) Stable 版本表一致（`packages/core/src/manifest-doc-consistency.test.ts`；code truth = `manifest.ts`）
-- [x] **G6** `examples/headless-gfm`、`examples/react-basic` 与 `examples/block-morphing` 通过 `tsc --noEmit` / smoke test，并纳入根 `pnpm check` turbo pipeline（主路径；非 `docs/sdk/examples.md` 次路径）
+- [x] **G6** 四个 workspace example（`headless-gfm`、`react-basic`、`vue-basic`、`block-morphing`）通过 `tsc --noEmit` / smoke test，并纳入根 `pnpm check` turbo pipeline（主路径；见 [Examples Matrix](../examples/matrix.md)）
 - [x] 五包 public API `tsd` 导出快照（`packages/*/test-d/`；根 `pnpm types:check`）
 - [ ] `CORE_SERVICE_REGISTRY` 与 [内置 Service Capability 注册表](../sdk/capabilities-and-permissions.md) 一致
 - [ ] [插件示例](../sdk/examples.md) 可对 `@aether-md/core` 通过 `tsc --noEmit`（G6 次路径；M6 主路径为 headless example）
@@ -36,7 +36,7 @@ M6 验证套件已自动化以下门禁（G11、G6、部分行为回归）。**c
 - [x] PR 标题和 Commit message 按 [Git 工作流规范](../community/git-workflow.md) 使用 commitlint 自动校验（`CI / Validate PR title and commits`）
 - [x] PR 分支名由 `CI / Validate branch name` 校验为 `<type>/<kebab-topic>`（接受 `feature/` 与 `feat/`）
 - [x] GitHub Ruleset 声明式配置位于 `.github/rulesets/main.json`，由 `node scripts/apply-github-ruleset.mjs` 应用；要求 PR 合入、`main` 禁止 force push、required checks 通过后再 merge
-- [x] PR 合入前 required checks：`Quality gates`、`Validate branch name`、`Validate PR title and commits`；`main` push 仅重跑 `Quality gates`（已移除 flaky post-merge PR 关联审计）
+- [x] PR 合入前 required checks：`Quality gates`、`Playwright E2E`、`Validate branch name`、`Validate PR title and commits`；`main` push 重跑 `Quality gates` 与 `Playwright E2E`
 - [ ] PR 描述包含 OpenSpec、Superpowers task、Docs / ADR 和 Validation 追踪信息（政策要求；尚未自动化校验）
 
 ### 行为回归
