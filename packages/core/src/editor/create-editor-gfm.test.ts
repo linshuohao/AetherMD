@@ -7,6 +7,7 @@ import { createGfmPreset } from "../../../preset-gfm/dist/index.js";
 import type { ExtensionPlugin } from "../manifest/manifest.js";
 import { toExtensionPluginFromPreset } from "../editor/adapter-wiring.js";
 import { createEditor } from "../editor/create-editor.js";
+import { resolveRemarkWorkerEntryPath } from "../testing/worker-entry-paths.js";
 import { CORE_REDO_COMMAND, CORE_UNDO_COMMAND } from "../services/history.js";
 import {
   ENGINE_MOVE_BLOCK_COMMAND,
@@ -139,6 +140,30 @@ describe("createEditor GFM headless integration", () => {
 
     const after = editor.getDocument();
     assert.equal(after.children[2]?.id, blockId);
+    await editor.dispose();
+  });
+
+  it("parses and serializes via remark worker when workers are enabled", async () => {
+    const editor = await createEditor({
+      plugins: createGfmEditorPlugins(),
+      initialValue: "Worker hello\n",
+      security: {
+        grantedPermissions: [
+          "perm:dom",
+          "perm:clipboard",
+          "perm:async",
+          "perm:timer",
+          "perm:worker",
+        ],
+      },
+      workers: {
+        entry: resolveRemarkWorkerEntryPath(),
+        parser: true,
+        serializer: true,
+      },
+    });
+
+    assert.equal((await editor.getMarkdown()).trim(), "Worker hello");
     await editor.dispose();
   });
 

@@ -23,6 +23,7 @@ import {
   createEditorRuntime,
 } from "./aether-editor.js";
 import { createDefaultConflictResolver } from "./conflict-resolver.js";
+import { applyWorkerRuntime } from "./worker-runtime.js";
 
 import type { EditorConfig, AetherEditor } from "./types.js";
 
@@ -50,9 +51,6 @@ export async function createEditor(config: EditorConfig): Promise<AetherEditor> 
   const capabilityResult = validateServiceCapabilities(loadedPlugins);
   resolvePluginDependencyOrder(loadedPlugins);
 
-  const wired = resolveWiredAdapters(config.plugins as ExtensionPluginWithAdapters[]);
-  const morphing = resolveMorphingRegistry(config.plugins as ExtensionPluginWithAdapters[]);
-  const editorSchema = mergedManifest.compile.schema;
   const grantedPermissions = resolveEffectivePermissions({
     loadedPlugins,
     ...(config.security?.grantedPermissions !== undefined
@@ -62,6 +60,13 @@ export async function createEditor(config: EditorConfig): Promise<AetherEditor> 
       ? { defaultDeny: config.security.defaultDeny }
       : {}),
   });
+  const { wired, handle: workerHandle } = await applyWorkerRuntime(
+    resolveWiredAdapters(config.plugins as ExtensionPluginWithAdapters[]),
+    config.workers,
+    grantedPermissions,
+  );
+  const morphing = resolveMorphingRegistry(config.plugins as ExtensionPluginWithAdapters[]);
+  const editorSchema = mergedManifest.compile.schema;
   const runtime = createEditorRuntime({
     pipeline: {
       readOnly: config.readOnly ?? false,
@@ -114,5 +119,6 @@ export async function createEditor(config: EditorConfig): Promise<AetherEditor> 
     readOnly: config.readOnly ?? false,
     morphing,
     schema: editorSchema,
+    workerHandle,
   });
 }

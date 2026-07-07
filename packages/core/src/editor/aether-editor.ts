@@ -38,6 +38,7 @@ import {
   type EngineDispatchDeps,
 } from "./engine-dispatch.js";
 import type { EditorStateSnapshot, AetherEditor } from "./types.js";
+import type { WorkerRuntimeHandle } from "./worker-runtime.js";
 
 export interface EditorRuntimeFactoryOptions extends CommandRuntimeOptions {
   conflictResolver?: ConflictResolver;
@@ -56,6 +57,7 @@ export class AetherEditorImpl implements AetherEditor {
   private readonly engineDispatchDeps: EngineDispatchDeps;
   private docSnapshot: AetherDoc;
   private readonly readOnlyFlag: boolean;
+  private readonly workerHandle: WorkerRuntimeHandle;
   private disposed = false;
 
   constructor(options: {
@@ -67,6 +69,7 @@ export class AetherEditorImpl implements AetherEditor {
     readOnly: boolean;
     morphing: MorphingStrategyRegistry;
     schema: AetherSchema;
+    workerHandle?: WorkerRuntimeHandle;
   }) {
     this.context = options.context;
     this.morphing = options.morphing;
@@ -75,6 +78,7 @@ export class AetherEditorImpl implements AetherEditor {
     this.session = options.session;
     this.docSnapshot = cloneDoc(options.initialDoc);
     this.readOnlyFlag = options.readOnly;
+    this.workerHandle = options.workerHandle ?? { dispose: async () => {} };
     this.engineDispatchDeps = {
       engine: options.context.services.engine.adapter,
       session: options.session,
@@ -192,6 +196,7 @@ export class AetherEditorImpl implements AetherEditor {
     }
 
     this.disposed = true;
+    await this.workerHandle.dispose();
     await this.context.services.engine.adapter.dispose(this.session);
     await this.bootstrapRuntime.dispose();
     this.runtime.emit({

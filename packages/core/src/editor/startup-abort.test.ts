@@ -130,6 +130,22 @@ describe("createEditor startup-abort", () => {
 
     await editor.dispose();
   });
+
+  it("aborts when workers are enabled without perm:worker", async () => {
+    const plugin = createMockPreset("worker-host");
+    await assert.rejects(
+      () =>
+        createEditor({
+          plugins: [plugin],
+          security: { grantedPermissions: ["perm:dom"] },
+          workers: {
+            entry: "/tmp/unused-worker.js",
+            parser: true,
+          },
+        }),
+      (error: unknown) => error instanceof CoreError && error.code === "PERMISSION_DENIED",
+    );
+  });
 });
 
 // Unsupported manifestVersion abort is covered by editor-orchestration.test.ts:
