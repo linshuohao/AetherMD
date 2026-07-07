@@ -3,6 +3,10 @@ import { ensureDocumentBlockIds } from "../document/block-ids.js";
 import type { AetherDoc } from "../document/model.js";
 import { CoreError } from "../errors.js";
 import {
+  PARSE_BLOCK_MARKDOWN_COMMAND,
+  type ParseBlockMarkdownPayload,
+} from "../morphing/types.js";
+import {
   loadPluginManifests,
   validateUniquePluginNames,
   type ExtensionPlugin,
@@ -41,6 +45,31 @@ function validateEditorPlugins(plugins: readonly ExtensionPlugin[]): void {
   }
 }
 
+function registerBuiltinEditorCommands(
+  runtime: ReturnType<typeof createEditorRuntime>,
+  options: {
+    parser: ReturnType<typeof resolveWiredAdapters>["parser"];
+    schema: NonNullable<ReturnType<typeof mergeManifestLayers>["compile"]>["schema"];
+  },
+): void {
+  runtime.register(
+    PARSE_BLOCK_MARKDOWN_COMMAND,
+    (command) => {
+      const payload = command.payload as ParseBlockMarkdownPayload | undefined;
+      if (!payload || typeof payload.markdown !== "string") {
+        return false;
+      }
+
+      return {
+        value: options.parser
+          .parse(payload.markdown, options.schema)
+          .then((parsed) => parsed.children[0]),
+      };
+    },
+    { mutating: false },
+  );
+}
+
 export async function createEditor(config: EditorConfig): Promise<AetherEditor> {
   validateEditorPlugins(config.plugins);
 
@@ -49,7 +78,7 @@ export async function createEditor(config: EditorConfig): Promise<AetherEditor> 
   const conflictResolver = config.conflictResolver ?? createDefaultConflictResolver();
   const mergedManifest = mergeManifestLayers(loadedPlugins, conflictResolver);
   const capabilityResult = validateServiceCapabilities(loadedPlugins);
-  resolvePluginDependencyOrder(loadedPlugins);
+  const orderedPlugins = resolvePluginDependencyOrder(loadedPlugins);
 
   const grantedPermissions = resolveEffectivePermissions({
     loadedPlugins,
@@ -102,7 +131,15 @@ export async function createEditor(config: EditorConfig): Promise<AetherEditor> 
     ...(config.telemetry !== undefined ? { telemetry: config.telemetry } : {}),
   });
 
-  const bootstrapRuntime = await bootstrapCore(config.plugins, { context });
+  registerBuiltinEditorCommands(runtime, {
+    parser: wired.parser,
+    schema: editorSchema,
+  });
+
+  const bootstrapRuntime = await bootstrapCore(config.plugins, {
+    context,
+    preparedOrderedPlugins: orderedPlugins,
+  });
 
   const readyTimestamp = Date.now();
   context.telemetry.track({

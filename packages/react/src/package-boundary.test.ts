@@ -41,12 +41,14 @@ function collectProductionSourceFiles(srcDir: string): string[] {
 }
 
 describe("@aether-md/react package boundary", () => {
-  it("exports AetherEditorRoot, AetherEditorContent, AetherMorphingContent, AetherMorphingDocument, and useAetherEditor", () => {
+  it("exports morphing-first surface and isolates legacy content bridge", () => {
     assert.equal(typeof reactShell.AetherEditorRoot, "function");
-    assert.equal(typeof reactShell.AetherEditorContent, "function");
-    assert.equal(typeof reactShell.AetherMorphingContent, "function");
     assert.equal(typeof reactShell.AetherMorphingDocument, "function");
+    assert.equal(typeof reactShell.AetherMorphingContent, "function");
+    assert.equal(typeof reactShell.AetherEditorContent, "function");
+    assert.equal(typeof reactShell.AetherLegacyEditorContent, "function");
     assert.equal(typeof reactShell.useAetherEditor, "function");
+    assert.equal(reactShell.AetherLegacyEditorContent, reactShell.AetherEditorContent);
   });
 
   it("does not re-export core internal APIs or ShellAdapter", () => {

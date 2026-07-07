@@ -202,6 +202,46 @@ test.describe("block-morphing demo e2e", () => {
     await expectMarkdownContains(page, "**bold**");
   });
 
+  test("keyboard: deletion Backspace syncs source, render, and markdown", async ({ page }) => {
+    await gotoMorphingDemo(page);
+
+    await focusBlock(page, 0);
+    const textarea = source(page, 0);
+    await textarea.fill("Hello **worldX**");
+    await waitForBlockSynced(page, 0);
+    await textarea.evaluate((node) => {
+      node.setSelectionRange(14, 14);
+    });
+    await textarea.press("Backspace");
+    await waitForBlockSynced(page, 0);
+    await expect(textarea).toHaveValue("Hello **world**");
+    await expectEditorStable(page);
+    await blurBlock(page, 0);
+
+    await expect(block(page, 0).locator("strong")).toHaveText("world");
+    await expectMarkdownContains(page, "**world**");
+  });
+
+  test("keyboard: deletion Delete updates list rendering and markdown", async ({ page }) => {
+    await gotoMorphingDemo(page);
+
+    await focusBlock(page, 1);
+    const textarea = source(page, 1);
+    await textarea.fill("- alphaX\n- beta");
+    await waitForBlockSynced(page, 1);
+    await textarea.evaluate((node) => {
+      node.setSelectionRange(7, 7);
+    });
+    await textarea.press("Delete");
+    await waitForBlockSynced(page, 1);
+    await expect(textarea).toHaveValue("- alpha\n- beta");
+    await expectEditorStable(page);
+    await blurBlock(page, 1);
+
+    await expectListItems(page, 1, ["alpha", "beta"]);
+    await expectMarkdownContains(page, "- alpha");
+  });
+
   test("sync: blur waits for pending edits before morphing to rendered", async ({ page }) => {
     await gotoMorphingDemo(page);
 

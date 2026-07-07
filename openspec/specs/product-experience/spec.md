@@ -3,9 +3,7 @@
 ## Purpose
 
 Authoritative OpenSpec capability for Instant Morphing, Block Focus, zero-latency typing, and plugin-extensible block interaction. Normative UX detail lives in `docs/architecture/product-experience-spec.md`; this spec encodes testable requirements and acceptance scenarios for product north star alignment.
-
 ## Requirements
-
 ### Requirement: Product experience specification is the authoritative UX contract
 
 The repository SHALL maintain `docs/architecture/product-experience-spec.md` as the authoritative Product Experience Specification referenced from `docs/architecture/principles.md`. The document SHALL define Instant Morphing, Block Focus, and zero-latency typing as testable product behaviors. Architecture and engineering docs SHALL reference this page instead of duplicating UX normative text.
@@ -130,12 +128,12 @@ References:
 - `docs/engineering/mvp-implementation-plan.md`
 - `openspec/changes/archive/2026-07-06-block-morphing-slice-1/design.md`
 
-#### Scenario: Block morphing example is the L2 demo carrier
+#### Scenario: React showcase morphing mode is the L2 demo carrier
 
 - **GIVEN** Slice C implementation is complete
-- **WHEN** a maintainer opens `examples/block-morphing`
-- **THEN** the example is documented as the L2 product north star demo including multi-block Block Focus
-- **AND** `examples/react-basic` remains documented as L1 only
+- **WHEN** a maintainer opens `examples/react` and switches to morphing mode
+- **THEN** the showcase is documented as the L2 product north star demo including multi-block Block Focus
+- **AND** the same showcase content mode remains documented as L1 pipeline verification only
 
 #### Scenario: Slice A satisfies focused and blurred paragraph scenarios
 
@@ -146,7 +144,7 @@ References:
 
 ### Requirement: Slice C multi-block Block Focus is demonstrable
 
-The repository SHALL deliver L2 Slice C where a multi-paragraph document satisfies product-experience scenario C: focusing block B shows only block B in source state while other blocks remain rendered. Slice C SHALL be demonstrable via `examples/block-morphing` with a multi-paragraph fixture. Slice C SHALL NOT claim Slice B (full GFM inline mark fidelity) or Slice D (list/link block pluginization).
+The repository SHALL deliver L2 Slice C where a multi-paragraph document satisfies product-experience scenario C: focusing block B shows only block B in source state while other blocks remain rendered. Slice C SHALL be demonstrable via `examples/react` morphing mode with a multi-paragraph fixture. Slice C SHALL NOT claim Slice B (full GFM inline mark fidelity) or Slice D (list/link block pluginization).
 
 References:
 
@@ -154,10 +152,10 @@ References:
 - `docs/engineering/mvp-implementation-plan.md`
 - `openspec/changes/archive/2026-07-06-block-morphing-slice-c/design.md`
 
-#### Scenario: Block morphing example demonstrates multi-block focus
+#### Scenario: React showcase morphing mode demonstrates multi-block focus
 
 - **GIVEN** Slice C implementation is complete
-- **WHEN** a maintainer runs `pnpm --filter @aether-md/example-block-morphing dev`
+- **WHEN** a maintainer runs `pnpm --filter @aether-md/example-react dev` and switches to morphing mode
 - **THEN** the demo shows at least two paragraphs with clickable block focus
 - **AND** only the focused paragraph shows Markdown source
 
@@ -200,7 +198,7 @@ References:
 
 ### Requirement: Slice D list block morphing is demonstrable
 
-The repository SHALL deliver L2 Slice D where GFM `list` blocks morph between rendered (`ul`/`ol`/`li`) and Markdown source (`- item` / `1. item`) per Block Focus rules. Slice D SHALL be demonstrable via `examples/block-morphing` with a fixture containing at least one list block alongside paragraphs. Slice D SHALL NOT claim M7 publish readiness.
+The repository SHALL deliver L2 Slice D where GFM `list` blocks morph between rendered (`ul`/`ol`/`li`) and Markdown source (`- item` / `1. item`) per Block Focus rules. Slice D SHALL be demonstrable via `examples/react` morphing mode with a fixture containing at least one list block alongside paragraphs. Slice D SHALL NOT claim M7 publish readiness.
 
 References:
 
@@ -227,3 +225,12 @@ References:
 - **GIVEN** Slice D implementation is complete
 - **WHEN** `pnpm --filter @aether-md/react test` runs
 - **THEN** Slice A, B, and C block-morphing integration tests pass
+
+### Requirement: Product interaction contract uses a single public carrier model
+Product-experience acceptance SHALL map to one canonical interaction carrier model and SHALL NOT present split L1/L2 carriers as co-equal product targets. Any pipeline-only shell path SHALL be documented as non-product verification scope.
+
+#### Scenario: Product-experience references one canonical product carrier
+- **WHEN** maintainers read product-experience acceptance mapping
+- **THEN** one canonical carrier model is used for product interaction acceptance
+- **AND** pipeline-only carriers are explicitly marked as non-product verification scope
+

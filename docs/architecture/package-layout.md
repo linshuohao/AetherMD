@@ -23,8 +23,8 @@ aether-md/
 ├── examples/                        # 不发布 npm（ADR 009）
 │   ├── shared/                      # @aether-md/example-shared
 │   ├── headless-gfm/
-│   ├── react-basic/
-│   └── block-morphing/              # L2 north star demo（Slice A–D 已交付）
+│   ├── react/                       # unified showcase: L1 content + L2 morphing
+│   └── vue/
 ```
 
 当前实现状态：
@@ -35,7 +35,7 @@ aether-md/
 - `packages/react` — `shell/`（Root/Content/hook/GateLock）+ `morphing/`（L2 产品面）；公开 export 含 `shouldApplyControlledValue`。
 - `packages/adapter-contract-tests` — dev-only；Parser/Serializer/Engine 契约测试 harness，**非**运行时产品包。
 - `examples/shared` — `@aether-md/example-shared`：`createGfmEditorPlugins()` 供各 example 复用。
-- `examples/block-morphing` — L2 Instant Morphing / Block Focus 演示（已交付）。
+- `examples/react` — 统一 showcase（L1 content 模式 + L2 morphing 模式）。
 - `packages/vue` — 规划项。
 
 ## 当前最小工程架子

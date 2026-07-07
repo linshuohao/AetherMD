@@ -3,9 +3,7 @@
 ## Purpose
 
 M5 React Shell in `@aether-md/react`: public Root / Content / hook surface, direct `AetherEditor` consumption without Shell Adapter, Shell-layer GateLock, plugin-prosemirror view-bridge mounting, happy-dom integration tests, and GFM preset React smoke coverage.
-
 ## Requirements
-
 ### Requirement: React Shell package is exported as a public adapter package
 
 The workspace SHALL include `@aether-md/react` at `packages/react` as a Public Adapter Package aligned with `docs/engineering/component-library-governance.md`. The package SHALL declare `build`, `typecheck`, and `test` scripts and participate in root `pnpm build`, `pnpm typecheck`, `pnpm test`, and `pnpm check`. `@aether-md/core` SHALL NOT declare runtime dependencies on React, ProseMirror, or Remark.
@@ -30,6 +28,23 @@ References:
 - **WHEN** `pnpm check` runs at the repository root
 - **THEN** `@aether-md/react` `build`, `typecheck`, and `test` tasks execute successfully
 
+### Requirement: React product surface is morphing-first with explicit legacy content alias
+
+`@aether-md/react` SHALL position morphing surfaces (`AetherMorphingDocument`, `AetherMorphingContent`) as primary product interaction APIs. `AetherEditorContent` MAY remain for legacy/pipeline bridge usage and SHALL be explicitly marked as a legacy surface.
+
+References:
+
+- `docs/architecture/product-experience-spec.md`
+- `openspec/specs/shell-interaction-convergence/spec.md`
+
+#### Scenario: Package exports prefer morphing and preserve explicit legacy bridge
+
+- **GIVEN** maintainers inspect `@aether-md/react` public exports
+- **WHEN** package boundary tests run
+- **THEN** morphing surfaces are present as primary product APIs
+- **AND** legacy content bridge remains available via `AetherEditorContent` and explicit legacy alias naming
+- **AND** docs/examples do not present content mode as co-equal product north-star interaction
+
 ### Requirement: M5 React Shell is a Phase 0 interim integration shell
 
 `@aether-md/react` as delivered in M5 SHALL be documented and specified as a **Phase 0 interim integration shell** that proves `createEditor` → DOM view → Command Bus → serialize → Shell GateLock. The interim shell uses a persistent ProseMirror `EditorView` via `@aether-md/plugin-prosemirror` view-bridge. This interim shell SHALL NOT be described as the product north star interaction model defined in `product-experience`.
@@ -43,7 +58,7 @@ References:
 #### Scenario: Documentation distinguishes interim shell from product north star
 
 - **GIVEN** M5 React Shell is implemented
-- **WHEN** a reader opens `docs/architecture/product-experience-spec.md` and `packages/react` consumer docs or `examples/react-basic/README.md`
+- **WHEN** a reader opens `docs/architecture/product-experience-spec.md` and `packages/react` consumer docs or `examples/react/README.md`
 - **THEN** the Phase 0 interim shell role is explicitly stated
 - **AND** Instant Morphing / Block Focus is identified as the product target handled by follow-up slices
 
@@ -383,3 +398,20 @@ References:
 - **WHEN** `pnpm --filter @aether-md/react test` runs
 - **THEN** Slice D list block scenarios pass
 - **AND** Slice A, B, and C scenarios continue to pass
+
+### Requirement: React shell product surface is morphing-first
+`@aether-md/react` SHALL treat morphing document interaction as the primary product shell surface. Legacy whole-document content shell utilities MAY exist for pipeline verification only, and SHALL be isolated from primary product-facing API positioning.
+
+#### Scenario: Product docs and examples use morphing shell as primary
+- **WHEN** maintainers review React shell examples and product-facing docs
+- **THEN** morphing document flow is presented as the primary interaction path
+- **AND** whole-document content shell is not presented as a co-equal product mode
+
+### Requirement: React shell owns no syntax-specific rendering rules
+React shell components SHALL consume preset-provided morphing strategies and interactive renderers and SHALL NOT carry standalone GFM syntax rendering logic that duplicates preset behavior.
+
+#### Scenario: Shell code has no dead syntax renderer path
+- **WHEN** maintainers inspect React morphing source files
+- **THEN** syntax-specific inline rendering logic is sourced from preset strategy contracts
+- **AND** duplicate/dead shell-local GFM render helpers are absent
+

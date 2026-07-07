@@ -10,6 +10,7 @@ import {
 
 export interface BootstrapCoreOptions {
   context?: unknown;
+  preparedOrderedPlugins?: readonly LoadedPlugin[];
 }
 
 export interface CoreBootstrapRuntime {
@@ -24,11 +25,14 @@ export async function bootstrapCore(
   options: BootstrapCoreOptions = {},
 ): Promise<CoreBootstrapRuntime> {
   const context = options.context ?? {};
-  const loadedPlugins = loadPluginManifests(plugins);
-
-  validateUniquePluginNames(loadedPlugins);
-  validateServiceCapabilities(loadedPlugins);
-  const orderedPlugins = resolvePluginDependencyOrder(loadedPlugins);
+  const orderedPlugins =
+    options.preparedOrderedPlugins ??
+    (() => {
+      const loadedPlugins = loadPluginManifests(plugins);
+      validateUniquePluginNames(loadedPlugins);
+      validateServiceCapabilities(loadedPlugins);
+      return resolvePluginDependencyOrder(loadedPlugins);
+    })();
   const lifecycle = await runStartupLifecycle(orderedPlugins, context);
   let disposed = false;
 

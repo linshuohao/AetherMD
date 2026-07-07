@@ -12,7 +12,7 @@ import { useAetherEditor } from "./use-aether-editor.js";
  *
  * @deprecated Prefer {@link AetherMorphingDocument} or {@link AetherMorphingContent} for the L2
  *   Instant Morphing product north star. `AetherEditorContent` remains available for
- *   `examples/react-basic` and legacy ProseMirror view-bridge integrations until M7 publish.
+ *   `examples/react` content mode and legacy ProseMirror view-bridge integrations until M7 publish.
  *   See `docs/sdk/react-shell.md` for migration guidance.
  */
 export function AetherEditorContent() {

@@ -2,10 +2,8 @@
 
 ## Purpose
 
-M6 validation suite baseline: headless GFM integration proof (`examples/headless-gfm`), React Shell integration demo (`examples/react-basic`), publish preparation metadata without npm publish, G11/G6/G5 CI gates, `createEditor` startup abort regression coverage, and G12 v1.0 roadmap gap documentation.
-
+M6 validation suite baseline: headless GFM integration proof (`examples/headless-gfm`), unified React showcase integration demo (`examples/react`), publish preparation metadata without npm publish, G11/G6/G5 CI gates, `createEditor` startup abort regression coverage, and G12 v1.0 roadmap gap documentation.
 ## Requirements
-
 ### Requirement: Headless GFM example package demonstrates integration path
 
 The workspace SHALL include `examples/headless-gfm` as a private workspace package that runs in Node without a UI. The example SHALL use `createEditor` from `@aether-md/core` with `createGfmPreset()` and explicit Parser, Serializer, and Engine adapter wiring consistent with M4.5 headless integration patterns. The example SHALL NOT depend on React or a browser DOM.
@@ -30,9 +28,9 @@ References:
 - **THEN** `examples/headless-gfm` declares `private: true`
 - **AND** the example package is excluded from npm publish matrices in `docs/community/release-process.md`
 
-### Requirement: React basic example package demonstrates React Shell integration path
+### Requirement: React showcase example package demonstrates React Shell integration path
 
-The workspace SHALL include `examples/react-basic` as a private workspace package that runs in a browser with a minimal Vite + React setup. The example SHALL use `AetherEditorRoot`, `AetherEditorContent`, and `useAetherEditor` from `@aether-md/react` with `createGfmPreset()` and explicit Parser, Serializer, and Engine adapter wiring consistent with M4.5 and M5 React Shell integration patterns. The example SHALL demonstrate controlled `value` and `onChange` props with Shell GateLock behavior (`prevValue === nextValue` MUST NOT reset the document). The example SHALL NOT be published to npm.
+The workspace SHALL include `examples/react` as a private workspace package that runs in a browser with a minimal Vite + React setup. The example SHALL use `AetherEditorRoot` from `@aether-md/react` with explicit Parser, Serializer, and Engine adapter wiring consistent with M4.5 and M5 React Shell integration patterns, and SHALL expose both content mode (L1 pipeline verification) and morphing mode (L2 product interaction). The example SHALL demonstrate controlled `value` and `onChange` props with Shell GateLock behavior (`prevValue === nextValue` MUST NOT reset the document). The example SHALL NOT be published to npm.
 
 References:
 
@@ -44,22 +42,22 @@ References:
 #### Scenario: React example runs locally from workspace
 
 - **GIVEN** the workspace is installed and built
-- **WHEN** a maintainer runs the `examples/react-basic` dev script
+- **WHEN** a maintainer runs the `examples/react` dev script
 - **THEN** a browser-rendered editor loads using `@aether-md/react` with `createGfmPreset()` wiring
 - **AND** the user can edit Markdown in the mounted view
 
 #### Scenario: React example demonstrates controlled value and GateLock
 
-- **GIVEN** `examples/react-basic` is running with a controlled `value` prop
+- **GIVEN** `examples/react` is running with a controlled `value` prop
 - **WHEN** a parent component rerenders without changing the `value` string
 - **THEN** the editor session is not reset
 - **AND** the example UI makes the GateLock demonstration observable to the maintainer
 
 #### Scenario: React example is private and not published
 
-- **GIVEN** `add-react-basic-example` implementation is complete
+- **GIVEN** React showcase implementation is complete
 - **WHEN** package manifests are reviewed
-- **THEN** `examples/react-basic` declares `private: true`
+- **THEN** `examples/react` declares `private: true`
 - **AND** the example package is excluded from npm publish matrices in `docs/community/release-process.md`
 
 ### Requirement: M6 publish preparation metadata is configured without publishing
@@ -115,7 +113,7 @@ References:
 
 ### Requirement: Examples package passes TypeScript noEmit check in CI
 
-The validation suite SHALL ensure `examples/headless-gfm` and `examples/react-basic` each pass `tsc --noEmit` as G6 gates. Each example `typecheck` task SHALL participate in root `pnpm check` through the workspace turbo pipeline.
+The validation suite SHALL ensure `examples/headless-gfm` and `examples/react` each pass `tsc --noEmit` as G6 gates. Each example `typecheck` task SHALL participate in root `pnpm check` through the workspace turbo pipeline.
 
 References:
 
@@ -129,11 +127,11 @@ References:
 - **WHEN** `pnpm check` runs at the repository root
 - **THEN** `examples/headless-gfm` `typecheck` (`tsc --noEmit`) succeeds
 
-#### Scenario: React basic example typechecks in check pipeline
+#### Scenario: React showcase example typechecks in check pipeline
 
-- **GIVEN** `add-react-basic-example` implementation is complete
+- **GIVEN** React showcase implementation is complete
 - **WHEN** `pnpm check` runs at the repository root
-- **THEN** `examples/react-basic` `typecheck` (`tsc --noEmit`) succeeds
+- **THEN** `examples/react` `typecheck` (`tsc --noEmit`) succeeds
 
 #### Scenario: Existing M1 through M6 tests remain green
 
@@ -214,8 +212,8 @@ References:
 
 The validation suite SHALL distinguish two north-star layers:
 
-1. **Architecture pipeline demo (L1)** — `examples/react-basic` proves React Shell + GFM wiring, GateLock, and markdown preview sync. This is the Demo Slice program outcome.
-2. **Product interaction north star (L2)** — a future morphing demo (for example `examples/block-morphing`, name deferred to its change) proves Instant Morphing and Block Focus per `product-experience`.
+1. **Architecture pipeline demo (L1)** — `examples/react` content mode proves React Shell + GFM wiring and GateLock stability.
+2. **Product interaction north star (L2)** — `examples/react` morphing mode proves Instant Morphing and Block Focus per `product-experience`.
 
 L1 passing SHALL NOT be interpreted as L2 satisfied. Documentation and project status SHALL state both layers explicitly.
 
@@ -230,77 +228,77 @@ References:
 - **GIVEN** this change is merged
 - **WHEN** a reader opens `docs/project-status.md`
 - **THEN** architecture demo delivery (L1) and product morphing north star (L2) are listed separately
-- **AND** L2 is marked Slice A delivered or in progress with a link to `product-experience-spec` and `examples/block-morphing`
+- **AND** L2 is marked Slice A delivered or in progress with a link to `product-experience-spec` and `examples/react` morphing mode
 
-#### Scenario: React basic README does not claim product morphing
+#### Scenario: React showcase README separates L1 and L2 claims
 
-- **GIVEN** `examples/react-basic/README.md`
+- **GIVEN** `examples/react/README.md`
 - **WHEN** a reader evaluates what the example proves
 - **THEN** the README describes architecture/pipeline verification
 - **AND** the README does not claim Instant Morphing or Block Focus
 
-### Requirement: React basic demo slice north star acceptance is frozen and verified
+### Requirement: React showcase L1 acceptance remains frozen and verified
 
-The repository SHALL treat `examples/react-basic` as the **L1 architecture pipeline browser demo** per `docs/engineering/demo-slice-delivery-program.md`. Maintainers SHALL be able to run `pnpm --filter @aether-md/example-react-basic dev` and continuously edit a frozen GFM subset (heading, strong emphasis, list, link) without GateLock document reset when the controlled `value` is unchanged.
+The repository SHALL treat `examples/react` content mode as the **L1 architecture pipeline browser demo** per `docs/engineering/demo-slice-delivery-program.md`. Maintainers SHALL be able to run `pnpm --filter @aether-md/example-react dev` and continuously edit a frozen GFM subset (heading, strong emphasis, list, link) without GateLock document reset when the controlled `value` is unchanged.
 
 `@aether-md/react` SHALL include integration tests mirroring the controlled Shell layout that verify:
 
 1. **ProseMirror user input path** — keyboard-equivalent edits through mounted `AetherEditorContent` update markdown preview for paragraph, heading, and list-item paragraph surfaces.
 2. **Programmatic dispatch path** — consecutive `core:replaceText` edits and GateLock preservation across parent rerender (existing `demo-slice-pr0-acceptance` coverage).
 
-This requirement validates **L1 only**. Product north star **L2** (Instant Morphing / Block Focus) is specified in `product-experience` and SHALL be demonstrated by `examples/block-morphing` after Slice A.
+This requirement validates **L1 only**. Product north star **L2** (Instant Morphing / Block Focus) is specified in `product-experience` and SHALL be demonstrated by `examples/react` morphing mode.
 
 CI MUST enforce both L1 paths where automatable; browser maintainer sign-off remains required before M7 demo sign-off but is not a CI gate for L1.
 
 References:
 
 - `docs/engineering/demo-slice-delivery-program.md`
-- `examples/react-basic/README.md`
+- `examples/react/README.md`
 - `docs/architecture/product-experience-spec.md`
-- `examples/block-morphing/README.md`
+- `examples/react/README.md`
 - `openspec/changes/archive/2026-07-06-demo-slice-react-basic-pr0/baseline-record.md`
 
 #### Scenario: Maintainer can start the browser demo from workspace
 
-- **GIVEN** the workspace is installed and built per `examples/react-basic/README.md`
-- **WHEN** a maintainer runs `pnpm --filter @aether-md/example-react-basic dev`
+- **GIVEN** the workspace is installed and built per `examples/react/README.md`
+- **WHEN** a maintainer runs `pnpm --filter @aether-md/example-react dev`
 - **THEN** a browser-rendered editor loads without startup error
 - **AND** initial content showcases heading, strong emphasis, list, and link GFM structures
 
 #### Scenario: ProseMirror typing updates markdown preview in CI
 
-- **GIVEN** a mounted controlled Shell with `AetherEditorContent` and markdown preview (mirroring `examples/react-basic`)
+- **GIVEN** a mounted controlled Shell with `AetherEditorContent` and markdown probes (mirroring `examples/react` content mode)
 - **WHEN** integration tests simulate consecutive ProseMirror user input on paragraph, heading, and list-item surfaces
 - **THEN** markdown preview reflects the latest edited content for each surface
 
 #### Scenario: GateLock preserves edits across parent rerender in CI
 
-- **GIVEN** a controlled Shell with `value` and `onChange` wired like `examples/react-basic`
+- **GIVEN** a controlled Shell with `value` and `onChange` wired like `examples/react` content mode
 - **WHEN** tests edit content and trigger a parent rerender without changing `value`
 - **THEN** the document content is preserved
 - **AND** markdown preview still reflects the edited content
 
-### Requirement: Block morphing example is part of the validation suite
+### Requirement: React showcase morphing mode is part of the validation suite
 
-The workspace SHALL include `examples/block-morphing` as a private workspace package (`@aether-md/example-block-morphing`) that demonstrates L2 Block Morphing including GFM inline mark fidelity (Slice B) and multi-paragraph Block Focus (Slice C). The example SHALL use `@aether-md/react` morphing surfaces with GFM preset wiring. The example `typecheck` task SHALL participate in root `pnpm check` through the workspace turbo pipeline.
+The workspace SHALL include `examples/react` as a private workspace package (`@aether-md/example-react`) that demonstrates L2 Block Morphing in morphing mode including GFM inline mark fidelity (Slice B) and multi-paragraph Block Focus (Slice C). The example SHALL use `@aether-md/react` morphing surfaces with GFM preset wiring. The example `typecheck` task SHALL participate in root `pnpm check` through the workspace turbo pipeline.
 
 References:
 
 - `docs/architecture/product-experience-spec.md`
 - `docs/engineering/mvp-implementation-plan.md`
-- `examples/block-morphing/README.md`
+- `examples/react/README.md`
 
 #### Scenario: Block morphing example typechecks in CI
 
 - **GIVEN** Slice C block morphing example is complete
 - **WHEN** `pnpm check` runs at the repository root
-- **THEN** `examples/block-morphing` `typecheck` (`tsc --noEmit`) succeeds
+- **THEN** `examples/react` `typecheck` (`tsc --noEmit`) succeeds
 - **AND** the example documents multi-block Block Focus operation
 
 #### Scenario: Maintainer can start block morphing browser demo
 
-- **GIVEN** the workspace is installed and built per `examples/block-morphing/README.md`
-- **WHEN** a maintainer runs `pnpm --filter @aether-md/example-block-morphing dev`
+- **GIVEN** the workspace is installed and built per `examples/react/README.md`
+- **WHEN** a maintainer runs `pnpm --filter @aether-md/example-react dev` and selects morphing mode
 - **THEN** a browser-rendered morphing editor loads without startup error
 - **AND** the UI demonstrates focus=source / blur=rendered without a separate preview panel
 
@@ -320,16 +318,16 @@ References:
 - **THEN** Slice B inline mark scenarios pass
 - **AND** Slice A and Slice C scenarios continue to pass
 
-#### Scenario: Block morphing example includes Slice B fixture
+#### Scenario: React showcase morphing mode includes Slice B fixture
 
-- **GIVEN** `examples/block-morphing` is updated for Slice B
+- **GIVEN** `examples/react` morphing mode is updated for Slice B
 - **WHEN** a maintainer runs the example
 - **THEN** the demo fixture includes emphasis and link inline marks
 - **AND** README documents Slice B scope
 
-### Requirement: Playwright browser E2E Phase 1 covers block-morphing demo
+### Requirement: Playwright browser E2E Phase 1 covers canonical showcase modes
 
-The repository SHALL include Playwright browser E2E under `e2e/playwright/` that exercises `examples/block-morphing` in real Chromium and `examples/react-basic` for L1 Phase 0 shell smoke. The suite SHALL verify:
+The repository SHALL include Playwright browser E2E under `e2e/playwright/` that exercises `examples/react` in real Chromium across both morphing mode (L2) and content mode (L1 pipeline smoke). The suite SHALL verify:
 
 1. Smoke boot and block type attributes
 2. Block Focus (single-block source state)
@@ -344,7 +342,7 @@ The repository SHALL include Playwright browser E2E under `e2e/playwright/` that
 11. Sync hooks — tests MAY wait on `data-edit-synced="true"` before blur assertions
 12. Block identity — stable `data-block-id`, `core:moveBlock` reorder preserves focus
 13. Editor stability — consecutive edits and parent rerender do not remount editor
-14. L1 react-basic — ProseMirror smoke, GateLock, browser typing + preview sync
+14. L1 content mode — ProseMirror smoke, GateLock, browser typing + preview sync
 
 Root scripts `e2e:install` and `e2e:test` SHALL run the suite after workspace build. Shared helpers SHALL live in `e2e/playwright/fixtures/`.
 
@@ -382,6 +380,29 @@ References:
 - **WHEN** Playwright tests run on `main`
 - **THEN** the job uses `continue-on-error: true`
 - **AND** Playwright report artifacts are uploaded when the job completes
+
+### Requirement: Product-path keyboard deletion matrix is covered in browser E2E
+
+Playwright morphing-path E2E SHALL include keyboard deletion coverage for both Backspace and Delete in source state, with assertions for source text mutation, `data-edit-synced` completion, rendered output fidelity after blur, markdown probe sync, and editor stability.
+
+References:
+
+- `docs/architecture/product-experience-spec.md`
+- `e2e/playwright/tests/block-morphing.spec.ts`
+
+#### Scenario: Backspace deletion preserves markdown-render fidelity
+
+- **GIVEN** a focused morphing source textarea
+- **WHEN** the user performs Backspace deletion and exits source state
+- **THEN** rendered output and markdown probe reflect the expected deleted content
+- **AND** `data-editor-stable` remains `true`
+
+#### Scenario: Delete key mutation updates list block without remount
+
+- **GIVEN** a focused list block source textarea
+- **WHEN** the user performs Delete key mutation and exits source state
+- **THEN** list rendering and markdown probe match the expected value
+- **AND** the editor remains stable across the edit sequence
 
 ### Requirement: Consumer smoke validates packed package imports
 
@@ -425,3 +446,20 @@ M7 SHALL remove `private: true` from all five linked publish-target packages whi
 - **WHEN** each linked package manifest is inspected
 - **THEN** `private: true` is absent
 - **AND** `pnpm pack` produces a non-private tarball for each package
+
+### Requirement: Validation topology references one canonical browser showcase
+Browser interaction validation SHALL target one canonical showcase topology and SHALL distinguish product interaction (morphing path) from non-product pipeline checks without requiring separate legacy example package identities.
+
+#### Scenario: E2E suites map to canonical showcase modes
+- **WHEN** maintainers inspect Playwright configuration and test suites
+- **THEN** test suites target canonical showcase modes under one browser demo topology
+- **AND** naming/traceability clearly identifies product morphing checks versus pipeline checks
+
+### Requirement: Keyboard interaction matrix is enforced on product path
+Validation SHALL include product-path keyboard interaction checks covering insertion, deletion (Backspace/Delete), and source-to-render synchronization for supported markdown block strategies.
+
+#### Scenario: Product path validates typing and deletion fidelity
+- **WHEN** keyboard interaction tests run on the morphing shell path
+- **THEN** insertion and deletion behavior preserves expected markdown/source-render fidelity
+- **AND** no full-editor remount occurs during consecutive edits
+

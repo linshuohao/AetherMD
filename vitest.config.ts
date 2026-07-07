@@ -9,7 +9,7 @@ export default defineConfig({
       "packages/plugins/plugin-prosemirror",
       "packages/react",
       "packages/vue",
-      "examples/block-morphing",
+      "examples/react",
     ],
   },
 });

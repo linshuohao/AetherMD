@@ -3,6 +3,7 @@ import { useState } from "react";
 import type { AetherBlock } from "@aether-md/core";
 
 import { useAetherEditor } from "../shell/use-aether-editor.js";
+import type { MorphingBlockStrategy } from "./contracts.js";
 import { MorphingBlockSurface } from "./morphing-block-surface.js";
 
 export interface AetherMorphingContentProps {
@@ -42,7 +43,7 @@ export function AetherMorphingContent({ blockIndex = 0 }: AetherMorphingContentP
       <MorphingBlockSurface
         blockIndex={blockIndex}
         block={block as AetherBlock}
-        strategy={strategy}
+        strategy={strategy as MorphingBlockStrategy}
         localFocus={focused}
         onLocalFocusChange={setFocused}
       />

@@ -1,6 +1,7 @@
 import type { AetherBlock } from "@aether-md/core";
 
 import { useAetherEditor } from "../shell/use-aether-editor.js";
+import type { MorphingBlockStrategy } from "./contracts.js";
 import { MorphingBlockSurface } from "./morphing-block-surface.js";
 import { MorphingFocusProvider, useMorphingFocus } from "./morphing-focus-context.js";
 
@@ -23,7 +24,7 @@ function MorphingDocumentBody({
       className="aether-morphing-document"
     >
       {morphingBlocks.map(({ block, index }) => {
-        const strategy = editor.getMorphingStrategy(block.type)!;
+        const strategy = editor.getMorphingStrategy(block.type) as MorphingBlockStrategy;
         return (
           <MorphingBlockSurface
             key={block.id ?? index}

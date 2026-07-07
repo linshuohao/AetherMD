@@ -26,13 +26,13 @@ M6 仅完成 ADR 009 publish **预备**；五包仍为 `private: true`；**未**
 | **根 `changeset:publish`**   | 根 `package.json` 脚本 `"changeset:publish": "changeset publish"`（M7 前仅预留，维护者 **禁止** 本地 `npm publish`）                                           |
 | **`LICENSE`**                | 根目录 MIT 许可证；与各 package `license` 字段一致                                                                                                             |
 | **`examples/headless-gfm`**  | `private: true`；**不**纳入 npm 发布矩阵                                                                                                                       |
-| **`examples/react-basic`**   | `private: true`；**不**纳入 npm 发布矩阵（**L1** 架构管线 demo）                                                                                               |
+| **`examples/react`**         | `private: true`；**不**纳入 npm 发布矩阵（L1 content / L2 morphing 统一 showcase）                                                                              |
 
 ## M7 启动前置（方案 B）
 
 在配置 `NPM_TOKEN` 或 `changeset pre enter` **之前**，维护者 **MUST** 确认：
 
-1. **L1**：`examples/react-basic` 可演示；Demo Slice + typing-sync CI 绿；浏览器 sign-off 已记录（若适用）。
+1. **L1**：`examples/react` content 模式可演示；Demo Slice + typing-sync CI 绿；浏览器 sign-off 已记录（若适用）。
 2. **L2 Slice A**：单段落 Instant Morphing MVP 可演示（由 `block-morphing-slice-1` 定义载体与验收）。
 3. **工程**：ADR 009 G1–G12 就绪；`pnpm check` 绿；O1/O2 已决议。
 

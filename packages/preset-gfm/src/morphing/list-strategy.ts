@@ -2,7 +2,7 @@ import type { AetherBlock, ListBlock, ParagraphBlock } from "@aether-md/core";
 import { serializeListBlock } from "@aether-md/plugin-remark";
 
 import { appendInlineToDom } from "./dom-inlines.js";
-import type { CustomBlockRenderer, MorphingBlockStrategy } from "@aether-md/core";
+import type { CustomBlockRenderer, MorphingBlockStrategy } from "./contracts.js";
 
 function isListBlock(block: AetherBlock): block is ListBlock {
   return block.type === "list";

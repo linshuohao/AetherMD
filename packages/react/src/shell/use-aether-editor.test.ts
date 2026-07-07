@@ -4,7 +4,7 @@ import { renderHook, waitFor } from "@testing-library/react";
 import React from "react";
 
 import type { AetherDoc, AetherEditor, EventListener, Unsubscribe } from "@aether-md/core";
-import { createMorphingStrategyRegistry } from "@aether-md/core";
+import { createMorphingStrategyRegistry } from "@aether-md/preset-gfm";
 
 import { AetherEditorContext } from "./context.js";
 import { useAetherEditor } from "./use-aether-editor.js";

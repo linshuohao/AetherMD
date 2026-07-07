@@ -2,8 +2,9 @@ import assert from "node:assert/strict";
 import { describe, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 
-import type { AetherBlock, CustomBlockRenderer } from "@aether-md/core";
+import type { AetherBlock } from "@aether-md/core";
 
+import type { CustomBlockRenderer } from "./contracts.js";
 import { RenderedBlockHost } from "./rendered-block-host.js";
 
 const block: AetherBlock = {

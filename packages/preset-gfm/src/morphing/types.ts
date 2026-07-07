@@ -1,15 +1,17 @@
-import type {
-  AetherBlock,
-  AetherInline,
+import type { AetherBlock, AetherInline, ParagraphBlock } from "@aether-md/core";
+
+import type { MorphingBlockStrategy } from "./contracts.js";
+
+export type {
+  CustomBlockRenderer,
   MorphingBlockStrategy,
-  ParagraphBlock,
-} from "@aether-md/core";
-
-/** @deprecated Use `MorphingBlockStrategy` from `@aether-md/core`. */
-export type GfmMorphingBlockStrategy = MorphingBlockStrategy;
-
-/** DOM morphing renderer contract (see `docs/sdk/custom-block-renderer.md`). */
-export type { CustomBlockRenderer } from "@aether-md/core";
+  MorphingStrategyRegistry,
+  ParseBlockMarkdownPayload,
+} from "./contracts.js";
+export {
+  PARSE_BLOCK_MARKDOWN_COMMAND,
+  createMorphingStrategyRegistry,
+} from "./contracts.js";
 
 export function isParagraphBlock(block: AetherBlock): block is ParagraphBlock {
   return block.type === "paragraph";
@@ -28,3 +30,6 @@ function inlineText(inline: AetherInline): string {
   }
   return "";
 }
+
+/** @deprecated Use `MorphingBlockStrategy`. */
+export type GfmMorphingBlockStrategy = MorphingBlockStrategy;

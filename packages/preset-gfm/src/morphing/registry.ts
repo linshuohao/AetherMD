@@ -1,8 +1,8 @@
-import type { AetherBlock, MorphingBlockStrategy } from "@aether-md/core";
+import type { AetherBlock } from "@aether-md/core";
 
 import { listMorphingStrategy } from "./list-strategy.js";
 import { paragraphMorphingStrategy } from "./paragraph-strategy.js";
-import type { CustomBlockRenderer } from "./types.js";
+import type { CustomBlockRenderer, MorphingBlockStrategy } from "./contracts.js";
 
 const strategies: MorphingBlockStrategy[] = [paragraphMorphingStrategy, listMorphingStrategy];
 

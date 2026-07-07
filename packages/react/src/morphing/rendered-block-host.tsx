@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 
-import { RenderError, type AetherBlock, type CustomBlockRenderer } from "@aether-md/core";
+import type { AetherBlock } from "@aether-md/core";
+import { RenderError } from "@aether-md/core";
 
+import type { CustomBlockRenderer } from "./contracts.js";
 import { RenderFallbackView } from "./render-fallback-view.js";
 
 export interface RenderedBlockHostProps {
