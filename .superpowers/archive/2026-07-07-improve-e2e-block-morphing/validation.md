@@ -9,11 +9,11 @@
 
 ## Commands
 
-| Command | Purpose | Result | Notes |
-| --- | --- | --- | --- |
-| `pnpm check` | Workspace CI pipeline | pass | skills, lint, format, docs links, turbo check, types:check |
-| `pnpm e2e:test` | Playwright 22 tests | pass | 19 block-morphing + 3 react-basic |
-| `pnpm --filter @aether-md/react test` | Morphing unit regression | pass | 42 tests |
+| Command                               | Purpose                  | Result | Notes                                                      |
+| ------------------------------------- | ------------------------ | ------ | ---------------------------------------------------------- |
+| `pnpm check`                          | Workspace CI pipeline    | pass   | skills, lint, format, docs links, turbo check, types:check |
+| `pnpm e2e:test`                       | Playwright 22 tests      | pass   | 19 block-morphing + 3 react-basic                          |
+| `pnpm --filter @aether-md/react test` | Morphing unit regression | pass   | 42 tests                                                   |
 
 ## TDD Integrity
 

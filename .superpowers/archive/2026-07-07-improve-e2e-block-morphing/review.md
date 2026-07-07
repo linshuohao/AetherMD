@@ -10,37 +10,37 @@
 
 ## Artifact Coverage
 
-| Artifact | Present | Notes |
-| --- | --- | --- |
-| change-brief.md | yes | |
-| Delta specs | yes | `validation-suite` |
-| Single task | yes | `01-expand-e2e-and-fix-morphing-sync` |
-| Validation | yes | `.superpowers/runs/improve-e2e-block-morphing/validation.md` |
-| Plan | absent | correct for Spec Change |
-| Task loop | absent | correct for Spec Change |
+| Artifact        | Present | Notes                                                        |
+| --------------- | ------- | ------------------------------------------------------------ |
+| change-brief.md | yes     |                                                              |
+| Delta specs     | yes     | `validation-suite`                                           |
+| Single task     | yes     | `01-expand-e2e-and-fix-morphing-sync`                        |
+| Validation      | yes     | `.superpowers/runs/improve-e2e-block-morphing/validation.md` |
+| Plan            | absent  | correct for Spec Change                                      |
+| Task loop       | absent  | correct for Spec Change                                      |
 
 ## Changed-file Mapping
 
-| File | Task | Requirement / Source Doc | Status |
-| --- | --- | --- | --- |
-| `e2e/playwright/**` | 01 | Playwright E2E requirement | pass |
-| `packages/react/src/morphing/**` | 01 | Sync hooks / blur flush for E2E stability | pass |
-| `examples/block-morphing/**` | 01 | product-experience-spec Scenarios A/B/C | pass |
-| `examples/react-basic/**` | 01 | L1 react-basic E2E | pass |
-| `scripts/e2e-webservers.mjs` | 01 | dual-app webServer | pass |
-| `openspec/specs/validation-suite/spec.md` | sync | delta spec | pass |
-| `docs/**`, `README.md` | 01 | test-strategy / README | pass |
+| File                                      | Task | Requirement / Source Doc                  | Status |
+| ----------------------------------------- | ---- | ----------------------------------------- | ------ |
+| `e2e/playwright/**`                       | 01   | Playwright E2E requirement                | pass   |
+| `packages/react/src/morphing/**`          | 01   | Sync hooks / blur flush for E2E stability | pass   |
+| `examples/block-morphing/**`              | 01   | product-experience-spec Scenarios A/B/C   | pass   |
+| `examples/react-basic/**`                 | 01   | L1 react-basic E2E                        | pass   |
+| `scripts/e2e-webservers.mjs`              | 01   | dual-app webServer                        | pass   |
+| `openspec/specs/validation-suite/spec.md` | sync | delta spec                                | pass   |
+| `docs/**`, `README.md`                    | 01   | test-strategy / README                    | pass   |
 
 ## Requirement Compliance
 
-| Requirement | Evidence | Result | Notes |
-| --- | --- | --- | --- |
-| Playwright smoke + Block Focus | 19 block-morphing tests | pass | |
-| Scenario A/B/C + Slice B | scenario A/B, emphasis, link tests | pass | |
-| Typing + Tab keyboard | `typeInSource`, `focusBlockWithTab` | pass | |
-| moveBlock + editor stability | identity + stability tests | pass | |
-| L1 react-basic | 3 react-basic tests | pass | |
-| CI non-blocking | unchanged `continue-on-error: true` | pass | |
+| Requirement                    | Evidence                            | Result | Notes |
+| ------------------------------ | ----------------------------------- | ------ | ----- |
+| Playwright smoke + Block Focus | 19 block-morphing tests             | pass   |       |
+| Scenario A/B/C + Slice B       | scenario A/B, emphasis, link tests  | pass   |       |
+| Typing + Tab keyboard          | `typeInSource`, `focusBlockWithTab` | pass   |       |
+| moveBlock + editor stability   | identity + stability tests          | pass   |       |
+| L1 react-basic                 | 3 react-basic tests                 | pass   |       |
+| CI non-blocking                | unchanged `continue-on-error: true` | pass   |       |
 
 ## Spec Change Checks
 

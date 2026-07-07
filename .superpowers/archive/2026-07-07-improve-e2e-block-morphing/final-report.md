@@ -20,21 +20,21 @@
 
 ## Task Completed
 
-| Task | Status | Validation | Deviation |
-| --- | --- | --- | --- |
-| 01-expand-e2e-and-fix-morphing-sync | Complete | `pnpm check` + `pnpm e2e:test` 22/22 | none |
+| Task                                | Status   | Validation                           | Deviation |
+| ----------------------------------- | -------- | ------------------------------------ | --------- |
+| 01-expand-e2e-and-fix-morphing-sync | Complete | `pnpm check` + `pnpm e2e:test` 22/22 | none      |
 
 ## Files Changed
 
-| File | Task / Reason | Notes |
-| --- | --- | --- |
-| `e2e/playwright/**` | 01 | 22 tests, fixtures, multi-project config |
-| `packages/react/src/morphing/**` | 01 | draft + blur flush + sync hooks |
-| `examples/block-morphing/**` | 01 | fixture + E2E probes |
-| `examples/react-basic/**` | 01 | L1 E2E probes |
-| `scripts/e2e-webservers.mjs` | 01 | dual Vite servers |
-| `openspec/specs/validation-suite/spec.md` | sync | main spec |
-| `docs/**`, `README.md` | 01 | test-strategy, README |
+| File                                      | Task / Reason | Notes                                    |
+| ----------------------------------------- | ------------- | ---------------------------------------- |
+| `e2e/playwright/**`                       | 01            | 22 tests, fixtures, multi-project config |
+| `packages/react/src/morphing/**`          | 01            | draft + blur flush + sync hooks          |
+| `examples/block-morphing/**`              | 01            | fixture + E2E probes                     |
+| `examples/react-basic/**`                 | 01            | L1 E2E probes                            |
+| `scripts/e2e-webservers.mjs`              | 01            | dual Vite servers                        |
+| `openspec/specs/validation-suite/spec.md` | sync          | main spec                                |
+| `docs/**`, `README.md`                    | 01            | test-strategy, README                    |
 
 ## Validation Results
 
