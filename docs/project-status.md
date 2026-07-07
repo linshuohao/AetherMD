@@ -75,7 +75,7 @@ L1 通过 **不得** 解释为 L2 已满足。
 - npm publish、canary release、release token（**M7** — Release CI 就绪；待 `NPM_TOKEN` 与 sign-off）
 - Vue Shell、`packages/vue`
 - examples matrix（M7 后）
-- 发布流程 CI workflow（**M7** — `release.yml` 已添加；待 secret 配置）
+- 发布流程 CI workflow（**Wave 10** — `release.yml` 已添加但 **v1.0.0 前不自动触发**；待 `NPM_TOKEN` 与 sign-off）
 - `createEditor` / `AetherEditor` 完整 Guard 链与 Permission enforce
 - Command Bus 完整 Pipeline（ReadOnlyGuard、CapabilityGuard 等）
 - `bootstrapCore` Adapter plugin 加载与 `core:engine` / `core:parser` silent provide
