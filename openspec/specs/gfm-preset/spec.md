@@ -3,7 +3,9 @@
 ## Purpose
 
 M4 GFM preset package (`@aether-md/preset-gfm`) wiring official GFM Manifest and factory entry, hosting the six-syntax GFM round-trip integration matrix without `createEditor`, React Shell, or `bootstrapCore` Adapter loading.
+
 ## Requirements
+
 ### Requirement: GFM preset package exists in workspace
 
 The workspace SHALL include `@aether-md/preset-gfm` at `packages/preset-gfm` as the official GFM preset package aligned with `docs/architecture/package-layout.md` and `docs/engineering/mvp-implementation-plan.md`.
@@ -114,10 +116,11 @@ References:
 - **AND** entries implement mount/unmount for block-level rendered surfaces
 
 ### Requirement: GFM preset owns morphing strategy contracts
+
 `@aether-md/preset-gfm` SHALL own and export morphing strategy contracts needed for GFM block/source rendering behavior. Core SHALL consume these through adapter/preset wiring without re-exporting strategy/renderer contracts from kernel public API.
 
 #### Scenario: Preset provides strategy contracts without Core re-export
+
 - **WHEN** maintainers inspect preset and core public exports
 - **THEN** morphing strategy contracts are exported by preset-facing modules
 - **AND** Core public exports do not mirror those contracts
-

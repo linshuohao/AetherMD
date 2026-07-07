@@ -33,9 +33,7 @@ export const AetherMorphingDocument = defineComponent({
           class: "aether-morphing-document",
         },
         morphingBlocks.map(({ block, index }) => {
-          const strategy = shell.editor!.getMorphingStrategy(
-            block.type,
-          ) as MorphingBlockStrategy;
+          const strategy = shell.editor!.getMorphingStrategy(block.type) as MorphingBlockStrategy;
           const blockId = block.id ?? String(index);
           return h(MorphingBlockSurface, {
             key: blockId,

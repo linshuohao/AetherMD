@@ -3,7 +3,9 @@
 ## Purpose
 
 Define the M1 Core Bootstrap contract for the minimal `@aether-md/core` package surface, Manifest validation, Service Capability validation, dependency ordering, lifecycle startup, cleanup, dispose behavior, and package boundary guarantees.
+
 ## Requirements
+
 ### Requirement: Minimal Core package exists
 
 `@aether-md/core` SHALL provide the minimal package surface required for M1 Core Bootstrap and accepted later capabilities including M4.5 editor orchestration.
@@ -322,10 +324,11 @@ References:
 - **AND** `@aether-md/core` does not declare runtime dependencies on Remark, ProseMirror, React, or Vue packages
 
 ### Requirement: Core public API remains morphing-agnostic and DOM-agnostic
+
 `@aether-md/core` SHALL NOT export morphing strategy contracts, DOM renderer interfaces, or block-type interaction rendering APIs. Morphing strategy and renderer contracts SHALL be owned by preset/plugin or shell-facing packages outside Core.
 
 #### Scenario: Core exports exclude morphing renderer contracts
+
 - **WHEN** a maintainer inspects `@aether-md/core` public exports
 - **THEN** morphing strategy and custom DOM renderer types are absent
 - **AND** Core exports remain focused on lifecycle, command/event, document, adapter, and editor orchestration contracts
-

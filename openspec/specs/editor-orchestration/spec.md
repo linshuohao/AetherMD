@@ -3,7 +3,9 @@
 ## Purpose
 
 M4.5 editor orchestration in `@aether-md/core`: headless `createEditor` / `AetherEditor` entry, explicit Adapter wiring, editor-scoped Command/Event integration, minimal engine dispatch rollback, lifecycle events, and headless GFM preset integration tests without React Shell or DOM.
+
 ## Requirements
+
 ### Requirement: createEditor public entry is exported from core
 
 `@aether-md/core` SHALL export `createEditor(config: EditorConfig): Promise<AetherEditor>` aligned with `docs/architecture/core-api.md`. Startup SHALL validate plugin Manifests, resolve Service Capabilities, wire Parser / Serializer / Engine adapters explicitly, run lifecycle through `bootstrapCore`, and reject startup failures with `CoreError`.
@@ -266,18 +268,21 @@ References:
 - **AND** duplicate manifest validation paths are not executed in both stages
 
 ### Requirement: Editor command handling uses unified runtime routing
+
 Editor orchestration SHALL route editor commands through registered command handlers in the command runtime pipeline. Core editor runtime SHALL NOT hardcode markdown block parsing behavior as a dedicated bypass branch in dispatch.
 
 #### Scenario: Block markdown parse command is plugin-registered
+
 - **WHEN** morphing source text requires markdown-to-block parsing
 - **THEN** the parse command is resolved through runtime command registration
 - **AND** Core dispatch does not contain a dedicated hardcoded branch for that command
 
 ### Requirement: Startup validation executes through one canonical path
+
 Manifest loading, uniqueness validation, dependency ordering, and capability validation SHALL execute once in the canonical editor startup path and SHALL NOT be duplicated across independent orchestration stages.
 
 #### Scenario: Editor startup does not duplicate manifest validation
+
 - **WHEN** `createEditor` initializes runtime and bootstrap
 - **THEN** manifest validation responsibilities are executed in one canonical stage
 - **AND** duplicated pre-bootstrap validation logic is absent
-

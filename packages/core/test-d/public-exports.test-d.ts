@@ -14,6 +14,4 @@ void ensureDocumentBlockIds;
 void findBlockIndexById;
 
 expectType<unknown>({} as AetherEditor["morphing"]);
-expectType<unknown>(
-  ({} as AetherEditor).getMorphingStrategy("paragraph"),
-);
+expectType<unknown>(({} as AetherEditor).getMorphingStrategy("paragraph"));

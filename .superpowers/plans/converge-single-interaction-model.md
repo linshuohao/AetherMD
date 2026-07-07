@@ -53,27 +53,27 @@
 
 ## Validation Matrix
 
-| Phase | Requirement | Validation | Intuitive Verification | Notes |
-| --- | --- | --- | --- | --- |
-| 1 | Canonical topology / no ghost artifacts | `pnpm lint` + `pnpm test` smoke project discovery | Run `pnpm --filter @aether-md/example-react dev` and verify default shell mode | Confirms topology convergence baseline |
-| 2 | Core morphing/DOM contract removed, unified command routing | `pnpm --filter @aether-md/core test` + `pnpm --filter @aether-md/core typecheck` | Inspect `packages/core/src/index.ts` export surface | Must preserve command/event behavior |
-| 3 | React/Vue primary morphing surface parity | `pnpm --filter @aether-md/react test` + `pnpm --filter @aether-md/vue test` | Open React/Vue examples and verify morphing-first UX | Vue parity is a gating barrier |
-| 4 | Keyboard interaction fidelity matrix | `pnpm e2e:test` + target vitest suites for morphing | Manual browser check for Backspace/Delete and no remount jitter | Product-path focused, not pipeline-only |
-| 5 | Docs/spec alignment and compliance | `pnpm check` + OpenSpec sync/validation commands | Read north-star docs and ensure single-model narrative | Final gate before archive |
+| Phase | Requirement                                                 | Validation                                                                       | Intuitive Verification                                                         | Notes                                   |
+| ----- | ----------------------------------------------------------- | -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | --------------------------------------- |
+| 1     | Canonical topology / no ghost artifacts                     | `pnpm lint` + `pnpm test` smoke project discovery                                | Run `pnpm --filter @aether-md/example-react dev` and verify default shell mode | Confirms topology convergence baseline  |
+| 2     | Core morphing/DOM contract removed, unified command routing | `pnpm --filter @aether-md/core test` + `pnpm --filter @aether-md/core typecheck` | Inspect `packages/core/src/index.ts` export surface                            | Must preserve command/event behavior    |
+| 3     | React/Vue primary morphing surface parity                   | `pnpm --filter @aether-md/react test` + `pnpm --filter @aether-md/vue test`      | Open React/Vue examples and verify morphing-first UX                           | Vue parity is a gating barrier          |
+| 4     | Keyboard interaction fidelity matrix                        | `pnpm e2e:test` + target vitest suites for morphing                              | Manual browser check for Backspace/Delete and no remount jitter                | Product-path focused, not pipeline-only |
+| 5     | Docs/spec alignment and compliance                          | `pnpm check` + OpenSpec sync/validation commands                                 | Read north-star docs and ensure single-model narrative                         | Final gate before archive               |
 
 ## Task Breakdown
 
-| Task | Outcome | Allowed Area | Validation | Version Impact | Depends On | Parallel Group | Barrier |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| T01 | Remove stale example/dead shell files and align root test wiring | `examples/**`, `vitest.config.ts`, stale file deletions | targeted vitest discovery + `pnpm test` | none | none | wave-1 | false |
-| T02 | Update docs/spec references to canonical showcase topology | `docs/**`, `openspec/changes/converge-single-interaction-model/**` | docs link checks + terminology grep | none | T01 | wave-1 | true |
-| T03 | Extract morphing/DOM contracts out of Core public API | `packages/core/src/index.ts`, `packages/core/src/morphing/**`, dependent imports | core tests/typecheck | potential major | T01 | wave-2 | false |
-| T04 | Replace hardcoded parse command path with registered command handler flow | `packages/core/src/editor/**`, preset/plugin registration points | core + preset tests | potential major | T03 | wave-2 | false |
-| T05 | Deduplicate createEditor/bootstrap manifest validation path | `packages/core/src/editor/create-editor.ts`, bootstrap wiring | core tests + integration smoke | none | T03 | wave-2 | true |
-| T06 | React shell morphing-first public posture and legacy-path isolation | `packages/react/src/**`, `examples/react/**` | react tests + e2e subset | potential major | T04,T05 | wave-3 | false |
-| T07 | Vue shell morphing parity with React primary API | `packages/vue/src/**`, `examples/vue/**` | vue tests + shared demo checks | potential major | T04,T05 | wave-3 | true |
-| T08 | Expand keyboard insertion/deletion fidelity tests | `e2e/playwright/**`, `packages/react/src/morphing/**/*.test.tsx`, optional vue tests | `pnpm e2e:test` + package tests | none | T06,T07 | wave-4 | true |
-| T09 | Sync OpenSpec main specs + docs + compliance artifacts | `openspec/specs/**`, `docs/**`, `.superpowers/reviews/**`, `.superpowers/runs/**` | `pnpm check` + compliance review | none | T08 | wave-5 | true |
+| Task | Outcome                                                                   | Allowed Area                                                                         | Validation                              | Version Impact  | Depends On | Parallel Group | Barrier |
+| ---- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ | --------------------------------------- | --------------- | ---------- | -------------- | ------- |
+| T01  | Remove stale example/dead shell files and align root test wiring          | `examples/**`, `vitest.config.ts`, stale file deletions                              | targeted vitest discovery + `pnpm test` | none            | none       | wave-1         | false   |
+| T02  | Update docs/spec references to canonical showcase topology                | `docs/**`, `openspec/changes/converge-single-interaction-model/**`                   | docs link checks + terminology grep     | none            | T01        | wave-1         | true    |
+| T03  | Extract morphing/DOM contracts out of Core public API                     | `packages/core/src/index.ts`, `packages/core/src/morphing/**`, dependent imports     | core tests/typecheck                    | potential major | T01        | wave-2         | false   |
+| T04  | Replace hardcoded parse command path with registered command handler flow | `packages/core/src/editor/**`, preset/plugin registration points                     | core + preset tests                     | potential major | T03        | wave-2         | false   |
+| T05  | Deduplicate createEditor/bootstrap manifest validation path               | `packages/core/src/editor/create-editor.ts`, bootstrap wiring                        | core tests + integration smoke          | none            | T03        | wave-2         | true    |
+| T06  | React shell morphing-first public posture and legacy-path isolation       | `packages/react/src/**`, `examples/react/**`                                         | react tests + e2e subset                | potential major | T04,T05    | wave-3         | false   |
+| T07  | Vue shell morphing parity with React primary API                          | `packages/vue/src/**`, `examples/vue/**`                                             | vue tests + shared demo checks          | potential major | T04,T05    | wave-3         | true    |
+| T08  | Expand keyboard insertion/deletion fidelity tests                         | `e2e/playwright/**`, `packages/react/src/morphing/**/*.test.tsx`, optional vue tests | `pnpm e2e:test` + package tests         | none            | T06,T07    | wave-4         | true    |
+| T09  | Sync OpenSpec main specs + docs + compliance artifacts                    | `openspec/specs/**`, `docs/**`, `.superpowers/reviews/**`, `.superpowers/runs/**`    | `pnpm check` + compliance review        | none            | T08        | wave-5         | true    |
 
 ## Review Focus
 

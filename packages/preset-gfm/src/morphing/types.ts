@@ -8,10 +8,7 @@ export type {
   MorphingStrategyRegistry,
   ParseBlockMarkdownPayload,
 } from "./contracts.js";
-export {
-  PARSE_BLOCK_MARKDOWN_COMMAND,
-  createMorphingStrategyRegistry,
-} from "./contracts.js";
+export { PARSE_BLOCK_MARKDOWN_COMMAND, createMorphingStrategyRegistry } from "./contracts.js";
 
 export function isParagraphBlock(block: AetherBlock): block is ParagraphBlock {
   return block.type === "paragraph";

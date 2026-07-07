@@ -63,4 +63,3 @@ Current drift appears in four places:
 5. Align React and Vue exports/components to converged shell surface.
 6. Expand keyboard-focused interaction validation matrix.
 7. Sync docs and main specs; archive with deviation log (if any).
-

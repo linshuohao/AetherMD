@@ -3,11 +3,7 @@ import { ref } from "vue";
 
 import { createGfmEditorPlugins } from "@aether-md/example-shared";
 import { SHOWCASE_MARKDOWN } from "@aether-md/example-shared/showcase-markdown";
-import {
-  AetherEditorContent,
-  AetherEditorRoot,
-  AetherMorphingDocument,
-} from "@aether-md/vue";
+import { AetherEditorContent, AetherEditorRoot, AetherMorphingDocument } from "@aether-md/vue";
 
 import MarkdownPreview from "./MarkdownPreview.vue";
 
@@ -47,7 +43,11 @@ function handleChange(next: string) {
       Force parent rerender ({{ renderCount }})
     </button>
     <AetherEditorRoot :plugins="plugins" :value="markdown" :on-change="handleChange">
-      <section v-if="mode === 'morphing'" class="example-editor" data-testid="aether-morphing-shell">
+      <section
+        v-if="mode === 'morphing'"
+        class="example-editor"
+        data-testid="aether-morphing-shell"
+      >
         <AetherMorphingDocument />
         <MarkdownPreview />
       </section>

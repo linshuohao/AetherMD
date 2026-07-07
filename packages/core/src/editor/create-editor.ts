@@ -2,10 +2,7 @@ import { bootstrapCore } from "../bootstrap/bootstrap.js";
 import { ensureDocumentBlockIds } from "../document/block-ids.js";
 import type { AetherDoc } from "../document/model.js";
 import { CoreError } from "../errors.js";
-import {
-  PARSE_BLOCK_MARKDOWN_COMMAND,
-  type ParseBlockMarkdownPayload,
-} from "../morphing/types.js";
+import { PARSE_BLOCK_MARKDOWN_COMMAND, type ParseBlockMarkdownPayload } from "../morphing/types.js";
 import {
   loadPluginManifests,
   validateUniquePluginNames,

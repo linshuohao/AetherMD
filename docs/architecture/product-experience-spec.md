@@ -87,10 +87,10 @@
 
 ## North star 分层（与 demo 关系）
 
-| 层级                   | 载体                      | 证明什么                                               | 是否等于本规范          |
-| ---------------------- | ------------------------- | ------------------------------------------------------ | ----------------------- |
-| **L1 架构管线 demo（模式）**   | `examples/react` (`content`)    | React Shell + GFM + GateLock + 连续编辑 + probes 同步 | **否** — Phase 0 集成壳 |
-| **L2 产品 north star（模式）** | `examples/react` (`morphing`) | Instant Morphing + Block Focus（Slice A–D）            | **是**                  |
+| 层级                           | 载体                          | 证明什么                                              | 是否等于本规范          |
+| ------------------------------ | ----------------------------- | ----------------------------------------------------- | ----------------------- |
+| **L1 架构管线 demo（模式）**   | `examples/react` (`content`)  | React Shell + GFM + GateLock + 连续编辑 + probes 同步 | **否** — Phase 0 集成壳 |
+| **L2 产品 north star（模式）** | `examples/react` (`morphing`) | Instant Morphing + Block Focus（Slice A–D）           | **是**                  |
 
 L1 有价值，**不得**在 README 或对外叙事中冒充 L2。
 

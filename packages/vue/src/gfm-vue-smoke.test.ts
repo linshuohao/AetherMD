@@ -5,7 +5,12 @@ import { defineComponent, h, watch } from "vue";
 
 import type { AetherEditor } from "@aether-md/core";
 
-import { AetherEditorContent, AetherEditorRoot, AetherMorphingContent, useAetherEditor } from "./index.js";
+import {
+  AetherEditorContent,
+  AetherEditorRoot,
+  AetherMorphingContent,
+  useAetherEditor,
+} from "./index.js";
 import { createGfmEditorPlugins } from "./testing/gfm-plugins.js";
 
 const MarkdownProbe = defineComponent({
