@@ -11,8 +11,16 @@ declare global {
   }
 }
 
-export function E2EProbes({ markdown }: { markdown: string }) {
-  const { editor, ready } = useAetherEditor();
+interface E2EProbesProps {
+  /** When omitted, markdown is read from `useAetherEditor()`. */
+  markdown?: string;
+  /** Expose `window.__AETHER_E2E__.moveBlock` for morphing e2e. */
+  enableMoveBlock?: boolean;
+}
+
+export function E2EProbes({ markdown: markdownProp, enableMoveBlock = false }: E2EProbesProps) {
+  const { markdown: editorMarkdown, ready, editor } = useAetherEditor();
+  const markdown = markdownProp ?? editorMarkdown;
   const editorRef = useRef<AetherEditor | null>(null);
   const [editorStable, setEditorStable] = useState(true);
 
@@ -27,7 +35,7 @@ export function E2EProbes({ markdown }: { markdown: string }) {
   }, [ready, editor]);
 
   useEffect(() => {
-    if (!editor) {
+    if (!enableMoveBlock || !editor) {
       delete window.__AETHER_E2E__;
       return;
     }
@@ -44,13 +52,14 @@ export function E2EProbes({ markdown }: { markdown: string }) {
     return () => {
       delete window.__AETHER_E2E__;
     };
-  }, [editor]);
+  }, [enableMoveBlock, editor]);
 
   return (
     <div
       data-testid="e2e-probes"
       hidden
       data-markdown={markdown}
+      data-ready={ready ? "true" : "false"}
       data-editor-stable={editorStable ? "true" : "false"}
     />
   );
@@ -63,7 +72,7 @@ export function MoveListBlockButton() {
     if (!editor) {
       return;
     }
-    const listBlock = document.querySelector('[data-testid="morphing-block-1"]');
+    const listBlock = document.querySelector('[data-block-type="list"]');
     const blockId = listBlock?.getAttribute("data-block-id");
     if (!blockId) {
       return;
@@ -77,7 +86,7 @@ export function MoveListBlockButton() {
   return (
     <button
       type="button"
-      className="move-block-button"
+      className="e2e-toolbar-button"
       data-testid="move-list-block-down"
       disabled={!ready || !editor}
       onClick={() => {
@@ -85,6 +94,25 @@ export function MoveListBlockButton() {
       }}
     >
       Move list block down (E2E)
+    </button>
+  );
+}
+
+export function ParentRerenderButton({
+  renderCount,
+  onRerender,
+}: {
+  renderCount: number;
+  onRerender: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      className="e2e-toolbar-button"
+      data-testid="force-parent-rerender"
+      onClick={onRerender}
+    >
+      Force parent rerender ({renderCount})
     </button>
   );
 }

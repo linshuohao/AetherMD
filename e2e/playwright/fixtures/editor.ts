@@ -66,7 +66,7 @@ export async function focusBlock(
 }
 
 export async function focusBlockWithTab(page: Page, blockIndex: number): Promise<void> {
-  await page.getByRole("button", { name: /Force parent rerender/ }).focus();
+  await page.getByTestId("force-parent-rerender").focus();
   for (let step = 0; step <= blockIndex + 2; step += 1) {
     await page.keyboard.press("Tab");
     const focused = await block(page, blockIndex).getAttribute("data-focused");
@@ -143,7 +143,7 @@ export async function expectListItems(
 }
 
 export async function forceParentRerender(page: Page): Promise<void> {
-  await page.getByRole("button", { name: /Force parent rerender/ }).click();
+  await page.getByTestId("force-parent-rerender").click();
 }
 
 export async function moveListBlockDown(page: Page): Promise<string> {

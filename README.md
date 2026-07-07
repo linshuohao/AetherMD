@@ -24,11 +24,11 @@ npm install @aether-md/core@canary @aether-md/react@canary @aether-md/preset-gfm
 
 两个示例均为 workspace private package，**不发布 npm**。在仓库根目录执行 `pnpm install` 与 `pnpm build` 后：
 
-| 示例                      | 说明                                                                                 | 本地运行                                                                                                     |
-| ------------------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
-| `examples/headless-gfm`   | Node headless GFM 集成（`createEditor` + `createGfmPreset()`）                       | `pnpm --filter @aether-md/example-headless-gfm build && pnpm --filter @aether-md/example-headless-gfm start` |
-| `examples/react-basic`    | **L1** 架构管线 demo：Vite + React Shell（Phase 0 interim shell、GateLock 受控演示） | `pnpm --filter @aether-md/example-react-basic dev`                                                           |
-| `examples/block-morphing` | **L2** 产品 north star demo：Instant Morphing + multi-block Block Focus（Slice C）   | `pnpm --filter @aether-md/example-block-morphing dev`                                                        |
+| 示例                      | 说明                                                                               | 本地运行                                                                                                     |
+| ------------------------- | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `examples/headless-gfm`   | Node headless 壳（`createEditor` + 全套 GFM 插件 + 展示文稿）                      | `pnpm --filter @aether-md/example-headless-gfm build && pnpm --filter @aether-md/example-headless-gfm start` |
+| `examples/react-basic`    | **Shell: `AetherEditorContent`** — ProseMirror 集成壳 + 可编辑语法展示文稿         | `pnpm --filter @aether-md/example-react-basic dev`                                                           |
+| `examples/block-morphing` | **Shell: `AetherMorphingDocument`** — Instant Morphing 多块壳 + 可编辑语法展示文稿 | `pnpm --filter @aether-md/example-block-morphing dev`                                                        |
 
 三个示例的 `typecheck`（`tsc --noEmit`）均纳入根 `pnpm check`（G6）。详见各示例目录下的 `README.md` 与 [项目状态](docs/project-status.md)。
 

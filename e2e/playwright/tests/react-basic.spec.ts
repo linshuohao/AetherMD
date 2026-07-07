@@ -2,33 +2,33 @@ import { expect, test } from "@playwright/test";
 
 import {
   expectReactBasicEditorStable,
+  expectReactBasicMarkdownContains,
   forceReactBasicRerender,
   gotoReactBasicDemo,
 } from "../fixtures/react-basic";
 
-test.describe("react-basic demo e2e (L1)", () => {
-  test("smoke: Phase 0 shell mounts ProseMirror and markdown preview", async ({ page }) => {
+test.describe("react-basic demo e2e (AetherEditorContent shell)", () => {
+  test("smoke: ProseMirror shell mounts with showcase markdown", async ({ page }) => {
     await gotoReactBasicDemo(page);
 
-    await expect(page.getByRole("heading", { name: "AetherMD React Basic Example" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Shell: AetherEditorContent" })).toBeVisible();
     await expect(page.locator(".ProseMirror")).toBeVisible();
-    await expect(page.getByTestId("markdown-preview")).toContainText("**bold**");
+    await expectReactBasicMarkdownContains(page, "**world**");
     await expectReactBasicEditorStable(page);
   });
 
-  test("GateLock: parent rerender preserves preview markdown", async ({ page }) => {
+  test("GateLock: parent rerender preserves serialized markdown", async ({ page }) => {
     await gotoReactBasicDemo(page);
 
-    const preview = page.getByTestId("markdown-preview");
-    const before = await preview.textContent();
+    const before = await page.getByTestId("e2e-probes").getAttribute("data-markdown");
 
     await forceReactBasicRerender(page);
 
-    await expect(preview).toHaveText(before ?? "");
+    await expect(page.getByTestId("e2e-probes")).toHaveAttribute("data-markdown", before ?? "");
     await expectReactBasicEditorStable(page);
   });
 
-  test("typing: ProseMirror accepts keyboard input and syncs preview", async ({ page }) => {
+  test("typing: ProseMirror accepts keyboard input and syncs markdown", async ({ page }) => {
     await gotoReactBasicDemo(page);
 
     const editor = page.locator(".ProseMirror");
@@ -36,7 +36,7 @@ test.describe("react-basic demo e2e (L1)", () => {
     await page.keyboard.press("End");
     await page.keyboard.type(" — typed in browser");
 
-    await expect(page.getByTestId("markdown-preview")).toContainText("typed in browser");
+    await expectReactBasicMarkdownContains(page, "typed in browser");
     await expectReactBasicEditorStable(page);
   });
 });

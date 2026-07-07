@@ -1,43 +1,22 @@
 # @aether-md/example-react-basic
 
-**L1 架构管线 demo** — workspace-private Vite + React 集成证明：`@aether-md/react` + GFM preset + GateLock + 连续编辑 + markdown preview 同步。
+**Shell: `AetherEditorContent`** — Phase 0 ProseMirror 集成壳，预设全部 GFM 插件，加载可编辑的语法展示文稿。
 
-> **不是**产品 north star（Instant Morphing / Block Focus）。产品交互目标见 [产品交互体验设计规范](../../docs/architecture/product-experience-spec.md)。
+## 运行
 
-Workspace-private Vite + React demo for `@aether-md/react` with GFM preset wiring and GateLock controlled `value` / `onChange`.
+```bash
+pnpm install   # 仓库根目录
+pnpm build
+pnpm --filter @aether-md/example-react-basic dev
+```
 
-## PR A acceptance checklist (frozen in PR0)
+## 说明
 
-North star and boundaries: [Demo Slice 交付计划](../../docs/engineering/demo-slice-delivery-program.md) · [PR0 baseline record (archived)](../../openspec/changes/archive/2026-07-06-demo-slice-react-basic-pr0/baseline-record.md).
+- 插件：`@aether-md/example-shared` 的 `createGfmEditorPlugins()`（bootstrap + remark + prosemirror + GFM preset）
+- 文稿：`SHOWCASE_MARKDOWN`（标题、段落、粗体、斜体、链接、无序/有序列表）
+- 本包 `private: true`，不发布 npm
 
-After `pnpm install` and `pnpm build` at repo root:
+## 脚本
 
-1. `pnpm --filter @aether-md/example-react-basic dev` — editor loads in browser
-2. Continuous plain paragraph typing — no reset or bounce
-3. Edit GFM subset in session: heading, **bold**, list, link (at least one each)
-4. Markdown preview (`data-testid="markdown-preview"`) reflects edits
-5. **Force parent rerender** — document must not reset when `value` unchanged
-
-Out of scope for PR A: History, Selection, Clipboard, full toolbar, publish, workflow main-spec changes.
-
-## Maintainer browser sign-off (`demo-slice-typing-sync`)
-
-CI covers ProseMirror `insertText` and programmatic `dispatch` paths. Before M7 demo sign-off, confirm in a real browser:
-
-1. `pnpm --filter @aether-md/example-react-basic dev`
-2. Type continuously in a plain paragraph — preview tracks each keystroke without GateLock reset
-3. Edit the heading text — preview shows updated title
-4. Type inside a list item — preview updates the list item text
-5. Type adjacent to **bold** and a link — marks remain structurally valid in preview
-6. Click **Force parent rerender** (if shown) — edited content is preserved when `value` is unchanged
-7. Record any remaining browser-only gaps in [baseline-record.md](../../openspec/changes/archive/2026-07-06-demo-slice-react-basic-pr0/baseline-record.md)
-
-## Scripts
-
-- `pnpm dev` — local Vite dev server
-- `pnpm typecheck` — `tsc --noEmit` (G6 CI gate)
-- `pnpm build:app` — optional Vite production build (not in `pnpm check`)
-
-## Not published
-
-This package is `private: true` and excluded from the npm release matrix.
+- `pnpm dev` — Vite 开发服务器
+- `pnpm typecheck` — `tsc --noEmit`（纳入根 `pnpm check`）
