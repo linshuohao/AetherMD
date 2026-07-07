@@ -51,11 +51,11 @@ pnpm e2e:install   # first run / CI
 pnpm e2e:test
 ```
 
-Phase 1 covers smoke, Block Focus, Instant Morphing, and GateLock regression against this demo. CI runs the same suite in a **non-blocking** `e2e-playwright` job.
+Phase 1 covers smoke, Block Focus, Instant Morphing, GateLock regression, Scenario C focus switching, Slice B link morphing, edit isolation, click-to-focus, and sync-wait helpers. CI runs the same suite in a **non-blocking** `e2e-playwright` job (11 tests).
 
 ## Maintainer browser sign-off (M7)
 
-Automated: `pnpm e2e:test` (4 tests). Before claiming M7 L2 sign-off, confirm in a real browser:
+Automated: `pnpm e2e:test` (22 tests: 19 block-morphing + 3 react-basic). Before claiming M7 L2 sign-off, confirm in a real browser:
 
 - [ ] Scenario A — focused block shows Markdown source (list block shows `- item` markers)
 - [ ] Scenario B — blur restores rendered typography; serialized content matches edits

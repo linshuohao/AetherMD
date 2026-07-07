@@ -31,10 +31,21 @@ body {
   color: #666;
 }
 
-.rerender-button {
+.demo-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   margin-bottom: 1rem;
+}
+
+.rerender-button,
+.move-block-button {
   padding: 0.4rem 0.75rem;
   cursor: pointer;
+}
+
+.rerender-button {
+  margin-bottom: 0;
 }
 
 .aether-morphing-block {

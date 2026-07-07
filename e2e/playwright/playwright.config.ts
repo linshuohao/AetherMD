@@ -1,32 +1,56 @@
 import { defineConfig, devices } from "@playwright/test";
 
-const PORT = 4173;
-const BASE_URL = `http://127.0.0.1:${PORT}`;
+const isCI = !!process.env.CI;
+const MORPHING_PORT = Number(process.env.E2E_PORT ?? 4173);
+const MORPHING_URL = `http://127.0.0.1:${MORPHING_PORT}`;
+const REACT_BASIC_PORT = Number(process.env.E2E_REACT_BASIC_PORT ?? 4174);
+const REACT_BASIC_URL = `http://127.0.0.1:${REACT_BASIC_PORT}`;
 
 export default defineConfig({
   testDir: "./tests",
-  timeout: 30_000,
+  timeout: isCI ? 60_000 : 30_000,
   expect: {
-    timeout: 5_000,
+    timeout: isCI ? 10_000 : 5_000,
   },
-  retries: process.env.CI ? 1 : 0,
-  reporter: process.env.CI ? [["html", { open: "never" }], ["list"]] : "list",
+  retries: isCI ? 2 : 0,
+  workers: 1,
+  fullyParallel: false,
+  forbidOnly: isCI,
+  outputDir: "../../test-results",
+  reporter: isCI
+    ? [["list"], ["github"], ["html", { open: "never", outputFolder: "../../playwright-report" }]]
+    : "list",
   use: {
-    baseURL: BASE_URL,
     trace: "on-first-retry",
     screenshot: "only-on-failure",
     video: "retain-on-failure",
+    actionTimeout: isCI ? 15_000 : 10_000,
+    navigationTimeout: 30_000,
   },
   webServer: {
-    command: `pnpm --filter @aether-md/example-block-morphing dev --host 127.0.0.1 --port ${PORT}`,
-    url: BASE_URL,
-    timeout: 120_000,
-    reuseExistingServer: !process.env.CI,
+    command: "node ../../scripts/e2e-webservers.mjs",
+    url: `${MORPHING_URL}/`,
+    timeout: isCI ? 180_000 : 120_000,
+    reuseExistingServer: false,
+    stdout: "pipe",
+    stderr: "pipe",
   },
   projects: [
     {
-      name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
+      name: "block-morphing",
+      testMatch: /block-morphing\.spec\.ts/,
+      use: {
+        ...devices["Desktop Chrome"],
+        baseURL: MORPHING_URL,
+      },
+    },
+    {
+      name: "react-basic",
+      testMatch: /react-basic\.spec\.ts/,
+      use: {
+        ...devices["Desktop Chrome"],
+        baseURL: REACT_BASIC_URL,
+      },
     },
   ],
 });

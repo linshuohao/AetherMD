@@ -80,6 +80,7 @@ jobs:
           path: |
             playwright-report/
             test-results/
+          if-no-files-found: warn
           retention-days: 14
 
   governance:
@@ -91,9 +92,9 @@ jobs:
         env:
           BRANCH_NAME: ${{ github.head_ref }}
         run: |
-          if [[ ! "$BRANCH_NAME" =~ ^(docs|spec|feature|feat|fix|test|chore|ci|build|refactor|codex)/[a-z0-9]+(-[a-z0-9]+)*$ ]]; then
+          if [[ ! "$BRANCH_NAME" =~ ^(docs|spec|feature|feat|fix|test|chore|ci|build|refactor|codex|cursor)/[a-z0-9]+(-[a-z0-9]+)*$ ]]; then
             echo "Branch name '$BRANCH_NAME' must match <type>/<kebab-topic>."
-            echo "Allowed types: docs, spec, feature, feat, fix, test, chore, ci, build, refactor, codex."
+            echo "Allowed types: docs, spec, feature, feat, fix, test, chore, ci, build, refactor, codex, cursor."
             echo "Prefer feature/ for new capabilities; feat/ is accepted as a Conventional Commits alias."
             exit 1
           fi

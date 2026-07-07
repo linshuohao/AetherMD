@@ -3,6 +3,9 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   plugins: [react()],
+  server: {
+    strictPort: true,
+  },
   resolve: {
     dedupe: ["react", "react-dom"],
   },
