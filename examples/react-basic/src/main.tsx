@@ -2,7 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
 import { App } from "./App.js";
-import "./styles.css";
+import "@aether-md/example-shared/showcase.css";
 
 const root = document.getElementById("root");
 if (!root) {
