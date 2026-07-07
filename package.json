@@ -10,6 +10,9 @@
     "check": "pnpm skills:check && pnpm workflow:pr-check && pnpm lint && pnpm format:check && pnpm docs:check-links && turbo run check && turbo run types:check",
     "bench:morphing": "pnpm --filter @aether-md/preset-gfm... build && node scripts/bench-morphing.mjs",
     "types:check": "turbo run types:check",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs",
     "docs:check-links": "node scripts/check-markdown-links.mjs",
     "lint": "eslint .",
     "format": "prettier --write .",
@@ -34,19 +37,20 @@
     "consumer:smoke": "node scripts/consumer-smoke.mjs"
   },
   "devDependencies": {
-    "@playwright/test": "^1.61.1",
     "@changesets/cli": "^2.29.7",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@eslint/js": "^9.39.2",
+    "@playwright/test": "^1.61.1",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
     "globals": "^16.5.0",
     "prettier": "^3.8.1",
+    "tsd": "^0.31.2",
     "turbo": "^2.8.0",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.54.0",
-    "tsd": "^0.31.2",
+    "vitepress": "2.0.0-alpha.17",
     "vitest": "^3.2.4"
   }
 }

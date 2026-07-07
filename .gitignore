@@ -30,3 +30,7 @@ npm-debug.log*
 # Playwright
 playwright-report/
 test-results/
+
+# VitePress
+docs/.vitepress/cache/
+docs/.vitepress/dist/
