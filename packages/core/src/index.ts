@@ -115,4 +115,5 @@ export type {
   EditorConfig,
   EditorSecurityConfig,
   EditorStateSnapshot,
+  EditorWorkerConfig,
 } from "./editor/types.js";

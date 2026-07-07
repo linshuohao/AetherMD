@@ -17,12 +17,20 @@ export interface EditorSecurityConfig {
   defaultDeny?: PermissionId[];
 }
 
+export interface EditorWorkerConfig {
+  /** Absolute path or file URL to the Node worker_threads entry module. */
+  entry: string;
+  parser?: boolean;
+  serializer?: boolean;
+}
+
 export interface EditorConfig {
   plugins: readonly ExtensionPlugin[];
   initialValue?: string | AetherDoc;
   readOnly?: boolean;
   security?: EditorSecurityConfig;
   conflictResolver?: ConflictResolver;
+  workers?: EditorWorkerConfig;
 }
 
 export interface EditorStateSnapshot {
