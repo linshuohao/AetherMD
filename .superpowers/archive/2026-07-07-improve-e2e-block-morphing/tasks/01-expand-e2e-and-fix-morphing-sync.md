@@ -31,3 +31,9 @@ pnpm e2e:test
 ```
 
 Expected: 22 E2E passed; `pnpm check` green.
+
+## Run Log
+
+- 2026-07-07: Implemented 22 E2E tests, morphing sync fix, dual webServer script
+- Validation: `pnpm check` pass, `pnpm e2e:test` 22/22 pass
+- Review: `.superpowers/reviews/improve-e2e-block-morphing.md` — pass

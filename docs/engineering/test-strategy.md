@@ -13,7 +13,7 @@
 | Unit        | 纯函数与小模块 | Manifest 规范化、Capability 校验、ConflictResolver                                                                       |
 | Contract    | 包之间协议     | Adapter 协议、Command/Event 协议、Lifecycle 顺序                                                                         |
 | Integration | 多模块主路径   | Markdown 初始化、命令执行、序列化、React Shell 挂载                                                                      |
-| E2E         | 真实浏览器链路 | `block-morphing` 演示页启动、Block Focus、Instant Morphing、GateLock 回归、场景 C 焦点切换、Slice B 链接 morph、编辑隔离 |
+| E2E         | 真实浏览器链路 | `block-morphing`（19）+ `react-basic`（3）：Block Focus、Instant Morphing、场景 A/B/C、逐键打字、moveBlock、GateLock |
 | Regression  | 已知错误       | 插件异常隔离、事务回滚、权限拒绝                                                                                         |
 
 ## Package 测试目录布局
@@ -48,7 +48,7 @@ Workspace packages 与带测试的 examples **MUST** 使用 **colocated tests + 
 
 约定：
 
-- E2E **MUST** 通过外部 webServer 驱动示例应用（Phase 1：`@aether-md/example-block-morphing`），**MUST NOT** 直接 import package `src/testing/`。
+- E2E **MUST** 通过外部 webServer 驱动示例应用（Phase 1：`@aether-md/example-block-morphing` + `@aether-md/example-react-basic`），**MUST NOT** 直接 import package `src/testing/`。
 - Vitest 继续负责 unit/contract/integration；Playwright 仅验证真实浏览器渲染、焦点、输入与 Shell 受控更新链路。
 - 根目录 `pnpm e2e:test` 运行 Playwright；`pnpm e2e:install` 安装 Chromium 与系统依赖（CI 与本地首次运行前执行）。
 - Phase 1 CI：`e2e-playwright` job 为**非阻塞**门禁，上传 `playwright-report/` 与 `test-results/` artifact 供排障。
@@ -193,6 +193,6 @@ Adapter 实现 **SHOULD** 共用同一套 contract tests。M3 各 plugin package
 - 契约测试
 - Markdown 文档链接检查
 - 包导出边界检查
-- Playwright E2E（Phase 1：独立非阻塞 job，覆盖 `block-morphing` 演示）
+- Playwright E2E（Phase 1：独立非阻塞 job，22 tests — `block-morphing` + `react-basic`）
 
 ---
