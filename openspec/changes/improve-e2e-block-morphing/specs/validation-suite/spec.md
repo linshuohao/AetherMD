@@ -11,10 +11,15 @@ The repository SHALL include Playwright browser E2E under `e2e/playwright/` that
 3. Instant Morphing (source edit and blur re-render)
 4. GateLock regression (parent rerender preserves edited content)
 5. **Scenario C** — focus switches across paragraph, list, and link blocks with at most one `morphing-source` visible
-6. **Slice B** — link paragraph shows Markdown link syntax in source and renders `<a href>` after blur
-7. **Edit isolation** — editing one block does not reset sibling blocks
-8. **Browser interaction** — click-to-focus path on rendered surfaces
-9. **Sync hooks** — tests MAY wait on `data-edit-synced="true"` before blur assertions
+6. **Slice A/B** — `**bold**` / `*emphasis*` paragraph morphing in real browser
+7. **Slice B** — link paragraph shows Markdown link syntax in source and renders `<a href>` after blur
+8. **Edit isolation** — editing one block does not reset sibling blocks
+9. **Browser interaction** — click-to-focus and Tab keyboard paths
+10. **Typing** — `pressSequentially` in source without stripping marks
+11. **Sync hooks** — tests MAY wait on `data-edit-synced="true"` before blur assertions
+12. **Block identity** — stable `data-block-id`, `core:moveBlock` reorder preserves focus
+13. **Editor stability** — consecutive edits and parent rerender do not remount editor
+14. **L1 react-basic** — ProseMirror smoke, GateLock, browser typing + preview sync
 
 Root scripts `e2e:install` and `e2e:test` SHALL run the suite after workspace build. Shared helpers SHALL live in `e2e/playwright/fixtures/`.
 

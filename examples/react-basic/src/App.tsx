@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import { AetherEditorContent, AetherEditorRoot, useAetherEditor } from "@aether-md/react";
 
+import { E2EProbes } from "./e2e-probes.js";
 import { createGfmEditorPlugins } from "./plugins.js";
 
 const INITIAL_MARKDOWN = `# AetherMD Demo
@@ -38,8 +39,11 @@ export function App() {
         Force parent rerender ({renderCount})
       </button>
       <AetherEditorRoot plugins={createGfmEditorPlugins()} value={markdown} onChange={setMarkdown}>
-        <AetherEditorContent />
-        <MarkdownPreview />
+        <section data-testid="aether-react-basic-shell">
+          <AetherEditorContent />
+          <MarkdownPreview />
+        </section>
+        <E2EProbes />
       </AetherEditorRoot>
     </main>
   );

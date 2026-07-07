@@ -55,7 +55,7 @@ Phase 1 covers smoke, Block Focus, Instant Morphing, GateLock regression, Scenar
 
 ## Maintainer browser sign-off (M7)
 
-Automated: `pnpm e2e:test` (11 tests). Before claiming M7 L2 sign-off, confirm in a real browser:
+Automated: `pnpm e2e:test` (22 tests: 19 block-morphing + 3 react-basic). Before claiming M7 L2 sign-off, confirm in a real browser:
 
 - [ ] Scenario A — focused block shows Markdown source (list block shows `- item` markers)
 - [ ] Scenario B — blur restores rendered typography; serialized content matches edits

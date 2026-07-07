@@ -30,4 +30,4 @@ pnpm check
 pnpm e2e:test
 ```
 
-Expected: 11 E2E passed; `pnpm check` green.
+Expected: 22 E2E passed; `pnpm check` green.

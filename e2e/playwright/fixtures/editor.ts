@@ -23,6 +23,32 @@ export function source(page: Page, blockIndex: number): Locator {
   return block(page, blockIndex).getByTestId("morphing-source");
 }
 
+export function markdownProbe(page: Page): Locator {
+  return page.getByTestId("e2e-probes");
+}
+
+export async function expectMarkdownContains(page: Page, substring: string): Promise<void> {
+  await expect
+    .poll(async () => markdownProbe(page).getAttribute("data-markdown"))
+    .toContain(substring);
+}
+
+export async function expectEditorStable(page: Page): Promise<void> {
+  await expect(markdownProbe(page)).toHaveAttribute("data-editor-stable", "true");
+}
+
+export async function expectStableBlockIds(page: Page, count = 3): Promise<void> {
+  const blocks = page.locator("[data-block-id]");
+  await expect(blocks).toHaveCount(count);
+  const ids = await blocks.evaluateAll((nodes) =>
+    nodes.map((node) => node.getAttribute("data-block-id")),
+  );
+  expect(new Set(ids).size).toBe(count);
+  for (const id of ids) {
+    expect(id).toMatch(/^blk_/);
+  }
+}
+
 export async function focusBlock(
   page: Page,
   blockIndex: number,
@@ -37,6 +63,20 @@ export async function focusBlock(
   await expect(block(page, blockIndex)).toHaveAttribute("data-focused", "true");
   await expect(source(page, blockIndex)).toBeVisible();
   await expectSingleSource(page);
+}
+
+export async function focusBlockWithTab(page: Page, blockIndex: number): Promise<void> {
+  await page.getByRole("button", { name: /Force parent rerender/ }).focus();
+  for (let step = 0; step <= blockIndex + 2; step += 1) {
+    await page.keyboard.press("Tab");
+    const focused = await block(page, blockIndex).getAttribute("data-focused");
+    if (focused === "true") {
+      await expect(source(page, blockIndex)).toBeVisible();
+      await expectSingleSource(page);
+      return;
+    }
+  }
+  throw new Error(`Tab focus did not reach morphing-block-${blockIndex}`);
 }
 
 export async function waitForBlockSynced(page: Page, blockIndex: number): Promise<void> {
@@ -74,6 +114,22 @@ export async function editSource(
   }
 }
 
+export async function typeInSource(
+  page: Page,
+  blockIndex: number,
+  text: string,
+  options?: { blur?: boolean; delay?: number },
+): Promise<void> {
+  await focusBlock(page, blockIndex);
+  const textarea = source(page, blockIndex);
+  await textarea.fill("");
+  await textarea.pressSequentially(text, { delay: options?.delay ?? 15 });
+  await waitForBlockSynced(page, blockIndex);
+  if (options?.blur !== false) {
+    await blurBlock(page, blockIndex);
+  }
+}
+
 export async function expectListItems(
   page: Page,
   blockIndex: number,
@@ -88,4 +144,26 @@ export async function expectListItems(
 
 export async function forceParentRerender(page: Page): Promise<void> {
   await page.getByRole("button", { name: /Force parent rerender/ }).click();
+}
+
+export async function moveListBlockDown(page: Page): Promise<string> {
+  const listBlockId = await block(page, 1).getAttribute("data-block-id");
+  if (!listBlockId) {
+    throw new Error("expected list block data-block-id");
+  }
+  await page.evaluate(
+    async ({ blockId }) => {
+      if (!window.__AETHER_E2E__) {
+        throw new Error("missing window.__AETHER_E2E__");
+      }
+      await window.__AETHER_E2E__.moveBlock(blockId, 2);
+    },
+    { blockId: listBlockId },
+  );
+  await expect(block(page, 2)).toHaveAttribute("data-block-id", listBlockId);
+  return listBlockId;
+}
+
+export async function blockById(page: Page, blockId: string): Promise<Locator> {
+  return page.locator(`[data-block-id="${blockId}"]`);
 }
