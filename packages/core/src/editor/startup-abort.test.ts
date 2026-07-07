@@ -6,6 +6,7 @@ import type { AetherDoc } from "../document/model.js";
 import type { ExtensionPluginWithAdapters } from "../editor/adapter-wiring.js";
 import { toExtensionPluginFromPreset, type PresetBundle } from "../editor/adapter-wiring.js";
 import { createEditor } from "../editor/create-editor.js";
+import { createDefaultConflictResolver } from "../editor/conflict-resolver.js";
 
 function createMockDoc(text = "hello"): AetherDoc {
   return {
@@ -86,6 +87,48 @@ describe("createEditor startup-abort", () => {
     );
 
     assert.equal(onInitCalls, 0);
+  });
+
+  it("aborts on conflicting compile schema before lifecycle hooks", async () => {
+    let onInitCalls = 0;
+    const pluginA = createMockPreset("schema-a");
+    pluginA.manifest.compile = {
+      schema: { type: "node", name: "paragraph", matchMarkdownTag: "p" },
+    };
+    pluginA.manifest.runtime = {
+      onInit() {
+        onInitCalls += 1;
+      },
+    };
+
+    const pluginB = createMockPreset("schema-b");
+    pluginB.manifest.compile = {
+      schema: { type: "node", name: "paragraph", matchMarkdownTag: "div" },
+    };
+
+    await assert.rejects(
+      () => createEditor({ plugins: [pluginA, pluginB] }),
+      (error: unknown) => error instanceof CoreError && error.code === "MANIFEST_INVALID",
+    );
+    assert.equal(onInitCalls, 0);
+  });
+
+  it("honors host conflictResolver for schema merge", async () => {
+    const pluginA = createMockPreset("schema-a");
+    pluginA.manifest.compile = {
+      schema: { type: "node", name: "paragraph", matchMarkdownTag: "p" },
+    };
+    const pluginB = createMockPreset("schema-b");
+    pluginB.manifest.compile = {
+      schema: { type: "node", name: "paragraph", matchMarkdownTag: "div" },
+    };
+
+    const editor = await createEditor({
+      plugins: [pluginA, pluginB],
+      conflictResolver: createDefaultConflictResolver({ schema: "last-wins" }),
+    });
+
+    await editor.dispose();
   });
 });
 

@@ -11,7 +11,7 @@ import type {
   EventName,
   Unsubscribe,
 } from "../command-event/types.js";
-import type { AetherBlock, AetherDoc } from "../document/model.js";
+import type { AetherBlock, AetherDoc, AetherSchema } from "../document/model.js";
 import { CoreError } from "../errors.js";
 import type { EngineSession } from "../document/adapter-types.js";
 import type { CoreBootstrapRuntime } from "../bootstrap/bootstrap.js";
@@ -29,7 +29,7 @@ import {
   createSelectionService,
 } from "../services/index.js";
 import type { EditorContext } from "./context.js";
-import { createDefaultConflictResolver } from "./conflict-resolver.js";
+import { createDefaultConflictResolver, type ConflictResolver } from "./conflict-resolver.js";
 import {
   applyDocumentToEngine,
   dispatchEngineCommand,
@@ -38,7 +38,9 @@ import {
 } from "./engine-dispatch.js";
 import type { EditorStateSnapshot, AetherEditor } from "./types.js";
 
-const DEFAULT_SCHEMA = { version: 1 as const };
+export interface EditorRuntimeFactoryOptions extends CommandRuntimeOptions {
+  conflictResolver?: ConflictResolver;
+}
 
 function cloneDoc(doc: AetherDoc): AetherDoc {
   return structuredClone(doc);
@@ -63,6 +65,7 @@ export class AetherEditorImpl implements AetherEditor {
     initialDoc: AetherDoc;
     readOnly: boolean;
     morphing: MorphingStrategyRegistry;
+    schema: AetherSchema;
   }) {
     this.context = options.context;
     this.morphing = options.morphing;
@@ -74,7 +77,7 @@ export class AetherEditorImpl implements AetherEditor {
     this.engineDispatchDeps = {
       engine: options.context.services.engine.adapter,
       session: options.session,
-      schema: DEFAULT_SCHEMA,
+      schema: options.schema,
       runtime: options.runtime,
       getDoc: () => this.docSnapshot,
       setDoc: (doc) => {
@@ -127,7 +130,7 @@ export class AetherEditorImpl implements AetherEditor {
 
       const parsed = await this.context.services.parser.adapter.parse(
         payload.markdown,
-        DEFAULT_SCHEMA,
+        this.engineDispatchDeps.schema,
       );
       const block = parsed.children[0] as AetherBlock | undefined;
       return { ok: true, value: block };
@@ -172,7 +175,10 @@ export class AetherEditorImpl implements AetherEditor {
   }
 
   async getMarkdown(): Promise<string> {
-    return this.context.services.parser.serializer.serialize(this.docSnapshot, DEFAULT_SCHEMA);
+    return this.context.services.parser.serializer.serialize(
+      this.docSnapshot,
+      this.engineDispatchDeps.schema,
+    );
   }
 
   async dispose(): Promise<void> {
@@ -192,10 +198,12 @@ export class AetherEditorImpl implements AetherEditor {
   }
 }
 
-export function createEditorRuntime(options: CommandRuntimeOptions = {}): CommandEventRuntime {
+export function createEditorRuntime(
+  options: EditorRuntimeFactoryOptions = {},
+): CommandEventRuntime {
   const runtime = createCommandEventRuntime(options);
   const registered = new Map<CommandId, CommandHandler>();
-  const conflictResolver = createDefaultConflictResolver();
+  const conflictResolver = options.conflictResolver ?? createDefaultConflictResolver();
 
   return {
     register(id, handler, meta) {

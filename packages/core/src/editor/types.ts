@@ -9,6 +9,7 @@ import type { AetherBlock, AetherDoc } from "../document/model.js";
 import type { ExtensionPlugin } from "../manifest/manifest.js";
 import type { PermissionId } from "../types.js";
 import type { MorphingStrategyRegistry } from "../morphing/types.js";
+import type { ConflictResolver } from "./conflict-resolver.js";
 import type { EditorContext } from "./context.js";
 
 export interface EditorSecurityConfig {
@@ -21,6 +22,7 @@ export interface EditorConfig {
   initialValue?: string | AetherDoc;
   readOnly?: boolean;
   security?: EditorSecurityConfig;
+  conflictResolver?: ConflictResolver;
 }
 
 export interface EditorStateSnapshot {
