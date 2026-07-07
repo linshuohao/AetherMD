@@ -9,7 +9,8 @@ import {
   resolveProseMirrorView,
 } from "@aether-md/plugin-prosemirror";
 
-import { AetherEditorContent, AetherEditorRoot, useAetherEditor } from "../index.js";
+import { AetherEditorContent } from "../legacy.js";
+import { AetherEditorRoot, useAetherEditor } from "../index.js";
 import { createGfmEditorPlugins } from "../testing/gfm-plugins.js";
 
 const GFM_FIXTURE = `# Demo Title

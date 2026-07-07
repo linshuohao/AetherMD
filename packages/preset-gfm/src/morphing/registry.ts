@@ -1,21 +1,24 @@
 import type { AetherBlock } from "@aether-md/core";
+import {
+  createMorphingStrategyRegistry,
+  type CustomBlockRenderer,
+  type MorphingBlockStrategy,
+  type MorphingStrategyRegistry,
+} from "@aether-md/morphing-contracts";
 
 import { listMorphingStrategy } from "./list-strategy.js";
 import { paragraphMorphingStrategy } from "./paragraph-strategy.js";
-import type { CustomBlockRenderer, MorphingBlockStrategy } from "./contracts.js";
 
 const strategies: MorphingBlockStrategy[] = [paragraphMorphingStrategy, listMorphingStrategy];
 
-const strategyByType = new Map(strategies.map((strategy) => [strategy.blockType, strategy]));
-
-export function getGfmMorphingStrategy(
-  blockType: AetherBlock["type"],
-): MorphingBlockStrategy | undefined {
-  return strategyByType.get(blockType);
+export function createGfmMorphingRegistry(): MorphingStrategyRegistry {
+  return createMorphingStrategyRegistry(strategies);
 }
 
 export function getSupportedGfmMorphingBlockTypes(): AetherBlock["type"][] {
-  return strategies.map((strategy) => strategy.blockType);
+  return createGfmMorphingRegistry()
+    .list()
+    .map((strategy) => strategy.blockType);
 }
 
 export function createGfmInteractiveRenderers(): Record<string, CustomBlockRenderer> {

@@ -348,7 +348,7 @@ The repository SHALL include Playwright browser E2E under `e2e/playwright/` that
 
 Root scripts `e2e:install` and `e2e:test` SHALL run the suite after workspace build. Shared helpers SHALL live in `e2e/playwright/fixtures/`.
 
-CI SHALL include an `e2e-playwright` job that runs the same suite. The job SHALL be **non-blocking** (`continue-on-error: true`) in Phase 1 and SHALL upload `playwright-report/` and `test-results/` artifacts on completion.
+CI SHALL include an `e2e-playwright` job that runs the same suite. The job SHALL be a **blocking** quality gate and SHALL upload `playwright-report/` and `test-results/` artifacts on completion.
 
 References:
 
@@ -376,11 +376,11 @@ References:
 - **WHEN** the user edits Markdown source and blurs after `data-edit-synced="true"`
 - **THEN** the block renders updated list items matching the edit
 
-#### Scenario: CI runs Playwright as non-blocking job
+#### Scenario: CI runs Playwright as blocking job
 
 - **GIVEN** the CI workflow includes `e2e-playwright`
 - **WHEN** Playwright tests run on `main`
-- **THEN** the job uses `continue-on-error: true`
+- **THEN** the job fails the workflow when tests fail
 - **AND** Playwright report artifacts are uploaded when the job completes
 
 ### Requirement: Product-path keyboard deletion matrix is covered in browser E2E
@@ -458,6 +458,16 @@ Browser interaction validation SHALL target one canonical showcase topology and 
 - **WHEN** maintainers inspect Playwright configuration and test suites
 - **THEN** test suites target canonical showcase modes under one browser demo topology
 - **AND** naming/traceability clearly identifies product morphing checks versus pipeline checks
+
+### Requirement: L2 demo topology excludes preview panel in morphing mode
+
+Browser validation for product interaction (morphing path) SHALL NOT require or display a separate Markdown preview panel in morphing mode for any canonical showcase (`examples/react`, `examples/vue`).
+
+#### Scenario: Vue e2e morphing mode matches React no-preview rule
+
+- **WHEN** Playwright loads Vue morphing showcase
+- **THEN** `markdown-preview` count is zero
+- **AND** block morphing scenarios A–C are exercisable without preview
 
 ### Requirement: Keyboard interaction matrix is enforced on product path
 

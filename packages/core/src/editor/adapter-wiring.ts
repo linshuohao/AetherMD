@@ -1,8 +1,9 @@
 import type { EngineAdapter, ParserAdapter, SerializerAdapter } from "../document/adapter-types.js";
-import type { MorphingStrategyRecord } from "../morphing/types.js";
-import { createMorphingStrategyRegistry } from "../morphing/types.js";
+import type { AetherSchema } from "../document/model.js";
+import type { CommandEventRuntime } from "../command-event/runtime.js";
 import { CoreError } from "../errors.js";
 import type { ExtensionManifest, ExtensionPlugin } from "../manifest/manifest.js";
+import type { MorphingStrategyAccessor } from "./types.js";
 
 export interface PluginAdapters {
   parser: ParserAdapter;
@@ -10,9 +11,18 @@ export interface PluginAdapters {
   engine: EngineAdapter;
 }
 
+export interface EditorCommandRegistrationOptions {
+  parser: ParserAdapter;
+  schema: AetherSchema;
+}
+
 export interface ExtensionPluginWithAdapters extends ExtensionPlugin {
   adapters?: PluginAdapters;
-  morphingStrategies?: readonly MorphingStrategyRecord[];
+  morphingRegistry?: MorphingStrategyAccessor;
+  registerEditorCommands?: (
+    runtime: CommandEventRuntime,
+    options: EditorCommandRegistrationOptions,
+  ) => void;
 }
 
 export interface PresetBundle {
@@ -20,7 +30,11 @@ export interface PresetBundle {
   parser: ParserAdapter;
   serializer: SerializerAdapter;
   engine: EngineAdapter;
-  morphingStrategies?: readonly MorphingStrategyRecord[];
+  morphingRegistry?: MorphingStrategyAccessor;
+  registerEditorCommands?: (
+    runtime: CommandEventRuntime,
+    options: EditorCommandRegistrationOptions,
+  ) => void;
 }
 
 export interface WiredAdapters {
@@ -37,8 +51,9 @@ export function toExtensionPluginFromPreset(preset: PresetBundle): ExtensionPlug
       serializer: preset.serializer,
       engine: preset.engine,
     },
-    ...(preset.morphingStrategies !== undefined
-      ? { morphingStrategies: preset.morphingStrategies }
+    ...(preset.morphingRegistry !== undefined ? { morphingRegistry: preset.morphingRegistry } : {}),
+    ...(preset.registerEditorCommands !== undefined
+      ? { registerEditorCommands: preset.registerEditorCommands }
       : {}),
   };
 }
@@ -76,12 +91,23 @@ export function resolveWiredAdapters(
   return { parser, serializer, engine };
 }
 
-export function resolveMorphingRegistry(plugins: readonly ExtensionPluginWithAdapters[]) {
-  const strategies: MorphingStrategyRecord[] = [];
+const EMPTY_MORPHING_ACCESSOR: MorphingStrategyAccessor = {
+  get() {
+    return undefined;
+  },
+  list() {
+    return [];
+  },
+};
+
+export function resolveMorphingAccessor(
+  plugins: readonly ExtensionPluginWithAdapters[],
+): MorphingStrategyAccessor {
+  let accessor: MorphingStrategyAccessor | undefined;
   for (const plugin of plugins) {
-    if (plugin.morphingStrategies) {
-      strategies.push(...plugin.morphingStrategies);
+    if (plugin.morphingRegistry) {
+      accessor = plugin.morphingRegistry;
     }
   }
-  return createMorphingStrategyRegistry(strategies);
+  return accessor ?? EMPTY_MORPHING_ACCESSOR;
 }

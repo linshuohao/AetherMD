@@ -1,6 +1,6 @@
 # Examples Matrix
 
-Workspace examples are **private** packages — one per shell runtime. Each example exposes a single integrated showcase component. All three participate in root `pnpm check` via `typecheck` (G6). Browser E2E covers the React example (both shells).
+Workspace examples are **private** packages — one per shell runtime. Each example exposes a single integrated showcase component. All three participate in root `pnpm check` via `typecheck` (G6). Browser E2E covers React (L1 + L2 shells) and Vue (L2 morphing, expanding).
 
 ## Matrix
 
@@ -8,7 +8,7 @@ Workspace examples are **private** packages — one per shell runtime. Each exam
 | ----------------------- | --------------------------------- | ------------------------------------------------ | ------------------------- | ------------------------------------------------------------------------------------------------------------ |
 | `examples/headless-gfm` | `@aether-md/example-headless-gfm` | Node headless (`createEditor`)                   | `src/run.ts`              | `pnpm --filter @aether-md/example-headless-gfm build && pnpm --filter @aether-md/example-headless-gfm start` |
 | `examples/react`        | `@aether-md/example-react`        | `AetherEditorContent` + `AetherMorphingDocument` | `AetherShellShowcase`     | `pnpm --filter @aether-md/example-react dev`                                                                 |
-| `examples/vue`          | `@aether-md/example-vue`          | Vue `AetherEditorContent`                        | `AetherShellShowcase.vue` | `pnpm --filter @aether-md/example-vue dev`                                                                   |
+| `examples/vue`          | `@aether-md/example-vue`          | `AetherMorphingDocument` + `AetherEditorContent` | `AetherShellShowcase.vue` | `pnpm --filter @aether-md/example-vue dev`                                                                   |
 
 ## Shared wiring
 
@@ -17,10 +17,10 @@ Workspace examples are **private** packages — one per shell runtime. Each exam
 
 ## CI gates
 
-| Gate           | Scope                                                           |
-| -------------- | --------------------------------------------------------------- |
-| G6 `typecheck` | All three examples via turbo `check` in root `pnpm check`       |
-| Playwright E2E | `examples/react` — L1 content shell + L2 morphing shell         |
-| Consumer smoke | Six publishable `@aether-md/*` packages (`pnpm consumer:smoke`) |
+| Gate           | Scope                                                                                         |
+| -------------- | --------------------------------------------------------------------------------------------- |
+| G6 `typecheck` | All three examples via turbo `check` in root `pnpm check`                                     |
+| Playwright E2E | `examples/react` (24) — L1 content + L2 morphing; `examples/vue` (3, expanding) — L2 morphing |
+| Consumer smoke | Six publishable `@aether-md/*` packages (`pnpm consumer:smoke`)                               |
 
 See [测试策略](../engineering/test-strategy.md) and [CI 校验计划](../architecture/ci-checklist.md).

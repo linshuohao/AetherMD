@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const REACT_PORT = process.env.E2E_PORT ?? "4173";
+const VUE_PORT = process.env.E2E_VUE_PORT ?? "4174";
 
 const children = [];
 
@@ -58,11 +59,17 @@ process.on("SIGINT", () => shutdown(0));
 process.on("SIGTERM", () => shutdown(0));
 
 killPort(REACT_PORT);
+killPort(VUE_PORT);
 
+// Start Vue first so it is ready before Playwright gates on the React URL.
+spawnDev("@aether-md/example-vue", VUE_PORT);
 spawnDev("@aether-md/example-react", REACT_PORT);
 
 try {
-  await waitForUrl(`http://127.0.0.1:${REACT_PORT}/`, 120_000);
+  await Promise.all([
+    waitForUrl(`http://127.0.0.1:${VUE_PORT}/`, 120_000),
+    waitForUrl(`http://127.0.0.1:${REACT_PORT}/`, 120_000),
+  ]);
 } catch (error) {
   console.error(error);
   shutdown(1);

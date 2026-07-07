@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@aether-md/core": "workspace:*",
+    "@aether-md/morphing-contracts": "workspace:*",
     "@aether-md/plugin-prosemirror": "workspace:*",
     "@aether-md/plugin-remark": "workspace:*"
   },

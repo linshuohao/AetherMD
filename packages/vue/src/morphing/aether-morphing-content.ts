@@ -50,8 +50,8 @@ export const AetherMorphingContent = defineComponent({
             blockIndex: props.blockIndex,
             block: block as AetherBlock,
             strategy,
-            focused: focused.value,
-            onFocusChange: (nextFocused: boolean) => {
+            localFocus: focused.value,
+            onLocalFocusChange: (nextFocused: boolean) => {
               focused.value = nextFocused;
             },
           }),

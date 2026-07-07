@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import { describe, it } from "vitest";
 
 import * as reactShell from "./index.js";
+import * as reactLegacy from "./legacy.js";
 
 const FORBIDDEN_CORE_REEXPORTS = [
   "bootstrapCore",
@@ -12,6 +13,15 @@ const FORBIDDEN_CORE_REEXPORTS = [
   "CoreError",
   "createEditor",
   "SUPPORTED_MANIFEST_VERSIONS",
+] as const;
+
+const DUPLICATE_MORPHING_CONTRACT_PATTERNS = [
+  /export interface CustomBlockRenderer\b/,
+  /export interface MorphingBlockStrategy\b/,
+  /export interface MorphingStrategyRegistry\b/,
+  /export interface ParseBlockMarkdownPayload\b/,
+  /export function createMorphingStrategyRegistry\b/,
+  /export const PARSE_BLOCK_MARKDOWN_COMMAND\b/,
 ] as const;
 
 function collectProductionSourceFiles(srcDir: string): string[] {
@@ -41,14 +51,19 @@ function collectProductionSourceFiles(srcDir: string): string[] {
 }
 
 describe("@aether-md/react package boundary", () => {
-  it("exports morphing-first surface and isolates legacy content bridge", () => {
+  it("exports morphing-first surface without legacy content on primary entry", () => {
     assert.equal(typeof reactShell.AetherEditorRoot, "function");
     assert.equal(typeof reactShell.AetherMorphingDocument, "function");
     assert.equal(typeof reactShell.AetherMorphingContent, "function");
-    assert.equal(typeof reactShell.AetherEditorContent, "function");
-    assert.equal(typeof reactShell.AetherLegacyEditorContent, "function");
     assert.equal(typeof reactShell.useAetherEditor, "function");
-    assert.equal(reactShell.AetherLegacyEditorContent, reactShell.AetherEditorContent);
+    assert.equal("AetherEditorContent" in reactShell, false);
+    assert.equal("AetherLegacyEditorContent" in reactShell, false);
+  });
+
+  it("exports legacy content bridge from ./legacy subpath", () => {
+    assert.equal(typeof reactLegacy.AetherEditorContent, "function");
+    assert.equal(typeof reactLegacy.AetherLegacyEditorContent, "function");
+    assert.equal(reactLegacy.AetherLegacyEditorContent, reactLegacy.AetherEditorContent);
   });
 
   it("does not re-export core internal APIs or ShellAdapter", () => {
@@ -90,6 +105,39 @@ describe("@aether-md/react package boundary", () => {
         /from ['"]prosemirror-view['"]/,
         `unexpected prosemirror-view import in ${filePath}`,
       );
+    }
+  });
+
+  it("imports morphing contracts from @aether-md/morphing-contracts without local duplicates", () => {
+    const packageRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
+    const srcDir = join(packageRoot, "src");
+    const productionFiles = collectProductionSourceFiles(srcDir);
+    const contractsReExportPath = join(srcDir, "morphing", "contracts.ts");
+
+    assert.ok(
+      productionFiles.includes(contractsReExportPath),
+      "expected morphing/contracts.ts re-export",
+    );
+
+    for (const filePath of productionFiles) {
+      const source = readFileSync(filePath, "utf8");
+
+      if (filePath === contractsReExportPath) {
+        assert.match(
+          source,
+          /from ['"]@aether-md\/morphing-contracts['"]/,
+          "morphing/contracts.ts must re-export from @aether-md/morphing-contracts",
+        );
+        continue;
+      }
+
+      for (const pattern of DUPLICATE_MORPHING_CONTRACT_PATTERNS) {
+        assert.doesNotMatch(
+          source,
+          pattern,
+          `duplicate morphing contract definition in ${filePath}`,
+        );
+      }
     }
   });
 });

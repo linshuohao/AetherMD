@@ -1,9 +1,92 @@
+<script lang="ts">
+import { computed, defineComponent, h, onUnmounted, ref, shallowRef, watch } from "vue";
+
+import type { AetherEditor } from "@aether-md/core";
+import { useAetherEditor } from "@aether-md/vue";
+
+declare global {
+  interface Window {
+    __AETHER_E2E__?: {
+      moveBlock: (blockId: string, toIndex: number) => Promise<void>;
+    };
+  }
+}
+
+export const E2EProbes = defineComponent({
+  name: "E2EProbes",
+  props: {
+    markdown: {
+      type: String,
+      required: false,
+    },
+    enableMoveBlock: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  setup(props) {
+    const shell = useAetherEditor();
+    const editorRef = shallowRef<AetherEditor | null>(null);
+    const editorStable = ref(true);
+
+    const probeMarkdown = computed(() => props.markdown ?? shell.markdown);
+
+    watch(
+      () => [shell.ready, shell.editor] as const,
+      ([ready, editor]) => {
+        if (!ready || !editor) {
+          return;
+        }
+        if (editorRef.value !== null && editorRef.value !== editor) {
+          editorStable.value = false;
+        }
+        editorRef.value = editor;
+      },
+    );
+
+    watch(
+      () => [props.enableMoveBlock, shell.editor] as const,
+      ([enableMoveBlock, editor]) => {
+        if (!enableMoveBlock || !editor) {
+          delete window.__AETHER_E2E__;
+          return;
+        }
+
+        window.__AETHER_E2E__ = {
+          moveBlock: async (blockId: string, toIndex: number) => {
+            await editor.dispatch({
+              id: "core:moveBlock",
+              payload: { blockId, toIndex },
+            });
+          },
+        };
+      },
+      { immediate: true },
+    );
+
+    onUnmounted(() => {
+      delete window.__AETHER_E2E__;
+    });
+
+    return () =>
+      h("div", {
+        "data-testid": "e2e-probes",
+        hidden: true,
+        "data-markdown": probeMarkdown.value,
+        "data-ready": shell.ready ? "true" : "false",
+        "data-editor-stable": editorStable.value ? "true" : "false",
+      });
+  },
+});
+</script>
+
 <script setup lang="ts">
 import { ref } from "vue";
 
 import { createGfmEditorPlugins } from "@aether-md/example-shared";
 import { SHOWCASE_MARKDOWN } from "@aether-md/example-shared/showcase-markdown";
-import { AetherEditorContent, AetherEditorRoot, AetherMorphingDocument } from "@aether-md/vue";
+import { AetherEditorRoot, AetherMorphingDocument } from "@aether-md/vue";
+import { AetherEditorContent } from "@aether-md/vue/legacy";
 
 import MarkdownPreview from "./MarkdownPreview.vue";
 
@@ -39,9 +122,7 @@ function handleChange(next: string) {
         AetherEditorContent (legacy)
       </button>
     </nav>
-    <button type="button" class="shell-toolbar-button" @click="renderCount += 1">
-      Force parent rerender ({{ renderCount }})
-    </button>
+
     <AetherEditorRoot :plugins="plugins" :value="markdown" :on-change="handleChange">
       <section
         v-if="mode === 'morphing'"
@@ -49,12 +130,22 @@ function handleChange(next: string) {
         data-testid="aether-morphing-shell"
       >
         <AetherMorphingDocument />
-        <MarkdownPreview />
       </section>
       <section v-else class="example-editor" data-testid="aether-vue-basic-shell">
         <AetherEditorContent />
         <MarkdownPreview />
       </section>
+      <div class="e2e-toolbar">
+        <button
+          type="button"
+          class="e2e-toolbar-button"
+          data-testid="force-parent-rerender"
+          @click="renderCount += 1"
+        >
+          Force parent rerender ({{ renderCount }})
+        </button>
+      </div>
+      <E2EProbes :markdown="markdown" :enable-move-block="mode === 'morphing'" />
     </AetherEditorRoot>
   </main>
 </template>

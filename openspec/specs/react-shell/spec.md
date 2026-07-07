@@ -235,9 +235,31 @@ References:
 - **THEN** strong and list round-trip behavior is verified through the React Shell path
 - **AND** the tests remain distinct from M4.5 headless-only integration tests
 
+### Requirement: React morphing focus transitions commit reliably
+
+`AetherMorphingDocument` and `MorphingBlockSurface` SHALL commit in-flight source edits before switching focus to another block. `RenderedBlockHost` SHALL prefer `interactiveRenderer.update` over full remount when block content changes for non-focused blocks.
+
+#### Scenario: Inter-block focus switch preserves committed content
+
+- **GIVEN** block A in source state with a pending edit
+- **WHEN** user focuses block B
+- **THEN** block A morphs to rendered with committed content
+- **AND** block B enters source state with a single document-wide source surface
+
+### Requirement: React shell spec uses interactiveRenderer path
+
+React shell requirements SHALL reference preset `interactiveRenderer` via `RenderedBlockHost` and SHALL NOT require `renderParagraphFromBlock(block)` on the morphing path.
+
+#### Scenario: Rendered morphing surface mounts preset interactive renderer
+
+- **GIVEN** a blurred paragraph block in `MorphingBlockSurface`
+- **WHEN** the block renders in rendered state
+- **THEN** `RenderedBlockHost` mounts the preset `interactiveRenderer` for the block type
+- **AND** no shell-local `renderParagraphFromBlock` helper is invoked
+
 ### Requirement: React Shell exposes morphing content surface for Slice A
 
-`@aether-md/react` SHALL export `AetherMorphingContent` as an additive public Shell surface for L2 Slice A single-paragraph Instant Morphing. The component SHALL orchestrate block focus state (rendered vs source) at the Shell layer without adding morphing semantics to `@aether-md/core`. `AetherMorphingContent` SHALL consume `useAetherEditor` for `editor`, `markdown`, and `ready` state and SHALL commit edits through `AetherEditor.dispatch` with `core:replaceText`. Rendered surfaces SHALL use `renderParagraphFromBlock(block)` from the `AetherInline` tree and MUST NOT call deprecated `renderParagraphInline` on the morphing path. Source edits SHALL dispatch `core:replaceText` with parser-derived `children` when inline marks are present in the edited Markdown.
+`@aether-md/react` SHALL export `AetherMorphingContent` as an additive public Shell surface for L2 Slice A single-paragraph Instant Morphing. The component SHALL orchestrate block focus state (rendered vs source) at the Shell layer without adding morphing semantics to `@aether-md/core`. `AetherMorphingContent` SHALL consume `useAetherEditor` for `editor`, `markdown`, and `ready` state and SHALL commit edits through `AetherEditor.dispatch` with `core:replaceText`. Rendered surfaces SHALL mount preset `interactiveRenderer` via `RenderedBlockHost` and MUST NOT call deprecated `renderParagraphInline` on the morphing path. Source edits SHALL dispatch `core:replaceText` with parser-derived `children` when inline marks are present in the edited Markdown.
 
 References:
 
@@ -252,11 +274,11 @@ References:
 - **THEN** the editing surface shows Markdown source containing `**`
 - **AND** no separate detached preview panel is required
 
-#### Scenario: Blurred paragraph shows rendered typography
+#### Scenario: Blurred paragraph shows rendered typography via interactive renderer
 
 - **GIVEN** a paragraph block in source state after editing in `AetherMorphingContent`
 - **WHEN** focus leaves the morphing block surface
-- **THEN** the block displays rendered typographic output (for example bold for `**world**`)
+- **THEN** the block displays rendered typographic output via `RenderedBlockHost`
 - **AND** serialized markdown from `getMarkdown()` reflects the edited content
 
 #### Scenario: Morphing edits use dispatch path
@@ -357,12 +379,12 @@ References:
 - `docs/architecture/product-experience-spec.md`
 - `docs/engineering/test-strategy.md`
 
-#### Scenario: MorphingBlockSurface renders from block tree
+#### Scenario: MorphingBlockSurface mounts preset interactive renderer
 
 - **GIVEN** a `ParagraphBlock` with strong, emphasis, and link children
 - **WHEN** the block is in rendered (blurred) state
-- **THEN** `MorphingBlockSurface` renders `<strong>`, `<em>`, and `<a>` from `block.children`
-- **AND** does not use `renderParagraphInline`
+- **THEN** `MorphingBlockSurface` mounts the preset `interactiveRenderer` via `RenderedBlockHost`
+- **AND** does not use `renderParagraphInline` or shell-local `renderParagraphFromBlock`
 
 #### Scenario: Source change dispatches parsed children
 
@@ -380,7 +402,7 @@ References:
 
 ### Requirement: React Shell morphing document consumes preset block strategies for Slice D
 
-`@aether-md/react` SHALL orchestrate Block Focus across supported GFM block types from `@aether-md/preset-gfm` morphing strategies. Shell SHALL NOT embed GFM list/paragraph syntax rules; it SHALL use preset `serializeSource`, `parseSource`, and `interactiveRenderers` for rendered surfaces.
+`@aether-md/react` SHALL orchestrate Block Focus across supported GFM block types from `@aether-md/preset-gfm` morphing strategies. Shell SHALL NOT embed GFM list/paragraph syntax rules; it SHALL use preset `serializeSource`, `parseSource`, and per-strategy `interactiveRenderer` via `RenderedBlockHost` for rendered surfaces.
 
 References:
 

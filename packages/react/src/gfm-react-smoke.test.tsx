@@ -5,7 +5,8 @@ import React from "react";
 
 import type { AetherEditor } from "@aether-md/core";
 
-import { AetherEditorContent, AetherEditorRoot, useAetherEditor } from "./index.js";
+import { AetherEditorContent } from "./legacy.js";
+import { AetherEditorRoot, useAetherEditor } from "./index.js";
 import { createGfmEditorPlugins } from "./testing/gfm-plugins.js";
 
 function MarkdownProbe() {

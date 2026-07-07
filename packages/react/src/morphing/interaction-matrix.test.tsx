@@ -7,6 +7,7 @@ import React, { useState } from "react";
 import type { AetherEditor } from "@aether-md/core";
 
 import { AetherEditorRoot, AetherMorphingDocument } from "../index.js";
+import { MorphingFocusProvider, useMorphingFocus } from "./morphing-focus-context.js";
 import { createGfmEditorPlugins } from "../testing/gfm-plugins.js";
 import {
   EditorCapture,
@@ -310,6 +311,126 @@ describe("L2 morphing interaction matrix (product path)", () => {
       assert.ok(rendered.querySelector("em"));
       assert.equal(rendered.querySelector("em")?.textContent, "italic");
       assert.doesNotMatch(rendered.textContent ?? "", /\*italic\*/);
+    });
+  });
+
+  it("repeated focus on the same block does not re-run focus commit queue", async () => {
+    let commitInvocations = 0;
+    const blockId = "focus-spy-block";
+
+    function FocusHarness() {
+      const focusContext = useMorphingFocus();
+
+      React.useEffect(() => {
+        if (!focusContext) {
+          return;
+        }
+        return focusContext.registerFocusCommit(blockId, async () => {
+          commitInvocations += 1;
+        });
+      }, [focusContext]);
+
+      return React.createElement(
+        "button",
+        {
+          type: "button",
+          "data-testid": "request-focus",
+          onClick: () => focusContext?.requestFocus(blockId),
+        },
+        focusContext?.focusedBlockId ?? "none",
+      );
+    }
+
+    const { getByTestId } = render(
+      React.createElement(MorphingFocusProvider, null, React.createElement(FocusHarness)),
+    );
+
+    await act(async () => {
+      getByTestId("request-focus").click();
+    });
+
+    await waitFor(() => {
+      assert.equal(getByTestId("request-focus").textContent, blockId);
+    });
+    assert.equal(commitInvocations, 0);
+
+    await act(async () => {
+      getByTestId("request-focus").click();
+      getByTestId("request-focus").click();
+    });
+
+    assert.equal(commitInvocations, 0);
+
+    cleanup();
+
+    render(
+      React.createElement(
+        AetherEditorRoot,
+        {
+          plugins: createGfmEditorPlugins(),
+          value: SLICE_B_FIXTURE,
+          onChange: () => {},
+        },
+        React.createElement(AetherMorphingDocument),
+      ),
+    );
+
+    await waitForMorphingDocumentReady();
+
+    const source = await focusBlockSource(0);
+    const sourceBefore = source;
+
+    await act(async () => {
+      fireEvent.focus(source);
+      fireEvent.focus(source);
+    });
+
+    assert.equal(queryBlock(0).getAttribute("data-focused"), "true");
+    assert.equal(queryBlock(0).querySelector('[data-testid="morphing-source"]'), sourceBefore);
+  });
+
+  it("focus switch: commits block A pending edit before focusing block B", async () => {
+    let latestMarkdown = SLICE_C_FIXTURE;
+
+    render(
+      React.createElement(
+        AetherEditorRoot,
+        {
+          plugins: createGfmEditorPlugins(),
+          value: SLICE_C_FIXTURE,
+          onChange: (next: string) => {
+            latestMarkdown = next;
+          },
+        },
+        React.createElement(AetherMorphingDocument),
+      ),
+    );
+
+    await waitForMorphingDocumentReady();
+
+    const sourceA = await focusBlockSource(0);
+
+    await act(async () => {
+      fireEvent.change(sourceA, {
+        target: { value: "First **edited**" },
+      });
+    });
+
+    const blockB = queryBlock(1);
+    const renderedB = blockB.querySelector('[data-testid="morphing-rendered"]') as HTMLElement;
+
+    await act(async () => {
+      fireEvent.focus(renderedB);
+    });
+
+    await waitFor(() => {
+      assert.match(latestMarkdown, /First \*\*edited\*\*/);
+      assert.ok(blockB.querySelector('[data-testid="morphing-source"]'));
+      assert.ok(queryBlock(0).querySelector('[data-testid="morphing-rendered"]'));
+      const renderedA = queryBlock(0).querySelector(
+        '[data-testid="morphing-rendered"]',
+      ) as HTMLElement;
+      assert.equal(renderedA.querySelector("strong")?.textContent, "edited");
     });
   });
 

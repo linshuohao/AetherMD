@@ -49,6 +49,7 @@ To invoke a named skill:
 
 - Load and follow `openspec-archive-change` for OpenSpec archive readiness and archive mechanics.
 - Load and follow `finishing-a-development-branch` for completion checks before finalizing.
+- Read `references/superpowers-retention.md` before Step 11 retention/compression.
 - Verify task/run state by reading `.superpowers/tasks/<change>/`, `.superpowers/runs/<change>/validation.md`, and `.superpowers/reviews/<change>.md`.
 - Write `.superpowers/runs/<change>/final-report.md` using:
   - `assets/final-report-template.md` for **Full Change**;
@@ -77,12 +78,11 @@ To invoke a named skill:
 8. Verify docs/spec/ADR updates are complete or explicitly deferred.
 9. Create `.superpowers/runs/<change>/final-report.md` using the template that matches the workflow path.
 10. Complete the OpenSpec archive through `openspec-archive-change`.
-11. **Superpowers retention:** after OpenSpec archive succeeds, move or remove completed execution details for this change:
-    - `.superpowers/tasks/<change>/` → `.superpowers/archive/<YYYY-MM-DD>-<change>/tasks/` (or delete if `final-report.md` Tasks Completed table is sufficient; prefer move when git-uncommitted)
-    - `.superpowers/plans/<change>.md` → archive directory or delete
-    - `.superpowers/reviews/<change>.md` → archive directory
-    - Preserve `.superpowers/runs/<change>/final-report.md`, `validation.md`, and optional `deviations.md` under `.superpowers/archive/<YYYY-MM-DD>-<change>/` (copy from `runs/` if needed, then remove duplicate active `runs/` subtree for archived change)
-    - Active `.superpowers/tasks/`, `plans/`, `reviews/` MUST NOT retain archived change names
+11. **Superpowers retention and compression:** read `references/superpowers-retention.md` and apply it for `<change>`:
+    - copy `final-report.md`, `validation.md`, and optional `deviations.md` to `.superpowers/archive/<YYYY-MM-DD>-<change>/` (flatten nested `runs/` paths)
+    - **delete** (default) `.superpowers/tasks/<change>/`, `.superpowers/plans/<change>.md`, `.superpowers/reviews/<change>.md`, and `.superpowers/runs/<change>/` after preserved files are copied
+    - **delete** redundant `tasks/`, `plans/`, `reviews/`, `runs/`, and loose `review.md` under the archive directory — archive root keeps only the preserved summary files
+    - verify active `.superpowers/tasks/`, `plans/`, `reviews/`, and `runs/` contain only in-progress changes
 12. If committing or preparing a PR, follow `docs/community/git-workflow.md`.
 
 ## Final Report Sections
@@ -102,6 +102,7 @@ To invoke a named skill:
 - `assets/final-report-template.md`: Full Change final report scaffold.
 - `assets/final-report-template-spec-change.md`: Spec Change final report scaffold.
 - `references/archive-readiness.md`: readiness checks and no-archive conditions.
+- `references/superpowers-retention.md`: retention/compression procedure and archive layout.
 
 ## Pause If
 
@@ -118,4 +119,4 @@ To invoke a named skill:
 
 ## Output
 
-Report archive path, final report path, branch, skills loaded (`openspec-archive-change`, `finishing-a-development-branch`), synced specs, version impact, code-management summary, validation summary, deviations, and any follow-up changes.
+Report archive path, final report path, branch, skills loaded (`openspec-archive-change`, `finishing-a-development-branch`), synced specs, version impact, code-management summary, validation summary, deviations, Superpowers compression summary (files preserved vs deleted), and any follow-up changes.

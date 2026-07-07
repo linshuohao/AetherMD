@@ -325,10 +325,16 @@ References:
 
 ### Requirement: Core public API remains morphing-agnostic and DOM-agnostic
 
-`@aether-md/core` SHALL NOT export morphing strategy contracts, DOM renderer interfaces, or block-type interaction rendering APIs. Morphing strategy and renderer contracts SHALL be owned by preset/plugin or shell-facing packages outside Core.
+`@aether-md/core` SHALL NOT register `core:parseBlockMarkdown` or construct morphing strategy registries with DOM renderer interfaces during `createEditor`. Morphing command registration and strategy aggregation SHALL be owned by preset or plugin packages. Core SHALL NOT export morphing strategy contracts, DOM renderer interfaces, or block-type interaction rendering APIs.
 
 #### Scenario: Core exports exclude morphing renderer contracts
 
 - **WHEN** a maintainer inspects `@aether-md/core` public exports
 - **THEN** morphing strategy and custom DOM renderer types are absent
 - **AND** Core exports remain focused on lifecycle, command/event, document, adapter, and editor orchestration contracts
+
+#### Scenario: Editor startup does not hardcode parse-block handler
+
+- **WHEN** `createEditor` starts with a GFM preset plugin
+- **THEN** `core:parseBlockMarkdown` is registered by the preset/plugin layer
+- **AND** Core `create-editor.ts` contains no dedicated parse-block registration function

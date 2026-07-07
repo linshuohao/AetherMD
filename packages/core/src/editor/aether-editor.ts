@@ -15,7 +15,6 @@ import type { AetherBlock, AetherDoc, AetherSchema } from "../document/model.js"
 import { CoreError, SerializationError, toSerializationError } from "../errors.js";
 import type { EngineSession } from "../document/adapter-types.js";
 import type { CoreBootstrapRuntime } from "../bootstrap/bootstrap.js";
-import type { MorphingStrategyRegistry } from "../morphing/types.js";
 import type { PermissionId } from "../types.js";
 import {
   CORE_REDO_COMMAND,
@@ -33,7 +32,12 @@ import {
   isEngineBoundCommand,
   type EngineDispatchDeps,
 } from "./engine-dispatch.js";
-import type { EditorStateSnapshot, AetherEditor, MarkdownSerializeResult } from "./types.js";
+import type {
+  EditorStateSnapshot,
+  AetherEditor,
+  MarkdownSerializeResult,
+  MorphingStrategyAccessor,
+} from "./types.js";
 import type { WorkerRuntimeHandle } from "./worker-runtime.js";
 
 export interface EditorRuntimeFactoryOptions extends CommandRuntimeOptions {
@@ -50,7 +54,7 @@ function isPromiseLike(value: unknown): value is Promise<unknown> {
 
 export class AetherEditorImpl implements AetherEditor {
   readonly context: EditorContext;
-  readonly morphing: MorphingStrategyRegistry;
+  readonly morphing: MorphingStrategyAccessor;
   private readonly runtime: CommandEventRuntime;
   private readonly bootstrapRuntime: CoreBootstrapRuntime;
   private readonly session: EngineSession;
@@ -67,7 +71,7 @@ export class AetherEditorImpl implements AetherEditor {
     session: EngineSession;
     initialDoc: AetherDoc;
     readOnly: boolean;
-    morphing: MorphingStrategyRegistry;
+    morphing: MorphingStrategyAccessor;
     schema: AetherSchema;
     workerHandle?: WorkerRuntimeHandle;
   }) {

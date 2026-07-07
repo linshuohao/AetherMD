@@ -1,6 +1,6 @@
 # @aether-md/example-vue
 
-Vue Shell demo — `AetherShellShowcase` integrates `AetherEditorContent`, controlled `value`/`onChange`, GateLock rerender, and markdown preview.
+Vue Shell demo — `AetherShellShowcase` switches between `AetherMorphingDocument` (L2) and `AetherEditorContent` (L1).
 
 ```bash
 pnpm install   # repo root

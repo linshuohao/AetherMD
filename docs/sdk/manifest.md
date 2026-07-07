@@ -61,8 +61,6 @@ export interface CompileManifest {
 // Layer 3: runtime — 运行时渲染与生命周期
 // ─────────────────────────────────────────────
 export interface RuntimeManifest {
-  /** Block-level DOM morphing renderers (Slice D+); GFM inline serialize is headless in `@aether-md/preset-gfm`. See [custom-block-renderer](./custom-block-renderer.md). */
-  interactiveRenderers?: Record<string, CustomBlockRenderer>;
   onInit?(ctx: EditorContext): void | Promise<void>;
   onReady?(ctx: EditorContext): void;
   onDestroy?(ctx: EditorContext): void;
@@ -111,5 +109,14 @@ function validateManifestVersion(version: number): void {
 - 在 lifecycle hooks 运行前以 fatal `CoreError` 拒绝 invalid Manifest。
 
 M1 不实现 compile layer merge、Schema 合并、Command handler 注册、Runtime Permission 授权执行或 Adapter 创建。
+
+## Block morphing renderer registration
+
+Block-level DOM morphing renderers (`CustomBlockRenderer`) are **not** declared on `manifest.runtime`. Presets and plugins register them at runtime on the wired plugin object:
+
+- `plugin.morphingStrategies` — ordered `MorphingBlockStrategy` list (each strategy may expose an `interactiveRenderer`)
+- `plugin.morphingRegistry` — `MorphingStrategyRegistry` accessor resolved by editor bootstrap (`adapter-wiring.resolveMorphingRegistry`)
+
+For GFM, `createGfmPreset()` supplies both fields; `gfmManifest` carries metadata only. Shell packages resolve renderers through `editor.getMorphingStrategy(blockType)` after preset wiring. See [custom-block-renderer](./custom-block-renderer.md) and `@aether-md/morphing-contracts`.
 
 ---
