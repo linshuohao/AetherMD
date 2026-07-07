@@ -43,12 +43,17 @@ export async function createEditor(config: EditorConfig): Promise<AetherEditor> 
 
   const loadedPlugins = loadPluginManifests(config.plugins);
   validateUniquePluginNames(loadedPlugins);
-  validateServiceCapabilities(loadedPlugins);
+  const capabilityResult = validateServiceCapabilities(loadedPlugins);
   resolvePluginDependencyOrder(loadedPlugins);
 
   const wired = resolveWiredAdapters(config.plugins as ExtensionPluginWithAdapters[]);
   const morphing = resolveMorphingRegistry(config.plugins as ExtensionPluginWithAdapters[]);
-  const runtime = createEditorRuntime();
+  const runtime = createEditorRuntime({
+    pipeline: {
+      readOnly: config.readOnly ?? false,
+      providedCapabilities: capabilityResult.provided,
+    },
+  });
 
   let initialDoc: AetherDoc;
   if (typeof config.initialValue === "string") {
