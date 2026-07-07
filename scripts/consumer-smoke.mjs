@@ -25,6 +25,7 @@ const PACKAGES = [
   },
   { name: "@aether-md/preset-gfm", shortName: "preset-gfm", exportName: "createGfmPreset" },
   { name: "@aether-md/react", shortName: "react", exportName: "AetherEditorRoot" },
+  { name: "@aether-md/vue", shortName: "vue", exportName: "useAetherEditor" },
 ];
 
 function run(command, cwd = repoRoot) {
@@ -69,8 +70,8 @@ try {
     ({ name, exportName }) => `import { ${exportName} } from "${name}";`,
   ).join("\n");
   const checks = PACKAGES.map(
-    ({ exportName }) =>
-      `if (typeof ${exportName} !== "function") throw new Error("Expected ${exportName} export");`,
+    ({ exportName, shortName }) =>
+      `if (typeof ${exportName} !== "function") throw new Error("Expected ${exportName} export from ${shortName}");`,
   ).join("\n");
   writeFileSync(
     join(consumerDir, "smoke.mjs"),
@@ -78,7 +79,10 @@ try {
   );
 
   console.log("consumer-smoke: installing packed tarballs via npm...");
-  run(`npm install ${packDir}/*.tgz react@^19 react-dom@^19 --legacy-peer-deps`, consumerDir);
+  run(
+    `npm install ${packDir}/*.tgz react@^19 react-dom@^19 vue@^3 --legacy-peer-deps`,
+    consumerDir,
+  );
 
   console.log("consumer-smoke: running import assertions...");
   run("node smoke.mjs", consumerDir);

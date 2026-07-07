@@ -51,7 +51,7 @@ Workspace packages 与带测试的 examples **MUST** 使用 **colocated tests + 
 - E2E **MUST** 通过外部 webServer 驱动示例应用（Phase 1：`@aether-md/example-block-morphing` + `@aether-md/example-react-basic`），**MUST NOT** 直接 import package `src/testing/`。
 - Vitest 继续负责 unit/contract/integration；Playwright 仅验证真实浏览器渲染、焦点、输入与 Shell 受控更新链路。
 - 根目录 `pnpm e2e:test` 运行 Playwright；`pnpm e2e:install` 安装 Chromium 与系统依赖（CI 与本地首次运行前执行）。
-- Phase 1 CI：`e2e-playwright` job 为**非阻塞**门禁，上传 `playwright-report/` 与 `test-results/` artifact 供排障。
+- v1.0 CI：`e2e-playwright` job 为 **blocking** 门禁（`Playwright E2E`），上传 `playwright-report/` 与 `test-results/` artifact 供排障。
 
 ## MVP 必测场景
 
@@ -193,6 +193,6 @@ Adapter 实现 **SHOULD** 共用同一套 contract tests。M3 各 plugin package
 - 契约测试
 - Markdown 文档链接检查
 - 包导出边界检查
-- Playwright E2E（Phase 1：独立非阻塞 job，22 tests — `block-morphing` + `react-basic`）
+- Playwright E2E（blocking CI job，22 tests — `block-morphing` + `react-basic`）
 
 ---

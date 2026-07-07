@@ -9,7 +9,8 @@
       "@aether-md/plugin-remark",
       "@aether-md/plugin-prosemirror",
       "@aether-md/preset-gfm",
-      "@aether-md/react"
+      "@aether-md/react",
+      "@aether-md/vue"
     ]
   ],
   "access": "public",

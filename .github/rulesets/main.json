@@ -35,6 +35,9 @@
             "context": "Quality gates"
           },
           {
+            "context": "Playwright E2E"
+          },
+          {
             "context": "Validate branch name"
           },
           {
