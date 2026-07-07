@@ -14,6 +14,7 @@ export interface CommandPipelineContext {
   readOnly: boolean;
   providedCapabilities: ReadonlySet<CapabilityId>;
   grantedPermissions: ReadonlySet<PermissionId>;
+  onHistoryCapture?: (command: CommandRequest) => void;
 }
 
 export function isMutatingCommand(
@@ -103,4 +104,28 @@ export function runCommandPipelineGuards(
     runCapabilityGuard(context, registration) ??
     runPermissionGuard(context, registration)
   );
+}
+
+export function shouldCaptureHistory(
+  command: CommandRequest,
+  registration?: CommandRegistrationMeta,
+): boolean {
+  if (command.meta?.history === "skip") {
+    return false;
+  }
+  return isMutatingCommand(command, registration);
+}
+
+export function runHistoryCapture(
+  context: CommandPipelineContext,
+  command: CommandRequest,
+  registration?: CommandRegistrationMeta,
+): void {
+  if (!context.onHistoryCapture) {
+    return;
+  }
+  if (!shouldCaptureHistory(command, registration)) {
+    return;
+  }
+  context.onHistoryCapture(command);
 }
