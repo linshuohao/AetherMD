@@ -4,24 +4,24 @@
 
 ## 页面
 
-| 页面                                                           | 作用                                                                                |
-| -------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| [实施范围与验收标准](mvp-implementation-plan.md)               | v1.0 实施边界、已交付子集与验收标准                                                 |
-| [示例与集成验证](demo-slice-delivery-program.md)               | workspace examples 集成证明与 CI 门禁                                               |
-| [产品交互体验规范](../architecture/product-experience-spec.md) | Instant Morphing / Block Focus 权威规格                                             |
-| [数据流](data-flow.md)                                         | 确定性双向数据流                                                                    |
-| [Adapter 协议](adapter-protocol.md)                            | Core 与编辑、解析、序列化引擎之间的协议边界                                         |
-| [错误模型](error-model.md)                                     | 类型化错误、恢复矩阵、Error Boundary 层级                                           |
-| [线程模型](thread-model.md)                                    | 主线程、Worker、Adapter、Shell 职责                                                 |
-| [可观测性](observability.md)                                   | TelemetryService 与默认指标                                                         |
-| [并发策略](concurrency.md)                                     | Command Queue、优先级、原子性、取消策略                                             |
-| [安全模型](security.md)                                        | Runtime Permission 授予流程与沙盒隔离                                               |
-| [性能原则](performance.md)                                     | 性能防御性原则                                                                      |
-| [Manifest 加载](manifest-loading.md)                           | Manifest 加载与规范化策略                                                           |
-| [ConflictResolver](conflict-resolver.md)                       | 默认 Resolver 实现参考                                                              |
-| [测试策略](test-strategy.md)                                   | 测试矩阵、契约测试和 CI 门禁                                                        |
-| [组件库治理规范](component-library-governance.md)              | NPM 包型 Monorepo 的包边界、公开契约、版本和质量门禁治理                            |
-| [ADR 009：发布与治理策略](../adr/009-release-governance.md)    | 发布预备、canary、许可证、SDK 包边界、examples 与 v1.0 门禁                         |
+| 页面                                                           | 作用                                                        |
+| -------------------------------------------------------------- | ----------------------------------------------------------- |
+| [实施范围与验收标准](mvp-implementation-plan.md)               | v1.0 实施边界、已交付子集与验收标准                         |
+| [示例与集成验证](demo-slice-delivery-program.md)               | workspace examples 集成证明与 CI 门禁                       |
+| [产品交互体验规范](../architecture/product-experience-spec.md) | Instant Morphing / Block Focus 权威规格                     |
+| [数据流](data-flow.md)                                         | 确定性双向数据流                                            |
+| [Adapter 协议](adapter-protocol.md)                            | Core 与编辑、解析、序列化引擎之间的协议边界                 |
+| [错误模型](error-model.md)                                     | 类型化错误、恢复矩阵、Error Boundary 层级                   |
+| [线程模型](thread-model.md)                                    | 主线程、Worker、Adapter、Shell 职责                         |
+| [可观测性](observability.md)                                   | TelemetryService 与默认指标                                 |
+| [并发策略](concurrency.md)                                     | Command Queue、优先级、原子性、取消策略                     |
+| [安全模型](security.md)                                        | Runtime Permission 授予流程与沙盒隔离                       |
+| [性能原则](performance.md)                                     | 性能防御性原则                                              |
+| [Manifest 加载](manifest-loading.md)                           | Manifest 加载与规范化策略                                   |
+| [ConflictResolver](conflict-resolver.md)                       | 默认 Resolver 实现参考                                      |
+| [测试策略](test-strategy.md)                                   | 测试矩阵、契约测试和 CI 门禁                                |
+| [组件库治理规范](component-library-governance.md)              | NPM 包型 Monorepo 的包边界、公开契约、版本和质量门禁治理    |
+| [ADR 009：发布与治理策略](../adr/009-release-governance.md)    | 发布预备、canary、许可证、SDK 包边界、examples 与 v1.0 门禁 |
 
 ## 权威边界
 

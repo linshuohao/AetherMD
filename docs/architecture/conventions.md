@@ -1,6 +1,5 @@
 # 文档约定
 
-
 ## 文档约定
 
 本白皮书采用 [RFC 2119](https://datatracker.ietf.org/doc/html/rfc2119) 关键词描述约束强度：

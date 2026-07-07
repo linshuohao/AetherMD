@@ -223,16 +223,16 @@ Checklist：
 
 当前统一验证入口是根级 `pnpm build`、`pnpm typecheck`、`pnpm test` 和 `pnpm check`。Turborepo 只是这些根命令背后的 task orchestration 实现细节，不改变包边界、public API、依赖方向或发布状态。
 
-| Gate                               | 内容                                    | Core Bootstrap          | SDK / Plugin Expansion | Adapter / Ecosystem Packages |
-| ---------------------------------- | --------------------------------------- | ----------------------- | ------------------------- | ------------------------------- |
-| Gate 1: install                    | 可重复安装依赖                          | 必须                    | 必须                      | 必须                            |
-| Gate 2: lint                       | 代码与文档基础规则                      | 视工具可用性执行        | 应补齐                    | 必须                            |
-| Gate 3: typecheck                  | TypeScript 类型检查                     | `packages/core` 必须    | 所有 public package 必须  | 必须                            |
-| Gate 4: unit test                  | 小模块行为测试                          | `packages/core` 必须    | 必须                      | 必须                            |
-| Gate 5: build                      | 产物构建                                | public package 应执行   | 必须                      | 必须                            |
-| Gate 6: package contract check     | `exports`、types、package metadata 校验 | 应覆盖 core boundary | 必须                      | 必须                            |
-| Gate 7: docs / OpenSpec sync check | 文档、OpenSpec、代码一致性              | 必须人工检查            | 应自动化部分检查          | 必须                            |
-| Gate 8: smoke test / consumer test | 消费侧安装和导入验证                    | 可手动或最小化          | 应补齐                    | 必须                            |
+| Gate                               | 内容                                    | Core Bootstrap        | SDK / Plugin Expansion   | Adapter / Ecosystem Packages |
+| ---------------------------------- | --------------------------------------- | --------------------- | ------------------------ | ---------------------------- |
+| Gate 1: install                    | 可重复安装依赖                          | 必须                  | 必须                     | 必须                         |
+| Gate 2: lint                       | 代码与文档基础规则                      | 视工具可用性执行      | 应补齐                   | 必须                         |
+| Gate 3: typecheck                  | TypeScript 类型检查                     | `packages/core` 必须  | 所有 public package 必须 | 必须                         |
+| Gate 4: unit test                  | 小模块行为测试                          | `packages/core` 必须  | 必须                     | 必须                         |
+| Gate 5: build                      | 产物构建                                | public package 应执行 | 必须                     | 必须                         |
+| Gate 6: package contract check     | `exports`、types、package metadata 校验 | 应覆盖 core boundary  | 必须                     | 必须                         |
+| Gate 7: docs / OpenSpec sync check | 文档、OpenSpec、代码一致性              | 必须人工检查          | 应自动化部分检查         | 必须                         |
+| Gate 8: smoke test / consumer test | 消费侧安装和导入验证                    | 可手动或最小化        | 应补齐                   | 必须                         |
 
 当前阶段不要求立刻引入完整工具链。当前的重点是保护 `@aether-md/core` 的最小导出、Manifest bootstrap 行为、capability 校验、生命周期顺序和文档同步。
 

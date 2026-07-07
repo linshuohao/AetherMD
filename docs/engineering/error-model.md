@@ -29,12 +29,12 @@ type SerializationError = AetherError & { source: "serialization" };
 
 ### 恢复策略矩阵
 
-| 错误类型             | 典型场景                                                     | severity                 | 恢复策略                                                                                                  |
-| -------------------- | ------------------------------------------------------------ | ------------------------ | --------------------------------------------------------------------------------------------------------- |
-| `CoreError`          | Manifest 校验失败、Schema 冲突、未知命令、runtime 已 dispose | `fatal` 或 `recoverable` | 启动中止（fatal）；命令路径返回失败结果（recoverable）                                                    |
-| `PluginError`        | Command handler 未捕获异常                                   | `recoverable`            | 沙盒隔离；返回失败结果并发出 `pluginError`（不要求事务回滚）                                           |
+| 错误类型             | 典型场景                                                     | severity                 | 恢复策略                                                                                              |
+| -------------------- | ------------------------------------------------------------ | ------------------------ | ----------------------------------------------------------------------------------------------------- |
+| `CoreError`          | Manifest 校验失败、Schema 冲突、未知命令、runtime 已 dispose | `fatal` 或 `recoverable` | 启动中止（fatal）；命令路径返回失败结果（recoverable）                                                |
+| `PluginError`        | Command handler 未捕获异常                                   | `recoverable`            | 沙盒隔离；返回失败结果并发出 `pluginError`（不要求事务回滚）                                          |
 | `AdapterError`       | PM Transaction 失败                                          | `recoverable`            | Adapter 层返回失败结果并保持 apply 前快照；`transactionFailed` 事件仍 deferred                        |
-| `RenderError`        | NodeView 崩溃                                                | `degraded`               | Fallback Error View Block（尚未实现）                                                                     |
+| `RenderError`        | NodeView 崩溃                                                | `degraded`               | Fallback Error View Block（尚未实现）                                                                 |
 | `SerializationError` | 节点无法序列化                                               | `degraded`               | 支持 GFM 节点确定性输出；`CustomBlock` 占位符 `[unsupported:block:<name>]`；不支持节点 Promise reject |
 
 ### Error Boundary 层级

@@ -35,9 +35,9 @@ Use `AetherMorphingContent` with optional `blockIndex` when only one morphing bl
 
 Import from the **`@aether-md/react/legacy`** subpath. The primary `@aether-md/react` entry is morphing-first and does not export `AetherEditorContent`. Legacy usage requires `@aether-md/plugin-prosemirror` as an optional peer dependency.
 
-| Component             | Role                                                                                        |
-| --------------------- | ------------------------------------------------------------------------------------------- |
-| `AetherEditorContent` | ProseMirror view-bridge integration shell; not the product north star surface.              |
+| Component             | Role                                                                           |
+| --------------------- | ------------------------------------------------------------------------------ |
+| `AetherEditorContent` | ProseMirror view-bridge integration shell; not the product north star surface. |
 
 ```tsx
 import { AetherEditorRoot } from "@aether-md/react";

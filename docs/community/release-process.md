@@ -8,12 +8,12 @@
 
 ## 发布阶段
 
-| 阶段        | 动作                                                                                 | 就绪条件                                                                               |
-| ----------- | ------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------- |
-| 版本影响记录 | `pnpm changeset` 记录 public API 影响；不 publish                                    | Changesets 工作流可用                                                                  |
-| 发布预备    | `linked` 版本组、五包 publish 元数据、`LICENSE`、根 `changeset:publish` 脚本、本文档 | 五包 publish 元数据、`LICENSE`、Changesets `linked` 配置与根 `changeset:publish` 脚本就绪 |
-| canary 发布 | ~~`changeset pre enter canary`~~ → CI `changeset version` → `changeset publish`      | **推迟至 v1.0.0**（ADR 009 Option C；跳过 canary，直接 `1.0.0` + `latest`）            |
-| stable      | `1.0.0` + dist-tag `latest`                                                          | v1.0 能力矩阵与 demo sign-off 满足后启用 Release CI                                    |
+| 阶段         | 动作                                                                                 | 就绪条件                                                                                  |
+| ------------ | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
+| 版本影响记录 | `pnpm changeset` 记录 public API 影响；不 publish                                    | Changesets 工作流可用                                                                     |
+| 发布预备     | `linked` 版本组、五包 publish 元数据、`LICENSE`、根 `changeset:publish` 脚本、本文档 | 五包 publish 元数据、`LICENSE`、Changesets `linked` 配置与根 `changeset:publish` 脚本就绪 |
+| canary 发布  | ~~`changeset pre enter canary`~~ → CI `changeset version` → `changeset publish`      | **推迟至 v1.0.0**（ADR 009 Option C；跳过 canary，直接 `1.0.0` + `latest`）               |
+| stable       | `1.0.0` + dist-tag `latest`                                                          | v1.0 能力矩阵与 demo sign-off 满足后启用 Release CI                                       |
 
 ## 发布预备完成项（不 publish）
 
@@ -23,7 +23,7 @@
 | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Changesets `linked` 五包** | `.changeset/config.json` 单组链接：`@aether-md/core`、`@aether-md/plugin-remark`、`@aether-md/plugin-prosemirror`、`@aether-md/preset-gfm`、`@aether-md/react` |
 | **五包 publish 元数据**      | 各包 `license: "MIT"`、`repository`、`files`、`publishConfig`（`access: "public"`）                                                                            |
-| **根 `changeset:publish`**   | 根 `package.json` 脚本 `"changeset:publish": "changeset publish"`（公开发布前仅预留，维护者 **禁止** 本地 `npm publish`）                                           |
+| **根 `changeset:publish`**   | 根 `package.json` 脚本 `"changeset:publish": "changeset publish"`（公开发布前仅预留，维护者 **禁止** 本地 `npm publish`）                                      |
 | **`LICENSE`**                | 根目录 MIT 许可证；与各 package `license` 字段一致                                                                                                             |
 | **`examples/headless-gfm`**  | `private: true`；**不**纳入 npm 发布矩阵                                                                                                                       |
 | **`examples/react`**         | `private: true`；**不**纳入 npm 发布矩阵（content / morphing 统一 showcase）                                                                                   |
@@ -61,12 +61,12 @@
 
 ## 开放问题决议（ADR 009 O1–O4）
 
-| ID  | 问题                                                              | 状态       | 决议                                                                                                                                                   |
-| --- | ----------------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| O1  | 首次 npm 版本号（`0.x` vs `1.0.0` + 能力子集）                    | **已决议** | **`0.1.0`**（0.x 预稳定）；v1.0 差距见 [能力概览](../project-status.md#v10-能力差距)                                                                       |
-| O2  | Canary dist-tag（`canary` vs `next`）                             | **已决议** | **`canary`**；维护者启用 publish 前执行 `pnpm changeset pre enter canary`                                                                              |
+| ID  | 问题                                                              | 状态       | 决议                                                                                                                                                      |
+| --- | ----------------------------------------------------------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| O1  | 首次 npm 版本号（`0.x` vs `1.0.0` + 能力子集）                    | **已决议** | **`0.1.0`**（0.x 预稳定）；v1.0 差距见 [能力概览](../project-status.md#v10-能力差距)                                                                      |
+| O2  | Canary dist-tag（`canary` vs `next`）                             | **已决议** | **`canary`**；维护者启用 publish 前执行 `pnpm changeset pre enter canary`                                                                                 |
 | O3  | Changelog（`changelog: false` vs `@changesets/changelog-github`） | **已决议** | 公开发布前延续 `.changeset/config.json` 的 `changelog: false`；真正首次 promote 至 `latest` 前再选手写根 `CHANGELOG.md` 或 `@changesets/changelog-github` |
-| O4  | MIT 许可证复核                                                    | **已决议** | 维持 MIT；无需为此单独开 ADR 改评 Apache-2.0                                                                                                           |
+| O4  | MIT 许可证复核                                                    | **已决议** | 维持 MIT；无需为此单独开 ADR 改评 Apache-2.0                                                                                                              |
 
 完整背景见 [ADR 009](../adr/009-release-governance.md) 开放问题表。首次 publish 前维护者 **MUST**：(1) 完成架构集成与产品交互 sign-off；(2) 配置仓库 `NPM_TOKEN` secret；(3) 按 ADR 009 决议启用 Release CI。
 
@@ -74,9 +74,9 @@
 
 `.github/workflows/release.yml` 已配置 Changesets version + publish（含 consumer smoke），但 **v1.0.0 正式上线前不自动触发**。
 
-| 阶段                       | 触发方式                                           | 行为                                                                                        |
-| -------------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| **当前**       | 不触发                                             | 合入 `main` 不运行 Release workflow；`pnpm changeset` 仍用于记录版本影响                    |
+| 阶段            | 触发方式                                           | 行为                                                                                        |
+| --------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| **当前**        | 不触发                                             | 合入 `main` 不运行 Release workflow；`pnpm changeset` 仍用于记录版本影响                    |
 | **v1.0.0 上线** | 维护者手动 `workflow_dispatch` 或恢复 `push: main` | 若有 pending changeset 则开 version PR；合入后 `changeset publish` 至 npm（需 `NPM_TOKEN`） |
 
 **禁止**：维护者本地 `npm publish`。

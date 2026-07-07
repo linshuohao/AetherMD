@@ -8,7 +8,7 @@
 | ------------------------ | ---------------------------------------------------------------------------------------------------- |
 | `AetherEditorRoot`       | Creates an `AetherEditor` via `createEditor`, provides Vue context, GateLock for controlled `value`. |
 | `AetherMorphingDocument` | **Primary** — multi-block Block Focus with preset morphing strategies (product north star).          |
-| `AetherMorphingContent`  | Single-block morphing helper (default: paragraph at index `0`).                                        |
+| `AetherMorphingContent`  | Single-block morphing helper (default: paragraph at index `0`).                                      |
 | `useAetherEditor`        | Access `editor`, `doc`, `markdown`, and `ready` from context.                                        |
 
 ## Morphing shell（产品面）

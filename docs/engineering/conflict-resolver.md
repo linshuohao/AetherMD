@@ -1,6 +1,5 @@
 # ConflictResolver 默认实现参考
 
-
 ## ConflictResolver 默认实现参考
 
 ```typescript

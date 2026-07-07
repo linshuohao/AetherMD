@@ -1,6 +1,5 @@
 # Service Capability 与 Runtime Permission
 
-
 ## Service Capability 与 Runtime Permission 双轨模型
 
 ### 设计原则

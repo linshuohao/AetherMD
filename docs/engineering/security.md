@@ -1,6 +1,5 @@
 # Runtime Permission 安全模型
 
-
 ## Runtime Permission 安全模型
 
 ### Runtime Permission 授予流程

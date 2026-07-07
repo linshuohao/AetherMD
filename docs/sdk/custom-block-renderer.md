@@ -1,6 +1,5 @@
 # CustomBlockRenderer
 
-
 ## CustomBlockRenderer
 
 ```typescript

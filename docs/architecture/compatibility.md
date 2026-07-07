@@ -23,14 +23,14 @@ OpenSpec main specs：`openspec/specs/document-model/spec.md`、`openspec/specs/
 
 ## GFM Preset public export 变更
 
-| Package                             | 变更类型               | 说明                                                                                          |
-| ----------------------------------- | ---------------------- | --------------------------------------------------------------------------------------------- |
-| `@aether-md/core`                   | unchanged (production) | 生产 export 面不变；新增 GFM 相关测试与 package-boundary guard                                |
-| `@aether-md/plugin-remark`          | minor extension        | GFM parse/serialize（`remark-gfm`）；`SerializationError` 占位符 `[unsupported:block:<name>]` |
-| `@aether-md/plugin-prosemirror`     | minor extension        | GFM schema/conversion；edit leg 后保留 list、link、mark 结构                                  |
-| `@aether-md/preset-gfm`             | new package (`0.0.0`)  | `createGfmPreset()`、`metadata.name: gfm` Manifest；六语法 round-trip 集成测试                |
-| `manifestVersion`                   | unchanged              | `[1]`                                                                                         |
-| bootstrap / Command/Event API       | unchanged              | 语义与 export 面不变                                                                          |
+| Package                         | 变更类型               | 说明                                                                                          |
+| ------------------------------- | ---------------------- | --------------------------------------------------------------------------------------------- |
+| `@aether-md/core`               | unchanged (production) | 生产 export 面不变；新增 GFM 相关测试与 package-boundary guard                                |
+| `@aether-md/plugin-remark`      | minor extension        | GFM parse/serialize（`remark-gfm`）；`SerializationError` 占位符 `[unsupported:block:<name>]` |
+| `@aether-md/plugin-prosemirror` | minor extension        | GFM schema/conversion；edit leg 后保留 list、link、mark 结构                                  |
+| `@aether-md/preset-gfm`         | new package (`0.0.0`)  | `createGfmPreset()`、`metadata.name: gfm` Manifest；六语法 round-trip 集成测试                |
+| `manifestVersion`               | unchanged              | `[1]`                                                                                         |
+| bootstrap / Command/Event API   | unchanged              | 语义与 export 面不变                                                                          |
 
 **不**引入 breaking change 到 bootstrap 或 Command/Event 行为。`@aether-md/core` **MUST NOT** re-export GFM preset 工厂或 adapter 实现。`createEditor`、`AetherEditor`、宿主 `getMarkdown()` / `getDocument()` 仍未 export。
 

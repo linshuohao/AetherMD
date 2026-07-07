@@ -79,16 +79,16 @@ v1.0 **MUST** 至少包含：
 
 ## 验收标准
 
-| 域 | 验收条件 |
-| -- | -------- |
-| **Core Bootstrap** | 加载插件 Manifest，校验版本与依赖，启动生命周期；启动失败反向清理 |
-| **Command/Event** | 派发命令、返回结果、发出 `change` 与错误事件 |
-| **Adapter** | parse Markdown、编辑文档、serialize Markdown；跨包 round-trip |
-| **GFM Preset** | 六语法 round-trip；`SerializationError` 占位符策略 |
-| **Editor Orchestration** | headless `createEditor`；宿主 `getMarkdown` / `getDocument`；显式 wiring |
-| **React Shell** | 挂载编辑器、dispatch 更新、GateLock 防重设、销毁实例 |
-| **产品交互** | Instant Morphing + Block Focus 可演示；见 [产品交互体验规范](../architecture/product-experience-spec.md) |
-| **CI** | `pnpm check` 绿；G11/G6 门禁；consumer smoke |
+| 域                       | 验收条件                                                                                                 |
+| ------------------------ | -------------------------------------------------------------------------------------------------------- |
+| **Core Bootstrap**       | 加载插件 Manifest，校验版本与依赖，启动生命周期；启动失败反向清理                                        |
+| **Command/Event**        | 派发命令、返回结果、发出 `change` 与错误事件                                                             |
+| **Adapter**              | parse Markdown、编辑文档、serialize Markdown；跨包 round-trip                                            |
+| **GFM Preset**           | 六语法 round-trip；`SerializationError` 占位符策略                                                       |
+| **Editor Orchestration** | headless `createEditor`；宿主 `getMarkdown` / `getDocument`；显式 wiring                                 |
+| **React Shell**          | 挂载编辑器、dispatch 更新、GateLock 防重设、销毁实例                                                     |
+| **产品交互**             | Instant Morphing + Block Focus 可演示；见 [产品交互体验规范](../architecture/product-experience-spec.md) |
+| **CI**                   | `pnpm check` 绿；G11/G6 门禁；consumer smoke                                                             |
 
 ## 关联文档
 

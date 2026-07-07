@@ -8,13 +8,13 @@
 
 ## 测试分层
 
-| 层级        | 目标           | 示例                                                                          |
-| ----------- | -------------- | ----------------------------------------------------------------------------- |
-| Unit        | 纯函数与小模块 | Manifest 规范化、Capability 校验、ConflictResolver                            |
-| Contract    | 包之间协议     | Adapter 协议、Command/Event 协议、Lifecycle 顺序                              |
-| Integration | 多模块主路径   | Markdown 初始化、命令执行、序列化、React Shell 挂载                           |
+| 层级        | 目标           | 示例                                                                    |
+| ----------- | -------------- | ----------------------------------------------------------------------- |
+| Unit        | 纯函数与小模块 | Manifest 规范化、Capability 校验、ConflictResolver                      |
+| Contract    | 包之间协议     | Adapter 协议、Command/Event 协议、Lifecycle 顺序                        |
+| Integration | 多模块主路径   | Markdown 初始化、命令执行、序列化、React Shell 挂载                     |
 | E2E         | 真实浏览器链路 | `examples/react`（24）：content + morphing；`examples/vue`（3，扩展中） |
-| Regression  | 已知错误       | 插件异常隔离、事务回滚、权限拒绝                                              |
+| Regression  | 已知错误       | 插件异常隔离、事务回滚、权限拒绝                                        |
 
 ## Package 测试目录布局
 

@@ -1,6 +1,5 @@
 # Manifest 分层契约
 
-
 ## Manifest 分层契约
 
 初始设计中，`ExtensionManifest` 采用四层结构，避免根对象无限膨胀：

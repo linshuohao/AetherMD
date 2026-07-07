@@ -75,21 +75,21 @@
 
 ## 分层职责（实现时遵守）
 
-| 层                    | 职责                                                         | MUST NOT                      |
-| --------------------- | ------------------------------------------------------------ | ----------------------------- |
-| **Core**              | Command Bus、Event Hub、文档快照、块稳定标识                 | Markdown 渲染语义、morph 分支 |
-| **Preset / 块插件**   | 块类型 schema、rendered 视图、source 编辑表面                | 绕过 Command Bus 写文档       |
-| **Engine Adapter**    | 事务应用；PM 仅在 Adapter 内部                               | 泄漏 PM 类型到 Core           |
-| **Shell（React 等）** | 块 focus 状态机、挂载块 surface、GateLock                    | 内嵌 GFM 语法逻辑             |
+| 层                    | 职责                                          | MUST NOT                      |
+| --------------------- | --------------------------------------------- | ----------------------------- |
+| **Core**              | Command Bus、Event Hub、文档快照、块稳定标识  | Markdown 渲染语义、morph 分支 |
+| **Preset / 块插件**   | 块类型 schema、rendered 视图、source 编辑表面 | 绕过 Command Bus 写文档       |
+| **Engine Adapter**    | 事务应用；PM 仅在 Adapter 内部                | 泄漏 PM 类型到 Core           |
+| **Shell（React 等）** | 块 focus 状态机、挂载块 surface、GateLock     | 内嵌 GFM 语法逻辑             |
 
 块类型行为 **SHOULD** 通过 Manifest `runtime.interactiveRenderers`（或后继契约）扩展，见 [Manifest](../sdk/manifest.md)、[CustomBlockRenderer](../sdk/custom-block-renderer.md)。
 
 ## 演示模式与规范关系
 
-| 模式 | 载体 | 证明什么 | 是否等于本规范 |
-| ---- | ---- | -------- | -------------- |
-| **架构集成模式** | `examples/react` / `examples/vue`（`content`） | React/Vue Shell + GFM + GateLock + 连续编辑 + probes 同步 | **否** — 集成壳 |
-| **产品交互模式** | `examples/react` / `examples/vue`（`morphing`） | Instant Morphing + Block Focus | **是** |
+| 模式             | 载体                                            | 证明什么                                                  | 是否等于本规范  |
+| ---------------- | ----------------------------------------------- | --------------------------------------------------------- | --------------- |
+| **架构集成模式** | `examples/react` / `examples/vue`（`content`）  | React/Vue Shell + GFM + GateLock + 连续编辑 + probes 同步 | **否** — 集成壳 |
+| **产品交互模式** | `examples/react` / `examples/vue`（`morphing`） | Instant Morphing + Block Focus                            | **是**          |
 
 架构集成模式有价值，**不得**在对外叙事中冒充产品交互 north star。
 
@@ -105,12 +105,12 @@
 
 ## Morphing 能力范围（参考）
 
-| 能力           | 范围                                    |
-| -------------- | --------------------------------------- |
-| 单段落 morphing | 单块 rendered ↔ source 切换 MVP         |
-| Inline marks   | GFM inline marks 在 source 态保真       |
-| 多块 focus     | 多块 + Block Focus 切换                 |
-| 块插件化       | 列表 / 链接等块类型插件化               |
+| 能力            | 范围                              |
+| --------------- | --------------------------------- |
+| 单段落 morphing | 单块 rendered ↔ source 切换 MVP   |
+| Inline marks    | GFM inline marks 在 source 态保真 |
+| 多块 focus      | 多块 + Block Focus 切换           |
+| 块插件化        | 列表 / 链接等块类型插件化         |
 
 ## 相关文档
 

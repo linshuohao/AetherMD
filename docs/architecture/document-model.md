@@ -86,12 +86,12 @@ export interface CustomBlock {
 
 ## 映射要求
 
-| 方向                     | 要求                                                                                                                                                                 |
-| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Markdown -> AetherDoc    | Parser Adapter **MUST** 保留 v1.0 内置块语义                                                                                                                         |
+| 方向                     | 要求                                                                                                                                                                  |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Markdown -> AetherDoc    | Parser Adapter **MUST** 保留 v1.0 内置块语义                                                                                                                          |
 | AetherDoc -> Markdown    | Serializer Adapter **MUST** 对内置结构提供稳定输出；GFM 覆盖 paragraph、heading、strong、emphasis、list、link；`CustomBlock` 输出 `[unsupported:block:<name>]` 占位符 |
-| AetherDoc -> ProseMirror | Engine Adapter **MUST** 负责私有结构转换；GFM list、link、mark 结构通过 edit leg 保留                                                                             |
-| ProseMirror -> AetherDoc | Engine Adapter **MUST** 产出框架无关快照                                                                                                                             |
+| AetherDoc -> ProseMirror | Engine Adapter **MUST** 负责私有结构转换；GFM list、link、mark 结构通过 edit leg 保留                                                                                 |
+| ProseMirror -> AetherDoc | Engine Adapter **MUST** 产出框架无关快照                                                                                                                              |
 
 ## 开放问题
 

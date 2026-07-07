@@ -1,6 +1,5 @@
 # 插件示例
 
-
 ## 附录 A：BoldPlugin 完整示例
 
 ```typescript

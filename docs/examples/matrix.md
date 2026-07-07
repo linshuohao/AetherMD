@@ -17,10 +17,10 @@ Workspace examples are **private** packages — one per shell runtime. Each exam
 
 ## CI gates
 
-| Gate           | Scope                                                                                         |
-| -------------- | --------------------------------------------------------------------------------------------- |
-| G6 `typecheck` | All three examples via turbo `check` in root `pnpm check`                                     |
+| Gate           | Scope                                                                                |
+| -------------- | ------------------------------------------------------------------------------------ |
+| G6 `typecheck` | All three examples via turbo `check` in root `pnpm check`                            |
 | Playwright E2E | `examples/react` (24) — content + morphing；`examples/vue` (3, expanding) — morphing |
-| Consumer smoke | Six publishable `@aether-md/*` packages (`pnpm consumer:smoke`)                               |
+| Consumer smoke | Six publishable `@aether-md/*` packages (`pnpm consumer:smoke`)                      |
 
 See [测试策略](../engineering/test-strategy.md) and [CI 校验计划](../architecture/ci-checklist.md).
