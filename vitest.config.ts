@@ -8,6 +8,7 @@ export default defineConfig({
       "packages/plugins/plugin-remark",
       "packages/plugins/plugin-prosemirror",
       "packages/react",
+      "packages/vue",
       "examples/block-morphing",
     ],
   },

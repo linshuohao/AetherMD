@@ -1,0 +1,25 @@
+{
+  "name": "@aether-md/example-vue-basic",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit",
+    "build:app": "vite build",
+    "typecheck": "tsc --noEmit",
+    "check": "pnpm typecheck"
+  },
+  "dependencies": {
+    "@aether-md/core": "workspace:*",
+    "@aether-md/example-shared": "workspace:*",
+    "@aether-md/vue": "workspace:*",
+    "vue": "^3.5.16"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.4",
+    "typescript": "^6.0.3",
+    "vite": "^6.3.5",
+    "vue-tsc": "^2.2.10"
+  }
+}

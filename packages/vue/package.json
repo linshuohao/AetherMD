@@ -1,0 +1,47 @@
+{
+  "name": "@aether-md/vue",
+  "version": "0.0.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/linshuohao/AetherMD.git",
+    "directory": "packages/vue"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit",
+    "test": "pnpm --filter @aether-md/preset-gfm... build && vitest run",
+    "check": "pnpm typecheck && pnpm test",
+    "types:check": "tsd --typings dist/index.d.ts"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.0"
+  },
+  "dependencies": {
+    "@aether-md/core": "workspace:*",
+    "@aether-md/plugin-prosemirror": "workspace:*"
+  },
+  "devDependencies": {
+    "@aether-md/plugin-remark": "workspace:*",
+    "@aether-md/preset-gfm": "workspace:*",
+    "@happy-dom/global-registrator": "^17.4.7",
+    "@types/node": "^26.1.0",
+    "@vue/test-utils": "^2.4.6",
+    "happy-dom": "^17.4.7",
+    "typescript": "^6.0.3",
+    "vue": "^3.5.16"
+  }
+}
