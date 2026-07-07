@@ -7,6 +7,8 @@ import type { ExtensionPluginWithAdapters } from "../editor/adapter-wiring.js";
 import { toExtensionPluginFromPreset, type PresetBundle } from "../editor/adapter-wiring.js";
 import { createEditor } from "../editor/create-editor.js";
 import { createDefaultConflictResolver } from "../editor/conflict-resolver.js";
+import type { ConflictContext, ConflictResolver } from "../editor/conflict-resolver.js";
+import type { EditorContext } from "../editor/context.js";
 
 function createMockDoc(text = "hello"): AetherDoc {
   return {
@@ -127,6 +129,45 @@ describe("createEditor startup-abort", () => {
       plugins: [pluginA, pluginB],
       conflictResolver: createDefaultConflictResolver({ schema: "last-wins" }),
     });
+
+    await editor.dispose();
+  });
+
+  it("honors host conflictResolver for command registration conflicts", async () => {
+    const resolved: ConflictContext[] = [];
+    const conflictResolver: ConflictResolver = {
+      resolve(ctx) {
+        resolved.push(ctx);
+        return { strategy: "first-wins", winner: ctx.existing.value, warn: true };
+      },
+    };
+
+    const pluginA = createMockPreset("cmd-plugin-a");
+    pluginA.manifest.runtime = {
+      onReady(ctx) {
+        (ctx as EditorContext).commands.register("demo:dup", () => ({ value: "handler-a" }));
+      },
+    };
+    const pluginB = createMockPreset("cmd-plugin-b");
+    pluginB.manifest.runtime = {
+      onReady(ctx) {
+        (ctx as EditorContext).commands.register("demo:dup", () => ({ value: "handler-b" }));
+      },
+    };
+
+    const editor = await createEditor({
+      plugins: [pluginA, pluginB],
+      conflictResolver,
+    });
+
+    assert.equal(
+      resolved.some((ctx) => ctx.type === "command"),
+      true,
+    );
+
+    const result = await editor.dispatch({ id: "demo:dup" });
+    assert.equal(result.ok, true);
+    assert.equal(result.value, "handler-a");
 
     await editor.dispose();
   });
