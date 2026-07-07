@@ -296,11 +296,11 @@ AI-native workflow steps must run code-management hooks before reporting complet
 
 CI 采用 **平台 prevent + PR gate verify** 两层模型：
 
-| 层      | 机制                                           | 作用                                                                     |
-| ------- | ---------------------------------------------- | ------------------------------------------------------------------------ |
-| Layer 0 | GitHub Ruleset（`.github/rulesets/main.json`） | 阻止无 PR 的直推、force push、未通过 required checks 的 merge            |
+| 层      | 机制                                           | 作用                                                                                       |
+| ------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| Layer 0 | GitHub Ruleset（`.github/rulesets/main.json`） | 阻止无 PR 的直推、force push、未通过 required checks 的 merge                              |
 | Layer 1 | `.github/workflows/ci.yml`（PR）               | `Quality gates`、`Playwright E2E`、`Validate branch name`、`Validate PR title and commits` |
-| Layer 2 | `.github/workflows/ci.yml`（`main` push）      | `Quality gates`、`Playwright E2E`                                                         |
+| Layer 2 | `.github/workflows/ci.yml`（`main` push）      | `Quality gates`、`Playwright E2E`                                                          |
 
 当前启用的自动约束：
 
