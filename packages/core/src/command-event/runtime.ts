@@ -11,6 +11,7 @@ import type {
 import { CoreError, PluginError } from "../errors.js";
 import {
   runCommandPipelineGuards,
+  runHistoryCapture,
   type CommandPipelineContext,
   type CommandRegistrationMeta,
 } from "./pipeline.js";
@@ -27,6 +28,7 @@ export interface CommandEventRuntime {
 
 export interface CommandRuntimeOptions {
   pipeline?: CommandPipelineContext;
+  onHistoryCapture?: (command: CommandRequest) => void;
 }
 
 interface StoredRegistration {
@@ -40,10 +42,14 @@ export function createCommandEventRuntime(
 ): CommandEventRuntime {
   const listeners = new Map<EventName, Set<EventListener>>();
   const handlers = new Map<CommandId, StoredRegistration>();
-  const pipelineContext: CommandPipelineContext = options.pipeline ?? {
+  const pipelineContext: CommandPipelineContext = {
     readOnly: false,
     providedCapabilities: new Set(),
     grantedPermissions: new Set(),
+    ...options.pipeline,
+    ...(options.onHistoryCapture !== undefined
+      ? { onHistoryCapture: options.onHistoryCapture }
+      : {}),
   };
   let disposed = false;
 
@@ -94,10 +100,12 @@ export function createCommandEventRuntime(
       if (returned === false) {
         return { ok: false };
       }
-      if (returned && typeof returned === "object" && "value" in returned) {
-        return { ok: true, value: returned.value };
-      }
-      return { ok: true };
+      const result: CommandResult =
+        returned && typeof returned === "object" && "value" in returned
+          ? { ok: true, value: returned.value }
+          : { ok: true };
+      runHistoryCapture(pipelineContext, command, registration.meta);
+      return result;
     } catch (cause) {
       const pluginName = command.meta?.pluginName;
       const error = new PluginError({
