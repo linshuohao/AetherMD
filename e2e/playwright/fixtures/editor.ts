@@ -67,17 +67,15 @@ export async function focusBlock(
 }
 
 export async function focusBlockWithTab(page: Page, blockIndex: number): Promise<void> {
-  await page.getByTestId("force-parent-rerender").focus();
-  for (let step = 0; step <= blockIndex + 2; step += 1) {
+  // Tab order: shell switcher (2) → morphing rendered surfaces → e2e toolbar.
+  await page.getByTestId("shell-mode-content").focus();
+  const tabsToBlock = 2 + blockIndex;
+  for (let step = 0; step < tabsToBlock; step += 1) {
     await page.keyboard.press("Tab");
-    const focused = await block(page, blockIndex).getAttribute("data-focused");
-    if (focused === "true") {
-      await expect(source(page, blockIndex)).toBeVisible();
-      await expectSingleSource(page);
-      return;
-    }
   }
-  throw new Error(`Tab focus did not reach morphing-block-${blockIndex}`);
+  await expect(block(page, blockIndex)).toHaveAttribute("data-focused", "true");
+  await expect(source(page, blockIndex)).toBeVisible();
+  await expectSingleSource(page);
 }
 
 export async function waitForBlockSynced(page: Page, blockIndex: number): Promise<void> {
