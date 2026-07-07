@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import React from "react";
+import { act, fireEvent, waitFor } from "@testing-library/react";
 
 import type { AetherEditor } from "@aether-md/core";
 
@@ -28,4 +29,33 @@ export function queryBlock(index: number): HTMLElement {
   const block = document.querySelector(`[data-testid="morphing-block-${index}"]`);
   assert.ok(block, `expected morphing-block-${index}`);
   return block as HTMLElement;
+}
+
+export async function waitForMorphingDocumentReady(): Promise<void> {
+  await waitFor(() => {
+    assert.ok(
+      document.querySelector('[data-testid="aether-morphing-document"][data-ready="true"]'),
+    );
+  });
+}
+
+export async function focusBlockSource(index: number): Promise<HTMLTextAreaElement> {
+  const block = queryBlock(index);
+  const rendered = block.querySelector('[data-testid="morphing-rendered"]') as HTMLElement;
+
+  await act(async () => {
+    fireEvent.focus(rendered);
+  });
+
+  await waitFor(() => {
+    assert.ok(block.querySelector('[data-testid="morphing-source"]'));
+  });
+
+  return block.querySelector('[data-testid="morphing-source"]') as HTMLTextAreaElement;
+}
+
+export async function waitForBlockEditSynced(index: number): Promise<void> {
+  await waitFor(() => {
+    assert.equal(queryBlock(index).getAttribute("data-edit-synced"), "true");
+  });
 }
