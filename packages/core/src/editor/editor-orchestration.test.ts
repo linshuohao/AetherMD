@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "vitest";
 
-import { CoreError, AdapterError } from "../errors.js";
+import { CoreError, AdapterError, SerializationError } from "../errors.js";
 import type { AdapterCommandRequest } from "../document/adapter-types.js";
 import type { AetherDoc } from "../document/model.js";
 import type { EventEnvelope } from "../command-event/types.js";
@@ -336,6 +336,70 @@ describe("createEditor orchestration", () => {
     assert.throws(
       () => editor.context.services.clipboard.copy("blocked"),
       (error: unknown) => error instanceof CoreError && error.code === "PERMISSION_DENIED",
+    );
+    await editor.dispose();
+  });
+
+  it("tryGetMarkdown returns SerializationError without throwing", async () => {
+    const plugin = createMockPreset();
+    plugin.adapters!.serializer = {
+      name: "failing-serializer",
+      async serialize() {
+        throw new SerializationError({
+          code: "UNSUPPORTED_NODE",
+          message: "cannot serialize node",
+        });
+      },
+    };
+
+    const editor = await createEditor({ plugins: [plugin] });
+    const result = await editor.tryGetMarkdown();
+
+    assert.equal(result.ok, false);
+    if (!result.ok) {
+      assert.equal(result.error.code, "UNSUPPORTED_NODE");
+      assert.equal(result.error.source, "serialization");
+    }
+    await editor.dispose();
+  });
+
+  it("emits serializationError and logs when tryGetMarkdown fails", async () => {
+    const events: EventEnvelope[] = [];
+    const logs: string[] = [];
+    const plugin = createMockPreset();
+    plugin.adapters!.serializer = {
+      name: "failing-serializer",
+      async serialize() {
+        throw new SerializationError({
+          code: "SERIALIZE_FAILED",
+          message: "serialize failed",
+        });
+      },
+    };
+    plugin.manifest.runtime = {
+      onInit(ctx) {
+        const context = ctx as EditorContext;
+        context.logger.error = (message: string) => {
+          logs.push(message);
+        };
+      },
+    };
+
+    const editor = await createEditor({ plugins: [plugin] });
+    editor.on("serializationError", (event) => events.push(event));
+
+    const result = await editor.tryGetMarkdown();
+    assert.equal(result.ok, false);
+    assert.equal(events.length, 1);
+    assert.equal(events[0]?.name, "serializationError");
+    assert.equal(logs.length, 1);
+    assert.equal(logs[0], "serialize failed");
+
+    await assert.rejects(
+      () => editor.getMarkdown(),
+      (error: unknown) => {
+        return error instanceof SerializationError && error.code === "SERIALIZE_FAILED";
+      },
     );
     await editor.dispose();
   });

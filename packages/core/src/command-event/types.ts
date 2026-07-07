@@ -37,7 +37,13 @@ export interface CommandResult<TValue = unknown> {
 }
 
 export type EventName =
-  "ready" | "change" | "transactionFailed" | "pluginError" | "disposed" | `${string}:${string}`;
+  | "ready"
+  | "change"
+  | "transactionFailed"
+  | "pluginError"
+  | "serializationError"
+  | "disposed"
+  | `${string}:${string}`;
 
 export type EventSource = "core" | "plugin" | "adapter" | "shell";
 

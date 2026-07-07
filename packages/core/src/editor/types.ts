@@ -11,6 +11,7 @@ import type { PermissionId } from "../types.js";
 import type { MorphingStrategyRegistry } from "../morphing/types.js";
 import type { ConflictResolver } from "./conflict-resolver.js";
 import type { EditorContext } from "./context.js";
+import type { SerializationError } from "../errors.js";
 
 export interface EditorSecurityConfig {
   grantedPermissions?: PermissionId[];
@@ -38,6 +39,10 @@ export interface EditorStateSnapshot {
   readonly readOnly: boolean;
 }
 
+export type MarkdownSerializeResult =
+  | { readonly ok: true; readonly markdown: string }
+  | { readonly ok: false; readonly error: SerializationError };
+
 export interface AetherEditor {
   readonly context: EditorContext;
   readonly state: EditorStateSnapshot;
@@ -46,6 +51,7 @@ export interface AetherEditor {
   dispatch(command: CommandRequest): Promise<CommandResult>;
   on(eventName: EventName, listener: EventListener): Unsubscribe;
   getMarkdown(): Promise<string>;
+  tryGetMarkdown(): Promise<MarkdownSerializeResult>;
   getDocument(): AetherDoc;
   getMorphingStrategy(blockType: AetherBlock["type"]): ReturnType<MorphingStrategyRegistry["get"]>;
   dispose(): Promise<void>;

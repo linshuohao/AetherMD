@@ -12,7 +12,7 @@ import type {
   Unsubscribe,
 } from "../command-event/types.js";
 import type { AetherBlock, AetherDoc, AetherSchema } from "../document/model.js";
-import { CoreError } from "../errors.js";
+import { CoreError, SerializationError, toSerializationError } from "../errors.js";
 import type { EngineSession } from "../document/adapter-types.js";
 import type { CoreBootstrapRuntime } from "../bootstrap/bootstrap.js";
 import {
@@ -37,7 +37,7 @@ import {
   isEngineBoundCommand,
   type EngineDispatchDeps,
 } from "./engine-dispatch.js";
-import type { EditorStateSnapshot, AetherEditor } from "./types.js";
+import type { EditorStateSnapshot, AetherEditor, MarkdownSerializeResult } from "./types.js";
 import type { WorkerRuntimeHandle } from "./worker-runtime.js";
 
 export interface EditorRuntimeFactoryOptions extends CommandRuntimeOptions {
@@ -184,10 +184,41 @@ export class AetherEditorImpl implements AetherEditor {
   }
 
   async getMarkdown(): Promise<string> {
-    return this.context.services.parser.serializer.serialize(
-      this.docSnapshot,
-      this.engineDispatchDeps.schema,
-    );
+    const result = await this.tryGetMarkdown();
+    if (!result.ok) {
+      throw result.error;
+    }
+    return result.markdown;
+  }
+
+  async tryGetMarkdown(): Promise<MarkdownSerializeResult> {
+    if (this.disposed) {
+      return {
+        ok: false,
+        error: new SerializationError({
+          code: "SERIALIZE_FAILED",
+          message: "Editor has been disposed",
+        }),
+      };
+    }
+
+    try {
+      const markdown = await this.context.services.parser.serializer.serialize(
+        this.docSnapshot,
+        this.engineDispatchDeps.schema,
+      );
+      return { ok: true, markdown };
+    } catch (error) {
+      const serializationError = toSerializationError(error);
+      this.context.logger.error(serializationError.message);
+      this.runtime.emit({
+        name: "serializationError",
+        source: "core",
+        timestamp: Date.now(),
+        payload: { error: serializationError },
+      });
+      return { ok: false, error: serializationError };
+    }
   }
 
   async dispose(): Promise<void> {

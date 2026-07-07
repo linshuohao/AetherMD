@@ -28,6 +28,8 @@ describe("@aether-md/core package boundary", () => {
   it("exposes the M3 document-model and adapter-base surface", () => {
     assert.equal(typeof core.AdapterError, "function");
     assert.equal(typeof core.SerializationError, "function");
+    assert.equal(typeof core.RenderError, "function");
+    assert.equal(typeof core.toSerializationError, "function");
   });
 
   it("exposes M4.5 editor orchestration entry without Shell or preset re-exports", () => {
