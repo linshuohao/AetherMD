@@ -1,11 +1,16 @@
 import { defineConfig } from "vitepress";
+import { withMermaid } from '@aether-labs/vitepress-mermaid'
 
-export default defineConfig({
+export default defineConfig(withMermaid({
   title: "AetherMD",
   description: "交互驱动、框架无关、高度插件化的现代富文本 Markdown 引擎架构与插件 SDK 文档",
   lang: "zh-CN",
   lastUpdated: true,
   cleanUrls: true,
+  // Subdirectory README.md files are GitHub index pages; map them to VitePress index routes.
+  rewrites: {
+    ":dir/README.md": ":dir/index.md",
+  },
   ignoreDeadLinks: [/\.\.\//, /AI_NATIVE_ENGINEERING_WORKFLOW/, /\/essays\//, /LICENSE$/],
   themeConfig: {
     logo: "/logo.svg",
@@ -201,4 +206,4 @@ export default defineConfig({
       },
     },
   },
-});
+}));
