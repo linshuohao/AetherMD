@@ -6,10 +6,14 @@ import React from "react";
 import type { AetherEditor } from "@aether-md/core";
 
 import { AetherEditorRoot, AetherMorphingDocument } from "../index.js";
-import { EditorCapture, SLICE_C_FIXTURE, queryBlock } from "../testing/morphing-fixtures.js";
+import {
+  EditorCapture,
+  MULTI_BLOCK_FOCUS_FIXTURE,
+  queryBlock,
+} from "../testing/morphing-fixtures.js";
 import { createGfmEditorPlugins } from "../testing/gfm-plugins.js";
 
-describe("Slice C multi-block Block Focus (block-morphing-slice-c)", () => {
+describe("multi-block Block Focus morphing", () => {
   afterEach(() => {
     cleanup();
   });
@@ -20,7 +24,7 @@ describe("Slice C multi-block Block Focus (block-morphing-slice-c)", () => {
         AetherEditorRoot,
         {
           plugins: createGfmEditorPlugins(),
-          value: SLICE_C_FIXTURE,
+          value: MULTI_BLOCK_FOCUS_FIXTURE,
           onChange: () => {},
         },
         React.createElement(AetherMorphingDocument),
@@ -63,7 +67,7 @@ describe("Slice C multi-block Block Focus (block-morphing-slice-c)", () => {
         AetherEditorRoot,
         {
           plugins: createGfmEditorPlugins(),
-          value: SLICE_C_FIXTURE,
+          value: MULTI_BLOCK_FOCUS_FIXTURE,
           onChange: () => {},
         },
         React.createElement(AetherMorphingDocument),
@@ -104,14 +108,14 @@ describe("Slice C multi-block Block Focus (block-morphing-slice-c)", () => {
   });
 
   it("editing block B does not reset block A content", async () => {
-    let latestMarkdown = SLICE_C_FIXTURE;
+    let latestMarkdown = MULTI_BLOCK_FOCUS_FIXTURE;
 
     render(
       React.createElement(
         AetherEditorRoot,
         {
           plugins: createGfmEditorPlugins(),
-          value: SLICE_C_FIXTURE,
+          value: MULTI_BLOCK_FOCUS_FIXTURE,
           onChange: (next: string) => {
             latestMarkdown = next;
           },
@@ -165,7 +169,7 @@ describe("Slice C multi-block Block Focus (block-morphing-slice-c)", () => {
         AetherEditorRoot,
         {
           plugins: createGfmEditorPlugins(),
-          value: SLICE_C_FIXTURE,
+          value: MULTI_BLOCK_FOCUS_FIXTURE,
           onChange: () => {},
         },
         React.createElement(AetherMorphingDocument),

@@ -8,11 +8,11 @@ import { useEffect, useRef } from "react";
 import { useAetherEditor } from "./use-aether-editor.js";
 
 /**
- * Phase 0 ProseMirror integration surface (M5 interim shell).
+ * Legacy full-document ProseMirror Content surface.
  *
- * @deprecated Prefer {@link AetherMorphingDocument} or {@link AetherMorphingContent} for the L2
- *   Instant Morphing product north star. `AetherEditorContent` remains available for
- *   `examples/react` content mode and legacy ProseMirror view-bridge integrations until M7 publish.
+ * @deprecated Prefer {@link AetherMorphingDocument} or {@link AetherMorphingContent} for
+ *   Instant Morphing / Block Focus. `AetherEditorContent` remains for examples content mode
+ *   and legacy ProseMirror view-bridge integrations.
  *   See `docs/sdk/react-shell.md` for migration guidance.
  */
 export function AetherEditorContent() {

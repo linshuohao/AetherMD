@@ -7,7 +7,7 @@ import type { MorphingBlockStrategy } from "./contracts.js";
 import { MorphingBlockSurface } from "./morphing-block-surface.js";
 
 export interface AetherMorphingContentProps {
-  /** Document block index; Slice A defaults to single paragraph at 0. */
+  /** Document block index; defaults to 0 (first block, typically a single paragraph). */
   blockIndex?: number;
 }
 

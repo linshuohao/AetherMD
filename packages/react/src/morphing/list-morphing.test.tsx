@@ -4,10 +4,10 @@ import { act, cleanup, fireEvent, render, waitFor } from "@testing-library/react
 import React from "react";
 
 import { AetherEditorRoot, AetherMorphingDocument } from "../index.js";
-import { SLICE_D_FIXTURE, queryBlock } from "../testing/morphing-fixtures.js";
+import { LIST_MORPHING_FIXTURE, queryBlock } from "../testing/morphing-fixtures.js";
 import { createGfmEditorPlugins } from "../testing/gfm-plugins.js";
 
-describe("Slice D list block morphing (block-morphing-slice-d)", () => {
+describe("list block morphing", () => {
   afterEach(() => {
     cleanup();
   });
@@ -18,7 +18,7 @@ describe("Slice D list block morphing (block-morphing-slice-d)", () => {
         AetherEditorRoot,
         {
           plugins: createGfmEditorPlugins(),
-          value: SLICE_D_FIXTURE,
+          value: LIST_MORPHING_FIXTURE,
           onChange: () => {},
         },
         React.createElement(AetherMorphingDocument),
@@ -60,7 +60,7 @@ describe("Slice D list block morphing (block-morphing-slice-d)", () => {
         AetherEditorRoot,
         {
           plugins: createGfmEditorPlugins(),
-          value: SLICE_D_FIXTURE,
+          value: LIST_MORPHING_FIXTURE,
           onChange: () => {},
         },
         React.createElement(AetherMorphingDocument),
@@ -75,14 +75,14 @@ describe("Slice D list block morphing (block-morphing-slice-d)", () => {
   });
 
   it("scenario D3: editing list source updates serialized markdown", async () => {
-    let latestMarkdown = SLICE_D_FIXTURE;
+    let latestMarkdown = LIST_MORPHING_FIXTURE;
 
     render(
       React.createElement(
         AetherEditorRoot,
         {
           plugins: createGfmEditorPlugins(),
-          value: SLICE_D_FIXTURE,
+          value: LIST_MORPHING_FIXTURE,
           onChange: (next: string) => {
             latestMarkdown = next;
           },
@@ -131,7 +131,7 @@ describe("Slice D list block morphing (block-morphing-slice-d)", () => {
         AetherEditorRoot,
         {
           plugins: createGfmEditorPlugins(),
-          value: SLICE_D_FIXTURE,
+          value: LIST_MORPHING_FIXTURE,
           onChange: () => {},
         },
         React.createElement(AetherMorphingDocument),
