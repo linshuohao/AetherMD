@@ -1,4 +1,5 @@
-import type { AetherBlock } from "@aether-md/core";
+import { type AetherBlock } from "@aether-md/core/document";
+
 import {
   createMorphingStrategyRegistry,
   type CustomBlockRenderer,

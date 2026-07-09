@@ -15,8 +15,6 @@ ExtensionManifest
 ### 完整类型定义
 
 ```typescript
-import type { CapabilityId, PermissionId, PluginName } from "@aether-md/core";
-
 /** 根契约：四层分离 */
 export interface ExtensionManifest {
   metadata: ManifestMetadata;

@@ -1,4 +1,5 @@
-import type { ReplaceTextCommand } from "@aether-md/core";
+import { type ReplaceTextCommand } from "@aether-md/core/adapter";
+
 import {
   createProseMirrorView,
   refreshProseMirrorViewFromSession,

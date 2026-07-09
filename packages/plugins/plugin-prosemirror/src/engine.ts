@@ -1,13 +1,14 @@
-import type {
-  AdapterCommandRequest,
-  AdapterTransactionResult,
-  AetherDoc,
-  AetherInline,
-  EngineAdapter,
-  EngineSession,
-  ListBlock,
-} from "@aether-md/core";
-import { AdapterError, moveBlockInDocument, withPreservedBlockId } from "@aether-md/core";
+import {
+  AdapterError,
+  moveBlockInDocument,
+  withPreservedBlockId,
+  type AdapterCommandRequest,
+  type AdapterTransactionResult,
+  type EngineAdapter,
+  type EngineSession,
+} from "@aether-md/core/adapter";
+import { type AetherDoc, type AetherInline, type ListBlock } from "@aether-md/core/document";
+
 import { EditorState } from "prosemirror-state";
 
 import { aetherDocToPm, pmToAetherDoc } from "./conversion.js";

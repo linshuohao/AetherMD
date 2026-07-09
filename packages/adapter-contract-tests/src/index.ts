@@ -1,15 +1,13 @@
+import {
+  AdapterError,
+  ensureDocumentBlockIds,
+  type EngineAdapter,
+  type ParserAdapter,
+  type SerializerAdapter,
+} from "@aether-md/core/adapter";
+import { type AetherDoc, type ParagraphBlock, type TextInline } from "@aether-md/core/document";
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-
-import type {
-  AetherDoc,
-  EngineAdapter,
-  ParagraphBlock,
-  ParserAdapter,
-  SerializerAdapter,
-  TextInline,
-} from "@aether-md/core";
-import { AdapterError, ensureDocumentBlockIds } from "@aether-md/core";
 
 const DEFAULT_SCHEMA = { version: 1 as const };
 

@@ -1,7 +1,6 @@
+import { type ParagraphBlock } from "@aether-md/core/document";
 import assert from "node:assert/strict";
 import { describe, it } from "vitest";
-
-import type { ParagraphBlock } from "@aether-md/core";
 
 import { createGfmPreset } from "../index.js";
 import { serializeInlineToMarkdown, serializeParagraphInlines } from "../gfm-inline-morphing.js";

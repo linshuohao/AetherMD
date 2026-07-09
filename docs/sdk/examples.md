@@ -3,8 +3,6 @@
 ## 附录 A：BoldPlugin 完整示例
 
 ```typescript
-import type { ExtensionManifest } from "@aether-md/core";
-
 export const BoldPlugin = (): ExtensionManifest => ({
   metadata: {
     manifestVersion: 1,

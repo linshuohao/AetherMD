@@ -1,15 +1,15 @@
+import {
+  type AetherDoc,
+  type HeadingBlock,
+  type LinkInline,
+  type ListBlock,
+  type MarkedInline,
+  type ParagraphBlock,
+  type TextInline,
+} from "@aether-md/core/document";
 import assert from "node:assert/strict";
 import { describe, it } from "vitest";
 
-import type {
-  AetherDoc,
-  HeadingBlock,
-  LinkInline,
-  ListBlock,
-  MarkedInline,
-  ParagraphBlock,
-  TextInline,
-} from "@aether-md/core";
 import { runParserAdapterContractTests } from "@aether-md/adapter-contract-tests";
 
 import { createRemarkParserAdapter } from "./parser.js";

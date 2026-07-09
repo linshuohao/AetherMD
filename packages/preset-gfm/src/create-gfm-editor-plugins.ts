@@ -1,9 +1,9 @@
-import type {
-  EngineAdapter,
-  ExtensionPlugin,
-  ParserAdapter,
-  SerializerAdapter,
-} from "@aether-md/core";
+import { type ExtensionPlugin } from "@aether-md/core";
+import {
+  type EngineAdapter,
+  type ParserAdapter,
+  type SerializerAdapter,
+} from "@aether-md/core/adapter";
 
 import { createGfmPreset, type GfmPreset } from "./create-gfm-preset.js";
 

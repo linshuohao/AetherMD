@@ -1,11 +1,11 @@
-import type {
-  AetherSchema,
-  CommandEventRuntime,
-  EngineAdapter,
-  ExtensionManifest,
-  ParserAdapter,
-  SerializerAdapter,
-} from "@aether-md/core";
+import { type CommandEventRuntime, type ExtensionManifest } from "@aether-md/core/plugin";
+import {
+  type EngineAdapter,
+  type ParserAdapter,
+  type SerializerAdapter,
+} from "@aether-md/core/adapter";
+import { type AetherSchema } from "@aether-md/core/document";
+
 import { createProseMirrorEngineAdapter } from "@aether-md/plugin-prosemirror";
 import { createRemarkParserAdapter, createRemarkSerializerAdapter } from "@aether-md/plugin-remark";
 import type {

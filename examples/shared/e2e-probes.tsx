@@ -1,6 +1,6 @@
+import { type AetherEditor } from "@aether-md/core";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import type { AetherEditor } from "@aether-md/core";
 import { useAetherEditor } from "@aether-md/react";
 
 declare global {

@@ -1,9 +1,6 @@
-import {
-  createEditor,
-  type AetherDoc,
-  type AetherEditor,
-  type ExtensionPlugin,
-} from "@aether-md/core";
+import { createEditor, type AetherEditor, type ExtensionPlugin } from "@aether-md/core";
+import { type AetherDoc } from "@aether-md/core/document";
+
 import {
   defineComponent,
   onUnmounted,

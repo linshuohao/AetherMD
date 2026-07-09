@@ -1,10 +1,9 @@
+import { type AetherEditor } from "@aether-md/core";
 import assert from "node:assert/strict";
 import { afterEach, describe, it } from "vitest";
 import { act, cleanup, fireEvent, render, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React, { useState } from "react";
-
-import type { AetherEditor } from "@aether-md/core";
 
 import { AetherEditorRoot, AetherMorphingDocument } from "../index.js";
 import { MorphingFocusProvider, useMorphingFocus } from "./morphing-focus-context.js";

@@ -4,56 +4,96 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, it } from "vitest";
 
+import * as adapter from "./adapter.js";
 import * as core from "./index.js";
+import * as document from "./document.js";
+import * as host from "./host.js";
+import * as plugin from "./plugin.js";
+import * as testing from "./testing.js";
 import { CORE_BUILTIN_CAPABILITIES } from "./manifest/capabilities.js";
 
-describe("@aether-md/core package boundary", () => {
-  it("exposes core bootstrap runtime surface", () => {
-    assert.deepEqual(core.SUPPORTED_MANIFEST_VERSIONS, [1]);
-    assert.equal(typeof core.CoreError, "function");
-    assert.equal(typeof core.bootstrapCore, "function");
-    assert.deepEqual(core.CORE_BUILTIN_CAPABILITIES, [
+const HOST_EXPORTS = ["createEditor", "CoreError", "RenderError"] as const;
+
+const HOST_FORBIDDEN = [
+  "bootstrapCore",
+  "createCommandEventRuntime",
+  "createHistoryService",
+  "createClipboardService",
+  "createSelectionService",
+  "createDocumentHistory",
+  "createNoopTelemetryService",
+  "AdapterError",
+  "SerializationError",
+  "PluginError",
+  "SUPPORTED_MANIFEST_VERSIONS",
+  "createBlockId",
+  "ParserAdapter",
+] as const;
+
+describe("@aether-md/core host entry (default)", () => {
+  it("re-exports the same surface as ./host", () => {
+    assert.deepEqual(Object.keys(core).sort(), Object.keys(host).sort());
+  });
+
+  it("exposes host-only editor orchestration surface", () => {
+    for (const name of HOST_EXPORTS) {
+      assert.equal(name in host, true, `host must export ${name}`);
+    }
+    assert.equal(typeof host.createEditor, "function");
+
+    const hostKeys = Object.keys(host);
+    for (const forbidden of HOST_FORBIDDEN) {
+      assert.equal(hostKeys.includes(forbidden), false, `host must not export ${forbidden}`);
+    }
+
+    assert.equal(hostKeys.includes("createEditorSync"), false);
+    assert.equal(hostKeys.includes("EditorContext"), false);
+    assert.equal(hostKeys.includes("presetGfm"), false);
+  });
+});
+
+describe("@aether-md/core/plugin entry", () => {
+  it("exposes plugin SDK contracts without host or adapter factories", () => {
+    assert.deepEqual(plugin.SUPPORTED_MANIFEST_VERSIONS, [1]);
+    assert.equal(typeof plugin.PluginError, "function");
+    assert.deepEqual(plugin.CORE_BUILTIN_CAPABILITIES, [
       "core:history",
       "core:selection",
       "core:clipboard",
       "core:assets",
     ]);
+    assert.equal("createEditor" in plugin, false);
+    assert.equal("ParserAdapter" in plugin, false);
+    assert.equal("bootstrapCore" in plugin, false);
   });
+});
 
-  it("exposes command-event runtime surface", () => {
-    assert.equal(typeof core.createCommandEventRuntime, "function");
-    assert.equal(typeof core.PluginError, "function");
+describe("@aether-md/core/adapter entry", () => {
+  it("exposes adapter protocol without host editor entry", () => {
+    assert.equal(typeof adapter.AdapterError, "function");
+    assert.equal(typeof adapter.SerializationError, "function");
+    assert.equal(typeof adapter.toSerializationError, "function");
+    assert.equal(typeof adapter.ensureDocumentBlockIds, "function");
+    assert.equal("createEditor" in adapter, false);
+    assert.equal("ExtensionManifest" in adapter, false);
   });
+});
 
-  it("exposes document-model and adapter-base surface", () => {
-    assert.equal(typeof core.AdapterError, "function");
-    assert.equal(typeof core.SerializationError, "function");
-    assert.equal(typeof core.RenderError, "function");
-    assert.equal(typeof core.toSerializationError, "function");
-    assert.equal(typeof core.createNoopTelemetryService, "function");
-    assert.equal(typeof core.createNoopTelemetrySpan, "function");
+describe("@aether-md/core/document entry", () => {
+  it("is a type-only surface with no runtime host or adapter exports", () => {
+    assert.deepEqual(Object.keys(document), []);
   });
+});
 
-  it("exposes editor orchestration entry without Shell or preset re-exports", () => {
-    const exportedKeys = Object.keys(core);
-
-    assert.equal(exportedKeys.includes("createEditor"), true);
-    assert.equal(typeof core.createEditor, "function");
-    assert.equal(exportedKeys.includes("createEditorSync"), false);
-    assert.equal(exportedKeys.includes("createEditorLite"), false);
-    assert.equal(exportedKeys.includes("EditorContext"), false);
-    assert.equal(exportedKeys.includes("parseMarkdown"), false);
-    assert.equal(exportedKeys.includes("serializeMarkdown"), false);
-    assert.equal(exportedKeys.includes("getMarkdown"), false);
-    assert.equal(exportedKeys.includes("getDocument"), false);
-    assert.equal(exportedKeys.includes("createAdapter"), false);
-    assert.equal(exportedKeys.includes("ReactEditor"), false);
-    assert.equal(exportedKeys.includes("remarkPlugin"), false);
-    assert.equal(exportedKeys.includes("prosemirrorPlugin"), false);
-    assert.equal(exportedKeys.includes("presetGfm"), false);
-    assert.equal(exportedKeys.includes("createGfmPreset"), false);
+describe("@aether-md/core/testing entry", () => {
+  it("exposes dev-only bootstrap and command runtime factories", () => {
+    assert.equal(typeof testing.bootstrapCore, "function");
+    assert.equal(typeof testing.createCommandEventRuntime, "function");
+    assert.equal("createEditor" in testing, false);
   });
+});
 
+describe("@aether-md/core package boundary", () => {
   it("allows GFM preset package in workspace without core re-export", () => {
     const presetPackagePath = join(
       dirname(fileURLToPath(import.meta.url)),

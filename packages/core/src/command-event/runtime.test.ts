@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "vitest";
 
-import { createCommandEventRuntime } from "../index.js";
+import { createCommandEventRuntime } from "../testing.js";
 import type { EventEnvelope } from "./types.js";
 
 describe("createCommandEventRuntime public surface", () => {

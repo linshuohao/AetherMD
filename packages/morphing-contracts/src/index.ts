@@ -1,6 +1,5 @@
-import type { AetherBlock } from "@aether-md/core";
-
 /** DOM morphing renderer contract (see `docs/sdk/custom-block-renderer.md`). */
+import { type AetherBlock } from "@aether-md/core/document";
 export interface CustomBlockRenderer {
   mount(domContainer: HTMLElement, blockData: unknown): void;
   update?(newBlockData: unknown): void;

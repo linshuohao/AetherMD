@@ -1,9 +1,8 @@
+import { type AetherEditor } from "@aether-md/core";
 import assert from "node:assert/strict";
 import { afterEach, describe, it } from "vitest";
 import { act, cleanup, render, waitFor } from "@testing-library/react";
 import React from "react";
-
-import type { AetherEditor } from "@aether-md/core";
 
 import { AetherEditorContent } from "./legacy.js";
 import { AetherEditorRoot, useAetherEditor } from "./index.js";

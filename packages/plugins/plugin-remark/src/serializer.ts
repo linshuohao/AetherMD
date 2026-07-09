@@ -1,5 +1,5 @@
-import type { AetherDoc, AetherSchema, SerializerAdapter } from "@aether-md/core";
-import { SerializationError } from "@aether-md/core";
+import { SerializationError, type SerializerAdapter } from "@aether-md/core/adapter";
+import { type AetherDoc, type AetherSchema } from "@aether-md/core/document";
 
 import { aetherDocToMdast, stringifyMdast } from "./mdast-mapping.js";
 

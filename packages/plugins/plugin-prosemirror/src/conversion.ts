@@ -1,14 +1,15 @@
-import type {
-  AetherBlock,
-  AetherDoc,
-  AetherInline,
-  HeadingBlock,
-  LinkInline,
-  ListBlock,
-  MarkedInline,
-  ParagraphBlock,
-  TextInline,
-} from "@aether-md/core";
+import {
+  type AetherBlock,
+  type AetherDoc,
+  type AetherInline,
+  type HeadingBlock,
+  type LinkInline,
+  type ListBlock,
+  type MarkedInline,
+  type ParagraphBlock,
+  type TextInline,
+} from "@aether-md/core/document";
+
 import {
   Schema,
   type Mark as ProseMirrorMark,

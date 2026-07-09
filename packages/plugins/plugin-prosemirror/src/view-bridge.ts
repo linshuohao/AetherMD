@@ -1,4 +1,5 @@
-import type { EngineSession, ReplaceTextCommand } from "@aether-md/core";
+import { type EngineSession, type ReplaceTextCommand } from "@aether-md/core/adapter";
+
 import { EditorView } from "prosemirror-view";
 import { TextSelection } from "prosemirror-state";
 

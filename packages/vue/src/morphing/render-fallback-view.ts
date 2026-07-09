@@ -1,4 +1,5 @@
-import type { RenderError } from "@aether-md/core";
+import { type RenderError } from "@aether-md/core";
+
 import { defineComponent, h, type PropType } from "vue";
 
 export const RenderFallbackView = defineComponent({

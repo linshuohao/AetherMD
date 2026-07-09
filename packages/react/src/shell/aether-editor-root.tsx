@@ -1,4 +1,6 @@
-import { createEditor, type AetherDoc, type AetherEditor } from "@aether-md/core";
+import { createEditor, type AetherEditor } from "@aether-md/core";
+import { type AetherDoc } from "@aether-md/core/document";
+
 import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
 
 import { AetherEditorContext } from "./context.js";

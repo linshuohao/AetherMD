@@ -1,6 +1,5 @@
+import { type AetherBlock } from "@aether-md/core/document";
 import { useState } from "react";
-
-import type { AetherBlock } from "@aether-md/core";
 
 import { useAetherEditor } from "../shell/use-aether-editor.js";
 import type { MorphingBlockStrategy } from "./contracts.js";

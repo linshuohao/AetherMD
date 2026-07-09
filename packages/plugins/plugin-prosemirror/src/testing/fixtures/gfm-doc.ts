@@ -1,4 +1,4 @@
-import type { AetherDoc } from "@aether-md/core";
+import { type AetherDoc } from "@aether-md/core/document";
 
 export function gfmFixtureDoc(): AetherDoc {
   return {

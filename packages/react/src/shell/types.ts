@@ -1,4 +1,6 @@
-import type { AetherDoc, AetherEditor, ExtensionPlugin } from "@aether-md/core";
+import { type AetherEditor, type ExtensionPlugin } from "@aether-md/core";
+import { type AetherDoc } from "@aether-md/core/document";
+
 import type { ReactNode } from "react";
 
 export interface AetherEditorRootProps {
