@@ -1,13 +1,12 @@
 # AetherMD
 
-AetherMD 是一个处于设计到最小实现过渡阶段的开源 Markdown 编辑器架构项目。
+AetherMD 是一个开源 Markdown 编辑器架构项目，兼具设计规范与可运行实现。
 
-项目目标是沉淀一个交互驱动、框架无关、高度插件化的现代富文本 Markdown 引擎。当前仓库已引入 `@aether-md/core` 的 M1–M4.5 最小基线、`@aether-md/plugin-remark` 与 `@aether-md/plugin-prosemirror` 两个 Adapter plugin packages、`@aether-md/preset-gfm` GFM preset、`@aether-md/react` M5 React Shell，以及 M6 集成演示 `examples/headless-gfm`（Node headless）、`examples/react`（React Shell）与 `examples/vue`（Vue Shell）；主要产物仍是架构、插件契约、工程策略、OpenSpec 规格和最小 Core / Adapter / Preset / React 实现。
+项目目标是沉淀一个交互驱动、框架无关、高度插件化的现代富文本 Markdown 引擎。当前仓库已具备微内核 `@aether-md/core`（插件启动、命令/事件总线、文档模型、编辑器编排）、`@aether-md/plugin-remark` 与 `@aether-md/plugin-prosemirror` 两个 Adapter 插件包、`@aether-md/preset-gfm` GFM preset、`@aether-md/react` 与 `@aether-md/vue` Shell，以及集成演示 `examples/headless-gfm`（Node headless）、`examples/react`（React Shell）与 `examples/vue`（Vue Shell）；主要产物仍是架构、插件契约、工程策略、OpenSpec 规格和 Core / Adapter / Preset / Shell 实现。
 
 ## 当前状态
 
-- 阶段：设计草案 + M1 Core Bootstrap + M2 Command/Event Runtime + M3 Adapter 基座 + M4 GFM Preset + M4.5 Editor Orchestration + M5 React Shell + **M6 验证套件**
-- 实现状态：`@aether-md/core` 已提供 M1 bootstrap、M2 Command/Event、M3 document/adapter 类型与 M4.5 headless `createEditor` / `AetherEditor`；两个 Adapter plugin packages、`@aether-md/preset-gfm` 与 `@aether-md/react` 提供 GFM round-trip 与 React Shell 挂载；M6 交付 headless GFM 集成证明、React Shell 集成 demo、G11/G6 CI 门禁与 publish 预备元数据
+- 能力：`@aether-md/core` 提供插件 bootstrap、Command/Event 运行时、document/adapter 契约与 headless `createEditor` / `AetherEditor`；Adapter 插件、preset 与 Shell 包提供 GFM round-trip、Instant Morphing / Block Focus 与框架挂载；验证套件覆盖 headless 集成、示例 typecheck、契约测试与 publish 预备元数据
 - 主要产物：文档、OpenSpec 规格、`packages/core`、两个 Adapter plugin packages、`packages/preset-gfm`、`packages/react`、`packages/vue`、`examples/headless-gfm`、`examples/react`、`examples/vue`
 - 当前目标：**v1.0 完整发布**（`complete-v1-before-release` Wave 10）— examples matrix、E2E blocking CI、consumer smoke 扩展、`1.0.0` Changeset；待维护者 sign-off + `NPM_TOKEN` 后首次 publish（见 [ADR 009](docs/adr/009-release-governance.md)）
 
@@ -27,8 +26,8 @@ npm install @aether-md/core@latest @aether-md/react@latest @aether-md/vue@latest
 | 示例                    | 说明                                                            | 本地运行                                                                                                     |
 | ----------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
 | `examples/headless-gfm` | Node headless 壳（`createEditor` + GFM 插件）                   | `pnpm --filter @aether-md/example-headless-gfm build && pnpm --filter @aether-md/example-headless-gfm start` |
-| `examples/react`        | React Shell — `AetherShellShowcase`（L1 Content + L2 Morphing） | `pnpm --filter @aether-md/example-react dev`                                                                 |
-| `examples/vue`          | Vue Shell — `AetherShellShowcase`（L1 Content + L2 Morphing）   | `pnpm --filter @aether-md/example-vue dev`                                                                   |
+| `examples/react`        | React Shell — `AetherShellShowcase`（Content 模式 + Instant Morphing 模式） | `pnpm --filter @aether-md/example-react dev`                                                                 |
+| `examples/vue`          | Vue Shell — `AetherShellShowcase`（Content 模式 + Instant Morphing 模式）   | `pnpm --filter @aether-md/example-vue dev`                                                                   |
 
 三个示例的 `typecheck`（`tsc --noEmit`）均纳入根 `pnpm check`（G6）。详见 [Examples Matrix](docs/examples/matrix.md) 与各示例目录下的 `README.md`。
 
@@ -41,7 +40,7 @@ pnpm e2e:install   # 首次运行或 CI
 pnpm e2e:test
 ```
 
-Playwright 分 `react` 与 `vue` 两个 project：`examples/react`（24 tests — 21 morphing + 3 basic）通过 `AetherShellShowcase` 切换 L1 `AetherEditorContent` 与 L2 `AetherMorphingDocument`，验证 smoke、Block Focus、Instant Morphing、GateLock、场景 A/B/C、Slice B inline marks、编辑隔离、click/Tab 焦点、逐键打字、序列化探针、`moveBlock` 身份、编辑器稳定性；`examples/vue`（3 tests，持续扩展）覆盖 L2 morphing smoke、content/morphing 双模式切换与场景 C Block Focus。CI 以 **blocking** job `Playwright E2E` 运行。详见 [测试策略](docs/engineering/test-strategy.md) 与 [Examples Matrix](docs/examples/matrix.md)。
+Playwright 分 `react` 与 `vue` 两个 project：`examples/react`（24 tests — 21 morphing + 3 basic）通过 `AetherShellShowcase` 切换 `AetherEditorContent`（全文档 Content 编辑）与 `AetherMorphingDocument`（Instant Morphing），验证 smoke、Block Focus、GateLock、焦点/失焦场景、GFM inline marks、编辑隔离、click/Tab 焦点、逐键打字、序列化探针、`moveBlock` 身份、编辑器稳定性；`examples/vue`（持续扩展）覆盖 morphing smoke、content/morphing 双模式切换与多块 Block Focus。CI 以 **blocking** job `Playwright E2E` 运行。详见 [测试策略](docs/engineering/test-strategy.md) 与 [Examples Matrix](docs/examples/matrix.md)。
 
 ## 文档入口
 
@@ -73,7 +72,7 @@ pnpm docs:preview  # 预览构建产物
 
 ## 贡献
 
-项目还不适合接收大规模代码贡献。当前最有价值的贡献是设计审查、契约审查、已实现里程碑（M1–M6）边界验证、术语整理、ADR 讨论和实现计划拆解。
+项目还不适合接收大规模代码贡献。当前最有价值的贡献是设计审查、契约审查、包边界与 public API 验证、术语整理、ADR 讨论和实现计划拆解。
 
 详见 [CONTRIBUTING.md](CONTRIBUTING.md)。
 

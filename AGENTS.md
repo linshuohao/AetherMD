@@ -2,23 +2,23 @@
 
 ## Project Structure & Module Organization
 
-AetherMD is currently in the design draft + M1 Core Bootstrap + M2 Command/Event Runtime + M3 Adapter baseline + M4 GFM Preset + M4.5 Editor Orchestration + M5 React Shell + M6 Validation Suite + L2 Block Morphing (Slice A–D delivered) stage before M7 publish. The repository now includes `@aether-md/core`, `@aether-md/plugin-remark` / `@aether-md/plugin-prosemirror` adapter plugin packages, `@aether-md/preset-gfm`, `@aether-md/react`, `@aether-md/vue`, `@aether-md/adapter-contract-tests` (dev-only contract harness), `examples/headless-gfm`, `examples/react`, `examples/vue`, and `examples/shared` (`@aether-md/example-shared` GFM wiring helper) alongside the design documents. The main entry points are:
+AetherMD is a plugin-oriented Markdown editor microkernel with headless core, GFM preset, React/Vue shells, Instant Morphing surfaces, and integration examples. The repository includes `@aether-md/core`, `@aether-md/plugin-remark` / `@aether-md/plugin-prosemirror` adapter plugin packages, `@aether-md/preset-gfm`, `@aether-md/react`, `@aether-md/vue`, `@aether-md/adapter-contract-tests` (dev-only contract harness), `examples/headless-gfm`, `examples/react`, `examples/vue`, and `examples/shared` (`@aether-md/example-shared` GFM wiring helper) alongside the design documents. The main entry points are:
 
 - `README.md`: project status, goals, and recommended reading paths.
 - `CONTRIBUTING.md`: contribution scope and review expectations.
 - `package.json`: root workspace scripts for build, typecheck, tests, checks, Changesets, and Git workflow validation.
 - `pnpm-workspace.yaml`: workspace boundary for current and future packages.
 - `turbo.json`: Turborepo task orchestration for package-level scripts.
-- `packages/core/`: M1–M4.5 microkernel — `src/bootstrap/`, `src/manifest/`, `src/command-event/`, `src/document/`, `src/morphing/` (contracts), `src/editor/` (orchestration).
-- `packages/plugins/plugin-remark/` and `packages/plugins/plugin-prosemirror/`: M3 Parser/Serializer and EngineAdapter (flat `src/` at current size).
-- `packages/preset-gfm/`: M4 factory — `src/morphing/` (strategies), `src/serialization/` (remark re-export outlet).
-- `packages/react/`: M5+L2 Shell — `src/shell/` (Root/Content/hook/GateLock), `src/morphing/` (Instant Morphing surfaces).
+- `packages/core/`: microkernel — `src/bootstrap/` (plugin lifecycle), `src/manifest/`, `src/command-event/`, `src/document/`, `src/morphing/` (contracts), `src/editor/` (orchestration).
+- `packages/plugins/plugin-remark/` and `packages/plugins/plugin-prosemirror/`: Parser/Serializer and EngineAdapter implementations (flat `src/` at current size).
+- `packages/preset-gfm/`: GFM preset factory — `src/morphing/` (strategies), `src/serialization/` (remark re-export outlet).
+- `packages/react/`: React Shell — `src/shell/` (Root/Content/hook/GateLock), `src/morphing/` (Instant Morphing / Block Focus surfaces).
 - `packages/adapter-contract-tests/`: dev-only shared Parser/Serializer/Engine contract test harness.
 - `examples/headless-gfm/`: Node headless GFM demo.
-- `examples/react/`: React Shell demo (`AetherShellShowcase` — L1 Content + L2 Morphing).
-- `examples/vue/`: Vue Shell demo (`AetherShellShowcase` — Content + GateLock).
+- `examples/react/`: React Shell demo (`AetherShellShowcase` — Content mode + Instant Morphing mode).
+- `examples/vue/`: Vue Shell demo (`AetherShellShowcase` — Content mode + GateLock).
 - `examples/shared/`: `@aether-md/example-shared` — `createGfmEditorPlugins()` wiring shared by examples.
-- `docs/architecture/product-experience-spec.md`: authoritative L2 product north star (Instant Morphing / Block Focus); M7 requires Slice A demo sign-off before publish.
+- `docs/architecture/product-experience-spec.md`: authoritative Instant Morphing / Block Focus product spec.
 - `.skills/aether-workflow/`: authoritative source for Aether workflow skills.
 - `.codex/skills/` and `.cursor/skills/`: generated host-specific skill mirrors; do not edit Aether workflow mirrors directly.
 - `openspec/specs/`: synced main OpenSpec specs, including Core Bootstrap, Command/Event Runtime, Document Model, Adapter Base, GFM Preset, Editor Orchestration, React Shell, Validation Suite, and engineering workflow specs.

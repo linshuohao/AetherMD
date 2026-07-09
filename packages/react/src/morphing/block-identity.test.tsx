@@ -6,7 +6,7 @@ import React from "react";
 import type { AetherEditor } from "@aether-md/core";
 
 import { AetherEditorRoot, AetherMorphingDocument } from "../index.js";
-import { EditorCapture, SLICE_C_FIXTURE } from "../testing/morphing-fixtures.js";
+import { EditorCapture, MULTI_BLOCK_FOCUS_FIXTURE } from "../testing/morphing-fixtures.js";
 import { createGfmEditorPlugins } from "../testing/gfm-plugins.js";
 
 describe("Block stable identity (block-identity)", () => {
@@ -20,7 +20,7 @@ describe("Block stable identity (block-identity)", () => {
         AetherEditorRoot,
         {
           plugins: createGfmEditorPlugins(),
-          value: SLICE_C_FIXTURE,
+          value: MULTI_BLOCK_FOCUS_FIXTURE,
           onChange: () => {},
         },
         React.createElement(AetherMorphingDocument),
@@ -47,7 +47,7 @@ describe("Block stable identity (block-identity)", () => {
         AetherEditorRoot,
         {
           plugins: createGfmEditorPlugins(),
-          value: SLICE_C_FIXTURE,
+          value: MULTI_BLOCK_FOCUS_FIXTURE,
           onChange: () => {},
         },
         React.createElement(AetherMorphingDocument),
@@ -85,7 +85,7 @@ describe("Block stable identity (block-identity)", () => {
         AetherEditorRoot,
         {
           plugins: createGfmEditorPlugins(),
-          value: SLICE_C_FIXTURE,
+          value: MULTI_BLOCK_FOCUS_FIXTURE,
           onChange: () => {},
         },
         React.createElement(

@@ -16,7 +16,7 @@ export interface ReplaceTextCommand {
   blockIndex: number;
   text?: string;
   children?: AetherInline[];
-  /** When set, replaces the entire block at the target block (Slice D whole-block edits). */
+  /** When set, replaces the entire block at `blockIndex` (whole-block edits, e.g. list block replacement). */
   replacement?: AetherBlock;
 }
 

@@ -1,4 +1,4 @@
-/** L2 Instant Morphing — primary product surfaces */
+/** Instant Morphing / Block Focus — primary product surfaces */
 export { AetherMorphingDocument } from "./morphing/aether-morphing-document.js";
 export { AetherMorphingContent } from "./morphing/aether-morphing-content.js";
 

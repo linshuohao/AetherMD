@@ -6,19 +6,19 @@ import { defineComponent, h, ref } from "vue";
 import { AetherEditorRoot, AetherMorphingDocument } from "../index.js";
 import { createGfmEditorPlugins } from "../testing/gfm-plugins.js";
 import {
-  SLICE_D_FIXTURE,
+  LIST_MORPHING_FIXTURE,
   dispatchSourceInput,
   queryBlock,
   waitForMorphingDocumentReady,
 } from "../testing/morphing-fixtures.js";
 
-describe("Slice D list block morphing (block-morphing-slice-d)", () => {
+describe("list block morphing", () => {
   afterEach(() => {
     document.body.innerHTML = "";
   });
 
   it("scenario D1: focused list block shows Markdown list source", async () => {
-    const wrapper = mountMorphingDocument({ initialValue: SLICE_D_FIXTURE });
+    const wrapper = mountMorphingDocument({ initialValue: LIST_MORPHING_FIXTURE });
     await flushPromises();
 
     await waitForMorphingDocumentReady();
@@ -51,7 +51,7 @@ describe("Slice D list block morphing (block-morphing-slice-d)", () => {
   });
 
   it("scenario D2: blurred list block renders ul/li typography", async () => {
-    const wrapper = mountMorphingDocument({ initialValue: SLICE_D_FIXTURE });
+    const wrapper = mountMorphingDocument({ initialValue: LIST_MORPHING_FIXTURE });
     await flushPromises();
 
     await waitForMorphingDocumentReady();
@@ -65,10 +65,10 @@ describe("Slice D list block morphing (block-morphing-slice-d)", () => {
   });
 
   it("scenario D3: editing list source updates serialized markdown", async () => {
-    let latestMarkdown = SLICE_D_FIXTURE;
+    let latestMarkdown = LIST_MORPHING_FIXTURE;
 
     const wrapper = mountMorphingDocument({
-      initialValue: SLICE_D_FIXTURE,
+      initialValue: LIST_MORPHING_FIXTURE,
       onChange: (next: string) => {
         latestMarkdown = next;
       },
@@ -106,7 +106,7 @@ describe("Slice D list block morphing (block-morphing-slice-d)", () => {
   });
 
   it("scenario D4: only list block in source during Block Focus", async () => {
-    const wrapper = mountMorphingDocument({ initialValue: SLICE_D_FIXTURE });
+    const wrapper = mountMorphingDocument({ initialValue: LIST_MORPHING_FIXTURE });
     await flushPromises();
 
     await waitForMorphingDocumentReady();
