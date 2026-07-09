@@ -4,10 +4,10 @@ import { act, cleanup, fireEvent, render, waitFor } from "@testing-library/react
 import React from "react";
 
 import { AetherEditorRoot, AetherMorphingContent, AetherMorphingDocument } from "../index.js";
-import { SLICE_B_FIXTURE, queryBlock } from "../testing/morphing-fixtures.js";
+import { INLINE_MARKS_MORPHING_FIXTURE, queryBlock } from "../testing/morphing-fixtures.js";
 import { createGfmEditorPlugins } from "../testing/gfm-plugins.js";
 
-describe("Slice B GFM inline marks (block-morphing-slice-b)", () => {
+describe("GFM inline marks morphing", () => {
   afterEach(() => {
     cleanup();
   });
@@ -18,7 +18,7 @@ describe("Slice B GFM inline marks (block-morphing-slice-b)", () => {
         AetherEditorRoot,
         {
           plugins: createGfmEditorPlugins(),
-          value: SLICE_B_FIXTURE,
+          value: INLINE_MARKS_MORPHING_FIXTURE,
           onChange: () => {},
         },
         React.createElement(AetherMorphingContent),
@@ -51,7 +51,7 @@ describe("Slice B GFM inline marks (block-morphing-slice-b)", () => {
         AetherEditorRoot,
         {
           plugins: createGfmEditorPlugins(),
-          value: SLICE_B_FIXTURE,
+          value: INLINE_MARKS_MORPHING_FIXTURE,
           onChange: () => {},
         },
         React.createElement(AetherMorphingContent),
@@ -71,14 +71,14 @@ describe("Slice B GFM inline marks (block-morphing-slice-b)", () => {
   });
 
   it("scenario B3: source edit of emphasis does not strip inline marks", async () => {
-    let latestMarkdown = SLICE_B_FIXTURE;
+    let latestMarkdown = INLINE_MARKS_MORPHING_FIXTURE;
 
     render(
       React.createElement(
         AetherEditorRoot,
         {
           plugins: createGfmEditorPlugins(),
-          value: SLICE_B_FIXTURE,
+          value: INLINE_MARKS_MORPHING_FIXTURE,
           onChange: (next: string) => {
             latestMarkdown = next;
           },

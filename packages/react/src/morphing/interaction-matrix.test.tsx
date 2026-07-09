@@ -11,15 +11,15 @@ import { MorphingFocusProvider, useMorphingFocus } from "./morphing-focus-contex
 import { createGfmEditorPlugins } from "../testing/gfm-plugins.js";
 import {
   EditorCapture,
-  SLICE_B_FIXTURE,
-  SLICE_C_FIXTURE,
+  INLINE_MARKS_MORPHING_FIXTURE,
+  MULTI_BLOCK_FOCUS_FIXTURE,
   focusBlockSource,
   queryBlock,
   waitForBlockEditSynced,
   waitForMorphingDocumentReady,
 } from "../testing/morphing-fixtures.js";
 
-describe("L2 morphing interaction matrix (product path)", () => {
+describe("Instant Morphing interaction matrix (product path)", () => {
   afterEach(() => {
     cleanup();
   });
@@ -30,7 +30,7 @@ describe("L2 morphing interaction matrix (product path)", () => {
         AetherEditorRoot,
         {
           plugins: createGfmEditorPlugins(),
-          value: SLICE_C_FIXTURE,
+          value: MULTI_BLOCK_FOCUS_FIXTURE,
           onChange: () => {},
         },
         React.createElement(AetherMorphingDocument),
@@ -51,7 +51,7 @@ describe("L2 morphing interaction matrix (product path)", () => {
         AetherEditorRoot,
         {
           plugins: createGfmEditorPlugins(),
-          value: SLICE_B_FIXTURE,
+          value: INLINE_MARKS_MORPHING_FIXTURE,
           onChange: () => {},
         },
         React.createElement(AetherMorphingDocument),
@@ -78,7 +78,7 @@ describe("L2 morphing interaction matrix (product path)", () => {
         AetherEditorRoot,
         {
           plugins: createGfmEditorPlugins(),
-          value: SLICE_B_FIXTURE,
+          value: INLINE_MARKS_MORPHING_FIXTURE,
           onChange: () => {},
         },
         React.createElement(AetherMorphingDocument),
@@ -99,7 +99,7 @@ describe("L2 morphing interaction matrix (product path)", () => {
         AetherEditorRoot,
         {
           plugins: createGfmEditorPlugins(),
-          value: SLICE_B_FIXTURE,
+          value: INLINE_MARKS_MORPHING_FIXTURE,
           onChange: () => {},
         },
         React.createElement(AetherMorphingDocument),
@@ -114,7 +114,7 @@ describe("L2 morphing interaction matrix (product path)", () => {
   });
 
   it("scenario B: blur restores rendered strong and syncs markdown", async () => {
-    let latestMarkdown = SLICE_B_FIXTURE;
+    let latestMarkdown = INLINE_MARKS_MORPHING_FIXTURE;
     const user = userEvent.setup();
 
     render(
@@ -122,7 +122,7 @@ describe("L2 morphing interaction matrix (product path)", () => {
         AetherEditorRoot,
         {
           plugins: createGfmEditorPlugins(),
-          value: SLICE_B_FIXTURE,
+          value: INLINE_MARKS_MORPHING_FIXTURE,
           onChange: (next: string) => {
             latestMarkdown = next;
           },
@@ -162,7 +162,7 @@ describe("L2 morphing interaction matrix (product path)", () => {
   });
 
   it("keyboard typing: userEvent.type appends plain suffix text", async () => {
-    let latestMarkdown = SLICE_B_FIXTURE;
+    let latestMarkdown = INLINE_MARKS_MORPHING_FIXTURE;
     const user = userEvent.setup();
 
     render(
@@ -170,7 +170,7 @@ describe("L2 morphing interaction matrix (product path)", () => {
         AetherEditorRoot,
         {
           plugins: createGfmEditorPlugins(),
-          value: SLICE_B_FIXTURE,
+          value: INLINE_MARKS_MORPHING_FIXTURE,
           onChange: (next: string) => {
             latestMarkdown = next;
           },
@@ -195,7 +195,7 @@ describe("L2 morphing interaction matrix (product path)", () => {
   });
 
   it("keyboard typing: userEvent.keyboard replaces selected emphasis text", async () => {
-    let latestMarkdown = SLICE_B_FIXTURE;
+    let latestMarkdown = INLINE_MARKS_MORPHING_FIXTURE;
     const user = userEvent.setup();
 
     render(
@@ -203,7 +203,7 @@ describe("L2 morphing interaction matrix (product path)", () => {
         AetherEditorRoot,
         {
           plugins: createGfmEditorPlugins(),
-          value: SLICE_B_FIXTURE,
+          value: INLINE_MARKS_MORPHING_FIXTURE,
           onChange: (next: string) => {
             latestMarkdown = next;
           },
@@ -232,7 +232,7 @@ describe("L2 morphing interaction matrix (product path)", () => {
   });
 
   it("backspace: removes typed characters and syncs markdown", async () => {
-    let latestMarkdown = SLICE_B_FIXTURE;
+    let latestMarkdown = INLINE_MARKS_MORPHING_FIXTURE;
     const user = userEvent.setup();
 
     render(
@@ -240,7 +240,7 @@ describe("L2 morphing interaction matrix (product path)", () => {
         AetherEditorRoot,
         {
           plugins: createGfmEditorPlugins(),
-          value: SLICE_B_FIXTURE,
+          value: INLINE_MARKS_MORPHING_FIXTURE,
           onChange: (next: string) => {
             latestMarkdown = next;
           },
@@ -270,7 +270,7 @@ describe("L2 morphing interaction matrix (product path)", () => {
   });
 
   it("scenario B: blur restores rendered emphasis after source edit", async () => {
-    let latestMarkdown = SLICE_B_FIXTURE;
+    let latestMarkdown = INLINE_MARKS_MORPHING_FIXTURE;
     const user = userEvent.setup();
 
     render(
@@ -278,7 +278,7 @@ describe("L2 morphing interaction matrix (product path)", () => {
         AetherEditorRoot,
         {
           plugins: createGfmEditorPlugins(),
-          value: SLICE_B_FIXTURE,
+          value: INLINE_MARKS_MORPHING_FIXTURE,
           onChange: (next: string) => {
             latestMarkdown = next;
           },
@@ -368,7 +368,7 @@ describe("L2 morphing interaction matrix (product path)", () => {
         AetherEditorRoot,
         {
           plugins: createGfmEditorPlugins(),
-          value: SLICE_B_FIXTURE,
+          value: INLINE_MARKS_MORPHING_FIXTURE,
           onChange: () => {},
         },
         React.createElement(AetherMorphingDocument),
@@ -390,14 +390,14 @@ describe("L2 morphing interaction matrix (product path)", () => {
   });
 
   it("focus switch: commits block A pending edit before focusing block B", async () => {
-    let latestMarkdown = SLICE_C_FIXTURE;
+    let latestMarkdown = MULTI_BLOCK_FOCUS_FIXTURE;
 
     render(
       React.createElement(
         AetherEditorRoot,
         {
           plugins: createGfmEditorPlugins(),
-          value: SLICE_C_FIXTURE,
+          value: MULTI_BLOCK_FOCUS_FIXTURE,
           onChange: (next: string) => {
             latestMarkdown = next;
           },
@@ -439,7 +439,7 @@ describe("L2 morphing interaction matrix (product path)", () => {
     const user = userEvent.setup();
 
     function ControlledMorphingDemo() {
-      const [markdown, setMarkdown] = useState(SLICE_B_FIXTURE);
+      const [markdown, setMarkdown] = useState(INLINE_MARKS_MORPHING_FIXTURE);
       const [, bumpRender] = useState(0);
 
       React.useEffect(() => {

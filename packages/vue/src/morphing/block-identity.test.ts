@@ -9,7 +9,7 @@ import { AetherEditorRoot, AetherMorphingDocument } from "../index.js";
 import { createGfmEditorPlugins } from "../testing/gfm-plugins.js";
 import {
   EditorCapture,
-  SLICE_C_FIXTURE,
+  MULTI_BLOCK_FOCUS_FIXTURE,
   waitForMorphingDocumentReady,
 } from "../testing/morphing-fixtures.js";
 
@@ -19,7 +19,7 @@ describe("Block stable identity (block-identity)", () => {
   });
 
   it("exposes stable data-block-id on morphing surfaces", async () => {
-    const wrapper = mountMorphingDocument({ initialValue: SLICE_C_FIXTURE });
+    const wrapper = mountMorphingDocument({ initialValue: MULTI_BLOCK_FOCUS_FIXTURE });
     await flushPromises();
 
     await waitForMorphingDocumentReady();
@@ -38,7 +38,7 @@ describe("Block stable identity (block-identity)", () => {
   });
 
   it("routes Block Focus by block id, not array index", async () => {
-    const wrapper = mountMorphingDocument({ initialValue: SLICE_C_FIXTURE });
+    const wrapper = mountMorphingDocument({ initialValue: MULTI_BLOCK_FOCUS_FIXTURE });
     await flushPromises();
 
     await waitForMorphingDocumentReady();
@@ -70,7 +70,7 @@ describe("Block stable identity (block-identity)", () => {
     let capturedEditor: AetherEditor | null = null;
 
     const wrapper = mountMorphingDocumentWithCapture({
-      initialValue: SLICE_C_FIXTURE,
+      initialValue: MULTI_BLOCK_FOCUS_FIXTURE,
       onEditorReady: (editor) => {
         capturedEditor = editor;
       },

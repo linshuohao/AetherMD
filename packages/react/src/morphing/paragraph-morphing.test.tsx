@@ -6,10 +6,10 @@ import React, { useState } from "react";
 import type { AetherEditor } from "@aether-md/core";
 
 import { AetherEditorRoot, AetherMorphingContent } from "../index.js";
-import { EditorCapture, SLICE_A_FIXTURE } from "../testing/morphing-fixtures.js";
+import { EditorCapture, PARAGRAPH_MORPHING_FIXTURE } from "../testing/morphing-fixtures.js";
 import { createGfmEditorPlugins } from "../testing/gfm-plugins.js";
 
-describe("Slice A block morphing (block-morphing-slice-1)", () => {
+describe("single-paragraph block morphing", () => {
   afterEach(() => {
     cleanup();
   });
@@ -20,7 +20,7 @@ describe("Slice A block morphing (block-morphing-slice-1)", () => {
         AetherEditorRoot,
         {
           plugins: createGfmEditorPlugins(),
-          value: SLICE_A_FIXTURE,
+          value: PARAGRAPH_MORPHING_FIXTURE,
           onChange: () => {},
         },
         React.createElement(AetherMorphingContent),
@@ -53,14 +53,14 @@ describe("Slice A block morphing (block-morphing-slice-1)", () => {
   });
 
   it("scenario B: blurred block shows rendered typography and consistent serialization", async () => {
-    let latestMarkdown = SLICE_A_FIXTURE;
+    let latestMarkdown = PARAGRAPH_MORPHING_FIXTURE;
 
     render(
       React.createElement(
         AetherEditorRoot,
         {
           plugins: createGfmEditorPlugins(),
-          value: SLICE_A_FIXTURE,
+          value: PARAGRAPH_MORPHING_FIXTURE,
           onChange: (next: string) => {
             latestMarkdown = next;
           },
@@ -114,7 +114,7 @@ describe("Slice A block morphing (block-morphing-slice-1)", () => {
     let capturedEditor: AetherEditor | null = null;
 
     function ControlledMorphingDemo() {
-      const [markdown, setMarkdown] = useState(SLICE_A_FIXTURE);
+      const [markdown, setMarkdown] = useState(PARAGRAPH_MORPHING_FIXTURE);
       const [, bumpRender] = useState(0);
 
       React.useEffect(() => {

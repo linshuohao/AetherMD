@@ -9,9 +9,9 @@ import { AetherEditorRoot, AetherMorphingContent, AetherMorphingDocument } from 
 import { createGfmEditorPlugins } from "../testing/gfm-plugins.js";
 import {
   EditorCapture,
-  SLICE_A_FIXTURE,
-  SLICE_B_FIXTURE,
-  SLICE_C_FIXTURE,
+  PARAGRAPH_MORPHING_FIXTURE,
+  INLINE_MARKS_MORPHING_FIXTURE,
+  MULTI_BLOCK_FOCUS_FIXTURE,
   appendToSource,
   backspaceSource,
   dispatchSourceInput,
@@ -22,13 +22,13 @@ import {
   waitForMorphingDocumentReady,
 } from "../testing/morphing-fixtures.js";
 
-describe("L2 morphing interaction matrix (product path)", () => {
+describe("Instant Morphing interaction matrix (product path)", () => {
   afterEach(() => {
     document.body.innerHTML = "";
   });
 
   it("init: AetherMorphingDocument mounts data-ready with blocks visible", async () => {
-    const wrapper = mountMorphingDocument({ initialValue: SLICE_C_FIXTURE });
+    const wrapper = mountMorphingDocument({ initialValue: MULTI_BLOCK_FOCUS_FIXTURE });
     await flushPromises();
 
     await waitForMorphingDocumentReady();
@@ -43,7 +43,7 @@ describe("L2 morphing interaction matrix (product path)", () => {
   });
 
   it("rendered display: strong, em, and link render without markdown sigils", async () => {
-    const wrapper = mountMorphingDocument({ initialValue: SLICE_B_FIXTURE });
+    const wrapper = mountMorphingDocument({ initialValue: INLINE_MARKS_MORPHING_FIXTURE });
     await flushPromises();
 
     await waitForMorphingDocumentReady();
@@ -64,7 +64,7 @@ describe("L2 morphing interaction matrix (product path)", () => {
   });
 
   it("scenario A: focus exposes ** bold markdown sigils in source textarea", async () => {
-    const wrapper = mountMorphingDocument({ initialValue: SLICE_B_FIXTURE });
+    const wrapper = mountMorphingDocument({ initialValue: INLINE_MARKS_MORPHING_FIXTURE });
     await flushPromises();
 
     await waitForMorphingDocumentReady();
@@ -79,7 +79,7 @@ describe("L2 morphing interaction matrix (product path)", () => {
   });
 
   it("scenario A: focus exposes * emphasis markdown sigils in source textarea", async () => {
-    const wrapper = mountMorphingDocument({ initialValue: SLICE_B_FIXTURE });
+    const wrapper = mountMorphingDocument({ initialValue: INLINE_MARKS_MORPHING_FIXTURE });
     await flushPromises();
 
     await waitForMorphingDocumentReady();
@@ -93,10 +93,10 @@ describe("L2 morphing interaction matrix (product path)", () => {
   });
 
   it("scenario B: blur restores rendered strong and syncs markdown", async () => {
-    let latestMarkdown = SLICE_B_FIXTURE;
+    let latestMarkdown = INLINE_MARKS_MORPHING_FIXTURE;
 
     const wrapper = mountMorphingDocument({
-      initialValue: SLICE_B_FIXTURE,
+      initialValue: INLINE_MARKS_MORPHING_FIXTURE,
       onChange: (next: string) => {
         latestMarkdown = next;
       },
@@ -135,10 +135,10 @@ describe("L2 morphing interaction matrix (product path)", () => {
   });
 
   it("keyboard typing: appends plain suffix text", async () => {
-    let latestMarkdown = SLICE_B_FIXTURE;
+    let latestMarkdown = INLINE_MARKS_MORPHING_FIXTURE;
 
     const wrapper = mountMorphingDocument({
-      initialValue: SLICE_B_FIXTURE,
+      initialValue: INLINE_MARKS_MORPHING_FIXTURE,
       onChange: (next: string) => {
         latestMarkdown = next;
       },
@@ -164,10 +164,10 @@ describe("L2 morphing interaction matrix (product path)", () => {
   });
 
   it("keyboard typing: replaces selected emphasis text", async () => {
-    let latestMarkdown = SLICE_B_FIXTURE;
+    let latestMarkdown = INLINE_MARKS_MORPHING_FIXTURE;
 
     const wrapper = mountMorphingDocument({
-      initialValue: SLICE_B_FIXTURE,
+      initialValue: INLINE_MARKS_MORPHING_FIXTURE,
       onChange: (next: string) => {
         latestMarkdown = next;
       },
@@ -197,10 +197,10 @@ describe("L2 morphing interaction matrix (product path)", () => {
   });
 
   it("backspace: removes typed characters and syncs markdown", async () => {
-    let latestMarkdown = SLICE_B_FIXTURE;
+    let latestMarkdown = INLINE_MARKS_MORPHING_FIXTURE;
 
     const wrapper = mountMorphingDocument({
-      initialValue: SLICE_B_FIXTURE,
+      initialValue: INLINE_MARKS_MORPHING_FIXTURE,
       onChange: (next: string) => {
         latestMarkdown = next;
       },
@@ -231,10 +231,10 @@ describe("L2 morphing interaction matrix (product path)", () => {
   });
 
   it("scenario B: blur restores rendered emphasis after source edit", async () => {
-    let latestMarkdown = SLICE_B_FIXTURE;
+    let latestMarkdown = INLINE_MARKS_MORPHING_FIXTURE;
 
     const wrapper = mountMorphingDocument({
-      initialValue: SLICE_B_FIXTURE,
+      initialValue: INLINE_MARKS_MORPHING_FIXTURE,
       onChange: (next: string) => {
         latestMarkdown = next;
       },
@@ -270,10 +270,10 @@ describe("L2 morphing interaction matrix (product path)", () => {
   });
 
   it("focus switch: commits block A pending edit before focusing block B", async () => {
-    let latestMarkdown = SLICE_C_FIXTURE;
+    let latestMarkdown = MULTI_BLOCK_FOCUS_FIXTURE;
 
     const wrapper = mountMorphingDocument({
-      initialValue: SLICE_C_FIXTURE,
+      initialValue: MULTI_BLOCK_FOCUS_FIXTURE,
       onChange: (next: string) => {
         latestMarkdown = next;
       },
@@ -307,7 +307,7 @@ describe("L2 morphing interaction matrix (product path)", () => {
   });
 
   it("scenario C: only focused block B is in source state", async () => {
-    const wrapper = mountMorphingDocument({ initialValue: SLICE_C_FIXTURE });
+    const wrapper = mountMorphingDocument({ initialValue: MULTI_BLOCK_FOCUS_FIXTURE });
     await flushPromises();
 
     await waitForMorphingDocumentReady();
@@ -338,7 +338,7 @@ describe("L2 morphing interaction matrix (product path)", () => {
   });
 
   it("slice A scenario A: focused block shows Markdown source with ** sigils", async () => {
-    const wrapper = mountMorphingContent({ initialValue: SLICE_A_FIXTURE });
+    const wrapper = mountMorphingContent({ initialValue: PARAGRAPH_MORPHING_FIXTURE });
     await flushPromises();
 
     await waitFor(() => {
@@ -369,10 +369,10 @@ describe("L2 morphing interaction matrix (product path)", () => {
   });
 
   it("slice A scenario B: blurred block shows rendered typography and consistent serialization", async () => {
-    let latestMarkdown = SLICE_A_FIXTURE;
+    let latestMarkdown = PARAGRAPH_MORPHING_FIXTURE;
 
     const wrapper = mountMorphingContent({
-      initialValue: SLICE_A_FIXTURE,
+      initialValue: PARAGRAPH_MORPHING_FIXTURE,
       onChange: (next: string) => {
         latestMarkdown = next;
       },
@@ -423,7 +423,7 @@ describe("L2 morphing interaction matrix (product path)", () => {
 
     const ControlledMorphingDemo = defineComponent({
       setup() {
-        const markdown = ref(SLICE_B_FIXTURE);
+        const markdown = ref(INLINE_MARKS_MORPHING_FIXTURE);
         const plugins = createGfmEditorPlugins();
         return () => {
           void bumpRender.value;

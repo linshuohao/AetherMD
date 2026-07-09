@@ -3,13 +3,14 @@ import { defineComponent, watch } from "vue";
 
 import { useAetherEditor } from "../shell/use-aether-editor.js";
 
-export const SLICE_A_FIXTURE = "Hello **world**\n";
+export const PARAGRAPH_MORPHING_FIXTURE = "Hello **world**\n";
 
-export const SLICE_B_FIXTURE = "Hello **bold** and *emphasis* with [link](https://example.com).\n";
+export const INLINE_MARKS_MORPHING_FIXTURE =
+  "Hello **bold** and *emphasis* with [link](https://example.com).\n";
 
-export const SLICE_C_FIXTURE = "First **one**\n\nSecond **two**\n\nThird plain\n";
+export const MULTI_BLOCK_FOCUS_FIXTURE = "First **one**\n\nSecond **two**\n\nThird plain\n";
 
-export const SLICE_D_FIXTURE =
+export const LIST_MORPHING_FIXTURE =
   "Intro paragraph\n\n- alpha\n- beta\n\n[link](https://example.com) tail\n";
 
 export const EditorCapture = defineComponent({
