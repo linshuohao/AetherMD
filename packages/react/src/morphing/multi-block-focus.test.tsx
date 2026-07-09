@@ -6,7 +6,11 @@ import React from "react";
 import type { AetherEditor } from "@aether-md/core";
 
 import { AetherEditorRoot, AetherMorphingDocument } from "../index.js";
-import { EditorCapture, MULTI_BLOCK_FOCUS_FIXTURE, queryBlock } from "../testing/morphing-fixtures.js";
+import {
+  EditorCapture,
+  MULTI_BLOCK_FOCUS_FIXTURE,
+  queryBlock,
+} from "../testing/morphing-fixtures.js";
 import { createGfmEditorPlugins } from "../testing/gfm-plugins.js";
 
 describe("multi-block Block Focus morphing", () => {

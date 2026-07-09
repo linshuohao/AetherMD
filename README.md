@@ -23,9 +23,9 @@ npm install @aether-md/core@latest @aether-md/react@latest @aether-md/vue@latest
 
 三个示例均为 workspace private package，**不发布 npm**。在仓库根目录执行 `pnpm install` 与 `pnpm build` 后：
 
-| 示例                    | 说明                                                            | 本地运行                                                                                                     |
-| ----------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| `examples/headless-gfm` | Node headless 壳（`createEditor` + GFM 插件）                   | `pnpm --filter @aether-md/example-headless-gfm build && pnpm --filter @aether-md/example-headless-gfm start` |
+| 示例                    | 说明                                                                        | 本地运行                                                                                                     |
+| ----------------------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `examples/headless-gfm` | Node headless 壳（`createEditor` + GFM 插件）                               | `pnpm --filter @aether-md/example-headless-gfm build && pnpm --filter @aether-md/example-headless-gfm start` |
 | `examples/react`        | React Shell — `AetherShellShowcase`（Content 模式 + Instant Morphing 模式） | `pnpm --filter @aether-md/example-react dev`                                                                 |
 | `examples/vue`          | Vue Shell — `AetherShellShowcase`（Content 模式 + Instant Morphing 模式）   | `pnpm --filter @aether-md/example-vue dev`                                                                   |
 
