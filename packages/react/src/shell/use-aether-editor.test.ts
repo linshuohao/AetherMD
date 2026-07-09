@@ -1,9 +1,10 @@
+import { type AetherEditor, type EventListener, type Unsubscribe } from "@aether-md/core";
+import { type AetherDoc } from "@aether-md/core/document";
 import assert from "node:assert/strict";
 import { describe, it } from "vitest";
 import { renderHook, waitFor } from "@testing-library/react";
 import React from "react";
 
-import type { AetherDoc, AetherEditor, EventListener, Unsubscribe } from "@aether-md/core";
 import { createMorphingStrategyRegistry } from "@aether-md/preset-gfm";
 
 import { AetherEditorContext } from "./context.js";

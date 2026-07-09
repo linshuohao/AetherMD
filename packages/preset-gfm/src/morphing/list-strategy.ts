@@ -1,4 +1,5 @@
-import type { AetherBlock, ListBlock, ParagraphBlock } from "@aether-md/core";
+import { type AetherBlock, type ListBlock, type ParagraphBlock } from "@aether-md/core/document";
+
 import { serializeListBlock } from "@aether-md/plugin-remark";
 
 import { appendInlineToDom } from "./dom-inlines.js";

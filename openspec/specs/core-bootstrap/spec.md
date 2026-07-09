@@ -20,11 +20,18 @@ References:
 
 - **GIVEN** a consumer imports from `@aether-md/core`
 - **WHEN** the package is built
-- **THEN** the package exposes Manifest, plugin, capability, supported Manifest version, bootstrap runtime, and bootstrap error types required by this spec
-- **AND** the package MAY expose Command Bus and Event Hub APIs defined by the `command-event-runtime` capability
-- **AND** the package MAY expose document-model and adapter-base types defined by the M3 capabilities
-- **AND** the package MAY expose `createEditor`, `AetherEditor`, and related editor-orchestration types defined by the `editor-orchestration` capability
-- **AND** the package does not expose React Shell, Vue Shell, or GFM preset factory implementations
+- **THEN** the default entry exposes host editor orchestration types including `createEditor` and `AetherEditor`
+- **AND** the default entry does **not** expose React Shell, Vue Shell, GFM preset factory implementations, service factories, or `@aether-md/core/testing` symbols
+
+#### Scenario: Role-based subpaths partition public contracts
+
+- **GIVEN** a consumer imports from `@aether-md/core/plugin`, `@aether-md/core/adapter`, `@aether-md/core/document`, or `@aether-md/core/testing`
+- **WHEN** the package is built
+- **THEN** `@aether-md/core/plugin` exposes Manifest, capability, permission, and Command/Event contract types
+- **AND** `@aether-md/core/adapter` exposes Adapter protocol types, serialization errors, and block-id helpers
+- **AND** `@aether-md/core/document` exposes document-model types
+- **AND** `@aether-md/core/testing` exposes `bootstrapCore` and `createCommandEventRuntime` for dev-only consumers
+- **AND** production Shell packages **MUST NOT** import from `@aether-md/core/testing`
 
 ### Requirement: Manifest version is validated during bootstrap
 

@@ -1,4 +1,6 @@
-import { createEditor, type CommandId } from "@aether-md/core";
+import { createEditor } from "@aether-md/core";
+import { type CommandId } from "@aether-md/core/plugin";
+
 import { createGfmEditorPlugins } from "@aether-md/example-shared";
 import { SHOWCASE_MARKDOWN } from "@aether-md/example-shared/showcase-markdown";
 

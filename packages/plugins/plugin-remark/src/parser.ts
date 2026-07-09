@@ -1,4 +1,6 @@
-import type { AetherDoc, AetherSchema, ParserAdapter } from "@aether-md/core";
+import { type ParserAdapter } from "@aether-md/core/adapter";
+import { type AetherDoc, type AetherSchema } from "@aether-md/core/document";
+
 import type { Root } from "mdast";
 import remarkGfm from "remark-gfm";
 import remarkParse from "remark-parse";

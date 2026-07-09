@@ -1,5 +1,6 @@
-import type { AetherBlock } from "@aether-md/core";
 import { RenderError } from "@aether-md/core";
+import { type AetherBlock } from "@aether-md/core/document";
+
 import { defineComponent, h, onMounted, onUnmounted, ref, watch, type PropType } from "vue";
 
 import type { CustomBlockRenderer } from "./contracts.js";

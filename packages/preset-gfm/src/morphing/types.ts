@@ -1,4 +1,4 @@
-import type { AetherBlock, AetherInline, ParagraphBlock } from "@aether-md/core";
+import { type AetherBlock, type AetherInline, type ParagraphBlock } from "@aether-md/core/document";
 
 export type {
   CustomBlockRenderer,

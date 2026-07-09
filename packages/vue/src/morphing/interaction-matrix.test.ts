@@ -1,9 +1,8 @@
+import { type AetherEditor } from "@aether-md/core";
 import assert from "node:assert/strict";
 import { afterEach, describe, it } from "vitest";
 import { flushPromises, mount } from "@vue/test-utils";
 import { defineComponent, h, ref } from "vue";
-
-import type { AetherEditor } from "@aether-md/core";
 
 import { AetherEditorRoot, AetherMorphingContent, AetherMorphingDocument } from "../index.js";
 import { createGfmEditorPlugins } from "../testing/gfm-plugins.js";

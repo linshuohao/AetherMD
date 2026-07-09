@@ -1,4 +1,5 @@
-import type { AetherBlock } from "@aether-md/core";
+import { type AetherBlock } from "@aether-md/core/document";
+
 import { defineComponent, h } from "vue";
 
 import { useAetherEditor } from "../shell/use-aether-editor.js";

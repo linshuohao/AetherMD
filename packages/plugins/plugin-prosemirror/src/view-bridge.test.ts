@@ -1,9 +1,9 @@
+import { type AdapterCommandRequest } from "@aether-md/core/adapter";
+import { type AetherDoc } from "@aether-md/core/document";
 import assert from "node:assert/strict";
 import { describe, it } from "vitest";
 import { GlobalRegistrator } from "@happy-dom/global-registrator";
 import { TextSelection } from "prosemirror-state";
-
-import type { AdapterCommandRequest, AetherDoc } from "@aether-md/core";
 
 import { createProseMirrorEngineAdapter } from "./engine.js";
 import {

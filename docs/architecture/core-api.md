@@ -2,6 +2,20 @@
 
 > 本页定义宿主应用调用 `@aether-md/core` 的 v1.0 目标公开入口，并记录当前已实现子集。
 
+## 角色化导入路径
+
+`@aether-md/core` 按消费者角色拆分 subpath，避免单一 barrel 混合宿主、插件与 Adapter 契约：
+
+| 导入路径                   | 面向                      | 用途                                                                         |
+| -------------------------- | ------------------------- | ---------------------------------------------------------------------------- |
+| `@aether-md/core`          | 宿主 / Shell              | `createEditor`、`AetherEditor`、最小 Command/Event 观察类型                  |
+| `@aether-md/core/plugin`   | 插件作者                  | Manifest、Capability、Permission、Command/Event 契约                         |
+| `@aether-md/core/adapter`  | Adapter 实现              | Parser/Serializer/Engine 协议与序列化错误                                    |
+| `@aether-md/core/document` | 插件 / Adapter / Morphing | `AetherDoc` 与块/行内类型                                                    |
+| `@aether-md/core/testing`  | 开发测试                  | `bootstrapCore`、`createCommandEventRuntime`（生产 Shell **MUST NOT** 导入） |
+
+宿主应用 **SHOULD** 仅使用默认入口；插件与 Adapter 包 **MUST** 从对应 subpath 导入，而非依赖根 export 的偶然符号。
+
 ## 范围
 
 Core API 面向宿主应用与 Shell。插件作者主要使用 [Plugin SDK](../sdk/README.md)，不应依赖 Core 内部实现类。
@@ -16,25 +30,28 @@ v1.0 目标是提供最小可运行编辑器入口：
 
 当前已实现子集：
 
-- **Core Bootstrap**：`bootstrapCore`，用于验证 Manifest、Service Capability、plugin dependency order 和 lifecycle startup/dispose。
-- **Command/Event Runtime**：`createCommandEventRuntime`，提供独立的同步 Command Bus 与 Event Hub；不依赖 `bootstrapCore`、Adapter 实现、Markdown 或 Shell。
-- **Document model / Adapter types**：document-model 与 adapter-base **类型** export（`AetherDoc`、`AetherSchema`、三类 Adapter 协议、`AdapterError` / `SerializationError`）；Adapter **实现**位于 `@aether-md/plugin-remark` 与 `@aether-md/plugin-prosemirror`，不由 Core 直接提供 parse/serialize/engine 运行时。
-- **Editor orchestration**：`createEditor(config): Promise<AetherEditor>`（async-only，无 sync 入口）；`AetherEditor` 宿主 API（`context`、`state`、`dispatch`、`on`、`getMarkdown`、`getDocument`、`dispose`）；显式 Adapter wiring；最小编排 rollback（engine-bound `core:replaceText`）；`ready` / `change` / `transactionFailed` / `disposed` 事件；**无** Core store/subscribe API。
+- **Editor orchestration（默认入口）**：`createEditor(config): Promise<AetherEditor>`；`AetherEditor` 宿主 API（`context`、`state`、`dispatch`、`on`、`getMarkdown`、`getDocument`、`dispose`）；显式 Adapter wiring；最小编排 rollback；`ready` / `change` / `transactionFailed` / `disposed` 事件。
+- **Plugin SDK（`@aether-md/core/plugin`）**：Manifest、Capability、Permission、Command/Event 类型；`CommandEventRuntime` 类型（由 `registerEditorCommands` 回调注入）。
+- **Document model（`@aether-md/core/document`）**：`AetherDoc`、块/行内类型、`AetherSchema`。
+- **Adapter base（`@aether-md/core/adapter`）**：三类 Adapter 协议、`AdapterError` / `SerializationError`、block-id 工具；Adapter **实现**位于 `@aether-md/plugin-remark` 与 `@aether-md/plugin-prosemirror`。
+- **Testing（`@aether-md/core/testing`）**：`bootstrapCore`、`createCommandEventRuntime` 供契约与 bootstrap 测试使用。
 
 Core 尚未实现：完整 Guard 链、compile-layer Schema 合并、Permission enforce、`bootstrapCore` Adapter plugin 自动加载、`EditorConfig.logger` 宿主注入（内部 stub 可用）。React Shell 由 `@aether-md/react` 提供，不属于 Core API export。
 
-## `bootstrapCore`
+## `bootstrapCore`（`@aether-md/core/testing`）
 
 ```typescript
+import { bootstrapCore } from "@aether-md/core/testing";
+
 export function bootstrapCore(options: BootstrapCoreOptions): CoreBootstrapRuntime;
 ```
 
 行为约束见 `openspec/specs/core-bootstrap/spec.md`。
 
-## `createCommandEventRuntime`
+## `createCommandEventRuntime`（`@aether-md/core/testing`）
 
 ```typescript
-export function createCommandEventRuntime(): CommandEventRuntime;
+import { createCommandEventRuntime } from "@aether-md/core/testing";
 
 export interface CommandEventRuntime {
   register(id: CommandId, handler: CommandHandler): void;
@@ -60,22 +77,22 @@ export interface CommandEventRuntime {
 
 ## document-model 与 adapter-base 类型（已实现子集）
 
-`@aether-md/core` 导出框架无关文档类型与 Adapter 协议，供 plugin package 与后续 Shell 消费：
+`@aether-md/core/document` 与 `@aether-md/core/adapter` 导出框架无关文档类型与 Adapter 协议：
 
 ```typescript
-// document-model（type exports）
-export type {
+// @aether-md/core/document
+import type {
   AetherDoc,
   AetherBlock,
   AetherInline,
   AetherSchema,
   ParagraphBlock,
   HeadingBlock,
-  TextInline /* … */,
-};
+  TextInline,
+} from "@aether-md/core/document";
 
-// adapter-base（type exports + error classes）
-export type {
+// @aether-md/core/adapter
+import type {
   ParserAdapter,
   SerializerAdapter,
   EngineAdapter,
@@ -83,8 +100,8 @@ export type {
   AdapterCommandRequest,
   AdapterTransactionResult,
   AdapterEvent,
-};
-export { AdapterError, SerializationError };
+} from "@aether-md/core/adapter";
+import { AdapterError, SerializationError } from "@aether-md/core/adapter";
 ```
 
 行为约束：

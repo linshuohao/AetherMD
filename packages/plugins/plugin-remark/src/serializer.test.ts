@@ -1,8 +1,8 @@
+import { SerializationError } from "@aether-md/core/adapter";
+import { type AetherDoc } from "@aether-md/core/document";
 import assert from "node:assert/strict";
 import { describe, it } from "vitest";
 
-import type { AetherDoc } from "@aether-md/core";
-import { SerializationError } from "@aether-md/core";
 import { runSerializerAdapterContractTests } from "@aether-md/adapter-contract-tests";
 
 import { createRemarkSerializerAdapter } from "./serializer.js";

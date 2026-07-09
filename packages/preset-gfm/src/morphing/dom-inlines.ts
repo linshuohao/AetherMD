@@ -1,4 +1,4 @@
-import type { AetherInline } from "@aether-md/core";
+import { type AetherInline } from "@aether-md/core/document";
 
 export function appendInlineToDom(parent: HTMLElement, inline: AetherInline): void {
   if (inline.type === "text") {

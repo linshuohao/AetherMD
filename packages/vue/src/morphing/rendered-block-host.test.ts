@@ -1,8 +1,7 @@
+import { type AetherBlock } from "@aether-md/core/document";
 import assert from "node:assert/strict";
 import { afterEach, describe, it } from "vitest";
 import { flushPromises, mount } from "@vue/test-utils";
-
-import type { AetherBlock } from "@aether-md/core";
 
 import type { CustomBlockRenderer } from "./contracts.js";
 import { RenderedBlockHost } from "./rendered-block-host.js";

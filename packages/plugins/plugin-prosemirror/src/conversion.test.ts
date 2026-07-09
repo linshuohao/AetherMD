@@ -1,14 +1,13 @@
+import {
+  type AetherDoc,
+  type LinkInline,
+  type ListBlock,
+  type MarkedInline,
+  type ParagraphBlock,
+  type TextInline,
+} from "@aether-md/core/document";
 import assert from "node:assert/strict";
 import { describe, it } from "vitest";
-
-import type {
-  AetherDoc,
-  LinkInline,
-  ListBlock,
-  MarkedInline,
-  ParagraphBlock,
-  TextInline,
-} from "@aether-md/core";
 
 import { gfmFixtureDoc } from "./testing/fixtures/gfm-doc.js";
 import { aetherDocToPm, pmToAetherDoc } from "./conversion.js";

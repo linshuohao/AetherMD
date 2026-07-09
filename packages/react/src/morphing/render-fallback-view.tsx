@@ -1,4 +1,4 @@
-import type { RenderError } from "@aether-md/core";
+import { type RenderError } from "@aether-md/core";
 
 export interface RenderFallbackViewProps {
   error: RenderError;

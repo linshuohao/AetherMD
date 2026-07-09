@@ -1,4 +1,7 @@
-import type { AetherSchema, CommandEventRuntime, ParserAdapter } from "@aether-md/core";
+import { type CommandEventRuntime } from "@aether-md/core/plugin";
+import { type ParserAdapter } from "@aether-md/core/adapter";
+import { type AetherSchema } from "@aether-md/core/document";
+
 import {
   PARSE_BLOCK_MARKDOWN_COMMAND,
   type ParseBlockMarkdownPayload,

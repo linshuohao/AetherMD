@@ -1,4 +1,4 @@
-import type { AetherBlock } from "@aether-md/core";
+import { type AetherBlock } from "@aether-md/core/document";
 
 import { useAetherEditor } from "../shell/use-aether-editor.js";
 import type { MorphingBlockStrategy } from "./contracts.js";

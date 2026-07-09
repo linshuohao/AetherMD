@@ -1,5 +1,3 @@
-import type { ExtensionManifest } from "@aether-md/core";
-
 /**
  * GFM preset manifest metadata.
  *
@@ -12,6 +10,7 @@ import type { ExtensionManifest } from "@aether-md/core";
  * Adapter implementations are bundled from `@aether-md/plugin-remark` and
  * `@aether-md/plugin-prosemirror` inside `createGfmPreset()` — no separate runtime plugins.
  */
+import { type ExtensionManifest } from "@aether-md/core/plugin";
 export const gfmManifest: ExtensionManifest = {
   metadata: {
     manifestVersion: 1,

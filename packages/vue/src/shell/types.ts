@@ -1,4 +1,5 @@
-import type { AetherDoc, AetherEditor, ExtensionPlugin } from "@aether-md/core";
+import { type AetherEditor, type ExtensionPlugin } from "@aether-md/core";
+import { type AetherDoc } from "@aether-md/core/document";
 
 export interface AetherEditorRootProps {
   plugins: readonly ExtensionPlugin[];

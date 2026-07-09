@@ -1,15 +1,15 @@
+import { AdapterError, ensureDocumentBlockIds } from "@aether-md/core/adapter";
+import {
+  type AetherDoc,
+  type LinkInline,
+  type ListBlock,
+  type MarkedInline,
+  type ParagraphBlock,
+  type TextInline,
+} from "@aether-md/core/document";
 import assert from "node:assert/strict";
 import { describe, it } from "vitest";
 
-import type {
-  AetherDoc,
-  LinkInline,
-  ListBlock,
-  MarkedInline,
-  ParagraphBlock,
-  TextInline,
-} from "@aether-md/core";
-import { AdapterError, ensureDocumentBlockIds } from "@aether-md/core";
 import { runEngineAdapterContractTests } from "@aether-md/adapter-contract-tests";
 
 import { gfmFixtureDoc } from "./testing/fixtures/gfm-doc.js";

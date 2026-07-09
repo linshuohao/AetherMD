@@ -15,6 +15,14 @@
 
 ## 类型入口
 
-插件作者 **MUST** 从 **`@aether-md/core`** 导入公开契约类型（Manifest、Capability、Command/Event、document-model、adapter 协议等）。本仓库 **不** 提供独立 `@aether-md/sdk` npm 包；`docs/sdk/` 为权威文档入口。再评估条件见 [ADR 009](../adr/009-release-governance.md)。
+按角色从 `@aether-md/core` subpath 导入公开契约类型。本仓库 **不** 提供独立 `@aether-md/sdk` npm 包；`docs/sdk/` 为权威文档入口。再评估条件见 [ADR 009](../adr/009-release-governance.md)。
+
+| 角色                | 导入路径                                                        |
+| ------------------- | --------------------------------------------------------------- |
+| 插件作者            | `@aether-md/core/plugin`（Manifest、Capability、Command/Event） |
+| 需要文档形状        | `@aether-md/core/document`                                      |
+| Adapter 实现        | `@aether-md/core/adapter`                                       |
+| 宿主 / Shell        | `@aether-md/core`（默认入口）                                   |
+| 测试 / 契约 harness | `@aether-md/core/testing`                                       |
 
 ---

@@ -8,8 +8,8 @@ interface WorkerRequestEnvelope {
   type: "parse" | "serialize";
   payload: {
     markdown?: string;
-    doc?: import("@aether-md/core").AetherDoc;
-    schema: import("@aether-md/core").AetherSchema;
+    doc?: import("@aether-md/core/document").AetherDoc;
+    schema: import("@aether-md/core/document").AetherSchema;
   };
 }
 

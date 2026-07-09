@@ -1,14 +1,15 @@
-import type {
-  AetherBlock,
-  AetherDoc,
-  AetherInline,
-  CustomBlock,
-  HeadingBlock,
-  ListBlock,
-  ParagraphBlock,
-  TextInline,
-} from "@aether-md/core";
-import { SerializationError, ensureBlockId } from "@aether-md/core";
+import { SerializationError, ensureBlockId } from "@aether-md/core/adapter";
+import {
+  type AetherBlock,
+  type AetherDoc,
+  type AetherInline,
+  type CustomBlock,
+  type HeadingBlock,
+  type ListBlock,
+  type ParagraphBlock,
+  type TextInline,
+} from "@aether-md/core/document";
+
 import type {
   BlockContent,
   Content,

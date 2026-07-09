@@ -1,7 +1,7 @@
+import { createCommandEventRuntime } from "@aether-md/core/testing";
 import assert from "node:assert/strict";
 import { describe, it } from "vitest";
 
-import { createCommandEventRuntime } from "@aether-md/core";
 import { PARSE_BLOCK_MARKDOWN_COMMAND } from "@aether-md/morphing-contracts";
 
 import { registerGfmEditorCommands } from "./editor-commands.js";
