@@ -72,14 +72,14 @@ export type SupportedManifestVersion = (typeof SUPPORTED_MANIFEST_VERSIONS)[numb
 
 ## Core API subpath export 变更
 
-| Package | 变更类型 | 说明 |
-| --- | --- | --- |
-| `@aether-md/core` | breaking (pre-1.0) | 默认入口收窄为宿主面（`createEditor`、`AetherEditor`、最小 Command/Event 观察类型、`ExtensionPlugin`、`AetherDoc`、`CoreError`、`RenderError`） |
-| `@aether-md/core/plugin` | additive | Manifest、Capability、Permission、Command/Event 契约 |
-| `@aether-md/core/adapter` | additive | Adapter 协议、序列化错误、block-id 工具 |
-| `@aether-md/core/document` | additive | `AetherDoc` 与块/行内类型 |
-| `@aether-md/core/testing` | additive | `bootstrapCore`、`createCommandEventRuntime`（仅 dev） |
-| monorepo 消费者 | breaking (import paths) | 插件/Adapter 包改从 role subpath 导入 |
+| Package                    | 变更类型                | 说明                                                                                                                                            |
+| -------------------------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@aether-md/core`          | breaking (pre-1.0)      | 默认入口收窄为宿主面（`createEditor`、`AetherEditor`、最小 Command/Event 观察类型、`ExtensionPlugin`、`AetherDoc`、`CoreError`、`RenderError`） |
+| `@aether-md/core/plugin`   | additive                | Manifest、Capability、Permission、Command/Event 契约                                                                                            |
+| `@aether-md/core/adapter`  | additive                | Adapter 协议、序列化错误、block-id 工具                                                                                                         |
+| `@aether-md/core/document` | additive                | `AetherDoc` 与块/行内类型                                                                                                                       |
+| `@aether-md/core/testing`  | additive                | `bootstrapCore`、`createCommandEventRuntime`（仅 dev）                                                                                          |
+| monorepo 消费者            | breaking (import paths) | 插件/Adapter 包改从 role subpath 导入                                                                                                           |
 
 **不**改变 `createEditor` 运行时语义。`bootstrapCore` 与 `createCommandEventRuntime` **不再**从默认入口导出；service factory 与 telemetry noop helper **不再**公开。
 
