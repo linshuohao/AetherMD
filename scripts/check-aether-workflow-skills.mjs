@@ -27,10 +27,7 @@ async function listSourceSkills(relativeDir = "") {
     return [
       {
         name,
-        sourceDir: path.posix.join(
-          skillsRoot,
-          relativeDir.split(path.sep).join(path.posix.sep),
-        ),
+        sourceDir: path.posix.join(skillsRoot, relativeDir.split(path.sep).join(path.posix.sep)),
       },
     ];
   }
