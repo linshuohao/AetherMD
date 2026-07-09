@@ -1,6 +1,6 @@
 ---
 name: project-git-flow
-description: Runs standardized Git branch workflow via project-git-flow.sh for commit, sync main, push, and optional merge. Use when the user asks to commit, push, sync with main, merge, or prepare a branch for PR/release.
+description: Runs standardized Git branch workflow via project-git-flow.sh for commit, sync main, push, auto PR creation, and optional merge. Use when the user asks to commit, push, sync with main, create a PR, merge, or prepare a branch for release.
 ---
 
 <!-- Generated from .skills/project-git-flow/SKILL.md. Do not edit directly. Run pnpm skills:sync. -->
@@ -15,7 +15,7 @@ Automate Git branch workflow through a single script. **Never run ad-hoc `git` c
 - 用户要求提交代码、推送分支
 - 用户要求同步 `main`、rebase/merge 主分支
 - 用户要求发布前整理分支
-- 用户要求完成标准 Git 流程（commit → sync → check → push）
+- 用户要求完成标准 Git 流程（commit → sync → check → push → PR）
 
 ## 输入参数
 
@@ -27,10 +27,13 @@ Automate Git branch workflow through a single script. **Never run ad-hoc `git` c
 | `--no-sync` | 跳过与 main 同步 |
 | `--no-checks` | 跳过检查（将禁止自动 merge） |
 | `--no-push` | 跳过 push |
+| `--no-pr` | 跳过自动创建 PR |
+| `--pr-title TITLE` | PR 标题（默认：最新 commit subject） |
+| `--pr-body BODY` | PR 描述（默认：项目模板 + commit 列表） |
 | `--allow-direct-merge` | 允许本地 merge 到 main（默认禁止） |
 | `--rebase` / `--merge` | 同步策略（默认 rebase） |
 
-环境变量：`ALLOW_DIRECT_MERGE`, `COMMIT_MESSAGE`, `GIT_FLOW_REMOTE`, `GIT_FLOW_MAIN`, `GIT_FLOW_CHECK_CMD`, `GIT_FLOW_SYNC`
+环境变量：`ALLOW_DIRECT_MERGE`, `COMMIT_MESSAGE`, `GIT_FLOW_REMOTE`, `GIT_FLOW_MAIN`, `GIT_FLOW_CHECK_CMD`, `GIT_FLOW_SYNC`, `GIT_FLOW_PR_TITLE`, `GIT_FLOW_PR_BODY`
 
 ## 默认行为
 
@@ -44,7 +47,8 @@ Automate Git branch workflow through a single script. **Never run ad-hoc `git` c
 4. fetch → 更新 main → 切回 feature → rebase/merge main
 5. 运行项目检查命令
 6. push feature 分支
-7. **不**自动 merge 到 main（提示创建 PR）
+7. 通过 `gh pr create` 自动创建 PR（已存在则返回 URL；无 `gh` 或未登录则 warning + 跳过）
+8. **不**自动 merge 到 main
 
 ### 本仓库（AetherMD）已识别规范
 
@@ -53,6 +57,7 @@ Automate Git branch workflow through a single script. **Never run ad-hoc `git` c
 | 主分支 | `main` |
 | 远端 | `origin` |
 | 合并策略 | PR + squash merge（禁止本地直 merge） |
+| PR 创建 | 推送后自动 `gh pr create`（需 GitHub CLI 已登录） |
 | 检查命令 | `pnpm check` |
 | 包管理器 | `pnpm` |
 | Commit 格式 | Conventional Commits（commitlint 校验） |
@@ -84,6 +89,7 @@ preflight
 → rebase or merge main into feature branch
 → run checks
 → push feature branch
+→ create or report pull request (gh)
 → optionally merge feature into main
 → final summary
 ```
@@ -117,8 +123,10 @@ Next: <one-line recovery command or action>
 | rebase conflict | `git rebase --abort`，手动解决后重跑 |
 | merge conflict | `git merge --abort`，手动解决后重跑 |
 | commitlint | 按 `docs/community/git-workflow.md` 修正 message |
-| push rejected | 检查远端状态后 `git push -u origin <branch>` |
+| push rejected | 检查远端状态后重跑脚本 |
 | checks failed | 修复后重跑脚本 |
+| gh pr create failed | 检查 `gh auth status`，或用 `--pr-title` 修正标题 |
+| PR title commitlint | 使用 `--pr-title` 提供符合 Conventional Commits 的标题 |
 
 ## 输出格式
 
@@ -130,6 +138,8 @@ branch: <branch>
 commit: <hash>
 pushed: yes/no
 merged: yes/no
+pr: created/existing/skipped
+pr_url: <url>          # 仅 pr 为 created 或 existing 时输出
 checks: passed/skipped
 ```
 
@@ -137,7 +147,7 @@ checks: passed/skipped
 
 ## 禁止行为
 
-- 禁止 Agent 临场拼接 `git` 命令
+- 禁止 Agent 临场拼接 `git` 或 `gh` 命令
 - 禁止 force push
 - 禁止无检查直接 merge 到 main
 - 禁止在冲突时自动解决冲突
@@ -149,12 +159,20 @@ checks: passed/skipped
 ## 脚本调用方式
 
 ```bash
-# 标准流程（commit + sync + check + push）
+# 标准流程（commit + sync + check + push + PR）
 bash .skills/project-git-flow/scripts/project-git-flow.sh \
   -m "feat(core): add feature"
 
-# 仅同步并推送（已有 commit）
+# 仅同步、推送并创建 PR（已有 commit）
 bash .skills/project-git-flow/scripts/project-git-flow.sh --no-commit --no-stage
+
+# 自定义 PR 标题（多 commit 分支推荐）
+bash .skills/project-git-flow/scripts/project-git-flow.sh \
+  --no-commit --no-stage \
+  --pr-title "feat(workflow): add project-git-flow skill"
+
+# 跳过 PR 创建
+bash .skills/project-git-flow/scripts/project-git-flow.sh --no-pr --no-commit --no-stage
 
 # 显式允许本地 merge（极少使用）
 ALLOW_DIRECT_MERGE=true bash .skills/project-git-flow/scripts/project-git-flow.sh \

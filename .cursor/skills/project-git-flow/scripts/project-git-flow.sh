@@ -8,6 +8,8 @@ BRANCH=""
 COMMIT_HASH=""
 PUSHED="no"
 MERGED="no"
+PR_STATUS="skipped"
+PR_URL=""
 CHECKS="skipped"
 WARNINGS=()
 
@@ -25,7 +27,10 @@ DO_COMMIT=true
 DO_SYNC=true
 DO_CHECKS=true
 DO_PUSH=true
+DO_PR=true
 COMMIT_MESSAGE="${COMMIT_MESSAGE:-}"
+PR_TITLE="${GIT_FLOW_PR_TITLE:-}"
+PR_BODY="${GIT_FLOW_PR_BODY:-}"
 
 # ── helpers ───────────────────────────────────────────────────────────────────
 fail() {
@@ -61,8 +66,11 @@ warn() {
 }
 
 summary() {
-  printf 'Done.\nbranch: %s\ncommit: %s\npushed: %s\nmerged: %s\nchecks: %s\n' \
-    "$BRANCH" "${COMMIT_HASH:-none}" "$PUSHED" "$MERGED" "$CHECKS"
+  printf 'Done.\nbranch: %s\ncommit: %s\npushed: %s\nmerged: %s\npr: %s\nchecks: %s\n' \
+    "$BRANCH" "${COMMIT_HASH:-none}" "$PUSHED" "$MERGED" "$PR_STATUS" "$CHECKS"
+  if [[ -n "$PR_URL" ]]; then
+    printf 'pr_url: %s\n' "$PR_URL"
+  fi
   if ((${#WARNINGS[@]} > 0)); then
     for w in "${WARNINGS[@]}"; do printf 'warning: %s\n' "$w"; done
   fi
@@ -74,6 +82,96 @@ has_script() {
     const p=require('./package.json');
     process.exit(p.scripts && p.scripts['$script'] ? 0 : 1);
   " 2>/dev/null
+}
+
+validate_pr_title() {
+  local title="$1"
+  if [[ -f .commitlintrc.cjs ]] && command -v pnpm >/dev/null 2>&1; then
+    printf '%s\n' "$title" | pnpm exec commitlint --config .commitlintrc.cjs >/dev/null 2>&1 \
+      || fail "PR title failed commitlint" "Use --pr-title with a Conventional Commits title"
+  fi
+}
+
+generate_pr_body() {
+  local commit_list
+  commit_list="$(git log "${REMOTE}/${MAIN_BRANCH}"..HEAD --pretty=format:'- %s' 2>/dev/null \
+    || git log "$MAIN_BRANCH"..HEAD --pretty=format:'- %s' 2>/dev/null \
+    || true)"
+  if [[ -z "$commit_list" ]]; then
+    commit_list="- $(git log -1 --pretty=%s)"
+  fi
+
+  local validation_line="- [ ] checks: $CHECKS"
+  if [[ "$CHECKS" == "passed" ]]; then
+    validation_line="- [x] \`${CHECK_CMD:-project checks}\` passed"
+  fi
+
+  cat <<EOF
+## Summary
+
+$commit_list
+
+## Traceability
+
+- OpenSpec:
+- Superpowers tasks:
+- Docs / ADR:
+
+## Validation
+
+$validation_line
+
+## Anticorruption Review
+
+- [ ] Architecture boundaries preserved
+- [ ] Public contracts explicitly documented
+- [ ] Tests or docs validation recorded
+- [ ] No unrelated files changed
+- [ ] Deviations recorded
+EOF
+}
+
+create_or_report_pr() {
+  if ! $DO_PR; then
+    PR_STATUS="skipped"
+    return
+  fi
+
+  if ! command -v gh >/dev/null 2>&1; then
+    warn "gh CLI not found; install GitHub CLI to auto-create PRs"
+    PR_STATUS="skipped"
+    return
+  fi
+
+  if ! gh auth status >/dev/null 2>&1; then
+    warn "gh CLI not authenticated; run 'gh auth login' to auto-create PRs"
+    PR_STATUS="skipped"
+    return
+  fi
+
+  STEP="create pull request"
+  local existing_url
+  existing_url="$(gh pr view --json url -q .url 2>/dev/null || true)"
+  if [[ -n "$existing_url" ]]; then
+    PR_URL="$existing_url"
+    PR_STATUS="existing"
+    return
+  fi
+
+  local title="${PR_TITLE:-$(git log -1 --pretty=%s)}"
+  validate_pr_title "$title"
+
+  local body="${PR_BODY:-$(generate_pr_body)}"
+  local pr_file
+  pr_file="$(mktemp)"
+  printf '%s' "$body" >"$pr_file"
+
+  if ! PR_URL="$(gh pr create --base "$MAIN_BRANCH" --head "$BRANCH" --title "$title" --body-file "$pr_file")"; then
+    rm -f "$pr_file"
+    fail "gh pr create failed" "gh pr create --base $MAIN_BRANCH --head $BRANCH --title \"$title\""
+  fi
+  rm -f "$pr_file"
+  PR_STATUS="created"
 }
 
 # ── parse args ─────────────────────────────────────────────────────────────────
@@ -88,6 +186,9 @@ Options:
   --no-sync               Skip sync with main
   --no-checks             Skip project checks
   --no-push               Skip push
+  --no-pr                 Skip pull request creation
+  --pr-title TITLE        PR title override (default: latest commit subject)
+  --pr-body BODY          PR body override (default: project template)
   --allow-direct-merge    Allow local merge into main (default: false)
   --rebase                Sync feature branch via rebase (default)
   --merge                 Sync feature branch via merge
@@ -100,6 +201,8 @@ Environment:
   GIT_FLOW_MAIN=main        Main branch override
   GIT_FLOW_CHECK_CMD=...    Override check command
   GIT_FLOW_SYNC=rebase|merge
+  GIT_FLOW_PR_TITLE=...     PR title override
+  GIT_FLOW_PR_BODY=...      PR body override
 EOF
 }
 
@@ -111,6 +214,9 @@ while [[ $# -gt 0 ]]; do
     --no-sync) DO_SYNC=false; shift ;;
     --no-checks) DO_CHECKS=false; shift ;;
     --no-push) DO_PUSH=false; shift ;;
+    --no-pr) DO_PR=false; shift ;;
+    --pr-title) PR_TITLE="${2:-}"; shift 2 ;;
+    --pr-body) PR_BODY="${2:-}"; shift 2 ;;
     --allow-direct-merge) ALLOW_DIRECT_MERGE=true; shift ;;
     --rebase) SYNC_STRATEGY=rebase; shift ;;
     --merge) SYNC_STRATEGY=merge; shift ;;
@@ -287,7 +393,7 @@ if guard_direct_merge; then
 else
   MERGED="no"
   if $DO_PUSH; then
-    warn "direct merge disabled; create a PR to merge into $MAIN_BRANCH"
+    create_or_report_pr
   fi
 fi
 
