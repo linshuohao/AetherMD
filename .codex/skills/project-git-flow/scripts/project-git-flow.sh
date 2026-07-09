@@ -84,6 +84,61 @@ has_script() {
   " 2>/dev/null
 }
 
+validate_pnpm_ci_version_sync() {
+  if [[ ! -f package.json ]] || [[ ! -d .github/workflows ]]; then
+    return
+  fi
+
+  local expected
+  expected="$(node -e "
+    try {
+      const p = require('./package.json');
+      const pm = p.packageManager || '';
+      const m = /^pnpm@(.+)$/.exec(pm);
+      process.stdout.write(m ? m[1] : '');
+    } catch {
+      process.stdout.write('');
+    }
+  " 2>/dev/null)"
+
+  if [[ -z "$expected" ]]; then
+    return
+  fi
+
+  local file
+  local found=false
+  while IFS= read -r -d '' file; do
+    local line
+    line="$(
+      awk '
+        /uses:[[:space:]]*pnpm\/action-setup@/ { in_setup=1; next }
+        in_setup && /^[[:space:]]*-[[:space:]]name:/ { in_setup=0 }
+        in_setup && /version:[[:space:]]*/ {
+          sub(/.*version:[[:space:]]*/, "", $0)
+          sub(/[[:space:]]*#.*/, "", $0)
+          gsub(/[[:space:]]/, "", $0)
+          print $0
+          in_setup=0
+        }
+      ' "$file"
+    )"
+    if [[ -z "$line" ]]; then
+      continue
+    fi
+    found=true
+    while IFS= read -r version; do
+      if [[ "$version" != "$expected" ]]; then
+        fail "pnpm version mismatch: packageManager=pnpm@$expected, workflow pins pnpm@$version in $file" \
+          "Remove workflow 'with.version' for pnpm/action-setup, or pin it to $expected"
+      fi
+    done <<< "$line"
+  done < <(find .github/workflows -type f \( -name "*.yml" -o -name "*.yaml" \) -print0 2>/dev/null)
+
+  if [[ "$found" == true ]]; then
+    warn "workflow pnpm/action-setup versions are pinned; prefer omitting version so CI follows packageManager=pnpm@$expected"
+  fi
+}
+
 validate_pr_title() {
   local title="$1"
   if [[ -f .commitlintrc.cjs ]] && command -v pnpm >/dev/null 2>&1; then
@@ -259,6 +314,10 @@ elif [[ -f bun.lockb ]] || [[ -f bun.lock ]]; then
   PM="bun"
 elif [[ -f package-lock.json ]]; then
   PM="npm"
+fi
+
+if [[ "$PM" == "pnpm" ]]; then
+  validate_pnpm_ci_version_sync
 fi
 
 # check command — project docs > env override > package.json scripts

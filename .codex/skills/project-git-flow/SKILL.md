@@ -45,10 +45,11 @@ Automate Git branch workflow through a single script. **Never run ad-hoc `git` c
 2. 在当前 feature 分支上执行标准流程
 3. 自动 stage + commit（有改动且提供 message 时）
 4. fetch → 更新 main → 切回 feature → rebase/merge main
-5. 运行项目检查命令
-6. push feature 分支
-7. 通过 `gh pr create` 自动创建 PR（已存在则返回 URL；无 `gh` 或未登录则 warning + 跳过）
-8. **不**自动 merge 到 main
+5. 校验 `package.json#packageManager` 与 `.github/workflows/*` 中 `pnpm/action-setup` 版本不冲突（pnpm 项目）
+6. 运行项目检查命令
+7. push feature 分支
+8. 通过 `gh pr create` 自动创建 PR（已存在则返回 URL；无 `gh` 或未登录则 warning + 跳过）
+9. **不**自动 merge 到 main
 
 ### 本仓库（AetherMD）已识别规范
 
@@ -122,6 +123,7 @@ Next: <one-line recovery command or action>
 | --- | --- |
 | rebase conflict | `git rebase --abort`，手动解决后重跑 |
 | merge conflict | `git merge --abort`，手动解决后重跑 |
+| pnpm version mismatch | 统一 `package.json#packageManager` 与 workflow 中 `pnpm/action-setup` 版本，或移除 workflow 的 `version` 固定值 |
 | commitlint | 按 `docs/community/git-workflow.md` 修正 message |
 | push rejected | 检查远端状态后重跑脚本 |
 | checks failed | 修复后重跑脚本 |
