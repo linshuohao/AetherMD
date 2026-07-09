@@ -12,6 +12,7 @@ Thumbs.db
 # Dependencies (future)
 node_modules/
 .pnpm-store/
+.githooks/.installed
 # Build outputs
 dist*/
 build/
